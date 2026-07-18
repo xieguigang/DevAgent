@@ -61,7 +61,7 @@ Public Class AgentTools
             Dim sb As New StringBuilder()
 
             For Each dir As String In Directory.GetDirectories(fullPath)
-                Dim name As String = path.GetFileName(dir)
+                Dim name As String = dir.FileName
                 ' Skip hidden directories and build output
                 If Not name.StartsWith(".") AndAlso name <> "bin" AndAlso name <> "obj" AndAlso name <> "test" Then
                     sb.AppendLine("[DIR]  " & name & "/")
@@ -69,7 +69,7 @@ Public Class AgentTools
             Next
 
             For Each file As String In Directory.GetFiles(fullPath)
-                Dim name As String = path.GetFileName(file)
+                Dim name As String = file.FileName
                 If Not name.StartsWith(".") Then
                     sb.AppendLine("[FILE] " & name)
                 End If
@@ -113,7 +113,7 @@ Public Class AgentTools
                 ' Skip bin/obj/.git directories
                 If ContainsExcludedPath(file) Then Continue For
 
-                Dim lines() As String = file.ReadAllLines(file)
+                Dim lines() As String = file.ReadAllLines
                 For i As Integer = 0 To lines.Length - 1
                     If lines(i).IndexOf(pattern, StringComparison.OrdinalIgnoreCase) >= 0 Then
                         Dim relPath As String = file.Substring(_basePath.Length).TrimStart(Path.DirectorySeparatorChar, "/"c)
