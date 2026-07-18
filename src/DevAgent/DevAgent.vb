@@ -1,9 +1,7 @@
+Imports System.Globalization
 Imports System.IO
 Imports System.Text
-Imports System.Text.RegularExpressions
-Imports System.Threading.Tasks
-Imports System.Collections.Generic
-Imports System.Globalization
+Imports Ollama
 
 ' ============================================================================
 ' DevAgent.vb - 自动化开发 Agent
@@ -70,7 +68,7 @@ Public Class DevAgent
 
     ' --- 字段 ---
 
-    Private ReadOnly _ollama As Ollama
+    Private ReadOnly _ollama As Ollama.Ollama
     Private ReadOnly _projectPath As String
     Private ReadOnly _requirements As String
     Private ReadOnly _options As DevAgentOptions
@@ -120,7 +118,7 @@ Public Class DevAgent
     ''' <param name="options">配置选项，为 Nothing 时使用默认值。</param>
     ''' <param name="logger">日志输出回调，为 Nothing 时使用 Console.WriteLine。</param>
     Public Sub New(
-        ollama As Ollama,
+        ollama As Ollama.Ollama,
         projectPath As String,
         requirements As String,
         Optional options As DevAgentOptions = Nothing,

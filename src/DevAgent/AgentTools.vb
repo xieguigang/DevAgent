@@ -1,6 +1,7 @@
 Imports System.IO
 Imports System.Text
 Imports System.ComponentModel
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 ' 注意: ArgumentAttribute 来自你的 Ollama 模块，请根据实际命名空间添加 Imports
 
 ' ============================================================================
@@ -60,7 +61,7 @@ Public Class AgentTools
             Dim sb As New StringBuilder()
 
             For Each dir As String In Directory.GetDirectories(fullPath)
-                Dim name As String = Path.GetFileName(dir)
+                Dim name As String = path.GetFileName(dir)
                 ' Skip hidden directories and build output
                 If Not name.StartsWith(".") AndAlso name <> "bin" AndAlso name <> "obj" AndAlso name <> "test" Then
                     sb.AppendLine("[DIR]  " & name & "/")
@@ -68,7 +69,7 @@ Public Class AgentTools
             Next
 
             For Each file As String In Directory.GetFiles(fullPath)
-                Dim name As String = Path.GetFileName(file)
+                Dim name As String = path.GetFileName(file)
                 If Not name.StartsWith(".") Then
                     sb.AppendLine("[FILE] " & name)
                 End If
@@ -112,7 +113,7 @@ Public Class AgentTools
                 ' Skip bin/obj/.git directories
                 If ContainsExcludedPath(file) Then Continue For
 
-                Dim lines() As String = File.ReadAllLines(file)
+                Dim lines() As String = file.ReadAllLines(file)
                 For i As Integer = 0 To lines.Length - 1
                     If lines(i).IndexOf(pattern, StringComparison.OrdinalIgnoreCase) >= 0 Then
                         Dim relPath As String = file.Substring(_basePath.Length).TrimStart(Path.DirectorySeparatorChar, "/"c)

@@ -111,7 +111,7 @@ Module Program
 
         ' --- 创建 Ollama 客户端 ---
         ' 注意: 请根据你的 Ollama 模块的实际构造函数调整以下代码
-        Dim ollama As Ollama = Nothing
+        Dim ollama As Ollama.Ollama = Nothing
         Try
             ' 假设 Ollama 构造函数接受 URL 和模型名
             ' 如果你的构造函数不同，请修改此处
@@ -149,7 +149,7 @@ Module Program
     ''' 创建 Ollama 客户端实例。
     ''' 请根据你的 Ollama 模块的实际 API 修改此方法。
     ''' </summary>
-    Private Function CreateOllamaClient(url As String, model As String) As Ollama
+    Private Function CreateOllamaClient(url As String, model As String) As Ollama.Ollama
         ' === 请根据你的 Ollama 模块的实际构造函数调整以下代码 ===
         '
         ' 可能的构造方式：
@@ -166,24 +166,24 @@ Module Program
         ' 如果你的构造函数不同，请修改此处。
         ' 作为示例，这里使用反射来兼容不同的构造函数签名：
 
-        Dim ollamaType As Type = GetType(Ollama)
+        Dim ollamaType As Type = GetType(Ollama.Ollama)
 
         ' 尝试 (url, model) 构造函数
         Dim ctor2 = ollamaType.GetConstructor({GetType(String), GetType(String)})
         If ctor2 IsNot Nothing Then
-            Return DirectCast(ctor2.Invoke({url, model}), Ollama)
+            Return DirectCast(ctor2.Invoke({url, model}), Ollama.Ollama)
         End If
 
         ' 尝试 (model) 构造函数
         Dim ctor1 = ollamaType.GetConstructor({GetType(String)})
         If ctor1 IsNot Nothing Then
-            Return DirectCast(ctor1.Invoke({model}), Ollama)
+            Return DirectCast(ctor1.Invoke({model}), Ollama.Ollama)
         End If
 
         ' 尝试无参构造函数
         Dim ctor0 = ollamaType.GetConstructor({})
         If ctor0 IsNot Nothing Then
-            Return DirectCast(ctor0.Invoke({}), Ollama)
+            Return DirectCast(ctor0.Invoke({}), Ollama.Ollama)
         End If
 
         ' 如果都失败，抛出异常

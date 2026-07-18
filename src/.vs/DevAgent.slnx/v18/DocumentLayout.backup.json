@@ -1,7 +1,20 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\DevAgent\\src\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6755BA3B-6631-06C4-B289-D6CE7DAB1B06}|DevAgent\\DevAgent.vbproj|g:\\devagent\\src\\devagent\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{6755BA3B-6631-06C4-B289-D6CE7DAB1B06}|DevAgent\\DevAgent.vbproj|solutionrelative:devagent\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6755BA3B-6631-06C4-B289-D6CE7DAB1B06}|DevAgent\\DevAgent.vbproj|g:\\devagent\\src\\devagent\\devagent.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{6755BA3B-6631-06C4-B289-D6CE7DAB1B06}|DevAgent\\DevAgent.vbproj|solutionrelative:devagent\\devagent.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6755BA3B-6631-06C4-B289-D6CE7DAB1B06}|DevAgent\\DevAgent.vbproj|g:\\devagent\\src\\devagent\\agenttools.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{6755BA3B-6631-06C4-B289-D6CE7DAB1B06}|DevAgent\\DevAgent.vbproj|solutionrelative:devagent\\agenttools.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -22,6 +35,45 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\DevAgent\\Program.vb",
+              "RelativeDocumentMoniker": "DevAgent\\Program.vb",
+              "ToolTip": "G:\\DevAgent\\src\\DevAgent\\Program.vb",
+              "RelativeToolTip": "DevAgent\\Program.vb",
+              "ViewState": "AgIAAD4AAAAAAAAAAAAcwHEAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-18T18:29:08.009Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DevAgent.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\DevAgent\\DevAgent.vb",
+              "RelativeDocumentMoniker": "DevAgent\\DevAgent.vb",
+              "ToolTip": "G:\\DevAgent\\src\\DevAgent\\DevAgent.vb",
+              "RelativeToolTip": "DevAgent\\DevAgent.vb",
+              "ViewState": "AgIAADAAAAAAAAAAAAAmwD8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-18T18:28:42.899Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AgentTools.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\DevAgent\\AgentTools.vb",
+              "RelativeDocumentMoniker": "DevAgent\\AgentTools.vb",
+              "ToolTip": "G:\\DevAgent\\src\\DevAgent\\AgentTools.vb",
+              "RelativeToolTip": "DevAgent\\AgentTools.vb",
+              "ViewState": "AgIAAE8AAAAAAAAAAADwv2MAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-18T18:27:48.364Z",
+              "EditorCaption": ""
             }
           ]
         },
