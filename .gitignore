@@ -269,3 +269,4 @@ storage.ide-wal
 *.v2
 *.bin
 *.v5
+*.wsuo
