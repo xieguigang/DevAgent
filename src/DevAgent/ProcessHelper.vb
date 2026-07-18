@@ -141,15 +141,15 @@ Public Module ProcessHelper
     ''' <summary>
     ''' 执行 git 命令。
     ''' </summary>
-    Public Function Git(workingDir As String, args As String) As ProcessResult
-        Return Run(workingDir, "git", args)
+    Public Function Git(workingDir As String, args As String, Optional timeoutMs As Integer = 120000) As ProcessResult
+        Return Run(workingDir, "git", args, timeoutMs)
     End Function
 
     ''' <summary>
     ''' 执行 dotnet 命令。
     ''' </summary>
-    Public Function DotNet(workingDir As String, args As String) As ProcessResult
-        Return Run(workingDir, "dotnet", args)
+    Public Function DotNet(workingDir As String, args As String, Optional timeoutMs As Integer = 120000) As ProcessResult
+        Return Run(workingDir, "dotnet", args, timeoutMs)
     End Function
 
     ''' <summary>
