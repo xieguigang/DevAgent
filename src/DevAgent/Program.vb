@@ -42,6 +42,7 @@ Module Program
         Dim ollamaUrl As String = "http://localhost:11434"
         Dim maxBuildFix As Integer = 8
         Dim maxRunFix As Integer = 5
+        Dim apikey As String = Nothing
 
         ' --- 解析命令行参数 ---
         Dim i As Integer = 0
@@ -68,6 +69,10 @@ Module Program
                 Case "--url", "-u"
                     i += 1
                     If i < args.Length Then ollamaUrl = args(i)
+
+                Case "--key", "-k"
+                    i += 1
+                    If i < args.Length Then apikey = args(i)
 
                 Case "--max-build-fix"
                     i += 1
@@ -115,7 +120,7 @@ Module Program
         Try
             ' 假设 Ollama 构造函数接受 URL 和模型名
             ' 如果你的构造函数不同，请修改此处
-            ollama = CreateOllamaClient(ollamaUrl, model)
+            ollama = CreateOllamaClient(ollamaUrl, model, apikey)
         Catch ex As Exception
             Console.WriteLine("[ERROR] Failed to create Ollama client: " & ex.Message)
             Console.WriteLine("Please ensure Ollama service is running at: " & ollamaUrl)
@@ -149,9 +154,9 @@ Module Program
     ''' 创建 Ollama 客户端实例。
     ''' 请根据你的 Ollama 模块的实际 API 修改此方法。
     ''' </summary>
-    Private Function CreateOllamaClient(url As String, model As String) As LLMClient
-        Dim ollama As New OllamaProvider(url)
-        Dim llms As New LLMClient(ollama, model)
+    Private Function CreateOllamaClient(url As String, model As String, apikey As String) As LLMClient
+        Dim server As ILLMProvider = LLMUrl.Create(url, apikey)
+        Dim llms As New LLMClient(server, model)
 
         Return llms
     End Function
@@ -176,6 +181,7 @@ Module Program
         Console.WriteLine("Optional:")
         Console.WriteLine("  --model, -m <name>            Ollama model name (default: llama3.2)")
         Console.WriteLine("  --url, -u <url>               Ollama API URL (default: http://localhost:11434)")
+        Console.WriteLine("  --key, -k <apikey>            Api key for call the external LLMs services")
         Console.WriteLine("  --max-build-fix <n>           Max build fix attempts (default: 8)")
         Console.WriteLine("  --max-run-fix <n>             Max runtime fix attempts (default: 5)")
         Console.WriteLine("  --help, -h                    Show this help")
