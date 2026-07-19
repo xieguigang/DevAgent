@@ -38,6 +38,7 @@
     "src/features/CompletionProvider.ts",
     "src/features/GoToLine.ts",
     "src/core/Editor.ts",
-    "src/main.ts"
+    "src/main.ts",
+    "src/devkit.ts"
   ]
 }

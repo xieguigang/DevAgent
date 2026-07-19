@@ -3571,6 +3571,9 @@ End Namespace
             this.statusCol.textContent = String(cursor.column + 1);
             this.statusLang.textContent = this.editor.getLanguage();
             this.statusFile.textContent = this.editor.getFilename();
+            if (CodeEditor.devkit) {
+                CodeEditor.devkit.updateStatus(this.statusLine.textContent, this.statusCol.textContent, this.statusLang.textContent, this.statusFile.textContent);
+            }
         }
     }
     CodeEditor.App = App;
@@ -3591,4 +3594,15 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+var CodeEditor;
+(function (CodeEditor) {
+    CodeEditor.devkit = (function () {
+        try {
+            return chrome.webview.hostObjects.devkit;
+        }
+        catch (ex) {
+            return null;
+        }
+    })();
+})(CodeEditor || (CodeEditor = {}));
 //# sourceMappingURL=editor.bundle.js.map

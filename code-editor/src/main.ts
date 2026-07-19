@@ -369,10 +369,20 @@ End Namespace
 
         private updateStatus(): void {
             const cursor = this.editor.getCursor().position;
+
             this.statusLine.textContent = String(cursor.line + 1);
             this.statusCol.textContent = String(cursor.column + 1);
             this.statusLang.textContent = this.editor.getLanguage();
             this.statusFile.textContent = this.editor.getFilename();
+
+            if (devkit) {
+                devkit.updateStatus(
+                    this.statusLine.textContent,
+                    this.statusCol.textContent,
+                    this.statusLang.textContent,
+                    this.statusFile.textContent
+                );
+            }
         }
     }
 
