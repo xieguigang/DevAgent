@@ -74,6 +74,15 @@ namespace CodeEditor.Core {
         private completionIndex: number = 0;
         private completionAnchor: { line: number; column: number } = { line: 0, column: 0 };
 
+        // Minimap (right-side code thumbnail that also acts as a scrollbar).
+        private minimap!: HTMLElement;
+        private minimapContent!: HTMLElement;
+        private minimapViewport!: HTMLElement;
+        private minimapVisible: boolean = false;
+        private minimapLineHeight: number = 2;
+        private minimapDirty: boolean = true;
+        private minimapDragging: boolean = false;
+
         private onChangeCallbacks: Array<() => void> = [];
         private onCursorChangeCallbacks: Array<() => void> = [];
 
@@ -128,6 +137,17 @@ namespace CodeEditor.Core {
             this.scrollContainer.appendChild(this.completionPopup);
             this.container.appendChild(this.scrollContainer);
 
+            // Minimap (right-side code thumbnail / scrollbar proxy).
+            this.minimap = document.createElement("div");
+            this.minimap.className = "editor-minimap";
+            this.minimapContent = document.createElement("div");
+            this.minimapContent.className = "minimap-content";
+            this.minimapViewport = document.createElement("div");
+            this.minimapViewport.className = "minimap-viewport";
+            this.minimap.appendChild(this.minimapContent);
+            this.minimap.appendChild(this.minimapViewport);
+            this.container.appendChild(this.minimap);
+
             // Measure char width.
             this.measureCharWidth();
         }
@@ -147,6 +167,20 @@ namespace CodeEditor.Core {
             this.scrollContainer.addEventListener("scroll", () => {
                 this.firstVisibleLine = Math.floor(this.scrollContainer.scrollTop / this.lineHeight);
                 this.render();
+            });
+
+            // Minimap acts like a scrollbar: click/drag scrolls the editor.
+            this.minimap.addEventListener("mousedown", (e: MouseEvent) => {
+                if (!this.minimapVisible) return;
+                this.minimapDragging = true;
+                this.scrollFromMinimap(e);
+                e.preventDefault();
+            });
+            window.addEventListener("mousemove", (e: MouseEvent) => {
+                if (this.minimapDragging) this.scrollFromMinimap(e);
+            });
+            window.addEventListener("mouseup", () => {
+                this.minimapDragging = false;
             });
 
             this.textarea.addEventListener("input", (e) => {
