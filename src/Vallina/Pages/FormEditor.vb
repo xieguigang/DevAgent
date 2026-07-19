@@ -23,19 +23,19 @@ Public Class FormEditor
     End Sub
 
     Private Async Sub WebView21_NavigationCompleted(sender As Object, e As CoreWebView2NavigationCompletedEventArgs) Handles WebView21.NavigationCompleted
-        Await WebView21.ExecuteScriptAsync("document.getElementByID('statusbar').style.display='none';")
+        Await WebView21.ExecuteScriptAsync("$('statusbar').style.display='none';")
     End Sub
 
     Private Async Function GotoLine() As Task
-        Await WebView21.ExecuteScriptAsync("document.getElementByID('btn-goto-line').click();")
+        Await WebView21.ExecuteScriptAsync("$('btn-goto-line').click();")
     End Function
 
     Private Async Function ShowSymbols() As Task
-        Await WebView21.ExecuteScriptAsync("document.getElementByID('btn-toggle-symbols').click();")
+        Await WebView21.ExecuteScriptAsync("$('btn-toggle-symbols').click();")
     End Function
 
     Private Async Function ShowDiffs() As Task
-        Await WebView21.ExecuteScriptAsync("document.getElementByID('btn-toggle-diff').click();")
+        Await WebView21.ExecuteScriptAsync("$('btn-toggle-diff').click();")
     End Function
 
     Private Sub ActivateRibbon()
