@@ -79,4 +79,8 @@
 #define cmdButtonSaveAsCodeFile_LabelTitle_RESID 60049
 #define cmdButtonSaveAsCodeFile_SmallImages_192__RESID 60050
 #define cmdButtonSaveAsCodeFile_LargeImages_192__RESID 60051
-#define InternalCmd2_LabelTitle_RESID 60052
+#define cmdButtonSettings 25 
+#define cmdButtonSettings_LabelTitle_RESID 60052
+#define cmdButtonSettings_SmallImages_192__RESID 60053
+#define cmdButtonSettings_LargeImages_192__RESID 60054
+#define InternalCmd2_LabelTitle_RESID 60055

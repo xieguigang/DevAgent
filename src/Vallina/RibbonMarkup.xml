@@ -122,6 +122,14 @@
         <Image MinDPI="192">Icons8/icons8-save-as-96.png</Image>
       </Command.LargeImages>
     </Command>
+    <Command Name="cmdButtonSettings" Id="25" LabelTitle="Settings">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-settings-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-settings-96.png</Image>
+      </Command.LargeImages>
+    </Command>
   </Application.Commands>
   <Application.Views>
     <Ribbon>
@@ -130,6 +138,9 @@
           <MenuGroup>
             <Button CommandName="cmdButtonNew" />
             <Button CommandName="cmdButtonOpen" />
+          </MenuGroup>
+          <MenuGroup>
+            <Button CommandName="cmdButtonSettings" />
           </MenuGroup>
           <MenuGroup>
             <Button CommandName="cmdButtonAbout" />
@@ -176,8 +187,8 @@
             <Button CommandName="cmdButtonSaveAll" />
           </Group>
           <Group CommandName="cmdGroupWorkbench" SizeDefinition="TwoButtons">
-            <Button CommandName="cmdButtonAbout" />
             <Button CommandName="cmdButtonStartPage" />
+            <Button CommandName="cmdButtonAbout" />
           </Group>
         </Tab>
       </Ribbon.Tabs>
