@@ -29,19 +29,6 @@
           "SelectedChildIndex": 4,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "FormHtmlViewer.vb",
-              "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\Pages\\FormHtmlViewer.vb",
-              "RelativeDocumentMoniker": "Vallina\\Pages\\FormHtmlViewer.vb",
-              "ToolTip": "G:\\DevAgent\\src\\Vallina\\Pages\\FormHtmlViewer.vb",
-              "RelativeToolTip": "Vallina\\Pages\\FormHtmlViewer.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-19T14:22:35.709Z",
-              "EditorCaption": ""
-            },
-            {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
             },
@@ -55,13 +42,26 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FormHtmlViewer.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\Pages\\FormHtmlViewer.vb",
+              "RelativeDocumentMoniker": "Vallina\\Pages\\FormHtmlViewer.vb",
+              "ToolTip": "G:\\DevAgent\\src\\Vallina\\Pages\\FormHtmlViewer.vb",
+              "RelativeToolTip": "Vallina\\Pages\\FormHtmlViewer.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-19T14:22:35.709Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "RibbonMenu.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\Application\\RibbonMenu.vb",
               "RelativeDocumentMoniker": "Vallina\\Application\\RibbonMenu.vb",
               "ToolTip": "G:\\DevAgent\\src\\Vallina\\Application\\RibbonMenu.vb",
               "RelativeToolTip": "Vallina\\Application\\RibbonMenu.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAA1AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAACiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-07-19T14:20:41.901Z",
               "EditorCaption": ""
