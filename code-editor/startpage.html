@@ -1,664 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Start Page — Code Editor</title>
     <link rel="icon" type="image/png" href="assets/app-icon.png">
-    <style>
-        /* ============================================================
-           Light theme for the Start Page.
-           Color palette mirrors the editor's theme-light.css and
-           about.html so all three pages feel like one product.
-           ============================================================ */
-
-        :root {
-            /* UI surfaces */
-            --ui-foreground: #1e1e1e;
-            --ui-foreground-muted: #6a6a6a;
-            --ui-foreground-subtle: #8a8a8a;
-            --ui-background: #ffffff;
-            --ui-background-alt: #f5f5f5;
-            --ui-background-hover: #e5f3ff;
-            --ui-border: #e0e0e0;
-            --ui-border-strong: #cccccc;
-
-            /* Accents (Visual Studio blue) */
-            --accent: #007acc;
-            --accent-hover: #0067b8;
-            --accent-soft: #e5f3ff;
-            --accent-soft-border: #b3d7f2;
-
-            /* Status bar */
-            --statusbar-background: #007acc;
-            --statusbar-foreground: #ffffff;
-
-            /* Code blocks */
-            --code-background: #f8f8f8;
-            --code-border: #e0e0e0;
-            --code-foreground: #1e1e1e;
-
-            /* Action card accents */
-            --card-blue: #007acc;
-            --card-blue-soft: #e5f3ff;
-            --card-green: #107c10;
-            --card-green-soft: #e6f4e6;
-            --card-purple: #6b5bcf;
-            --card-purple-soft: #eee9fb;
-            --card-orange: #ca5010;
-            --card-orange-soft: #fbeee6;
-            --card-teal: #038387;
-            --card-teal-soft: #e0f3f3;
-            --card-pink: #b3007a;
-            --card-pink-soft: #fbe6f1;
-            --card-gray: #5a5a5a;
-            --card-gray-soft: #eeeeee;
-
-            /* Fonts */
-            --font-ui: "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
-            --font-code: "Cascadia Code", "Consolas", "Courier New", monospace;
-
-            /* Shadows */
-            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
-            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html, body {
-            height: 100%;
-            font-family: var(--font-ui);
-            font-size: 14px;
-            color: var(--ui-foreground);
-            background: var(--ui-background);
-            line-height: 1.5;
-        }
-
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        code {
-            font-family: var(--font-code);
-            font-size: 0.9em;
-            background: var(--ui-background-alt);
-            padding: 1px 6px;
-            border-radius: 3px;
-            color: var(--card-pink);
-        }
-
-        /* ---- Top navigation bar ---- */
-
-        .topbar {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            gap: 24px;
-            padding: 10px 32px;
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: saturate(180%) blur(8px);
-            -webkit-backdrop-filter: saturate(180%) blur(8px);
-            border-bottom: 1px solid var(--ui-border);
-        }
-
-        .topbar .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 600;
-            font-size: 15px;
-            color: var(--ui-foreground);
-            text-decoration: none;
-        }
-
-        .topbar .brand:hover {
-            text-decoration: none;
-        }
-
-        .topbar .brand-icon {
-            width: 26px;
-            height: 26px;
-            border-radius: 5px;
-            object-fit: contain;
-        }
-
-        .topbar nav {
-            display: flex;
-            gap: 4px;
-            margin-left: auto;
-        }
-
-        .topbar nav a {
-            color: var(--ui-foreground-muted);
-            text-decoration: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-size: 13px;
-            transition: all 0.15s;
-        }
-
-        .topbar nav a:hover {
-            color: var(--accent);
-            background: var(--accent-soft);
-            text-decoration: none;
-        }
-
-        .topbar .launch-btn {
-            margin-left: 12px;
-            padding: 6px 14px;
-            background: var(--accent);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 4px;
-            font-size: 13px;
-            font-weight: 500;
-            transition: background 0.15s;
-        }
-
-        .topbar .launch-btn:hover {
-            background: var(--accent-hover);
-            text-decoration: none;
-        }
-
-        /* ---- Main container ---- */
-
-        .main {
-            flex: 1;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 48px 32px 64px;
-            width: 100%;
-        }
-
-        /* ---- Hero / Welcome ---- */
-
-        .hero {
-            text-align: center;
-            padding: 32px 0 48px;
-        }
-
-        .hero .hero-icon {
-            width: 96px;
-            height: 96px;
-            border-radius: 20px;
-            margin-bottom: 24px;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .hero h1 {
-            font-size: 38px;
-            font-weight: 600;
-            color: var(--ui-foreground);
-            margin-bottom: 12px;
-            letter-spacing: -0.5px;
-        }
-
-        .hero .tagline {
-            font-size: 17px;
-            color: var(--ui-foreground-muted);
-            max-width: 640px;
-            margin: 0 auto 28px;
-            line-height: 1.6;
-        }
-
-        .hero .quick-launch {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 28px;
-            background: var(--accent);
-            color: #fff;
-            border-radius: 6px;
-            font-size: 15px;
-            font-weight: 500;
-            text-decoration: none;
-            transition: all 0.15s;
-            box-shadow: var(--shadow-md);
-        }
-
-        .hero .quick-launch:hover {
-            background: var(--accent-hover);
-            text-decoration: none;
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .hero .quick-launch svg {
-            width: 18px;
-            height: 18px;
-        }
-
-        /* ---- Section ---- */
-
-        .section {
-            margin-bottom: 56px;
-        }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-
-        .section-header h2 {
-            font-size: 22px;
-            font-weight: 600;
-            color: var(--ui-foreground);
-        }
-
-        .section-header .section-hint {
-            font-size: 13px;
-            color: var(--ui-foreground-subtle);
-        }
-
-        /* ---- Action cards grid ---- */
-
-        .actions-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-        }
-
-        @media (max-width: 900px) {
-            .actions-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-
-        @media (max-width: 560px) {
-            .actions-grid { grid-template-columns: 1fr; }
-        }
-
-        .action-card {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            padding: 20px;
-            background: var(--ui-background);
-            border: 1px solid var(--ui-border);
-            border-radius: 8px;
-            cursor: pointer;
-            text-decoration: none;
-            color: var(--ui-foreground);
-            transition: all 0.15s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .action-card:hover {
-            border-color: var(--accent);
-            background: var(--ui-background-hover);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-            text-decoration: none;
-        }
-
-        .action-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--card-accent, var(--accent));
-        }
-
-        .action-card .card-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 8px;
-            background: var(--card-accent-soft, var(--accent-soft));
-            color: var(--card-accent, var(--accent));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 14px;
-        }
-
-        .action-card .card-icon svg {
-            width: 22px;
-            height: 22px;
-        }
-
-        .action-card .card-title {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--ui-foreground);
-            margin-bottom: 4px;
-        }
-
-        .action-card .card-desc {
-            font-size: 12.5px;
-            color: var(--ui-foreground-muted);
-            line-height: 1.45;
-        }
-
-        .action-card .card-shortcut {
-            margin-top: 10px;
-            font-size: 11px;
-            color: var(--ui-foreground-subtle);
-            font-family: var(--font-code);
-        }
-
-        /* ---- History list ---- */
-
-        .history-section {
-            background: var(--ui-background);
-            border: 1px solid var(--ui-border);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .history-empty {
-            padding: 48px 24px;
-            text-align: center;
-            color: var(--ui-foreground-muted);
-        }
-
-        .history-empty .empty-icon {
-            width: 56px;
-            height: 56px;
-            margin: 0 auto 16px;
-            opacity: 0.4;
-            color: var(--ui-foreground-subtle);
-        }
-
-        .history-empty .empty-icon svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        .history-empty h3 {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--ui-foreground);
-            margin-bottom: 6px;
-        }
-
-        .history-empty p {
-            font-size: 13px;
-            color: var(--ui-foreground-muted);
-        }
-
-        .history-list {
-            list-style: none;
-        }
-
-        .history-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 12px 20px;
-            border-bottom: 1px solid var(--ui-border);
-            cursor: pointer;
-            transition: background 0.1s;
-        }
-
-        .history-item:last-child {
-            border-bottom: none;
-        }
-
-        .history-item:hover {
-            background: var(--ui-background-hover);
-        }
-
-        .history-item .file-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            font-weight: 700;
-            font-family: var(--font-code);
-            color: #fff;
-            flex-shrink: 0;
-            text-transform: uppercase;
-        }
-
-        .history-item .file-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .history-item .file-name {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--ui-foreground);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .history-item .file-meta {
-            font-size: 12px;
-            color: var(--ui-foreground-muted);
-            margin-top: 2px;
-        }
-
-        .history-item .file-path {
-            font-size: 11.5px;
-            color: var(--ui-foreground-subtle);
-            font-family: var(--font-code);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 280px;
-        }
-
-        .history-item .open-action {
-            padding: 5px 12px;
-            font-size: 12px;
-            color: var(--accent);
-            background: var(--accent-soft);
-            border: 1px solid var(--accent-soft-border);
-            border-radius: 4px;
-            opacity: 0;
-            transition: opacity 0.15s;
-            flex-shrink: 0;
-        }
-
-        .history-item:hover .open-action {
-            opacity: 1;
-        }
-
-        .history-item .remove-btn {
-            width: 26px;
-            height: 26px;
-            border: none;
-            background: transparent;
-            color: var(--ui-foreground-subtle);
-            cursor: pointer;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: all 0.15s;
-            flex-shrink: 0;
-        }
-
-        .history-item:hover .remove-btn {
-            opacity: 1;
-        }
-
-        .history-item .remove-btn:hover {
-            background: #ffeef0;
-            color: #cb2431;
-        }
-
-        .history-item .remove-btn svg {
-            width: 14px;
-            height: 14px;
-        }
-
-        .history-footer {
-            padding: 12px 20px;
-            background: var(--ui-background-alt);
-            border-top: 1px solid var(--ui-border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 12px;
-            color: var(--ui-foreground-muted);
-        }
-
-        .history-footer button {
-            background: none;
-            border: none;
-            color: var(--ui-foreground-muted);
-            font-size: 12px;
-            cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 3px;
-            font-family: var(--font-ui);
-        }
-
-        .history-footer button:hover {
-            color: #cb2431;
-            background: #ffeef0;
-        }
-
-        /* ---- Features strip ---- */
-
-        .features-strip {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            padding: 28px;
-            background: var(--ui-background-alt);
-            border: 1px solid var(--ui-border);
-            border-radius: 8px;
-        }
-
-        @media (max-width: 700px) {
-            .features-strip { grid-template-columns: 1fr; }
-        }
-
-        .feature-item {
-            display: flex;
-            gap: 12px;
-            align-items: flex-start;
-        }
-
-        .feature-item .feature-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            background: var(--accent-soft);
-            color: var(--accent);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .feature-item .feature-icon svg {
-            width: 18px;
-            height: 18px;
-        }
-
-        .feature-item .feature-text h4 {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--ui-foreground);
-            margin-bottom: 3px;
-        }
-
-        .feature-item .feature-text p {
-            font-size: 12.5px;
-            color: var(--ui-foreground-muted);
-            line-height: 1.45;
-        }
-
-        /* ---- Status bar ---- */
-
-        .statusbar {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 4px 16px;
-            background: var(--statusbar-background);
-            color: var(--statusbar-foreground);
-            font-size: 11.5px;
-            min-height: 26px;
-        }
-
-        .statusbar .status-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            opacity: 0.95;
-        }
-
-        .statusbar .spacer {
-            flex: 1;
-        }
-
-        .statusbar svg {
-            width: 12px;
-            height: 12px;
-            opacity: 0.9;
-        }
-
-        /* ---- Toast notification ---- */
-
-        .toast {
-            position: fixed;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%) translateY(20px);
-            background: var(--ui-foreground);
-            color: var(--ui-background);
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-size: 13px;
-            box-shadow: var(--shadow-lg);
-            opacity: 0;
-            transition: all 0.25s;
-            pointer-events: none;
-            z-index: 1000;
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        /* ---- Footer ---- */
-
-        .footer {
-            padding: 20px 32px;
-            text-align: center;
-            font-size: 12px;
-            color: var(--ui-foreground-subtle);
-            border-top: 1px solid var(--ui-border);
-        }
-
-        .footer a {
-            color: var(--ui-foreground-muted);
-            margin: 0 8px;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="css/startpage.css">
 </head>
+
 <body>
 
     <!-- ============ Top Navigation ============ -->
@@ -682,9 +32,12 @@
         <section class="hero">
             <img src="assets/app-icon.png" alt="Code Editor" class="hero-icon">
             <h1>Welcome to Code Editor</h1>
-            <p class="tagline">A lightweight, dependency-free code editor with full syntax highlighting for VB.NET and R, plus JSON, XML, Markdown, and YAML. Built with pure HTML and TypeScript — no npm packages, no external runtime dependencies.</p>
+            <p class="tagline">A lightweight, dependency-free code editor with full syntax highlighting for VB.NET and
+                R, plus JSON, XML, Markdown, and YAML. Built with pure HTML and TypeScript — no npm packages, no
+                external runtime dependencies.</p>
             <a href="index.html" class="quick-launch">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
                     <polygon points="5 3 19 12 5 21 5 3"></polygon>
                 </svg>
                 Launch Editor
@@ -696,7 +49,8 @@
             <div class="features-strip">
                 <div class="feature-item">
                     <div class="feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="16 18 22 12 16 6"></polyline>
                             <polyline points="8 6 2 12 8 18"></polyline>
                         </svg>
@@ -708,7 +62,8 @@
                 </div>
                 <div class="feature-item">
                     <div class="feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="5"></circle>
                             <line x1="12" y1="1" x2="12" y2="3"></line>
                             <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -723,8 +78,11 @@
                 </div>
                 <div class="feature-item">
                     <div class="feature-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                            </path>
                         </svg>
                     </div>
                     <div class="feature-text">
@@ -762,7 +120,8 @@
     <!-- ============ Status Bar ============ -->
     <div class="statusbar">
         <div class="status-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                 <polyline points="22 4 12 14.01 9 11.01"></polyline>
             </svg>
@@ -787,543 +146,546 @@
     <div class="toast" id="toast"></div>
 
     <!-- Hidden file input for opening documents -->
-    <input type="file" id="hidden-file-input" accept=".vb,.vbnet,.r,.rmd,.json,.jsonc,.xml,.xsd,.xsl,.xslt,.csproj,.vbproj,.props,.targets,.config,.md,.markdown,.yaml,.yml,.txt" style="display:none">
+    <input type="file" id="hidden-file-input"
+        accept=".vb,.vbnet,.r,.rmd,.json,.jsonc,.xml,.xsd,.xsl,.xslt,.csproj,.vbproj,.props,.targets,.config,.md,.markdown,.yaml,.yml,.txt"
+        style="display:none">
     <!-- Hidden file input for opening projects (folder) -->
     <input type="file" id="hidden-project-input" webkitdirectory multiple style="display:none">
 
     <script>
-    /* ============================================================
-       Start page logic.
-       - Renders the action cards.
-       - Manages the recent-files history in localStorage.
-       - Wires up file/project open dialogs.
-       All inline — no external dependencies.
-       ============================================================ */
-    (function () {
-        "use strict";
+        /* ============================================================
+           Start page logic.
+           - Renders the action cards.
+           - Manages the recent-files history in localStorage.
+           - Wires up file/project open dialogs.
+           All inline — no external dependencies.
+           ============================================================ */
+        (function () {
+            "use strict";
 
-        var STORAGE_KEY = "codeEditor.recentFiles";
-        var MAX_HISTORY = 10;
+            var STORAGE_KEY = "codeEditor.recentFiles";
+            var MAX_HISTORY = 10;
 
-        /* ---- Action card definitions ---- */
-        var ACTIONS = [
-            {
-                title: "New Document",
-                desc: "Create a new empty code document in the editor.",
-                shortcut: "Ctrl+N",
-                accent: "var(--card-blue)",
-                accentSoft: "var(--card-blue-soft)",
-                icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>',
-                action: "newDocument"
-            },
-            {
-                title: "New Project",
-                desc: "Start a new project workspace with multiple files.",
-                shortcut: "Ctrl+Shift+N",
-                accent: "var(--card-green)",
-                accentSoft: "var(--card-green-soft)",
-                icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path><line x1="12" y1="11" x2="12" y2="17"></line><line x1="9" y1="14" x2="15" y2="14"></line></svg>',
-                action: "newProject"
-            },
-            {
-                title: "Open Document",
-                desc: "Open an existing code file from your computer.",
-                shortcut: "Ctrl+O",
-                accent: "var(--card-purple)",
-                accentSoft: "var(--card-purple-soft)",
-                icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>',
-                action: "openDocument"
-            },
-            {
-                title: "Open Project",
-                desc: "Open a folder of files as a project workspace.",
-                shortcut: "Ctrl+Shift+O",
-                accent: "var(--card-orange)",
-                accentSoft: "var(--card-orange-soft)",
-                icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path><polyline points="9 13 11 15 15 11"></polyline></svg>',
-                action: "openProject"
-            },
-            {
-                title: "File History",
-                desc: "View and reopen recently edited documents.",
-                shortcut: "Ctrl+H",
-                accent: "var(--card-teal)",
-                accentSoft: "var(--card-teal-soft)",
-                icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>',
-                action: "showHistory"
-            },
-            {
-                title: "LLM Agent",
-                desc: "Open the AI assistant for code generation and help.",
-                shortcut: "Ctrl+I",
-                accent: "var(--card-pink)",
-                accentSoft: "var(--card-pink-soft)",
-                icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path><line x1="8" y1="16" x2="8" y2="16"></line><line x1="16" y1="16" x2="16" y2="16"></line></svg>',
-                action: "openLLMAgent"
-            },
-            {
-                title: "Settings",
-                desc: "Configure editor preferences, themes, and endpoints.",
-                shortcut: "Ctrl+,",
-                accent: "var(--card-gray)",
-                accentSoft: "var(--card-gray-soft)",
-                icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>',
-                action: "openSettings"
-            },
-            {
-                title: "Open Editor",
-                desc: "Jump straight into the code editor workspace.",
-                shortcut: "Ctrl+E",
-                accent: "var(--card-blue)",
-                accentSoft: "var(--card-blue-soft)",
-                icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>',
-                action: "openEditor"
+            /* ---- Action card definitions ---- */
+            var ACTIONS = [
+                {
+                    title: "New Document",
+                    desc: "Create a new empty code document in the editor.",
+                    shortcut: "Ctrl+N",
+                    accent: "var(--card-blue)",
+                    accentSoft: "var(--card-blue-soft)",
+                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>',
+                    action: "newDocument"
+                },
+                {
+                    title: "New Project",
+                    desc: "Start a new project workspace with multiple files.",
+                    shortcut: "Ctrl+Shift+N",
+                    accent: "var(--card-green)",
+                    accentSoft: "var(--card-green-soft)",
+                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path><line x1="12" y1="11" x2="12" y2="17"></line><line x1="9" y1="14" x2="15" y2="14"></line></svg>',
+                    action: "newProject"
+                },
+                {
+                    title: "Open Document",
+                    desc: "Open an existing code file from your computer.",
+                    shortcut: "Ctrl+O",
+                    accent: "var(--card-purple)",
+                    accentSoft: "var(--card-purple-soft)",
+                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>',
+                    action: "openDocument"
+                },
+                {
+                    title: "Open Project",
+                    desc: "Open a folder of files as a project workspace.",
+                    shortcut: "Ctrl+Shift+O",
+                    accent: "var(--card-orange)",
+                    accentSoft: "var(--card-orange-soft)",
+                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path><polyline points="9 13 11 15 15 11"></polyline></svg>',
+                    action: "openProject"
+                },
+                {
+                    title: "File History",
+                    desc: "View and reopen recently edited documents.",
+                    shortcut: "Ctrl+H",
+                    accent: "var(--card-teal)",
+                    accentSoft: "var(--card-teal-soft)",
+                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>',
+                    action: "showHistory"
+                },
+                {
+                    title: "LLM Agent",
+                    desc: "Open the AI assistant for code generation and help.",
+                    shortcut: "Ctrl+I",
+                    accent: "var(--card-pink)",
+                    accentSoft: "var(--card-pink-soft)",
+                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path><line x1="8" y1="16" x2="8" y2="16"></line><line x1="16" y1="16" x2="16" y2="16"></line></svg>',
+                    action: "openLLMAgent"
+                },
+                {
+                    title: "Settings",
+                    desc: "Configure editor preferences, themes, and endpoints.",
+                    shortcut: "Ctrl+,",
+                    accent: "var(--card-gray)",
+                    accentSoft: "var(--card-gray-soft)",
+                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>',
+                    action: "openSettings"
+                },
+                {
+                    title: "Open Editor",
+                    desc: "Jump straight into the code editor workspace.",
+                    shortcut: "Ctrl+E",
+                    accent: "var(--card-blue)",
+                    accentSoft: "var(--card-blue-soft)",
+                    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>',
+                    action: "openEditor"
+                }
+            ];
+
+            /* ---- Language colors for history icons ---- */
+            var LANG_COLORS = {
+                vbnet: "#00539b",
+                r: "#1f64c4",
+                json: "#a0a0a0",
+                xml: "#d4661a",
+                markdown: "#555555",
+                yaml: "#cb171e",
+                plain: "#5a5a5a"
+            };
+
+            var LANG_LABELS = {
+                vbnet: "VB",
+                r: "R",
+                json: "{}",
+                xml: "<>",
+                markdown: "MD",
+                yaml: "Y",
+                plain: "TXT"
+            };
+
+            /* ---- DOM refs ---- */
+            var actionsGrid = document.getElementById("actions-grid");
+            var historySection = document.getElementById("history-section");
+            var historyHint = document.getElementById("history-hint");
+            var hiddenFileInput = document.getElementById("hidden-file-input");
+            var hiddenProjectInput = document.getElementById("hidden-project-input");
+            var toast = document.getElementById("toast");
+
+            /* ---- Toast helper ---- */
+            var toastTimer = null;
+            function showToast(message) {
+                toast.textContent = message;
+                toast.classList.add("show");
+                if (toastTimer) clearTimeout(toastTimer);
+                toastTimer = setTimeout(function () {
+                    toast.classList.remove("show");
+                }, 2500);
             }
-        ];
 
-        /* ---- Language colors for history icons ---- */
-        var LANG_COLORS = {
-            vbnet: "#00539b",
-            r: "#1f64c4",
-            json: "#a0a0a0",
-            xml: "#d4661a",
-            markdown: "#555555",
-            yaml: "#cb171e",
-            plain: "#5a5a5a"
-        };
+            /* ---- Render action cards ---- */
+            function renderActions() {
+                var html = "";
+                for (var i = 0; i < ACTIONS.length; i++) {
+                    var a = ACTIONS[i];
+                    html += '<div class="action-card" data-action="' + a.action + '" ' +
+                        'style="--card-accent:' + a.accent + ';--card-accent-soft:' + a.accentSoft + ';" ' +
+                        'tabindex="0" role="button">' +
+                        '<div class="card-icon">' + a.icon + "</div>" +
+                        '<div class="card-title">' + a.title + "</div>" +
+                        '<div class="card-desc">' + a.desc + "</div>" +
+                        '<div class="card-shortcut">' + a.shortcut + "</div>" +
+                        "</div>";
+                }
+                actionsGrid.innerHTML = html;
 
-        var LANG_LABELS = {
-            vbnet: "VB",
-            r: "R",
-            json: "{}",
-            xml: "<>",
-            markdown: "MD",
-            yaml: "Y",
-            plain: "TXT"
-        };
-
-        /* ---- DOM refs ---- */
-        var actionsGrid = document.getElementById("actions-grid");
-        var historySection = document.getElementById("history-section");
-        var historyHint = document.getElementById("history-hint");
-        var hiddenFileInput = document.getElementById("hidden-file-input");
-        var hiddenProjectInput = document.getElementById("hidden-project-input");
-        var toast = document.getElementById("toast");
-
-        /* ---- Toast helper ---- */
-        var toastTimer = null;
-        function showToast(message) {
-            toast.textContent = message;
-            toast.classList.add("show");
-            if (toastTimer) clearTimeout(toastTimer);
-            toastTimer = setTimeout(function () {
-                toast.classList.remove("show");
-            }, 2500);
-        }
-
-        /* ---- Render action cards ---- */
-        function renderActions() {
-            var html = "";
-            for (var i = 0; i < ACTIONS.length; i++) {
-                var a = ACTIONS[i];
-                html += '<div class="action-card" data-action="' + a.action + '" ' +
-                    'style="--card-accent:' + a.accent + ';--card-accent-soft:' + a.accentSoft + ';" ' +
-                    'tabindex="0" role="button">' +
-                    '<div class="card-icon">' + a.icon + "</div>" +
-                    '<div class="card-title">' + a.title + "</div>" +
-                    '<div class="card-desc">' + a.desc + "</div>" +
-                    '<div class="card-shortcut">' + a.shortcut + "</div>" +
-                    "</div>";
-            }
-            actionsGrid.innerHTML = html;
-
-            var cards = actionsGrid.querySelectorAll(".action-card");
-            cards.forEach(function (card) {
-                card.addEventListener("click", function () {
-                    handleAction(card.getAttribute("data-action"));
-                });
-                card.addEventListener("keydown", function (e) {
-                    if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
+                var cards = actionsGrid.querySelectorAll(".action-card");
+                cards.forEach(function (card) {
+                    card.addEventListener("click", function () {
                         handleAction(card.getAttribute("data-action"));
-                    }
+                    });
+                    card.addEventListener("keydown", function (e) {
+                        if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            handleAction(card.getAttribute("data-action"));
+                        }
+                    });
                 });
-            });
-        }
-
-        /* ---- Action handler ---- */
-        function handleAction(action) {
-            switch (action) {
-                case "newDocument":
-                    newDocument();
-                    break;
-                case "newProject":
-                    newProject();
-                    break;
-                case "openDocument":
-                    hiddenFileInput.click();
-                    break;
-                case "openProject":
-                    hiddenProjectInput.click();
-                    break;
-                case "showHistory":
-                    scrollToHistory();
-                    break;
-                case "openLLMAgent":
-                    openLLMAgent();
-                    break;
-                case "openSettings":
-                    openSettings();
-                    break;
-                case "openEditor":
-                    window.location.href = "index.html";
-                    break;
             }
-        }
 
-        /* ---- New document ---- */
-        function newDocument() {
-            var stamp = new Date().toISOString().slice(0, 10);
-            var name = "untitled-" + stamp + ".vb";
-            addRecentFile({
-                name: name,
-                path: "(new document)",
-                language: "vbnet",
-                size: 0,
-                openedAt: Date.now()
-            });
-            try {
-                sessionStorage.setItem("codeEditor.pendingFile", JSON.stringify({
-                    name: name,
-                    content: "",
-                    language: "vbnet"
-                }));
-            } catch (e) {}
-            window.location.href = "index.html?new=1";
-        }
+            /* ---- Action handler ---- */
+            function handleAction(action) {
+                switch (action) {
+                    case "newDocument":
+                        newDocument();
+                        break;
+                    case "newProject":
+                        newProject();
+                        break;
+                    case "openDocument":
+                        hiddenFileInput.click();
+                        break;
+                    case "openProject":
+                        hiddenProjectInput.click();
+                        break;
+                    case "showHistory":
+                        scrollToHistory();
+                        break;
+                    case "openLLMAgent":
+                        openLLMAgent();
+                        break;
+                    case "openSettings":
+                        openSettings();
+                        break;
+                    case "openEditor":
+                        window.location.href = "index.html";
+                        break;
+                }
+            }
 
-        /* ---- New project ---- */
-        function newProject() {
-            var name = "NewProject";
-            addRecentFile({
-                name: name,
-                path: "(new project)",
-                language: "plain",
-                size: 0,
-                isProject: true,
-                openedAt: Date.now()
-            });
-            showToast("New project created — opening editor...");
-            setTimeout(function () {
-                window.location.href = "index.html?newProject=1";
-            }, 600);
-        }
-
-        /* ---- Open document via file dialog ---- */
-        hiddenFileInput.addEventListener("change", function (e) {
-            var file = e.target.files && e.target.files[0];
-            if (!file) return;
-            var reader = new FileReader();
-            reader.onload = function () {
-                var content = reader.result;
-                var language = detectLanguage(file.name);
-                try {
-                    sessionStorage.setItem("codeEditor.pendingFile", JSON.stringify({
-                        name: file.name,
-                        content: content,
-                        language: language,
-                        path: file.name
-                    }));
-                } catch (e) {}
+            /* ---- New document ---- */
+            function newDocument() {
+                var stamp = new Date().toISOString().slice(0, 10);
+                var name = "untitled-" + stamp + ".vb";
                 addRecentFile({
-                    name: file.name,
-                    path: file.name,
-                    language: language,
-                    size: file.size,
+                    name: name,
+                    path: "(new document)",
+                    language: "vbnet",
+                    size: 0,
                     openedAt: Date.now()
                 });
-                showToast("Opening " + file.name + "...");
-                setTimeout(function () {
-                    window.location.href = "index.html?open=1";
-                }, 500);
-            };
-            reader.readAsText(file);
-            hiddenFileInput.value = "";
-        });
+                try {
+                    sessionStorage.setItem("codeEditor.pendingFile", JSON.stringify({
+                        name: name,
+                        content: "",
+                        language: "vbnet"
+                    }));
+                } catch (e) { }
+                window.location.href = "index.html?new=1";
+            }
 
-        /* ---- Open project via folder dialog ---- */
-        hiddenProjectInput.addEventListener("change", function (e) {
-            var files = e.target.files;
-            if (!files || files.length === 0) return;
-            var fileList = [];
-            for (var i = 0; i < files.length; i++) {
-                fileList.push({
-                    name: files[i].name,
-                    path: files[i].webkitRelativePath || files[i].name,
-                    size: files[i].size
+            /* ---- New project ---- */
+            function newProject() {
+                var name = "NewProject";
+                addRecentFile({
+                    name: name,
+                    path: "(new project)",
+                    language: "plain",
+                    size: 0,
+                    isProject: true,
+                    openedAt: Date.now()
                 });
+                showToast("New project created — opening editor...");
+                setTimeout(function () {
+                    window.location.href = "index.html?newProject=1";
+                }, 600);
             }
-            var folderName = files[0].webkitRelativePath
-                ? files[0].webkitRelativePath.split("/")[0]
-                : "Project";
-            try {
-                sessionStorage.setItem("codeEditor.pendingProject", JSON.stringify({
+
+            /* ---- Open document via file dialog ---- */
+            hiddenFileInput.addEventListener("change", function (e) {
+                var file = e.target.files && e.target.files[0];
+                if (!file) return;
+                var reader = new FileReader();
+                reader.onload = function () {
+                    var content = reader.result;
+                    var language = detectLanguage(file.name);
+                    try {
+                        sessionStorage.setItem("codeEditor.pendingFile", JSON.stringify({
+                            name: file.name,
+                            content: content,
+                            language: language,
+                            path: file.name
+                        }));
+                    } catch (e) { }
+                    addRecentFile({
+                        name: file.name,
+                        path: file.name,
+                        language: language,
+                        size: file.size,
+                        openedAt: Date.now()
+                    });
+                    showToast("Opening " + file.name + "...");
+                    setTimeout(function () {
+                        window.location.href = "index.html?open=1";
+                    }, 500);
+                };
+                reader.readAsText(file);
+                hiddenFileInput.value = "";
+            });
+
+            /* ---- Open project via folder dialog ---- */
+            hiddenProjectInput.addEventListener("change", function (e) {
+                var files = e.target.files;
+                if (!files || files.length === 0) return;
+                var fileList = [];
+                for (var i = 0; i < files.length; i++) {
+                    fileList.push({
+                        name: files[i].name,
+                        path: files[i].webkitRelativePath || files[i].name,
+                        size: files[i].size
+                    });
+                }
+                var folderName = files[0].webkitRelativePath
+                    ? files[0].webkitRelativePath.split("/")[0]
+                    : "Project";
+                try {
+                    sessionStorage.setItem("codeEditor.pendingProject", JSON.stringify({
+                        name: folderName,
+                        files: fileList
+                    }));
+                } catch (err) { }
+                addRecentFile({
                     name: folderName,
-                    files: fileList
-                }));
-            } catch (err) {}
-            addRecentFile({
-                name: folderName,
-                path: folderName,
-                language: "plain",
-                size: 0,
-                isProject: true,
-                fileCount: files.length,
-                openedAt: Date.now()
+                    path: folderName,
+                    language: "plain",
+                    size: 0,
+                    isProject: true,
+                    fileCount: files.length,
+                    openedAt: Date.now()
+                });
+                showToast("Opening project: " + folderName + " (" + files.length + " files)...");
+                setTimeout(function () {
+                    window.location.href = "index.html?openProject=1";
+                }, 700);
+                hiddenProjectInput.value = "";
             });
-            showToast("Opening project: " + folderName + " (" + files.length + " files)...");
-            setTimeout(function () {
-                window.location.href = "index.html?openProject=1";
-            }, 700);
-            hiddenProjectInput.value = "";
-        });
 
-        /* ---- LLM Agent ---- */
-        function openLLMAgent() {
-            showToast("LLM Agent tool is coming soon...");
-        }
-
-        /* ---- Settings ---- */
-        function openSettings() {
-            showToast("Settings page is coming soon...");
-        }
-
-        /* ---- Scroll to history ---- */
-        function scrollToHistory() {
-            historySection.scrollIntoView({ behavior: "smooth", block: "center" });
-            historySection.style.transition = "box-shadow 0.3s";
-            historySection.style.boxShadow = "0 0 0 3px var(--accent)";
-            setTimeout(function () {
-                historySection.style.boxShadow = "";
-            }, 1200);
-        }
-
-        /* ---- Language detection ---- */
-        function detectLanguage(filename) {
-            var dot = filename.lastIndexOf(".");
-            if (dot < 0) return "plain";
-            var ext = filename.substring(dot + 1).toLowerCase();
-            var map = {
-                vb: "vbnet", vbnet: "vbnet",
-                r: "r", rmd: "r",
-                json: "json", jsonc: "json",
-                xml: "xml", xsd: "xml", xsl: "xml", xslt: "xml",
-                csproj: "xml", vbproj: "xml", props: "xml", targets: "xml", config: "xml",
-                md: "markdown", markdown: "markdown",
-                yaml: "yaml", yml: "yaml"
-            };
-            return map[ext] || "plain";
-        }
-
-        /* ---- Recent files storage ---- */
-        function getRecentFiles() {
-            try {
-                var raw = localStorage.getItem(STORAGE_KEY);
-                if (!raw) return [];
-                var parsed = JSON.parse(raw);
-                return Array.isArray(parsed) ? parsed : [];
-            } catch (e) {
-                return [];
+            /* ---- LLM Agent ---- */
+            function openLLMAgent() {
+                showToast("LLM Agent tool is coming soon...");
             }
-        }
 
-        function saveRecentFiles(files) {
-            try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(files));
-            } catch (e) {}
-        }
-
-        function addRecentFile(entry) {
-            var files = getRecentFiles();
-            // De-dupe by name+path.
-            files = files.filter(function (f) {
-                return !(f.name === entry.name && f.path === entry.path);
-            });
-            files.unshift(entry);
-            if (files.length > MAX_HISTORY) {
-                files = files.slice(0, MAX_HISTORY);
+            /* ---- Settings ---- */
+            function openSettings() {
+                showToast("Settings page is coming soon...");
             }
-            saveRecentFiles(files);
-            renderHistory();
-        }
 
-        function removeRecentFile(index) {
-            var files = getRecentFiles();
-            if (index < 0 || index >= files.length) return;
-            files.splice(index, 1);
-            saveRecentFiles(files);
-            renderHistory();
-        }
+            /* ---- Scroll to history ---- */
+            function scrollToHistory() {
+                historySection.scrollIntoView({ behavior: "smooth", block: "center" });
+                historySection.style.transition = "box-shadow 0.3s";
+                historySection.style.boxShadow = "0 0 0 3px var(--accent)";
+                setTimeout(function () {
+                    historySection.style.boxShadow = "";
+                }, 1200);
+            }
 
-        function clearHistory() {
-            if (!confirm("Clear all recent file history? This cannot be undone.")) return;
-            saveRecentFiles([]);
-            renderHistory();
-            showToast("History cleared.");
-        }
+            /* ---- Language detection ---- */
+            function detectLanguage(filename) {
+                var dot = filename.lastIndexOf(".");
+                if (dot < 0) return "plain";
+                var ext = filename.substring(dot + 1).toLowerCase();
+                var map = {
+                    vb: "vbnet", vbnet: "vbnet",
+                    r: "r", rmd: "r",
+                    json: "json", jsonc: "json",
+                    xml: "xml", xsd: "xml", xsl: "xml", xslt: "xml",
+                    csproj: "xml", vbproj: "xml", props: "xml", targets: "xml", config: "xml",
+                    md: "markdown", markdown: "markdown",
+                    yaml: "yaml", yml: "yaml"
+                };
+                return map[ext] || "plain";
+            }
 
-        /* ---- Render history ---- */
-        function renderHistory() {
-            var files = getRecentFiles();
-            if (files.length === 0) {
-                historyHint.textContent = "No files opened yet";
-                historySection.innerHTML =
-                    '<div class="history-empty">' +
+            /* ---- Recent files storage ---- */
+            function getRecentFiles() {
+                try {
+                    var raw = localStorage.getItem(STORAGE_KEY);
+                    if (!raw) return [];
+                    var parsed = JSON.parse(raw);
+                    return Array.isArray(parsed) ? parsed : [];
+                } catch (e) {
+                    return [];
+                }
+            }
+
+            function saveRecentFiles(files) {
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(files));
+                } catch (e) { }
+            }
+
+            function addRecentFile(entry) {
+                var files = getRecentFiles();
+                // De-dupe by name+path.
+                files = files.filter(function (f) {
+                    return !(f.name === entry.name && f.path === entry.path);
+                });
+                files.unshift(entry);
+                if (files.length > MAX_HISTORY) {
+                    files = files.slice(0, MAX_HISTORY);
+                }
+                saveRecentFiles(files);
+                renderHistory();
+            }
+
+            function removeRecentFile(index) {
+                var files = getRecentFiles();
+                if (index < 0 || index >= files.length) return;
+                files.splice(index, 1);
+                saveRecentFiles(files);
+                renderHistory();
+            }
+
+            function clearHistory() {
+                if (!confirm("Clear all recent file history? This cannot be undone.")) return;
+                saveRecentFiles([]);
+                renderHistory();
+                showToast("History cleared.");
+            }
+
+            /* ---- Render history ---- */
+            function renderHistory() {
+                var files = getRecentFiles();
+                if (files.length === 0) {
+                    historyHint.textContent = "No files opened yet";
+                    historySection.innerHTML =
+                        '<div class="history-empty">' +
                         '<div class="empty-icon">' +
-                            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">' +
-                                '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>' +
-                                '<polyline points="14 2 14 8 20 8"></polyline>' +
-                            '</svg>' +
+                        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">' +
+                        '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>' +
+                        '<polyline points="14 2 14 8 20 8"></polyline>' +
+                        '</svg>' +
                         '</div>' +
                         '<h3>No recent files</h3>' +
                         '<p>Open or create a document to see it listed here.</p>' +
-                    '</div>';
-                return;
-            }
+                        '</div>';
+                    return;
+                }
 
-            historyHint.textContent = files.length + " file" + (files.length === 1 ? "" : "s") + " in history";
+                historyHint.textContent = files.length + " file" + (files.length === 1 ? "" : "s") + " in history";
 
-            var html = '<ul class="history-list">';
-            for (var i = 0; i < files.length; i++) {
-                var f = files[i];
-                var color = LANG_COLORS[f.language] || LANG_COLORS.plain;
-                var label = LANG_LABELS[f.language] || LANG_LABELS.plain;
-                var date = new Date(f.openedAt);
-                var dateStr = formatDate(date);
-                var sizeStr = f.isProject
-                    ? (f.fileCount ? f.fileCount + " files" : "project")
-                    : formatSize(f.size);
+                var html = '<ul class="history-list">';
+                for (var i = 0; i < files.length; i++) {
+                    var f = files[i];
+                    var color = LANG_COLORS[f.language] || LANG_COLORS.plain;
+                    var label = LANG_LABELS[f.language] || LANG_LABELS.plain;
+                    var date = new Date(f.openedAt);
+                    var dateStr = formatDate(date);
+                    var sizeStr = f.isProject
+                        ? (f.fileCount ? f.fileCount + " files" : "project")
+                        : formatSize(f.size);
 
-                html += '<li class="history-item" data-index="' + i + '">' +
-                    '<div class="file-icon" style="background:' + color + '">' + label + '</div>' +
-                    '<div class="file-info">' +
+                    html += '<li class="history-item" data-index="' + i + '">' +
+                        '<div class="file-icon" style="background:' + color + '">' + label + '</div>' +
+                        '<div class="file-info">' +
                         '<div class="file-name">' + escapeHtml(f.name) + '</div>' +
                         '<div class="file-meta">' + dateStr + ' · ' + sizeStr + '</div>' +
-                    '</div>' +
-                    '<div class="file-path" title="' + escapeHtml(f.path) + '">' + escapeHtml(f.path) + '</div>' +
-                    '<span class="open-action">Open</span>' +
-                    '<button class="remove-btn" data-remove="' + i + '" title="Remove from history" aria-label="Remove">' +
+                        '</div>' +
+                        '<div class="file-path" title="' + escapeHtml(f.path) + '">' + escapeHtml(f.path) + '</div>' +
+                        '<span class="open-action">Open</span>' +
+                        '<button class="remove-btn" data-remove="' + i + '" title="Remove from history" aria-label="Remove">' +
                         '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-                            '<line x1="18" y1="6" x2="6" y2="18"></line>' +
-                            '<line x1="6" y1="6" x2="18" y2="18"></line>' +
+                        '<line x1="18" y1="6" x2="6" y2="18"></line>' +
+                        '<line x1="6" y1="6" x2="18" y2="18"></line>' +
                         '</svg>' +
-                    '</button>' +
-                '</li>';
-            }
-            html += '</ul>';
-            html += '<div class="history-footer">' +
-                '<span>' + files.length + ' of ' + MAX_HISTORY + ' recent files</span>' +
-                '<button id="clear-history-btn">Clear All</button>' +
-            '</div>';
+                        '</button>' +
+                        '</li>';
+                }
+                html += '</ul>';
+                html += '<div class="history-footer">' +
+                    '<span>' + files.length + ' of ' + MAX_HISTORY + ' recent files</span>' +
+                    '<button id="clear-history-btn">Clear All</button>' +
+                    '</div>';
 
-            historySection.innerHTML = html;
+                historySection.innerHTML = html;
 
-            // Attach click handlers.
-            var items = historySection.querySelectorAll(".history-item");
-            items.forEach(function (item) {
-                item.addEventListener("click", function (e) {
-                    if (e.target.closest(".remove-btn")) return;
-                    var idx = parseInt(item.getAttribute("data-index"), 10);
-                    openFromHistory(idx);
+                // Attach click handlers.
+                var items = historySection.querySelectorAll(".history-item");
+                items.forEach(function (item) {
+                    item.addEventListener("click", function (e) {
+                        if (e.target.closest(".remove-btn")) return;
+                        var idx = parseInt(item.getAttribute("data-index"), 10);
+                        openFromHistory(idx);
+                    });
                 });
+
+                var removeBtns = historySection.querySelectorAll(".remove-btn");
+                removeBtns.forEach(function (btn) {
+                    btn.addEventListener("click", function (e) {
+                        e.stopPropagation();
+                        var idx = parseInt(btn.getAttribute("data-remove"), 10);
+                        removeRecentFile(idx);
+                    });
+                });
+
+                var clearBtn = document.getElementById("clear-history-btn");
+                if (clearBtn) {
+                    clearBtn.addEventListener("click", clearHistory);
+                }
+            }
+
+            /* ---- Open from history ---- */
+            function openFromHistory(index) {
+                var files = getRecentFiles();
+                if (index < 0 || index >= files.length) return;
+                var f = files[index];
+                // Move to top.
+                files.splice(index, 1);
+                f.openedAt = Date.now();
+                files.unshift(f);
+                saveRecentFiles(files);
+                renderHistory();
+
+                if (f.isProject) {
+                    showToast("Opening project: " + f.name + "...");
+                    setTimeout(function () {
+                        window.location.href = "index.html?project=" + encodeURIComponent(f.name);
+                    }, 500);
+                } else {
+                    showToast("Opening " + f.name + "...");
+                    setTimeout(function () {
+                        window.location.href = "index.html?file=" + encodeURIComponent(f.name);
+                    }, 500);
+                }
+            }
+
+            /* ---- Formatting helpers ---- */
+            function formatSize(bytes) {
+                if (!bytes || bytes === 0) return "—";
+                if (bytes < 1024) return bytes + " B";
+                if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+                return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+            }
+
+            function formatDate(date) {
+                var now = new Date();
+                var diff = now - date;
+                if (diff < 60000) return "just now";
+                if (diff < 3600000) return Math.floor(diff / 60000) + " min ago";
+                if (diff < 86400000) return Math.floor(diff / 3600000) + " hr ago";
+                if (diff < 7 * 86400000) return Math.floor(diff / 86400000) + " days ago";
+                return date.toLocaleDateString();
+            }
+
+            function escapeHtml(text) {
+                if (text == null) return "";
+                return String(text)
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;");
+            }
+
+            /* ---- Keyboard shortcuts ---- */
+            document.addEventListener("keydown", function (e) {
+                if (e.ctrlKey || e.metaKey) {
+                    var key = e.key.toLowerCase();
+                    if (key === "n" && e.shiftKey) { e.preventDefault(); newProject(); }
+                    else if (key === "n") { e.preventDefault(); newDocument(); }
+                    else if (key === "o" && e.shiftKey) { e.preventDefault(); hiddenProjectInput.click(); }
+                    else if (key === "o") { e.preventDefault(); hiddenFileInput.click(); }
+                    else if (key === "h") { e.preventDefault(); scrollToHistory(); }
+                    else if (key === "i") { e.preventDefault(); openLLMAgent(); }
+                    else if (key === ",") { e.preventDefault(); openSettings(); }
+                    else if (key === "e") { e.preventDefault(); window.location.href = "index.html"; }
+                }
             });
 
-            var removeBtns = historySection.querySelectorAll(".remove-btn");
-            removeBtns.forEach(function (btn) {
-                btn.addEventListener("click", function (e) {
-                    e.stopPropagation();
-                    var idx = parseInt(btn.getAttribute("data-remove"), 10);
-                    removeRecentFile(idx);
-                });
-            });
-
-            var clearBtn = document.getElementById("clear-history-btn");
-            if (clearBtn) {
-                clearBtn.addEventListener("click", clearHistory);
-            }
-        }
-
-        /* ---- Open from history ---- */
-        function openFromHistory(index) {
-            var files = getRecentFiles();
-            if (index < 0 || index >= files.length) return;
-            var f = files[index];
-            // Move to top.
-            files.splice(index, 1);
-            f.openedAt = Date.now();
-            files.unshift(f);
-            saveRecentFiles(files);
+            /* ---- Init ---- */
+            renderActions();
             renderHistory();
-
-            if (f.isProject) {
-                showToast("Opening project: " + f.name + "...");
-                setTimeout(function () {
-                    window.location.href = "index.html?project=" + encodeURIComponent(f.name);
-                }, 500);
-            } else {
-                showToast("Opening " + f.name + "...");
-                setTimeout(function () {
-                    window.location.href = "index.html?file=" + encodeURIComponent(f.name);
-                }, 500);
-            }
-        }
-
-        /* ---- Formatting helpers ---- */
-        function formatSize(bytes) {
-            if (!bytes || bytes === 0) return "—";
-            if (bytes < 1024) return bytes + " B";
-            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
-            return (bytes / (1024 * 1024)).toFixed(1) + " MB";
-        }
-
-        function formatDate(date) {
-            var now = new Date();
-            var diff = now - date;
-            if (diff < 60000) return "just now";
-            if (diff < 3600000) return Math.floor(diff / 60000) + " min ago";
-            if (diff < 86400000) return Math.floor(diff / 3600000) + " hr ago";
-            if (diff < 7 * 86400000) return Math.floor(diff / 86400000) + " days ago";
-            return date.toLocaleDateString();
-        }
-
-        function escapeHtml(text) {
-            if (text == null) return "";
-            return String(text)
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;");
-        }
-
-        /* ---- Keyboard shortcuts ---- */
-        document.addEventListener("keydown", function (e) {
-            if (e.ctrlKey || e.metaKey) {
-                var key = e.key.toLowerCase();
-                if (key === "n" && e.shiftKey) { e.preventDefault(); newProject(); }
-                else if (key === "n") { e.preventDefault(); newDocument(); }
-                else if (key === "o" && e.shiftKey) { e.preventDefault(); hiddenProjectInput.click(); }
-                else if (key === "o") { e.preventDefault(); hiddenFileInput.click(); }
-                else if (key === "h") { e.preventDefault(); scrollToHistory(); }
-                else if (key === "i") { e.preventDefault(); openLLMAgent(); }
-                else if (key === ",") { e.preventDefault(); openSettings(); }
-                else if (key === "e") { e.preventDefault(); window.location.href = "index.html"; }
-            }
-        });
-
-        /* ---- Init ---- */
-        renderActions();
-        renderHistory();
-    })();
+        })();
     </script>
 </body>
+
 </html>
