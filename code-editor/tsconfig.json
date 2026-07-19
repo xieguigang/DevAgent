@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "target": "ES2019",
-    "module": "es6",
+    "module": "none",
     "rootDir": "./src",
-    /* "outFile": "./dist/editor.bundle.js", */
+    "outFile": "./dist/editor.bundle.js",
     "lib": ["ES2019", "DOM", "DOM.Iterable"],
     "strict": true,
     "noImplicitAny": true,
