@@ -29,6 +29,9 @@ Public Class Opts
     <Opt("--help", "-h")>
     Public Property help As Boolean = False
 
+    <Opt("--log", "-l")>
+    Public Property logfile As String
+
     Public Function ResolveFile() As Opts
         If Not requirementFile.StringEmpty Then
             requirements = requirementFile.ReadAllText

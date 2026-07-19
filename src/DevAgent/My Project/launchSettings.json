@@ -2,7 +2,7 @@
   "profiles": {
     "DevAgent": {
       "commandName": "Project",
-      "commandLineArgs": "-p \"C:\\Users\\Administrator\\OneDrive\\deepseek-test\" -r \"build a console based REPL program for evaluate the input math expression\" --model \"deepseek-v4-pro\" --url \"openai://api.deepseek.com\" --key \"C:\\Users\\Administrator\\OneDrive\\deepseek.txt\""
+      "commandLineArgs": "-p \"C:\\Users\\Administrator\\OneDrive\\deepseek-test\" -r \"build a console based REPL program for evaluate the input math expression\" --model \"deepseek-v4-pro\" --url \"openai://api.deepseek.com\" --key \"C:\\Users\\Administrator\\OneDrive\\deepseek.txt\" --max-run-fix 32"
     }
   }
 }

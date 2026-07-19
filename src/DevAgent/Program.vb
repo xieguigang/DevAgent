@@ -1,3 +1,4 @@
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine
 Imports Ollama
 
@@ -34,7 +35,7 @@ Module Program
     End Sub
 
     Private Async Function RunAsync(args As String()) As Task
-        Dim opt As Opts = CommandLine.BuildFromArguments(args).CreateOpts(Of Opts).ResolveFile
+        Dim opt As Opts = CommandLine.BuildFromArguments(args, NoSubCommand:=True).CreateOpts(Of Opts).ResolveFile
 
         ' --- 验证参数 ---
         If String.IsNullOrEmpty(opt.projectPath) OrElse
@@ -73,6 +74,13 @@ Module Program
             .MaxBuildFixAttempts = opt.maxBuildFix,
             .MaxRuntimeFixAttempts = opt.maxRunFix
         }
+        Dim logger As Action(Of String) = AddressOf Console.WriteLine
+
+        If Not opt.logfile.StringEmpty Then
+            logger = AddressOf LogFile _
+                .Open(opt.logfile, split:=Sub(id, s, level) Console.WriteLine($"[{level.Description}] {s}")) _
+                .WriteLine
+        End If
 
         ' --- 创建并运行 Agent ---
         Using ollama
@@ -81,7 +89,7 @@ Module Program
                 opt.projectPath,
                 opt.requirements,
                 options,
-                logger:=AddressOf Console.WriteLine)
+                logger:=logger)
 
             Await agent.Run()
         End Using
@@ -108,7 +116,7 @@ Module Program
     Private Sub PrintUsage()
         Console.WriteLine()
         Console.WriteLine("DevAgent - VB.NET Automated Development Agent")
-        Console.WriteLine("Powered by Ollama LLM and .NET 10 SDK")
+        Console.WriteLine("Powered by Ollama LLM And .NET 10 SDK")
         Console.WriteLine()
         Console.WriteLine("Usage:")
         Console.WriteLine("  DevAgent --project <path> --requirements <text> [options]")
