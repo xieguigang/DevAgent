@@ -173,6 +173,22 @@ body {
   background: var(--symbol-icon-background);
 }
 
+/* Per-kind icon colors so different symbol types are visually distinct. */
+.symbol-icon.symbol-namespace  { background: #00897B; color: #ffffff; }
+.symbol-icon.symbol-module    { background: #7E57C2; color: #ffffff; }
+.symbol-icon.symbol-class     { background: #1565C0; color: #ffffff; }
+.symbol-icon.symbol-structure { background: #E8833A; color: #ffffff; }
+.symbol-icon.symbol-interface { background: #00ACC1; color: #ffffff; }
+.symbol-icon.symbol-enum      { background: #D81B60; color: #ffffff; }
+.symbol-icon.symbol-function  { background: #2D8CF0; color: #ffffff; }
+.symbol-icon.symbol-sub       { background: #5B8FF9; color: #ffffff; }
+.symbol-icon.symbol-property  { background: #2BB673; color: #ffffff; }
+.symbol-icon.symbol-field     { background: #616E7C; color: #ffffff; }
+.symbol-icon.symbol-variable  { background: #F2994A; color: #ffffff; }
+.symbol-icon.symbol-heading   { background: #EB5757; color: #ffffff; }
+.symbol-icon.symbol-tag       { background: #8C8C8C; color: #ffffff; }
+.symbol-icon.symbol-key       { background: #B7791F; color: #ffffff; }
+
 .symbol-name {
   flex: 1;
   overflow: hidden;
