@@ -38,7 +38,33 @@ Public Class FormEditor
         Return Me
     End Function
 
+    Private Sub WebView21_KeyDown(sender As Object, e As KeyEventArgs) Handles WebView21.KeyDown
+        ' 将 VirtualKey 转换为 WinForms 的 Keys 枚举方便判断
+        Dim key As Keys = e.KeyCode
+
+        Select Case key
+            Case Keys.F1, Keys.F11, Keys.F12, Keys.F5
+                ' 将 Handled 设置为 True，WebView2 将不会执行这些键的默认行为
+                e.Handled = True
+
+                ' （可选）如果你希望在这些键被按下时执行你自己的 WinForm 逻辑
+                ' 可以在这里添加代码，例如：
+                ' If key = Keys.F5 Then
+                '     Me.Refresh() ' 执行窗体刷新而不是网页刷新
+                ' End If
+
+            ' 如果你还想禁用 Ctrl+F5、Ctrl+R 等刷新组合键
+            Case Keys.R
+                ' 检查是否按下了 Ctrl 键
+                If (Control.ModifierKeys And Keys.Control) = Keys.Control Then
+                    e.Handled = True
+                End If
+        End Select
+    End Sub
+
     Private Sub WebView21_CoreWebView2InitializationCompleted(sender As Object, e As CoreWebView2InitializationCompletedEventArgs) Handles WebView21.CoreWebView2InitializationCompleted
+        Call WebViewLoader.DeveloperOptions(WebView21, enable:=False, TabText:="Code Edit")
+
         Call WebView21.CoreWebView2.AddHostObjectToScript(BasePage.HostObject, New CodeEditorPage)
         Call WebView21.CoreWebView2.Navigate($"http://localhost:{Workbench.port}/index.html")
     End Sub
