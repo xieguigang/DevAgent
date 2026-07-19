@@ -11,6 +11,11 @@ Module RibbonMenu
         AddHandler ribbon.ButtonExit.ExecuteEvent, Sub() Call host.Close()
         AddHandler ribbon.ButtonAbout.ExecuteEvent, Sub() Call OpenAboutPage()
         AddHandler ribbon.ButtonStartPage.ExecuteEvent, Sub() Call OpenStartupPage()
+        AddHandler ribbon.ButtonNew.ExecuteEvent, Sub() Call OpenEditor()
+    End Sub
+
+    Public Sub OpenEditor()
+        Call CommonRuntime.ShowDocument(Of FormHtmlViewer)(title:="New File").SetUrl($"http://localhost:{Workbench.port}/index.html")
     End Sub
 
     Public Sub OpenAboutPage()
