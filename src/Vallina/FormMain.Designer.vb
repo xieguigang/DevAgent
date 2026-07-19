@@ -24,6 +24,7 @@ Partial Class FormMain
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormMain))
         Ribbon1 = New Ribbon()
         DockPanel1 = New Microsoft.VisualStudio.WinForms.Docking.DockPanel()
         StatusStrip1 = New StatusStrip()
@@ -72,6 +73,7 @@ Partial Class FormMain
         Controls.Add(DockPanel1)
         Controls.Add(StatusStrip1)
         Controls.Add(Ribbon1)
+        Icon = CType(resources.GetObject("$this.Icon"), Icon)
         Name = "FormMain"
         Text = "Vallina Developer"
         StatusStrip1.ResumeLayout(False)

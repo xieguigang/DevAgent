@@ -10,10 +10,15 @@
     <UseWPF>True</UseWPF>
     <RootNamespace>VallinaDevelopment</RootNamespace>
     <AssemblyTitle>Development Environment for VisualBasic Language</AssemblyTitle>
+    <ApplicationIcon>Icons8\vsi.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="RibbonMarkup.ribbon" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Icons8\vsi.ico" />
   </ItemGroup>
 
   <ItemGroup>
