@@ -1,4 +1,4 @@
-Imports System.IO
+Imports Microsoft.VisualBasic.CommandLine
 Imports Ollama
 
 ' ============================================================================
@@ -34,84 +34,25 @@ Module Program
     End Sub
 
     Private Async Function RunAsync(args As String()) As Task
-
-        ' --- 默认参数 ---
-        Dim projectPath As String = Nothing
-        Dim requirements As String = Nothing
-        Dim model As String = "llama3.2"
-        Dim ollamaUrl As String = "http://localhost:11434"
-        Dim maxBuildFix As Integer = 8
-        Dim maxRunFix As Integer = 5
-        Dim apikey As String = Nothing
-
-        ' --- 解析命令行参数 ---
-        Dim i As Integer = 0
-        Do While i < args.Length
-            Select Case args(i).ToLowerInvariant()
-                Case "--project", "-p"
-                    i += 1
-                    If i < args.Length Then projectPath = args(i)
-
-                Case "--requirements", "-r"
-                    i += 1
-                    If i < args.Length Then requirements = args(i)
-
-                Case "--requirements-file", "-rf"
-                    i += 1
-                    If i < args.Length Then
-                        requirements = File.ReadAllText(args(i))
-                    End If
-
-                Case "--model", "-m"
-                    i += 1
-                    If i < args.Length Then model = args(i)
-
-                Case "--url", "-u"
-                    i += 1
-                    If i < args.Length Then ollamaUrl = args(i)
-
-                Case "--key", "-k"
-                    i += 1
-                    If i < args.Length Then apikey = args(i)
-
-                Case "--max-build-fix"
-                    i += 1
-                    If i < args.Length Then Integer.TryParse(args(i), maxBuildFix)
-
-                Case "--max-run-fix"
-                    i += 1
-                    If i < args.Length Then Integer.TryParse(args(i), maxRunFix)
-
-                Case "--help", "-h"
-                    PrintUsage()
-                    Return
-
-                Case Else
-                    ' 如果是第一个参数且不是选项，当作 project path
-                    If i = 0 AndAlso Not args(i).StartsWith("-") Then
-                        projectPath = args(i)
-                    ElseIf projectPath IsNot Nothing AndAlso requirements Is Nothing Then
-                        ' 第二个非选项参数当作 requirements
-                        requirements = args(i)
-                    End If
-            End Select
-            i += 1
-        Loop
+        Dim opt As Opts = CommandLine.BuildFromArguments(args).CreateOpts(Of Opts).ResolveFile
 
         ' --- 验证参数 ---
-        If String.IsNullOrEmpty(projectPath) OrElse String.IsNullOrEmpty(requirements) Then
+        If String.IsNullOrEmpty(opt.projectPath) OrElse
+            String.IsNullOrEmpty(opt.requirements) OrElse
+            opt.help Then
+
             PrintUsage()
             Return
         End If
 
         ' 打印配置信息
         Console.WriteLine("=== DevAgent Configuration ===")
-        Console.WriteLine($"  Project Path: {projectPath}")
-        Console.WriteLine($"  Requirements: {requirements.Substring(0, Math.Min(80, requirements.Length))}...")
-        Console.WriteLine($"  Model:        {model}")
-        Console.WriteLine($"  Ollama URL:   {ollamaUrl}")
-        Console.WriteLine($"  Max Build Fix Attempts: {maxBuildFix}")
-        Console.WriteLine($"  Max Run Fix Attempts:   {maxRunFix}")
+        Console.WriteLine($"  Project Path: {opt.projectPath}")
+        Console.WriteLine($"  Requirements: {opt.requirements.Substring(0, Math.Min(80, opt.requirements.Length))}...")
+        Console.WriteLine($"  Model:        {opt.model}")
+        Console.WriteLine($"  Ollama URL:   {opt.ollamaUrl}")
+        Console.WriteLine($"  Max Build Fix Attempts: {opt.maxBuildFix}")
+        Console.WriteLine($"  Max Run Fix Attempts:   {opt.maxRunFix}")
         Console.WriteLine()
 
         ' --- 创建 Ollama 客户端 ---
@@ -120,25 +61,25 @@ Module Program
         Try
             ' 假设 Ollama 构造函数接受 URL 和模型名
             ' 如果你的构造函数不同，请修改此处
-            ollama = CreateOllamaClient(ollamaUrl, model, apikey)
+            ollama = CreateOllamaClient(opt.ollamaUrl, opt.model, opt.apikey)
         Catch ex As Exception
             Console.WriteLine("[ERROR] Failed to create Ollama client: " & ex.Message)
-            Console.WriteLine("Please ensure Ollama service is running at: " & ollamaUrl)
+            Console.WriteLine("Please ensure Ollama service is running at: " & opt.ollamaUrl)
             Return
         End Try
 
         ' --- 创建配置 ---
         Dim options As New DevAgentOptions With {
-            .MaxBuildFixAttempts = maxBuildFix,
-            .MaxRuntimeFixAttempts = maxRunFix
+            .MaxBuildFixAttempts = opt.maxBuildFix,
+            .MaxRuntimeFixAttempts = opt.maxRunFix
         }
 
         ' --- 创建并运行 Agent ---
         Using ollama
             Dim agent As New DevAgent(
                 ollama,
-                projectPath,
-                requirements,
+                opt.projectPath,
+                opt.requirements,
                 options,
                 logger:=AddressOf Console.WriteLine)
 
