@@ -29,9 +29,20 @@ Module RibbonMenu
                     Call OpenSolutionExplorer()
                 Else
                     Call CommonRuntime.ShowDocument(Of FormEditor)(title:=file.FileName.FileName).SetCodeFile(file.FileName)
+                    Call OpenLLMsChat()
                 End If
             End If
         End Using
+    End Sub
+
+    Public Sub OpenLLMsChat()
+        Dim chatbox As FormLLMsTool = CommonRuntime.TryGetToolWindow("llms")
+
+        If chatbox Is Nothing Then
+            chatbox = New FormLLMsTool With {.Name = "llms"}
+        End If
+
+        Call CommonRuntime.RegisterToolWindow(chatbox, DockState.DockRight)
     End Sub
 
     Public Sub OpenSolutionExplorer()
@@ -54,6 +65,7 @@ Module RibbonMenu
 
     Public Sub OpenEditor()
         Call CommonRuntime.ShowDocument(Of FormEditor)(title:="New File")
+        Call OpenLLMsChat()
     End Sub
 
     Public Sub OpenAboutPage()
