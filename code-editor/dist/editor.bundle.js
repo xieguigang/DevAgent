@@ -3452,7 +3452,7 @@ End Namespace
             this.updateStatus();
         }
         exportFile() {
-            const text = this.editor.getText();
+            const text = this.getCodeText();
             const filename = this.editor.getFilename() || "untitled.txt";
             const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
             const url = URL.createObjectURL(blob);
@@ -3463,6 +3463,12 @@ End Namespace
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
+        }
+        /**
+         * export code text to webview2 host
+        */
+        getCodeText() {
+            return this.editor.getText();
         }
         refreshSymbols() {
             const symbols = this.editor.getSymbols();
@@ -3586,6 +3592,7 @@ End Namespace
 window.addEventListener("DOMContentLoaded", () => {
     const codeEditor = CodeEditor.bootstrap();
     // 监听来自 WinForm 的消息
+    window.codeEditor = codeEditor;
     window.chrome.webview.addEventListener('message', function (event) {
         const message = event.data;
         if (message.type === 'loadFile') {
