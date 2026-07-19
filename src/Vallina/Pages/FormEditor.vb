@@ -1,4 +1,5 @@
-﻿Imports Galaxy.Workbench
+﻿Imports System.Text.Json
+Imports Galaxy.Workbench
 Imports Microsoft.Web.WebView2.Core
 Imports RibbonLib.Interop
 Imports VallinaDevelopment.Javascript
@@ -38,10 +39,10 @@ Public Class FormEditor
         Await Task.Delay(100)
 
         If codefile.FileExists Then
-            Dim filename As String = codefile.FileName
-            Dim codetext As String = codefile.ReadAllText
+            Dim filename As String = JsonSerializer.Serialize(codefile.FileName)
+            Dim codetext As String = JsonSerializer.Serialize(codefile.ReadAllText)
 
-            Await WebView21.ExecuteScriptAsync($"codeEditor.loadFileText('{codetext}', '{filename}');")
+            Await WebView21.ExecuteScriptAsync($"codeEditor.loadFileText({codetext}, {filename});")
         End If
     End Sub
 
