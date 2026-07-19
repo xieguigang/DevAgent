@@ -32,7 +32,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="RibbonItems.Designer.cs" />
+    <None Remove="RibbonMarkup.log" />
     <None Remove="RibbonMarkup.ribbon" />
+    <None Remove="RibbonMarkup.xml.bak" />
   </ItemGroup>
 
   <ItemGroup>

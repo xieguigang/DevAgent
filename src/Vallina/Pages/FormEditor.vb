@@ -15,8 +15,6 @@ Public Class FormEditor
     End Sub
 
     Private Async Sub FormEditor_Load(sender As Object, e As EventArgs) Handles Me.Load
-        Call ActivateRibbon()
-
         Await WebViewLoader.Init(WebView21)
     End Sub
 
@@ -28,8 +26,24 @@ Public Class FormEditor
         Await WebView21.ExecuteScriptAsync("document.getElementByID('statusbar').style.display='none';")
     End Sub
 
+    Private Async Function GotoLine() As Task
+        Await WebView21.ExecuteScriptAsync("document.getElementByID('btn-goto-line').click();")
+    End Function
+
+    Private Async Function ShowSymbols() As Task
+        Await WebView21.ExecuteScriptAsync("document.getElementByID('btn-toggle-symbols').click();")
+    End Function
+
+    Private Async Function ShowDiffs() As Task
+        Await WebView21.ExecuteScriptAsync("document.getElementByID('btn-toggle-diff').click();")
+    End Function
+
     Private Sub ActivateRibbon()
         Ribbon.RibbonEditor.ContextAvailable = ContextAvailability.Active
+
+        Call btnGotoLine.Addhandler(Async Sub() Await GotoLine())
+        Call btnShowDiffs.Addhandler(Async Sub() Await ShowDiffs())
+        Call btnShowSymbols.Addhandler(Async Sub() Await ShowSymbols())
     End Sub
 
     Private Sub UnloadRibbonHook()
