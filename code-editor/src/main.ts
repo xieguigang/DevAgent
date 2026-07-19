@@ -244,7 +244,7 @@ End Namespace
         }
 
         private exportFile(): void {
-            const text = this.editor.getText();
+            const text = this.getCodeText();
             const filename = this.editor.getFilename() || "untitled.txt";
             const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
             const url = URL.createObjectURL(blob);
@@ -255,6 +255,13 @@ End Namespace
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
+        }
+
+        /**
+         * export code text to webview2 host
+        */
+        public getCodeText(): string {
+            return this.editor.getText();
         }
 
         private refreshSymbols(): void {
@@ -396,6 +403,7 @@ window.addEventListener("DOMContentLoaded", () => {
     const codeEditor = CodeEditor.bootstrap();
 
     // 监听来自 WinForm 的消息
+    window.codeEditor = codeEditor;
     window.chrome.webview.addEventListener('message', function (event) {
         const message = event.data;
 

@@ -105,6 +105,15 @@
       </Command.LargeImages>
     </Command>
     <Command Name="cmdGroupWorkbench" Id="21" LabelTitle="Developer Workbench" />
+    <Command Name="cmdButtonSaveCodeFile" Id="22" LabelTitle="Save">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-save-as-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-save-as-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdGroupCodeFile" Id="23" LabelTitle="Code" />
   </Application.Commands>
   <Application.Views>
     <Ribbon>
@@ -132,6 +141,9 @@
       <Ribbon.ContextualTabs>
         <TabGroup CommandName="cmdRibbonEditor">
           <Tab CommandName="cmdMenuEditor">
+            <Group CommandName="cmdGroupCodeFile" SizeDefinition="OneButton">
+              <Button CommandName="cmdButtonSaveCodeFile" />
+            </Group>
             <Group CommandName="cmdGroupEditor" SizeDefinition="ThreeButtons-OneBigAndTwoSmall">
               <Button CommandName="cmdButtonGotoLine" />
               <Button CommandName="cmdButtonEditorDiff" />

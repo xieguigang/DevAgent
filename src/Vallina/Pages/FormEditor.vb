@@ -6,13 +6,17 @@ Imports VallinaDevelopment.Javascript
 
 Public Class FormEditor
 
-    Shared btnGotoLine As RibbonEventBinding
-    Shared btnShowSymbols As RibbonEventBinding
-    Shared btnShowDiffs As RibbonEventBinding
+    Shared ReadOnly btnSave As RibbonEventBinding
+
+    Shared ReadOnly btnGotoLine As RibbonEventBinding
+    Shared ReadOnly btnShowSymbols As RibbonEventBinding
+    Shared ReadOnly btnShowDiffs As RibbonEventBinding
 
     Dim codefile As String
 
     Shared Sub New()
+        btnSave = New RibbonEventBinding(Ribbon.ButtonSaveCodeFile)
+
         btnGotoLine = New RibbonEventBinding(Ribbon.ButtonGotoLine)
         btnShowDiffs = New RibbonEventBinding(Ribbon.ButtonEditorDiff)
         btnShowSymbols = New RibbonEventBinding(Ribbon.ButtonEditorSymbols)
@@ -65,8 +69,31 @@ Public Class FormEditor
         Await WebView21.ExecuteScriptAsync("$('btn-toggle-diff').click();")
     End Function
 
+    Protected Overrides Async Sub SaveDocument()
+        Await SaveCodeFile()
+    End Sub
+
+    Private Async Function GetCodeText() As Task(Of String)
+        Return Await WebView21.ExecuteScriptAsync("codeEditor.getCodeText()")
+    End Function
+
+    Private Async Function SaveCodeFile() As Task
+        If codefile.StringEmpty Then
+            Using file As New SaveFileDialog With {.Filter = "VisualBasic(*.vb)|*.vb"}
+                If file.ShowDialog = DialogResult.OK Then
+                    Call SetCodeFile(file.FileName)
+                    Call (Await GetCodeText()).SaveTo(file.FileName)
+                End If
+            End Using
+        Else
+            Call (Await GetCodeText()).SaveTo(codefile)
+        End If
+    End Function
+
     Private Sub ActivateRibbon()
         Ribbon.RibbonEditor.ContextAvailable = ContextAvailability.Active
+
+        Call btnSave.Addhandler(Async Sub() Await SaveCodeFile())
 
         Call btnGotoLine.Addhandler(Async Sub() Await GotoLine())
         Call btnShowDiffs.Addhandler(Async Sub() Await ShowDiffs())

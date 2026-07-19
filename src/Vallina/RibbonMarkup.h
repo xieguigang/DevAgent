@@ -69,4 +69,10 @@
 #define cmdButtonStartPage_LargeImages_192__RESID 60043
 #define cmdGroupWorkbench 21 
 #define cmdGroupWorkbench_LabelTitle_RESID 60044
-#define InternalCmd2_LabelTitle_RESID 60045
+#define cmdButtonSaveCodeFile 22 
+#define cmdButtonSaveCodeFile_LabelTitle_RESID 60045
+#define cmdButtonSaveCodeFile_SmallImages_192__RESID 60046
+#define cmdButtonSaveCodeFile_LargeImages_192__RESID 60047
+#define cmdGroupCodeFile 23 
+#define cmdGroupCodeFile_LabelTitle_RESID 60048
+#define InternalCmd2_LabelTitle_RESID 60049

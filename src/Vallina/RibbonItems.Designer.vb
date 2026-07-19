@@ -23,6 +23,8 @@ Namespace RibbonLib.Controls
             Public Const cmdButtonSave As UInteger = 5
             Public Const cmdRibbonEditor As UInteger = 7
             Public Const cmdMenuEditor As UInteger = 8
+            Public Const cmdGroupCodeFile As UInteger = 23
+            Public Const cmdButtonSaveCodeFile As UInteger = 22
             Public Const cmdGroupEditor As UInteger = 9
             Public Const cmdButtonGotoLine As UInteger = 18
             Public Const cmdButtonEditorDiff As UInteger = 17
@@ -91,6 +93,18 @@ Namespace RibbonLib.Controls
         Public ReadOnly Property MenuEditor As RibbonTab
             Get
                 Return _MenuEditor
+            End Get
+        End Property
+        Private _GroupCodeFile As RibbonGroup
+        Public ReadOnly Property GroupCodeFile As RibbonGroup
+            Get
+                Return _GroupCodeFile
+            End Get
+        End Property
+        Private _ButtonSaveCodeFile As RibbonButton
+        Public ReadOnly Property ButtonSaveCodeFile As RibbonButton
+            Get
+                Return _ButtonSaveCodeFile
             End Get
         End Property
         Private _GroupEditor As RibbonGroup
@@ -179,6 +193,8 @@ Namespace RibbonLib.Controls
             _ButtonSave = New RibbonButton(_ribbon, Cmd.cmdButtonSave)
             _RibbonEditor = New RibbonTabGroup(_ribbon, Cmd.cmdRibbonEditor)
             _MenuEditor = New RibbonTab(_ribbon, Cmd.cmdMenuEditor)
+            _GroupCodeFile = New RibbonGroup(_ribbon, Cmd.cmdGroupCodeFile)
+            _ButtonSaveCodeFile = New RibbonButton(_ribbon, Cmd.cmdButtonSaveCodeFile)
             _GroupEditor = New RibbonGroup(_ribbon, Cmd.cmdGroupEditor)
             _ButtonGotoLine = New RibbonButton(_ribbon, Cmd.cmdButtonGotoLine)
             _ButtonEditorDiff = New RibbonButton(_ribbon, Cmd.cmdButtonEditorDiff)
