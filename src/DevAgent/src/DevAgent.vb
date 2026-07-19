@@ -1,6 +1,7 @@
 Imports System.Globalization
 Imports System.IO
 Imports System.Text
+Imports Microsoft.VisualBasic.Language
 Imports Ollama
 
 ' ============================================================================
@@ -124,54 +125,7 @@ Public Class DevAgent
         Log("")
 
         Try
-            ' Step 1: 验证输入
-            LogStep(1, "Validating inputs and toolchain")
-            ValidateInputs()
-
-            ' Step 2: 创建开发计划
-            LogStep(2, "Creating development plan via LLM")
-            Await CreateDevelopmentPlan()
-
-            ' Step 3: 创建 git 分支
-            LogStep(3, "Creating git branch")
-            CreateGitBranch()
-
-            ' Step 4: 设置项目
-            LogStep(4, "Setting up VB.NET project")
-            Await SetupProject()
-
-            ' Step 5: 逐个执行开发任务
-            For i As Integer = 0 To _plan.Count - 1
-                LogStep(5, $"Task {i + 1}/{_plan.Count}: {_plan(i)}")
-                Await ExecuteTask(i)
-
-                ' 每个任务完成后 git commit
-                GitCommit($"Task {i + 1}/{_plan.Count}: {_plan(i)}")
-            Next
-
-            ' Step 6-7: 编译并修复错误
-            LogStep(6, "Building project and fixing compilation errors")
-            Await BuildAndFixErrors()
-
-            ' Step 8: 编译通过后 git commit
-            LogStep(7, "Committing after successful build")
-            GitCommit("Fix compilation errors")
-
-            ' Step 9-10: 运行和测试
-            LogStep(8, "Running and testing project")
-            Await RunAndTest()
-
-            ' Step 11: 最终 commit
-            LogStep(9, "Final git commit")
-            Dim commitMsg As String = "Complete development: " &
-                _requirements.Substring(0, Math.Min(60, _requirements.Length))
-            GitCommit(commitMsg)
-
-            Log("")
-            Log("========================================")
-            Log("       DevAgent Completed Successfully")
-            Log("========================================")
-
+            Await RunAgentWorkflow()
         Catch ex As Exception
             Log("")
             Log("[FATAL] Agent stopped due to error:")
@@ -183,6 +137,56 @@ Public Class DevAgent
             Log("       DevAgent Stopped with Errors")
             Log("========================================")
         End Try
+    End Function
+
+    Private Async Function RunAgentWorkflow() As Task
+        ' Step 1: 验证输入
+        LogStep(1, "Validating inputs and toolchain")
+        ValidateInputs()
+
+        ' Step 2: 创建开发计划
+        LogStep(2, "Creating development plan via LLM")
+        Await CreateDevelopmentPlan()
+
+        ' Step 3: 创建 git 分支
+        LogStep(3, "Creating git branch")
+        CreateGitBranch()
+
+        ' Step 4: 设置项目
+        LogStep(4, "Setting up VB.NET project")
+        Await SetupProject()
+
+        ' Step 5: 逐个执行开发任务
+        For i As Integer = 0 To _plan.Count - 1
+            LogStep(5, $"Task {i + 1}/{_plan.Count}: {_plan(i)}")
+            Await ExecuteTask(i)
+
+            ' 每个任务完成后 git commit
+            GitCommit($"Task {i + 1}/{_plan.Count}: {_plan(i)}")
+        Next
+
+        ' Step 6-7: 编译并修复错误
+        LogStep(6, "Building project and fixing compilation errors")
+        Await BuildAndFixErrors()
+
+        ' Step 8: 编译通过后 git commit
+        LogStep(7, "Committing after successful build")
+        GitCommit("Fix compilation errors")
+
+        ' Step 9-10: 运行和测试
+        LogStep(8, "Running and testing project")
+        Await RunAndTest()
+
+        ' Step 11: 最终 commit
+        LogStep(9, "Final git commit")
+        Dim commitMsg As String = "Complete development: " &
+            _requirements.Substring(0, Math.Min(60, _requirements.Length))
+        GitCommit(commitMsg)
+
+        Log("")
+        Log("========================================")
+        Log("       DevAgent Completed Successfully")
+        Log("========================================")
     End Function
 
     ' ========================================================================
@@ -310,6 +314,64 @@ Public Class DevAgent
     ' Step 4: 设置项目
     ' ========================================================================
 
+    Private Async Function CreateProject() As Task
+        ' 创建新项目
+        _projectType = Await DetermineProjectType()
+        Log($"  LLM determined project type: {_projectType}")
+
+        Dim template As String = If(_projectType = "library", "classlib", "console")
+        Log($"  Creating new {template} project...")
+
+        ' 尝试在当前目录创建项目
+        Dim result As ProcessResult = ProcessHelper.DotNet(_projectPath, $"new {template} -lang VB")
+
+        If Not result.Success Then
+            ' 如果失败，尝试在子目录创建后移动文件
+            Log("  Retrying with explicit project name...")
+            Dim tempDir As String = Path.Combine(_projectPath, "__temp_create__")
+
+            result = ProcessHelper.DotNet(
+                _projectPath,
+                $"new {template} -lang VB -n ""{_projectName}"" -o ""{tempDir}""")
+
+            If result.Success Then
+                ' 将文件从临时目录移动到项目根目录
+                For Each f As String In Directory.GetFiles(tempDir, "*", SearchOption.AllDirectories)
+                    Dim relPath As String = f.Substring(tempDir.Length).TrimStart(Path.DirectorySeparatorChar, "/"c)
+                    Dim destPath As String = Path.Combine(_projectPath, relPath)
+                    Directory.CreateDirectory(Path.GetDirectoryName(destPath))
+                    File.Move(f, destPath)
+                Next
+                Try
+                    Directory.Delete(tempDir, recursive:=True)
+                Catch
+                End Try
+            Else
+                ' 最终回退：手动创建 .vbproj
+                Log("  [WARN] dotnet new failed, creating minimal project file manually...")
+                CreateMinimalProject(template)
+            End If
+        End If
+
+        ' 处理可能创建的子目录（dotnet new -n 会创建以项目名命名的子目录）
+        Dim possibleSubDir As String = Path.Combine(_projectPath, _projectName)
+        If Directory.Exists(possibleSubDir) AndAlso possibleSubDir <> _projectPath Then
+            Log("  Moving files from subdirectory to project root...")
+            For Each f As String In Directory.GetFiles(possibleSubDir, "*", SearchOption.AllDirectories)
+                Dim relPath As String = f.Substring(possibleSubDir.Length).TrimStart(Path.DirectorySeparatorChar, "/"c)
+                Dim destPath As String = Path.Combine(_projectPath, relPath)
+                Directory.CreateDirectory(Path.GetDirectoryName(destPath))
+                File.Move(f, destPath)
+            Next
+            Try
+                Directory.Delete(possibleSubDir, recursive:=True)
+            Catch
+            End Try
+        End If
+
+        Log("  Project created successfully.")
+    End Function
+
     Private Async Function SetupProject() As Task
         ' 检查是否已有 .vbproj 文件
         Dim vbprojFile As String = FindProjectFile()
@@ -320,61 +382,7 @@ Public Class DevAgent
             _projectType = DetectProjectType(vbprojFile)
             Log($"  Project type: {_projectType}")
         Else
-            ' 创建新项目
-            _projectType = Await DetermineProjectType()
-            Log($"  LLM determined project type: {_projectType}")
-
-            Dim template As String = If(_projectType = "library", "classlib", "console")
-            Log($"  Creating new {template} project...")
-
-            ' 尝试在当前目录创建项目
-            Dim result As ProcessResult = ProcessHelper.DotNet(_projectPath, $"new {template} -lang VB")
-
-            If Not result.Success Then
-                ' 如果失败，尝试在子目录创建后移动文件
-                Log("  Retrying with explicit project name...")
-                Dim tempDir As String = Path.Combine(_projectPath, "__temp_create__")
-
-                result = ProcessHelper.DotNet(
-                    _projectPath,
-                    $"new {template} -lang VB -n ""{_projectName}"" -o ""{tempDir}""")
-
-                If result.Success Then
-                    ' 将文件从临时目录移动到项目根目录
-                    For Each f As String In Directory.GetFiles(tempDir, "*", SearchOption.AllDirectories)
-                        Dim relPath As String = f.Substring(tempDir.Length).TrimStart(Path.DirectorySeparatorChar, "/"c)
-                        Dim destPath As String = Path.Combine(_projectPath, relPath)
-                        Directory.CreateDirectory(Path.GetDirectoryName(destPath))
-                        File.Move(f, destPath)
-                    Next
-                    Try
-                        Directory.Delete(tempDir, recursive:=True)
-                    Catch
-                    End Try
-                Else
-                    ' 最终回退：手动创建 .vbproj
-                    Log("  [WARN] dotnet new failed, creating minimal project file manually...")
-                    CreateMinimalProject(template)
-                End If
-            End If
-
-            ' 处理可能创建的子目录（dotnet new -n 会创建以项目名命名的子目录）
-            Dim possibleSubDir As String = Path.Combine(_projectPath, _projectName)
-            If Directory.Exists(possibleSubDir) AndAlso possibleSubDir <> _projectPath Then
-                Log("  Moving files from subdirectory to project root...")
-                For Each f As String In Directory.GetFiles(possibleSubDir, "*", SearchOption.AllDirectories)
-                    Dim relPath As String = f.Substring(possibleSubDir.Length).TrimStart(Path.DirectorySeparatorChar, "/"c)
-                    Dim destPath As String = Path.Combine(_projectPath, relPath)
-                    Directory.CreateDirectory(Path.GetDirectoryName(destPath))
-                    File.Move(f, destPath)
-                Next
-                Try
-                    Directory.Delete(possibleSubDir, recursive:=True)
-                Catch
-                End Try
-            End If
-
-            Log("  Project created successfully.")
+            Await CreateProject()
         End If
 
         ' 初次提交项目骨架
@@ -494,82 +502,84 @@ Public Class DevAgent
     ' ========================================================================
 
     Private Async Function BuildAndFixErrors() As Task
-        Log("  Building project...")
+        Dim attempts As i32 = 0
 
-        Dim attempts As Integer = 0
+        Call Log("  Building project...")
 
         Do
-            attempts += 1
-            Log($"  Build attempt {attempts}/{_options.MaxBuildFixAttempts}...")
-
-            Dim result As ProcessResult = ProcessHelper.DotNet(
-                _projectPath, "build", _options.BuildTimeoutMs)
-
-            If result.Success Then
-                Log("  Build succeeded!")
-                ' 输出编译警告（如果有）
-                If result.CombinedOutput.Contains("warning", StringComparison.OrdinalIgnoreCase) Then
-                    Dim warningLines() As String = result.CombinedOutput.Split({Environment.NewLine}, StringSplitOptions.None)
-                    Dim warningCount As Integer = 0
-                    For Each line As String In warningLines
-                        If line.Contains("warning", StringComparison.OrdinalIgnoreCase) Then
-                            warningCount += 1
-                            If warningCount <= 5 Then
-                                Log("    " & line.Trim())
-                            End If
-                        End If
-                    Next
-                    If warningCount > 5 Then
-                        Log($"    ... and {warningCount - 5} more warning(s)")
-                    End If
-                End If
-                Return
-            End If
-
-            Log($"  Build failed (exit code: {result.ExitCode})")
-
-            If attempts >= _options.MaxBuildFixAttempts Then
-                Log("  [ERROR] Max build fix attempts reached. Giving up.")
-                Log("  Last build output:")
-                Log(result.CombinedOutput.Substring(0, Math.Min(2000, result.CombinedOutput.Length)))
-                Return
-            End If
-
-            ' 将编译错误发送给 LLM 修复
-            Log("  Asking LLM to fix build errors...")
-
-            Dim buildOutput As String = result.CombinedOutput
-            ' 截断过长的输出
-            If buildOutput.Length > 8000 Then
-                buildOutput = buildOutput.Substring(0, 8000) & Environment.NewLine & "... (truncated)"
-            End If
-
-            Dim prompt As New StringBuilder()
-            prompt.AppendLine("The VB.NET project failed to build. Fix ALL compilation errors.")
-            prompt.AppendLine()
-            prompt.AppendLine("## Build Output (errors)")
-            prompt.AppendLine("---BUILD OUTPUT---")
-            prompt.AppendLine(buildOutput)
-            prompt.AppendLine("---END BUILD OUTPUT---")
-            prompt.AppendLine()
-            prompt.AppendLine("## Instructions")
-            prompt.AppendLine("1. Use read_file to read the files that have errors")
-            prompt.AppendLine("2. Analyze each error carefully")
-            prompt.AppendLine("3. Output the corrected files using the ### FILE: format")
-            prompt.AppendLine("4. Output the COMPLETE file content for each file that needs to be modified")
-            prompt.AppendLine("5. Make sure to fix ALL errors, not just the first one")
-
-            Dim response As String = Await ChatWithLLM(prompt.ToString())
-
-            Dim files As List(Of CodeFile) = ParseCodeBlocks(response)
-            If files.Count > 0 Then
-                WriteCodeFiles(files)
-                Log($"  Applied fixes to {files.Count} file(s).")
-            Else
-                Log("  [WARN] No code files in LLM fix response. Will retry build...")
-            End If
-
+            Await DebugLoop(++attempts)
         Loop
+    End Function
+
+    Private Async Function DebugLoop(attempts As Integer) As Task
+        Log($"  Build attempt {attempts}/{_options.MaxBuildFixAttempts}...")
+
+        Dim result As ProcessResult = ProcessHelper.DotNet(
+            _projectPath, "build", _options.BuildTimeoutMs)
+
+        If result.Success Then
+            Log("  Build succeeded!")
+            ' 输出编译警告（如果有）
+            If result.CombinedOutput.Contains("warning", StringComparison.OrdinalIgnoreCase) Then
+                Dim warningLines() As String = result.CombinedOutput.Split({Environment.NewLine}, StringSplitOptions.None)
+                Dim warningCount As Integer = 0
+                For Each line As String In warningLines
+                    If line.Contains("warning", StringComparison.OrdinalIgnoreCase) Then
+                        warningCount += 1
+                        If warningCount <= 5 Then
+                            Log("    " & line.Trim())
+                        End If
+                    End If
+                Next
+                If warningCount > 5 Then
+                    Log($"    ... and {warningCount - 5} more warning(s)")
+                End If
+            End If
+            Return
+        End If
+
+        Log($"  Build failed (exit code: {result.ExitCode})")
+
+        If attempts >= _options.MaxBuildFixAttempts Then
+            Log("  [ERROR] Max build fix attempts reached. Giving up.")
+            Log("  Last build output:")
+            Log(result.CombinedOutput.Substring(0, Math.Min(2000, result.CombinedOutput.Length)))
+            Return
+        End If
+
+        ' 将编译错误发送给 LLM 修复
+        Log("  Asking LLM to fix build errors...")
+
+        Dim buildOutput As String = result.CombinedOutput
+        ' 截断过长的输出
+        If buildOutput.Length > 8000 Then
+            buildOutput = buildOutput.Substring(0, 8000) & Environment.NewLine & "... (truncated)"
+        End If
+
+        Dim prompt As New StringBuilder()
+        prompt.AppendLine("The VB.NET project failed to build. Fix ALL compilation errors.")
+        prompt.AppendLine()
+        prompt.AppendLine("## Build Output (errors)")
+        prompt.AppendLine("---BUILD OUTPUT---")
+        prompt.AppendLine(buildOutput)
+        prompt.AppendLine("---END BUILD OUTPUT---")
+        prompt.AppendLine()
+        prompt.AppendLine("## Instructions")
+        prompt.AppendLine("1. Use read_file to read the files that have errors")
+        prompt.AppendLine("2. Analyze each error carefully")
+        prompt.AppendLine("3. Output the corrected files using the ### FILE: format")
+        prompt.AppendLine("4. Output the COMPLETE file content for each file that needs to be modified")
+        prompt.AppendLine("5. Make sure to fix ALL errors, not just the first one")
+
+        Dim response As String = Await ChatWithLLM(prompt.ToString())
+
+        Dim files As List(Of CodeFile) = ParseCodeBlocks(response)
+        If files.Count > 0 Then
+            WriteCodeFiles(files)
+            Log($"  Applied fixes to {files.Count} file(s).")
+        Else
+            Log("  [WARN] No code files in LLM fix response. Will retry build...")
+        End If
     End Function
 
     ' ========================================================================
