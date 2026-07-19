@@ -22,10 +22,14 @@ Module RibbonMenu
 
     Public Sub OpenFileEdit()
         Using file As New OpenFileDialog With {
-            .Filter = "VisualBasic(*.vb);Rscript(*.r)|*.vb;*.r"
+            .Filter = "VisualBasic(*.vb);Project(*.vbproj);Rscript(*.r)|*.vb;*.r;*.vbproj"
         }
             If file.ShowDialog = DialogResult.OK Then
-                Call CommonRuntime.ShowDocument(Of FormEditor)(title:=file.FileName.FileName).SetCodeFile(file.FileName)
+                If file.FileName.ExtensionSuffix("vbproj") Then
+                    Call OpenSolutionExplorer()
+                Else
+                    Call CommonRuntime.ShowDocument(Of FormEditor)(title:=file.FileName.FileName).SetCodeFile(file.FileName)
+                End If
             End If
         End Using
     End Sub

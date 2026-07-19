@@ -28,19 +28,6 @@
           "SelectedChildIndex": 4,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "CommonRuntime.vb",
-              "DocumentMoniker": "G:\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
-              "RelativeDocumentMoniker": "..\\..\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
-              "ToolTip": "G:\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
-              "RelativeToolTip": "..\\..\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
-              "ViewState": "AgIAAGEAAAAAAAAAAAAiwHQAAABJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-19T14:49:35.766Z",
-              "EditorCaption": ""
-            },
-            {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
             },
@@ -54,13 +41,26 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CommonRuntime.vb",
+              "DocumentMoniker": "G:\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
+              "RelativeDocumentMoniker": "..\\..\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
+              "ToolTip": "G:\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
+              "RelativeToolTip": "..\\..\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
+              "ViewState": "AgIAAGEAAAAAAAAAAAAiwHQAAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-19T14:49:35.766Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "RibbonMenu.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\Application\\RibbonMenu.vb",
               "RelativeDocumentMoniker": "Vallina\\Application\\RibbonMenu.vb",
               "ToolTip": "G:\\DevAgent\\src\\Vallina\\Application\\RibbonMenu.vb",
               "RelativeToolTip": "Vallina\\Application\\RibbonMenu.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAvAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAABUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-07-19T14:49:19.533Z",
               "EditorCaption": ""
