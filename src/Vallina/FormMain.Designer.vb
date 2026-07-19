@@ -1,4 +1,6 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+﻿Imports RibbonLib
+
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class FormMain
     Inherits System.Windows.Forms.Form
 
@@ -22,7 +24,7 @@ Partial Class FormMain
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Ribbon1 = New RibbonLib.Ribbon()
+        Ribbon1 = New Ribbon()
         DockPanel1 = New Microsoft.VisualStudio.WinForms.Docking.DockPanel()
         StatusStrip1 = New StatusStrip()
         ToolStripStatusLabel1 = New ToolStripStatusLabel()
@@ -34,7 +36,7 @@ Partial Class FormMain
         Ribbon1.Location = New Point(0, 0)
         Ribbon1.Name = "Ribbon1"
         Ribbon1.ResourceIdentifier = Nothing
-        Ribbon1.ResourceName = Nothing
+        Ribbon1.ResourceName = "VallinaDevelopment.RibbonMarkup.ribbon"
         Ribbon1.ShortcutTableResourceName = Nothing
         Ribbon1.Size = New Size(1087, 116)
         Ribbon1.TabIndex = 0
@@ -78,7 +80,7 @@ Partial Class FormMain
         PerformLayout()
     End Sub
 
-    Friend WithEvents Ribbon1 As RibbonLib.Ribbon
+    Friend WithEvents Ribbon1 As Ribbon
     Friend WithEvents DockPanel1 As Microsoft.VisualStudio.WinForms.Docking.DockPanel
     Friend WithEvents StatusStrip1 As StatusStrip
     Friend WithEvents ToolStripStatusLabel1 As ToolStripStatusLabel

@@ -3,12 +3,22 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows</TargetFramework>
-    <StartupObject>Vallina.My.MyApplication</StartupObject>
+    <StartupObject>VallinaDevelopment.My.MyApplication</StartupObject>
     <UseWindowsForms>true</UseWindowsForms>
     <MyType>WindowsForms</MyType>
     <Platforms>AnyCPU;x64</Platforms>
     <UseWPF>True</UseWPF>
+    <RootNamespace>VallinaDevelopment</RootNamespace>
+    <AssemblyTitle>Development Environment for VisualBasic Language</AssemblyTitle>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="RibbonMarkup.ribbon" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="RibbonMarkup.ribbon" />
+  </ItemGroup>
 
   <ItemGroup>
     <Import Include="System.Data" />
