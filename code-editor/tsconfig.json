@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "target": "ES2019",
+    "module": "none",
+    "rootDir": "./src",
+    "outFile": "./dist/editor.bundle.js",
+    "lib": ["ES2019", "DOM", "DOM.Iterable"],
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "sourceMap": false,
+    "declaration": false,
+    "esModuleInterop": true,
+    "allowUmdGlobalAccess": true,
+    "skipLibCheck": true
+  },
+  "files": [
+    "src/utils/Tokenizer.ts",
+    "src/utils/EventEmitter.ts",
+    "src/utils/Diff.ts",
+    "src/core/TextBuffer.ts",
+    "src/core/Cursor.ts",
+    "src/core/Highlighter.ts",
+    "src/highlighters/VbNetHighlighter.ts",
+    "src/highlighters/RHighlighter.ts",
+    "src/highlighters/JsonHighlighter.ts",
+    "src/highlighters/XmlHighlighter.ts",
+    "src/highlighters/MarkdownHighlighter.ts",
+    "src/highlighters/YamlHighlighter.ts",
+    "src/highlighters/HighlighterRegistry.ts",
+    "src/features/CodeFolder.ts",
+    "src/features/SymbolNavigator.ts",
+    "src/features/DiffViewer.ts",
+    "src/features/CompletionProvider.ts",
+    "src/features/GoToLine.ts",
+    "src/core/Editor.ts",
+    "src/main.ts"
+  ]
+}

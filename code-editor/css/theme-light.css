@@ -1,0 +1,196 @@
+/* ============================================================
+   Light theme - matches Visual Studio light theme colors.
+   Activated by body[data-theme="light"].
+   ============================================================ */
+
+body[data-theme="light"] {
+    /* ---- UI colors ---- */
+    --ui-font-family: "Segoe UI", "Cascadia Code", "Consolas", sans-serif;
+    --ui-foreground: #1e1e1e;
+    --ui-foreground-muted: #6a6a6a;
+    --ui-background: #ffffff;
+
+    /* ---- Toolbar ---- */
+    --toolbar-background: #f5f5f5;
+    --toolbar-border: #e0e0e0;
+
+    /* ---- Buttons ---- */
+    --button-background: #ffffff;
+    --button-foreground: #1e1e1e;
+    --button-border: #cccccc;
+    --button-hover-background: #e5f3ff;
+    --button-hover-border: #007acc;
+    --button-active-background: #cce4f7;
+    --button-primary-background: #007acc;
+    --button-primary-foreground: #ffffff;
+    --button-primary-border: #007acc;
+
+    /* ---- Inputs ---- */
+    --input-background: #ffffff;
+    --input-foreground: #1e1e1e;
+    --input-border: #cccccc;
+    --input-focus-border: #007acc;
+
+    /* ---- Sidebar ---- */
+    --sidebar-background: #f5f5f5;
+    --sidebar-border: #e0e0e0;
+    --sidebar-header-background: #eeeeee;
+    --sidebar-header-foreground: #555555;
+
+    /* ---- List ---- */
+    --list-hover-background: #e5f3ff;
+    --list-hover-border: #007acc;
+
+    /* ---- Symbols ---- */
+    --symbol-icon-foreground: #ffffff;
+    --symbol-icon-background: #007acc;
+    --symbol-name-foreground: #1e1e1e;
+    --symbol-kind-background: #eeeeee;
+
+    /* ---- Editor ---- */
+    --editor-background: #ffffff;
+    --gutter-background: #ffffff;
+    --gutter-foreground: #1e1e1e;
+    --line-number-foreground: #2b91af;
+    --cursor-line-background: #f0f7ff;
+    --caret-color: #000000;
+    --fold-marker-foreground: #6a6a6a;
+    --fold-marker-hover-background: #e5f3ff;
+
+    /* ---- Code font ---- */
+    --code-font-family: "Cascadia Code", "Consolas", "Courier New", monospace;
+    --code-font-size: 14px;
+    --code-line-height: 20px;
+
+    /* ---- Completion ---- */
+    --completion-background: #ffffff;
+    --completion-foreground: #1e1e1e;
+    --completion-border: #cccccc;
+    --completion-selected-background: #007acc;
+    --completion-selected-foreground: #ffffff;
+    --completion-kind-background: #007acc;
+    --completion-kind-foreground: #ffffff;
+
+    /* ---- Diff panel ---- */
+    --diff-panel-background: #ffffff;
+    --diff-panel-border: #e0e0e0;
+    --diff-header-background: #f5f5f5;
+    --diff-equal-background: #ffffff;
+    --diff-added-background: #e6ffed;
+    --diff-removed-background: #ffeef0;
+    --diff-added-foreground: #22863a;
+    --diff-removed-foreground: #cb2431;
+    --diff-line-number-foreground: #999999;
+
+    /* ---- Modal ---- */
+    --modal-background: #ffffff;
+    --modal-border: #cccccc;
+    --modal-title-foreground: #1e1e1e;
+    --error-foreground: #cb2431;
+
+    /* ---- Status bar ---- */
+    --statusbar-background: #007acc;
+    --statusbar-foreground: #ffffff;
+    --statusbar-border: #0067b8;
+
+    /* ---- Scrollbar ---- */
+    --scrollbar-track: #f0f0f0;
+    --scrollbar-thumb: #c0c0c0;
+    --scrollbar-thumb-hover: #a0a0a0;
+
+    /* ============================================================
+       Syntax highlighting colors - Visual Studio Light theme.
+       Reference: VS default light theme.
+       ============================================================ */
+
+    /* Plain text */
+    --tok-plain: #1e1e1e;
+    /* Keywords (declarations like Public, Private, Dim, etc.) - blue */
+    --tok-keyword: #0000ff;
+    /* Control keywords (If, For, While, etc.) - blue */
+    --tok-control: #0000ff;
+    /* Identifiers - black */
+    --tok-identifier: #1e1e1e;
+    /* Types (Class names, built-in types) - teal */
+    --tok-type: #2b91af;
+    /* Strings - red/brown */
+    --tok-string: #a31515;
+    /* Numbers - dark */
+    --tok-number: #098658;
+    /* Comments - green */
+    --tok-comment: #008000;
+    /* Doc comments - green */
+    --tok-doccomment: #008000;
+    /* Operators - dark */
+    --tok-operator: #1e1e1e;
+    /* Punctuation - dark */
+    --tok-punctuation: #1e1e1e;
+    /* Preprocessor (#If, #Region) - blue */
+    --tok-preprocessor: #0000ff;
+    /* Attributes - teal */
+    --tok-attribute: #2b91af;
+    /* XML tags - brown */
+    --tok-tag: #811f3f;
+    /* XML attribute names - red */
+    --tok-attrname: #ff0000;
+    /* XML attribute values - blue */
+    --tok-attrvalue: #0000ff;
+    /* XML delimiters (<, >, </, />) - blue */
+    --tok-xmldelimiter: #0000ff;
+    /* XML text content - black */
+    --tok-xmltext: #1e1e1e;
+    /* Markdown headings - blue */
+    --tok-heading: #0000ff;
+    /* Markdown bold - dark */
+    --tok-bold: #1e1e1e;
+    /* Markdown italic - dark */
+    --tok-italic: #1e1e1e;
+    /* Markdown code - maroon */
+    --tok-code: #a31515;
+    /* Markdown links - blue */
+    --tok-link: #0000ff;
+    /* Markdown list markers - dark */
+    --tok-listmarker: #1e1e1e;
+    /* Markdown quote - green */
+    --tok-quote: #008000;
+    /* Properties - blue */
+    --tok-property: #0000ff;
+    /* Function names - dark */
+    --tok-function: #1e1e1e;
+    /* Constants (TRUE, FALSE, NULL) - dark */
+    --tok-constant: #1e1e1e;
+    /* Annotations - teal */
+    --tok-annotation: #2b91af;
+    /* Errors - red */
+    --tok-error: #cb2431;
+}
+
+body[data-theme="light"] .tok-keyword { color: var(--tok-keyword); }
+body[data-theme="light"] .tok-control { color: var(--tok-control); }
+body[data-theme="light"] .tok-identifier { color: var(--tok-identifier); }
+body[data-theme="light"] .tok-type { color: var(--tok-type); }
+body[data-theme="light"] .tok-string { color: var(--tok-string); }
+body[data-theme="light"] .tok-number { color: var(--tok-number); }
+body[data-theme="light"] .tok-comment { color: var(--tok-comment); font-style: italic; }
+body[data-theme="light"] .tok-doccomment { color: var(--tok-doccomment); }
+body[data-theme="light"] .tok-operator { color: var(--tok-operator); }
+body[data-theme="light"] .tok-punctuation { color: var(--tok-punctuation); }
+body[data-theme="light"] .tok-preprocessor { color: var(--tok-preprocessor); }
+body[data-theme="light"] .tok-attribute { color: var(--tok-attribute); }
+body[data-theme="light"] .tok-tag { color: var(--tok-tag); }
+body[data-theme="light"] .tok-attrname { color: var(--tok-attrname); }
+body[data-theme="light"] .tok-attrvalue { color: var(--tok-attrvalue); }
+body[data-theme="light"] .tok-xmldelimiter { color: var(--tok-xmldelimiter); }
+body[data-theme="light"] .tok-xmltext { color: var(--tok-xmltext); }
+body[data-theme="light"] .tok-heading { color: var(--tok-heading); font-weight: bold; }
+body[data-theme="light"] .tok-bold { color: var(--tok-bold); font-weight: bold; }
+body[data-theme="light"] .tok-italic { color: var(--tok-italic); font-style: italic; }
+body[data-theme="light"] .tok-code { color: var(--tok-code); font-family: var(--code-font-family); background: #f5f5f5; }
+body[data-theme="light"] .tok-link { color: var(--tok-link); text-decoration: underline; }
+body[data-theme="light"] .tok-listmarker { color: var(--tok-listmarker); font-weight: bold; }
+body[data-theme="light"] .tok-quote { color: var(--tok-quote); font-style: italic; }
+body[data-theme="light"] .tok-property { color: var(--tok-property); }
+body[data-theme="light"] .tok-function { color: var(--tok-function); }
+body[data-theme="light"] .tok-constant { color: var(--tok-constant); font-weight: bold; }
+body[data-theme="light"] .tok-annotation { color: var(--tok-annotation); }
+body[data-theme="light"] .tok-error { color: var(--tok-error); text-decoration: underline wavy; }

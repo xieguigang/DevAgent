@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Editor</title>
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/theme-light.css">
+    <link rel="stylesheet" href="css/theme-dark.css">
+</head>
+<body data-theme="dark">
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <div class="toolbar-group">
+            <button id="btn-open" title="Open file (Ctrl+O)">Open</button>
+            <button id="btn-save" title="Save file (Ctrl+S)">Export</button>
+            <input type="file" id="file-input" accept=".vb,.vbnet,.r,.rmd,.json,.jsonc,.xml,.xsd,.xsl,.xslt,.csproj,.vbproj,.props,.targets,.config,.md,.markdown,.yaml,.yml,.txt" style="display:none">
+        </div>
+
+        <div class="toolbar-group">
+            <label for="language-select">Language:</label>
+            <select id="language-select">
+                <option value="vbnet">VB.NET</option>
+                <option value="r">R</option>
+                <option value="json">JSON</option>
+                <option value="xml">XML</option>
+                <option value="markdown">Markdown</option>
+                <option value="yaml">YAML</option>
+                <option value="plain">Plain Text</option>
+            </select>
+        </div>
+
+        <div class="toolbar-group">
+            <label for="theme-select">Theme:</label>
+            <select id="theme-select">
+                <option value="dark">Dark</option>
+                <option value="light">Light</option>
+            </select>
+        </div>
+
+        <div class="toolbar-group">
+            <button id="btn-goto-line" title="Go to line (Ctrl+G)">Go to Line</button>
+            <button id="btn-toggle-symbols" title="Toggle symbol navigator">Symbols</button>
+            <button id="btn-toggle-diff" title="Toggle diff view">Diff</button>
+        </div>
+
+        <div class="toolbar-group">
+            <label for="completion-endpoint">Completion API:</label>
+            <input type="text" id="completion-endpoint" placeholder="http://localhost:8080/api/completion">
+            <button id="btn-test-completion" title="Test completion endpoint">Test</button>
+            <span id="completion-status"></span>
+        </div>
+    </div>
+
+    <!-- Main area -->
+    <div class="main">
+        <!-- Symbol navigator sidebar -->
+        <div class="sidebar" id="symbol-sidebar">
+            <div class="sidebar-header">Symbols</div>
+            <div class="sidebar-content" id="symbol-list">
+                <div class="symbol-empty">No symbols</div>
+            </div>
+        </div>
+
+        <!-- Editor -->
+        <div class="editor-area">
+            <div id="editor-container"></div>
+        </div>
+
+        <!-- Diff panel -->
+        <div class="diff-panel hidden" id="diff-panel">
+            <div class="diff-header">
+                Changes:
+                <span class="diff-added-count" id="diff-added-count">+0</span>
+                <span class="diff-removed-count" id="diff-removed-count">-0</span>
+            </div>
+            <div class="diff-content" id="diff-content"></div>
+        </div>
+    </div>
+
+    <!-- Status bar -->
+    <div class="statusbar">
+        <div class="status-item">
+            <span class="status-label">File:</span>
+            <span id="status-file">untitled</span>
+        </div>
+        <div class="status-item">
+            <span class="status-label">Language:</span>
+            <span id="status-lang">plain</span>
+        </div>
+        <div class="spacer"></div>
+        <div class="status-item">
+            <span class="status-label">Line:</span>
+            <span id="status-line">1</span>
+            <span class="status-label">Col:</span>
+            <span id="status-col">1</span>
+        </div>
+    </div>
+
+    <!-- Go to line dialog -->
+    <div class="modal-overlay hidden" id="goto-line-dialog">
+        <div class="modal-dialog">
+            <h3>Go to Line</h3>
+            <input type="text" id="goto-line-input" placeholder="Line number">
+            <div class="hint">Enter a line number (1 - <span id="goto-line-max">1</span>) and press Enter</div>
+            <div class="modal-buttons">
+                <button class="secondary" id="goto-line-cancel">Cancel</button>
+                <button class="primary" id="goto-line-ok">Go</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="dist/editor.bundle.js"></script>
+</body>
+</html>
