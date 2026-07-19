@@ -1,4 +1,5 @@
 ﻿Imports Galaxy.Workbench
+Imports VallinaDevelopment.Javascript
 Imports VallinaDevelopment.RibbonLib.Controls
 
 Module RibbonMenu
@@ -19,7 +20,7 @@ Module RibbonMenu
     End Sub
 
     Public Sub OpenAboutPage()
-        Call CommonRuntime.ShowDocument(Of FormHtmlViewer)(title:="About").SetUrl($"http://127.0.0.1:{Workbench.port}/about.html")
+        Call CommonRuntime.ShowDocument(Of FormHtmlViewer)(title:="About").SetUrl($"http://127.0.0.1:{Workbench.port}/about.html", New AboutPage)
     End Sub
 
     Public Sub OpenStartupPage()
