@@ -3576,11 +3576,19 @@ End Namespace
     CodeEditor.App = App;
     // Bootstrap.
     function bootstrap() {
-        new App();
+        return new App();
     }
     CodeEditor.bootstrap = bootstrap;
 })(CodeEditor || (CodeEditor = {}));
 window.addEventListener("DOMContentLoaded", () => {
-    window.codeEditor = CodeEditor.bootstrap();
+    const codeEditor = CodeEditor.bootstrap();
+    // 监听来自 WinForm 的消息
+    window.chrome.webview.addEventListener('message', function (event) {
+        const message = event.data;
+        if (message.type === 'loadFile') {
+            // 直接使用传递过来的 text 和 filename
+            codeEditor.loadFileText(message.text, message.filename);
+        }
+    });
 });
 //# sourceMappingURL=editor.bundle.js.map

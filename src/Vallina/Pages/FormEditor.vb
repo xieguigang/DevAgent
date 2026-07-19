@@ -41,8 +41,17 @@ Public Class FormEditor
         If codefile.FileExists Then
             Dim filename As String = JsonSerializer.Serialize(codefile.FileName)
             Dim codetext As String = JsonSerializer.Serialize(codefile.ReadAllText)
+            ' 1. 构造一个匿名对象，包含需要传递的数据
+            Dim payload = New With {
+                .type = "loadFile",
+                .text = codetext,
+                .filename = filename
+            }
+            ' 2. 序列化为 JSON 字符串
+            Dim jsonPayload As String = JsonSerializer.Serialize(payload)
 
-            Await WebView21.ExecuteScriptAsync($"codeEditor.loadFileText({codetext}, {filename});")
+            ' 3. 通过消息通道发送（不会作为脚本执行，性能极高且安全）
+            WebView21.CoreWebView2.PostWebMessageAsJson(jsonPayload)
         End If
     End Sub
 

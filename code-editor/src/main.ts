@@ -377,11 +377,21 @@ End Namespace
     }
 
     // Bootstrap.
-    export function bootstrap(): void {
-        new App();
+    export function bootstrap(): App {
+        return new App();
     }
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-    (<any>window).codeEditor = CodeEditor.bootstrap();
+    const codeEditor = CodeEditor.bootstrap();
+
+    // 监听来自 WinForm 的消息
+    window.chrome.webview.addEventListener('message', function (event) {
+        const message = event.data;
+
+        if (message.type === 'loadFile') {
+            // 直接使用传递过来的 text 和 filename
+            codeEditor.loadFileText(message.text, message.filename);
+        }
+    });
 });
