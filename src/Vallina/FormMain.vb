@@ -90,7 +90,9 @@ Public Class FormMain : Implements AppHost
     End Function
 
     Private Sub FormMain_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        Call Workbench.KillHttp()
         Call CommonRuntime.SaveUISettings()
+
         RaiseEvent CloseWorkbench(e)
     End Sub
 
