@@ -2909,6 +2909,9 @@ var CodeEditor;
             setTheme(theme) {
                 document.body.setAttribute("data-theme", theme);
             }
+            getTheme() {
+                return document.body.getAttribute("data-theme");
+            }
             onChange(cb) {
                 this.onChangeCallbacks.push(cb);
             }
@@ -3312,6 +3315,7 @@ End Namespace
         }
         populateLanguages() {
             const languages = HighlighterRegistry.listLanguages();
+            this.languageSelect.innerHTML = "";
             for (const lang of languages) {
                 const opt = document.createElement("option");
                 opt.value = lang;
@@ -3332,6 +3336,17 @@ End Namespace
                 case "markdown": return "Markdown";
                 case "yaml": return "YAML";
                 default: return lang;
+            }
+        }
+        setTheme(theme) {
+            this.editor.setTheme(theme);
+        }
+        toggleTheme() {
+            if (this.editor.getTheme() == "light") {
+                this.setTheme("dark");
+            }
+            else {
+                this.setTheme("light");
             }
         }
         attachEvents() {

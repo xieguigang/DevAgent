@@ -1,5 +1,6 @@
 ﻿Imports System.Text.Json
 Imports Galaxy.Workbench
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.Web.WebView2.Core
 Imports RibbonLib.Interop
 Imports VallinaDevelopment.Javascript
@@ -12,6 +13,8 @@ Public Class FormEditor
     Shared ReadOnly btnShowSymbols As RibbonEventBinding
     Shared ReadOnly btnShowDiffs As RibbonEventBinding
 
+    Shared ReadOnly btnTheme As RibbonEventBinding
+
     Dim codefile As String
 
     Shared Sub New()
@@ -20,6 +23,8 @@ Public Class FormEditor
         btnGotoLine = New RibbonEventBinding(Ribbon.ButtonGotoLine)
         btnShowDiffs = New RibbonEventBinding(Ribbon.ButtonEditorDiff)
         btnShowSymbols = New RibbonEventBinding(Ribbon.ButtonEditorSymbols)
+
+        btnTheme = New RibbonEventBinding(Ribbon.ButtonEditorTheme)
     End Sub
 
     Private Async Sub FormEditor_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -69,12 +74,16 @@ Public Class FormEditor
         Await WebView21.ExecuteScriptAsync("$('btn-toggle-diff').click();")
     End Function
 
+    Private Async Function ToggleTheme() As Task
+        Await WebView21.ExecuteScriptAsync("codeEditor.toggleTheme();")
+    End Function
+
     Protected Overrides Async Sub SaveDocument()
         Await SaveCodeFile()
     End Sub
 
     Private Async Function GetCodeText() As Task(Of String)
-        Return Await WebView21.ExecuteScriptAsync("codeEditor.getCodeText()")
+        Return (Await WebView21.ExecuteScriptAsync("codeEditor.getCodeText()")).LoadJSON(Of String)
     End Function
 
     Private Async Function SaveCodeFile() As Task
@@ -98,6 +107,8 @@ Public Class FormEditor
         Call btnGotoLine.Addhandler(Async Sub() Await GotoLine())
         Call btnShowDiffs.Addhandler(Async Sub() Await ShowDiffs())
         Call btnShowSymbols.Addhandler(Async Sub() Await ShowSymbols())
+
+        Call btnTheme.Addhandler(Async Sub() Await ToggleTheme())
     End Sub
 
     Private Sub UnloadRibbonHook()

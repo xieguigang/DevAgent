@@ -394,6 +394,10 @@ namespace CodeEditor.Core {
             document.body.setAttribute("data-theme", theme);
         }
 
+        getTheme(): string | null {
+            return document.body.getAttribute("data-theme");
+        }
+
         onChange(cb: () => void): void {
             this.onChangeCallbacks.push(cb);
         }
