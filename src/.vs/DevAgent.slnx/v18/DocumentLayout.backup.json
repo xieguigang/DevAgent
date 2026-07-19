@@ -1,16 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\DevAgent\\src\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|g:\\devagent\\src\\devagent\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|solutionrelative:devagent\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|g:\\devagent\\src\\devagent\\devagent.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
-      "RelativeMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|solutionrelative:devagent\\devagent.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -18,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 179,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -31,31 +22,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "DevAgent",
-              "DocumentMoniker": "G:\\DevAgent\\src\\DevAgent\\DevAgent.vbproj",
-              "RelativeDocumentMoniker": "DevAgent\\DevAgent.vbproj",
-              "ToolTip": "G:\\DevAgent\\src\\DevAgent\\DevAgent.vbproj",
-              "RelativeToolTip": "DevAgent\\DevAgent.vbproj",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2026-07-19T18:50:38.251Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.vb",
-              "DocumentMoniker": "G:\\DevAgent\\src\\DevAgent\\Program.vb",
-              "RelativeDocumentMoniker": "DevAgent\\Program.vb",
-              "ToolTip": "G:\\DevAgent\\src\\DevAgent\\Program.vb",
-              "RelativeToolTip": "DevAgent\\Program.vb",
-              "ViewState": "AgIAABoAAAAAAAAAAAAzwCUAAABjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-19T17:48:25.48Z",
-              "EditorCaption": ""
             }
           ]
         },

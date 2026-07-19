@@ -22,6 +22,9 @@
     <Project Path="../../LLMs/src/Ollama/Ollama.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="../../mini-R/src/console/console/console.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
   </Folder>
   <Folder Name="/framework/http/">
     <Project Path="../../GCModeller/src/runtime/httpd/src/Flute/Flute.NET5.vbproj">
