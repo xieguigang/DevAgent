@@ -1,7 +1,35 @@
 namespace CodeEditor {
+
     import Editor = Core.Editor;
     import HighlighterRegistry = Highlighters.HighlighterRegistry;
     import SymbolKind = Features.SymbolKind;
+
+    export const sample_vb = `
+' VB.NET sample code
+Imports System
+Imports System.Collections.Generic
+
+Namespace SampleApp
+    Public Class Program
+
+        Private Shared ReadOnly Version As String = "1.0.0"
+
+        Public Shared Function Main(args As String()) As Integer
+            Dim numbers As New List(Of Integer)() From {1, 2, 3, 4, 5}
+            Dim total As Integer = 0
+
+            For Each n As Integer In numbers
+                total += n
+            Next
+
+            Console.WriteLine($"Total: {total}")
+            Return 0
+        End Function
+
+        Public Property Name As String
+    End Class
+End Namespace
+`;
 
     /**
      * Application entry point. Wires up the editor, toolbar, file load/export,
@@ -9,6 +37,7 @@ namespace CodeEditor {
      * switching.
      */
     export class App {
+
         private editor: Editor;
         private fileInput: HTMLInputElement;
         private languageSelect: HTMLSelectElement;
@@ -186,30 +215,7 @@ namespace CodeEditor {
         }
 
         private loadSampleContent(): void {
-            const sample = `' VB.NET sample code
-Imports System
-Imports System.Collections.Generic
-
-Namespace SampleApp
-    Public Class Program
-        Private Shared ReadOnly Version As String = "1.0.0"
-
-        Public Shared Function Main(args As String()) As Integer
-            Dim numbers As New List(Of Integer)() From {1, 2, 3, 4, 5}
-            Dim total As Integer = 0
-
-            For Each n As Integer In numbers
-                total += n
-            Next
-
-            Console.WriteLine($"Total: {total}")
-            Return 0
-        End Function
-
-        Public Property Name As String
-    End Class
-End Namespace`;
-            this.editor.setText(sample, "sample.vb");
+            this.editor.setText(sample_vb, "sample.vb");
             this.languageSelect.value = "vbnet";
             this.editor.setLanguage("vbnet");
             this.refreshSymbols();
@@ -218,21 +224,23 @@ End Namespace`;
 
         private loadFile(file: File): void {
             const reader = new FileReader();
-            reader.onload = () => {
-                const text = reader.result as string;
-                this.editor.setText(text, file.name);
-                // Update language select to match.
-                const lang = this.editor.getLanguage();
-                for (let i = 0; i < this.languageSelect.options.length; i++) {
-                    if (this.languageSelect.options[i].value === lang) {
-                        this.languageSelect.selectedIndex = i;
-                        break;
-                    }
-                }
-                this.refreshSymbols();
-                this.updateStatus();
-            };
+
+            reader.onload = () => this.loadFileText(reader.result as string, file.name);
             reader.readAsText(file);
+        }
+
+        public loadFileText(text: string, filename: string) {
+            this.editor.setText(text, filename);
+            // Update language select to match.
+            const lang = this.editor.getLanguage();
+            for (let i = 0; i < this.languageSelect.options.length; i++) {
+                if (this.languageSelect.options[i].value === lang) {
+                    this.languageSelect.selectedIndex = i;
+                    break;
+                }
+            }
+            this.refreshSymbols();
+            this.updateStatus();
         }
 
         private exportFile(): void {
