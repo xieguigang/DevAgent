@@ -1,0 +1,1 @@
+const devkit = chrome.webview.hostObjects.devkit;
