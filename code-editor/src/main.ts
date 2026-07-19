@@ -383,5 +383,5 @@ End Namespace
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-    CodeEditor.bootstrap();
+    (<any>window).codeEditor = CodeEditor.bootstrap();
 });

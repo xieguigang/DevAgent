@@ -3581,6 +3581,6 @@ End Namespace
     CodeEditor.bootstrap = bootstrap;
 })(CodeEditor || (CodeEditor = {}));
 window.addEventListener("DOMContentLoaded", () => {
-    CodeEditor.bootstrap();
+    window.codeEditor = CodeEditor.bootstrap();
 });
 //# sourceMappingURL=editor.bundle.js.map
