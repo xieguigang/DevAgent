@@ -18,9 +18,10 @@ Namespace Javascript
             Await page.InvokeAsync(Sub() page.Close())
         End Function
 
-        Public Async Function Save(json As String) As Task
-            Await Task.Run(Sub() json.LoadJSON(Of ConfigJSON).Save())
+        Public Async Function Save(json As String) As Task(Of Boolean)
+            Dim flag As Boolean = Await Task.Run(Function() json.LoadJSON(Of ConfigJSON).Save())
             Call Workbench.LoadConfig()
+            Return flag
         End Function
     End Class
 End Namespace

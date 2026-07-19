@@ -3,20 +3,20 @@
   "WorkspaceRootPath": "G:\\DevAgent\\src\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\application\\javascript\\settingspage.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|solutionrelative:vallina\\application\\javascript\\settingspage.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\application\\workbench.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|solutionrelative:vallina\\application\\workbench.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\pages\\formsettingspage.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|solutionrelative:vallina\\pages\\formsettingspage.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\application\\javascript\\settingspage.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|solutionrelative:vallina\\application\\javascript\\settingspage.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\application\\settings\\configjson.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|solutionrelative:vallina\\application\\settings\\configjson.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\pages\\formsettingspage.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|solutionrelative:vallina\\pages\\formsettingspage.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\application\\settings\\appearance.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -38,11 +38,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 179,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Workbench.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\Application\\Workbench.vb",
               "RelativeDocumentMoniker": "Vallina\\Application\\Workbench.vb",
@@ -55,13 +55,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "SettingsPage.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\Application\\Javascript\\SettingsPage.vb",
               "RelativeDocumentMoniker": "Vallina\\Application\\Javascript\\SettingsPage.vb",
               "ToolTip": "G:\\DevAgent\\src\\Vallina\\Application\\Javascript\\SettingsPage.vb",
               "RelativeToolTip": "Vallina\\Application\\Javascript\\SettingsPage.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-07-19T19:08:18.906Z",
               "EditorCaption": ""
@@ -80,13 +80,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "FormSettingsPage.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\Pages\\FormSettingsPage.vb",
               "RelativeDocumentMoniker": "Vallina\\Pages\\FormSettingsPage.vb",
               "ToolTip": "G:\\DevAgent\\src\\Vallina\\Pages\\FormSettingsPage.vb",
               "RelativeToolTip": "Vallina\\Pages\\FormSettingsPage.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-07-19T19:08:10.705Z",
               "EditorCaption": ""
@@ -132,13 +132,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "ConfigJSON.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\Application\\Settings\\ConfigJSON.vb",
               "RelativeDocumentMoniker": "Vallina\\Application\\Settings\\ConfigJSON.vb",
               "ToolTip": "G:\\DevAgent\\src\\Vallina\\Application\\Settings\\ConfigJSON.vb",
               "RelativeToolTip": "Vallina\\Application\\Settings\\ConfigJSON.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwB8AAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-07-19T18:58:40.368Z",
               "EditorCaption": ""

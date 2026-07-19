@@ -24,9 +24,9 @@ Namespace Settings
             Return json
         End Function
 
-        Public Sub Save()
-            Call Me.GetJson.SaveTo(defaultFile)
-        End Sub
+        Public Function Save() As Boolean
+            Return Me.GetJson.SaveTo(defaultFile)
+        End Function
 
     End Class
 End Namespace
