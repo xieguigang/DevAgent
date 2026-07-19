@@ -128,6 +128,10 @@ End Namespace
             }
         }
 
+        public toggleMinimap() {
+            this.editor.toggleMinimap();
+        }
+
         private attachEvents(): void {
             // File load.
             document.getElementById("btn-open")!.addEventListener("click", () => {
@@ -339,19 +343,19 @@ End Namespace
                 : `<span class="symbol-toggle symbol-toggle-leaf"></span>`;
             const childrenHtml = hasChildren
                 ? `<div class="symbol-children">` +
-                    this.renderSymbolNodes(node.children, depth + 1) +
-                  `</div>`
+                this.renderSymbolNodes(node.children, depth + 1) +
+                `</div>`
                 : "";
             const indent = depth * 16 + 10;
             return (
                 `<div class="symbol-node">` +
                 `<div class="symbol-item" data-line="${sym.line}" data-col="${sym.column}" ` +
-                    `data-kind="${sym.kind}" style="padding-left:${indent}px">` +
-                    toggle +
-                    `<span class="symbol-icon symbol-${sym.kind.toLowerCase()}">${icon}</span>` +
-                    `<span class="symbol-name">${Utils.escapeHtml(sym.name)}</span>` +
-                    `<span class="symbol-kind">${sym.kind}</span>` +
-                    `<span class="symbol-line">:${sym.line + 1}</span>` +
+                `data-kind="${sym.kind}" style="padding-left:${indent}px">` +
+                toggle +
+                `<span class="symbol-icon symbol-${sym.kind.toLowerCase()}">${icon}</span>` +
+                `<span class="symbol-name">${Utils.escapeHtml(sym.name)}</span>` +
+                `<span class="symbol-kind">${sym.kind}</span>` +
+                `<span class="symbol-line">:${sym.line + 1}</span>` +
                 `</div>` +
                 childrenHtml +
                 `</div>`

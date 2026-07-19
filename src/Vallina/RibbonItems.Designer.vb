@@ -31,6 +31,7 @@ Namespace RibbonLib.Controls
             Public Const cmdButtonGotoLine As UInteger = 18
             Public Const cmdButtonEditorDiff As UInteger = 17
             Public Const cmdButtonEditorSymbols As UInteger = 16
+            Public Const cmdButtonEditorMiniMap As UInteger = 26
             Public Const cmdGroupEditorMics As UInteger = 19
             Public Const cmdButtonEditorTheme As UInteger = 15
             Public Const cmdMenuEdit As UInteger = 14
@@ -145,6 +146,12 @@ Namespace RibbonLib.Controls
                 Return _ButtonEditorSymbols
             End Get
         End Property
+        Private _ButtonEditorMiniMap As RibbonButton
+        Public ReadOnly Property ButtonEditorMiniMap As RibbonButton
+            Get
+                Return _ButtonEditorMiniMap
+            End Get
+        End Property
         Private _GroupEditorMics As RibbonGroup
         Public ReadOnly Property GroupEditorMics As RibbonGroup
             Get
@@ -215,6 +222,7 @@ Namespace RibbonLib.Controls
             _ButtonGotoLine = New RibbonButton(_ribbon, Cmd.cmdButtonGotoLine)
             _ButtonEditorDiff = New RibbonButton(_ribbon, Cmd.cmdButtonEditorDiff)
             _ButtonEditorSymbols = New RibbonButton(_ribbon, Cmd.cmdButtonEditorSymbols)
+            _ButtonEditorMiniMap = New RibbonButton(_ribbon, Cmd.cmdButtonEditorMiniMap)
             _GroupEditorMics = New RibbonGroup(_ribbon, Cmd.cmdGroupEditorMics)
             _ButtonEditorTheme = New RibbonButton(_ribbon, Cmd.cmdButtonEditorTheme)
             _MenuEdit = New RibbonTab(_ribbon, Cmd.cmdMenuEdit)

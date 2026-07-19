@@ -323,6 +323,9 @@ body {
   white-space: pre;
   overflow: hidden;
   color: var(--minimap-foreground);
+  font-size: 2px;
+  line-height: 1;
+  letter-spacing: 0;
 }
 
 .editor-minimap .minimap-viewport {

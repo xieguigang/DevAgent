@@ -2686,7 +2686,7 @@ var CodeEditor;
                 this.completionIndex = 0;
                 this.completionAnchor = { line: 0, column: 0 };
                 this.minimapVisible = false;
-                this.minimapLineHeight = 2;
+                this.minimapLineHeight = 3;
                 this.minimapDirty = true;
                 this.minimapDragging = false;
                 this.onChangeCallbacks = [];
@@ -3255,31 +3255,32 @@ var CodeEditor;
             renderMinimapContent() {
                 const lineCount = this.buffer.lineCount;
                 const parts = [];
-                let visible = 0;
                 for (let i = 0; i < lineCount; i++) {
                     if (this.isLineHiddenByFold(i))
                         continue;
-                    visible++;
                     const lineText = this.buffer.getLine(i);
                     const lineHtml = this.renderLine(i, lineText);
                     parts.push(`<div class="minimap-line">${lineHtml}</div>`);
                 }
                 this.minimapContent.innerHTML = parts.join("");
-                // Compress every line so the whole document fits the minimap height.
-                const containerH = this.minimap.clientHeight || 1;
-                const lineH = visible > 0 ? Math.max(1, containerH / visible) : containerH;
-                this.minimapLineHeight = lineH;
+                // Fixed small scale: every line keeps the same tiny height/font so the
+                // minimap always reads as a thumbnail, regardless of document size.
+                const lineH = this.minimapLineHeight;
                 const lineEls = this.minimapContent.querySelectorAll(".minimap-line");
                 lineEls.forEach((el) => {
-                    const node = el;
-                    node.style.height = lineH + "px";
-                    node.style.fontSize = lineH + "px";
+                    el.style.height = lineH + "px";
                 });
             }
             updateMinimapViewport() {
+                const lineH = this.minimapLineHeight;
+                const mmH = this.minimap.clientHeight;
+                // Scroll the thumbnail in sync with the editor so the minimap always
+                // shows the lines currently in view.
+                const contentTop = (this.scrollContainer.scrollTop / this.lineHeight) * lineH;
+                this.minimapContent.style.transform = `translateY(${-contentTop}px)`;
+                // Proportional indicator (scrollbar thumb) showing the overall position.
                 const sh = this.scrollContainer.scrollHeight;
                 const ch = this.scrollContainer.clientHeight;
-                const mmH = this.minimap.clientHeight;
                 const top = sh > 0 ? (this.scrollContainer.scrollTop / sh) * mmH : 0;
                 const height = sh > 0 ? (ch / sh) * mmH : mmH;
                 this.minimapViewport.style.top = top + "px";
@@ -3514,6 +3515,9 @@ End Namespace
             else {
                 this.setTheme("light");
             }
+        }
+        toggleMinimap() {
+            this.editor.toggleMinimap();
         }
         attachEvents() {
             // File load.

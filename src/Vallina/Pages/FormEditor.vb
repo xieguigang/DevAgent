@@ -15,6 +15,7 @@ Public Class FormEditor
     Shared ReadOnly btnShowDiffs As RibbonEventBinding
 
     Shared ReadOnly btnTheme As RibbonEventBinding
+    Shared ReadOnly btnMinimap As RibbonEventBinding
 
     Dim codefile As String
 
@@ -26,6 +27,7 @@ Public Class FormEditor
         btnShowDiffs = New RibbonEventBinding(Ribbon.ButtonEditorDiff)
         btnShowSymbols = New RibbonEventBinding(Ribbon.ButtonEditorSymbols)
 
+        btnMinimap = New RibbonEventBinding(Ribbon.ButtonEditorMiniMap)
         btnTheme = New RibbonEventBinding(Ribbon.ButtonEditorTheme)
     End Sub
 
@@ -107,6 +109,10 @@ Public Class FormEditor
         Await WebView21.ExecuteScriptAsync("codeEditor.toggleTheme();")
     End Function
 
+    Private Async Function ToggleMinimap() As Task
+
+    End Function
+
     Protected Overrides Async Sub SaveDocument()
         Await SaveCodeFile()
     End Sub
@@ -142,6 +148,7 @@ Public Class FormEditor
         Call btnShowDiffs.Addhandler(Async Sub() Await ShowDiffs())
         Call btnShowSymbols.Addhandler(Async Sub() Await ShowSymbols())
 
+        Call btnMinimap.Addhandler(Async Sub() Await ToggleMinimap())
         Call btnTheme.Addhandler(Async Sub() Await ToggleTheme())
     End Sub
 

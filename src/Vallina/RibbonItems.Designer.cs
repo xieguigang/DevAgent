@@ -34,6 +34,7 @@ namespace RibbonLib.Controls
             public const uint cmdButtonGotoLine = 18;
             public const uint cmdButtonEditorDiff = 17;
             public const uint cmdButtonEditorSymbols = 16;
+            public const uint cmdButtonEditorMiniMap = 26;
             public const uint cmdGroupEditorMics = 19;
             public const uint cmdButtonEditorTheme = 15;
             public const uint cmdMenuEdit = 14;
@@ -63,6 +64,7 @@ namespace RibbonLib.Controls
         public RibbonButton ButtonGotoLine { get; private set; }
         public RibbonButton ButtonEditorDiff { get; private set; }
         public RibbonButton ButtonEditorSymbols { get; private set; }
+        public RibbonButton ButtonEditorMiniMap { get; private set; }
         public RibbonGroup GroupEditorMics { get; private set; }
         public RibbonButton ButtonEditorTheme { get; private set; }
         public RibbonTab MenuEdit { get; private set; }
@@ -93,6 +95,7 @@ namespace RibbonLib.Controls
             ButtonGotoLine = new RibbonButton(ribbon, Cmd.cmdButtonGotoLine);
             ButtonEditorDiff = new RibbonButton(ribbon, Cmd.cmdButtonEditorDiff);
             ButtonEditorSymbols = new RibbonButton(ribbon, Cmd.cmdButtonEditorSymbols);
+            ButtonEditorMiniMap = new RibbonButton(ribbon, Cmd.cmdButtonEditorMiniMap);
             GroupEditorMics = new RibbonGroup(ribbon, Cmd.cmdGroupEditorMics);
             ButtonEditorTheme = new RibbonButton(ribbon, Cmd.cmdButtonEditorTheme);
             MenuEdit = new RibbonTab(ribbon, Cmd.cmdMenuEdit);
