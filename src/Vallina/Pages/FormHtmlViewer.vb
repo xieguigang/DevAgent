@@ -18,6 +18,11 @@ Public Class FormHtmlViewer
         Return Me
     End Function
 
+    Public Function SetTitle(title As String) As FormHtmlViewer
+        Me.TabText = title
+        Return Me
+    End Function
+
     Private Sub WebView21_CoreWebView2InitializationCompleted(sender As Object, e As CoreWebView2InitializationCompletedEventArgs) Handles WebView21.CoreWebView2InitializationCompleted
         If interop IsNot Nothing Then
             Call WebView21.CoreWebView2.AddHostObjectToScript(BasePage.HostObject, interop)
