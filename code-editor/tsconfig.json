@@ -3,7 +3,7 @@
     "target": "ES2019",
     "module": "es6",
     "rootDir": "./src",
-    "outFile": "./dist/editor.bundle.js",
+    /* "outFile": "./dist/editor.bundle.js", */
     "lib": ["ES2019", "DOM", "DOM.Iterable"],
     "strict": true,
     "noImplicitAny": true,
@@ -12,8 +12,8 @@
     "noUnusedParameters": false,
     "removeComments": false,
     "preserveConstEnums": true,
-    "sourceMap": false,
-    "declaration": false,
+    "sourceMap": true,
+    "declaration": true,
     "esModuleInterop": true,
     "allowUmdGlobalAccess": true,
     "skipLibCheck": true

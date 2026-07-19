@@ -16,6 +16,8 @@ local.properties
 .settings/
 .loadpath
 
+node_modules/
+
 storage.ide
 storage.ide-journal
 
