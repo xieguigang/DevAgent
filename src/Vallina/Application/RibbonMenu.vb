@@ -15,7 +15,7 @@ Module RibbonMenu
     End Sub
 
     Public Sub OpenEditor()
-        Call CommonRuntime.ShowDocument(Of FormHtmlViewer)(title:="New File").SetUrl($"http://127.0.0.1:{Workbench.port}/index.html")
+        Call CommonRuntime.ShowDocument(Of FormEditor)(title:="New File")
     End Sub
 
     Public Sub OpenAboutPage()

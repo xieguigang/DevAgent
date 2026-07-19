@@ -15,6 +15,8 @@ Public Class FormEditor
     End Sub
 
     Private Async Sub FormEditor_Load(sender As Object, e As EventArgs) Handles Me.Load
+        Call ActivateRibbon()
+
         Await WebViewLoader.Init(WebView21)
     End Sub
 

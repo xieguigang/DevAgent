@@ -69,6 +69,14 @@
     </Project>
     <Project Path="../../galaxy/src/RibbonEventBinding/RibbonEventBinding.shproj" Id="72a4c1ee-5cbf-4f72-9b71-c997d7e33c18" />
   </Folder>
+  <Folder Name="/renv/">
+    <Project Path="../../GCModeller/src/R-sharp/R#/Rsharp-netcore5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../GCModeller/src/R-sharp/studio/R-terminal/R-cmd.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
   <Project Path="DevAgent/DevAgent.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>

@@ -11,6 +11,24 @@
     <RootNamespace>VallinaDevelopment</RootNamespace>
     <AssemblyTitle>Development Environment for VisualBasic Language</AssemblyTitle>
     <ApplicationIcon>Icons8\vsi.ico</ApplicationIcon>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>G:\DevAgent\dist\bin</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutputPath>G:\DevAgent\dist\bin</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>G:\DevAgent\dist\bin</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutputPath>G:\DevAgent\dist\bin</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
