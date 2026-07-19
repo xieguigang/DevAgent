@@ -1,7 +1,15 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\DevAgent\\src\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{DDC44E20-41AD-8D6E-0FB1-3785F2A6CD20}|..\\..\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\Fluteway.vbproj|g:\\gcmodeller\\src\\runtime\\httpd\\src\\http_server\\httpservices.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\pages\\formeditor.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|solutionrelative:vallina\\pages\\formeditor.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,8 +17,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "HttpServices.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\HttpServices.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\HttpServices.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\HttpServices.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\HttpServices.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-19T10:19:33.426Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -22,6 +43,19 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FormEditor.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\Pages\\FormEditor.vb",
+              "RelativeDocumentMoniker": "Vallina\\Pages\\FormEditor.vb",
+              "ToolTip": "G:\\DevAgent\\src\\Vallina\\Pages\\FormEditor.vb",
+              "RelativeToolTip": "Vallina\\Pages\\FormEditor.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-19T10:17:36.006Z",
+              "EditorCaption": ""
             }
           ]
         },
