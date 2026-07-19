@@ -33,7 +33,7 @@ Public Class DevAgent
 
     ' --- 字段 ---
 
-    Private ReadOnly _ollama As Ollama.Ollama
+    Private ReadOnly _ollama As LLMClient
     Private ReadOnly _projectPath As String
     Private ReadOnly _requirements As String
     Private ReadOnly _options As DevAgentOptions
@@ -83,7 +83,7 @@ Public Class DevAgent
     ''' <param name="options">配置选项，为 Nothing 时使用默认值。</param>
     ''' <param name="logger">日志输出回调，为 Nothing 时使用 Console.WriteLine。</param>
     Public Sub New(
-        ollama As Ollama.Ollama,
+        ollama As LLMClient,
         projectPath As String,
         requirements As String,
         Optional options As DevAgentOptions = Nothing,
@@ -946,7 +946,7 @@ Public Class DevAgent
         Dim fullPrompt As String = SystemPrompt & Environment.NewLine & Environment.NewLine & prompt
 
         Try
-            Dim response As OllamaResponse = Await _ollama.Chat(fullPrompt)
+            Dim response As LLMsResponse = Await _ollama.Chat(fullPrompt)
 
             If response Is Nothing Then
                 Log("  [WARN] LLM returned null response")
