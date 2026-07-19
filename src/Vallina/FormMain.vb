@@ -46,6 +46,10 @@ Public Class FormMain : Implements AppHost
         WindowState = stat
     End Sub
 
+    Public Async Function UpdateEditorStatus(line As String, col As String, lang As String, file As String) As Task
+        Await InvokeAsync(Sub() ToolStripStatusLabel3.Text = $"File: {file} Language: {lang} Line: {line} Col: {col}")
+    End Function
+
     Public Sub SetTitle(title As String) Implements AppHost.SetTitle
         Call Invoke(Sub() Text = title & " - Vallina Development")
     End Sub
