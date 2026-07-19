@@ -1,4 +1,5 @@
 ﻿Imports Galaxy.Workbench
+Imports Microsoft.VisualStudio.WinForms.Docking
 Imports VallinaDevelopment.RibbonLib.Controls
 
 Public Class FormMain : Implements AppHost
@@ -18,7 +19,16 @@ Public Class FormMain : Implements AppHost
     Public Event ResizeForm As AppHost.ResizeFormEventHandler Implements AppHost.ResizeForm
     Public Event CloseWorkbench As AppHost.CloseWorkbenchEventHandler Implements AppHost.CloseWorkbench
 
+    ReadOnly _toolStripProfessionalRenderer As New ToolStripProfessionalRenderer()
+
     Private Sub FormMain_Load(sender As Object, e As EventArgs) Handles Me.Load
+        DockPanel1.Theme = VS2015LightTheme1
+        VisualStudioToolStripExtender1.SetStyle(StatusStrip1, VisualStudioToolStripExtender.VsVersion.Vs2015, VS2015LightTheme1)
+
+        If DockPanel1.Theme.ColorPalette IsNot Nothing Then
+            StatusStrip1.BackColor = DockPanel1.Theme.ColorPalette.MainWindowStatusBarDefault.Background
+        End If
+
         Call Workbench.StartHttp()
         Call RibbonMenu.Hook(New RibbonItems(Ribbon1), Me)
         Call CommonRuntime.Hook(Me)
