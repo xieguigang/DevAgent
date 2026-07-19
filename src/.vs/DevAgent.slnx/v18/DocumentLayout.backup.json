@@ -3,15 +3,15 @@
   "WorkspaceRootPath": "G:\\DevAgent\\src\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{7270DC93-2AC0-7EE4-CDAB-C7AFFC938E58}|..\\..\\galaxy\\src\\GalaxyWorkbench\\GalaxyWorkbench.vbproj|g:\\galaxy\\src\\galaxyworkbench\\commonruntime.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\application\\ribbonmenu.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|solutionrelative:vallina\\application\\ribbonmenu.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\explorer\\formsolutionexplorer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|solutionrelative:vallina\\explorer\\formsolutionexplorer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7270DC93-2AC0-7EE4-CDAB-C7AFFC938E58}|..\\..\\galaxy\\src\\GalaxyWorkbench\\GalaxyWorkbench.vbproj|g:\\galaxy\\src\\galaxyworkbench\\commonruntime.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\explorer\\formsolutionexplorer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
@@ -25,21 +25,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 3,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "CommonRuntime.vb",
-              "DocumentMoniker": "G:\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
-              "RelativeDocumentMoniker": "..\\..\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
-              "ToolTip": "G:\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
-              "RelativeToolTip": "..\\..\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
-              "ViewState": "AgIAAGEAAAAAAAAAAAAiwHQAAABJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-19T14:49:35.766Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -55,19 +42,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "CommonRuntime.vb",
+              "DocumentMoniker": "G:\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
+              "RelativeDocumentMoniker": "..\\..\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
+              "ToolTip": "G:\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
+              "RelativeToolTip": "..\\..\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
+              "ViewState": "AgIAAFsAAAAAAAAAAAA2wIEAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-19T14:49:35.766Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "RibbonMenu.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\Application\\RibbonMenu.vb",
               "RelativeDocumentMoniker": "Vallina\\Application\\RibbonMenu.vb",
               "ToolTip": "G:\\DevAgent\\src\\Vallina\\Application\\RibbonMenu.vb",
               "RelativeToolTip": "Vallina\\Application\\RibbonMenu.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC4AAAAhAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACsAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-07-19T14:49:19.533Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "FormSolutionExplorer.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\Explorer\\FormSolutionExplorer.vb",
               "RelativeDocumentMoniker": "Vallina\\Explorer\\FormSolutionExplorer.vb",
