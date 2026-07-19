@@ -13,6 +13,17 @@ Module RibbonMenu
         AddHandler ribbon.ButtonAbout.ExecuteEvent, Sub() Call OpenAboutPage()
         AddHandler ribbon.ButtonStartPage.ExecuteEvent, Sub() Call OpenStartupPage()
         AddHandler ribbon.ButtonNew.ExecuteEvent, Sub() Call OpenEditor()
+        AddHandler ribbon.ButtonOpen.ExecuteEvent, Sub() Call OpenFileEdit()
+    End Sub
+
+    Public Sub OpenFileEdit()
+        Using file As New OpenFileDialog With {
+            .Filter = "VisualBasic(*.vb);Rscript(*.r)|*.vb;*.r"
+        }
+            If file.ShowDialog = DialogResult.OK Then
+                Call CommonRuntime.ShowDocument(Of FormEditor)(title:=file.FileName.FileName).SetCodeFile(file.FileName)
+            End If
+        End Using
     End Sub
 
     Public Sub OpenEditor()

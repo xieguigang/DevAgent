@@ -9,6 +9,8 @@ Public Class FormEditor
     Shared btnShowSymbols As RibbonEventBinding
     Shared btnShowDiffs As RibbonEventBinding
 
+    Dim codefile As String
+
     Shared Sub New()
         btnGotoLine = New RibbonEventBinding(Ribbon.ButtonGotoLine)
         btnShowDiffs = New RibbonEventBinding(Ribbon.ButtonEditorDiff)
@@ -19,6 +21,11 @@ Public Class FormEditor
         Await WebViewLoader.Init(WebView21)
     End Sub
 
+    Public Function SetCodeFile(filepath As String) As FormEditor
+        codefile = filepath
+        Return Me
+    End Function
+
     Private Sub WebView21_CoreWebView2InitializationCompleted(sender As Object, e As CoreWebView2InitializationCompletedEventArgs) Handles WebView21.CoreWebView2InitializationCompleted
         Call WebView21.CoreWebView2.AddHostObjectToScript(BasePage.HostObject, New CodeEditorPage)
         Call WebView21.CoreWebView2.Navigate($"http://localhost:{Workbench.port}/index.html")
@@ -27,6 +34,15 @@ Public Class FormEditor
     Private Async Sub WebView21_NavigationCompleted(sender As Object, e As CoreWebView2NavigationCompletedEventArgs) Handles WebView21.NavigationCompleted
         Await WebView21.ExecuteScriptAsync("$('statusbar').style.display='none';")
         Await WebView21.ExecuteScriptAsync("$('toolbar').style.display='none';")
+
+        Await Task.Delay(100)
+
+        If codefile.FileExists Then
+            Dim filename As String = codefile.FileName
+            Dim codetext As String = codefile.ReadAllText
+
+            Await WebView21.ExecuteScriptAsync($"codeEditor.loadFileText('{codetext}', '{filename}');")
+        End If
     End Sub
 
     Private Async Function GotoLine() As Task
