@@ -63,4 +63,9 @@
 #define cmdButtonGotoLine_LargeImages_192__RESID 60039
 #define cmdGroupEditorMics 19 
 #define cmdGroupEditorMics_LabelTitle_RESID 60040
-#define InternalCmd2_LabelTitle_RESID 60041
+#define cmdButtonStartPage 20 
+#define cmdButtonStartPage_LabelTitle_RESID 60041
+#define cmdButtonStartPage_SmallImages_192__RESID 60042
+#define cmdButtonStartPage_LargeImages_192__RESID 60043
+#define InternalCmd2_LabelTitle_RESID 60044
+#define InternalCmd6_LabelTitle_RESID 60045

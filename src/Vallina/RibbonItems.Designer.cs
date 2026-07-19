@@ -22,6 +22,7 @@ namespace RibbonLib.Controls
             public const uint cmdButtonOpen = 11;
             public const uint cmdButtonAbout = 4;
             public const uint cmdButtonExit = 3;
+            public const uint cmdButtonStartPage = 20;
             public const uint cmdButtonSave = 5;
             public const uint cmdRibbonEditor = 7;
             public const uint cmdMenuEditor = 8;
@@ -45,6 +46,7 @@ namespace RibbonLib.Controls
         public RibbonButton ButtonOpen { get; private set; }
         public RibbonButton ButtonAbout { get; private set; }
         public RibbonButton ButtonExit { get; private set; }
+        public RibbonButton ButtonStartPage { get; private set; }
         public RibbonButton ButtonSave { get; private set; }
         public RibbonTabGroup RibbonEditor { get; private set; }
         public RibbonTab MenuEditor { get; private set; }
@@ -69,6 +71,7 @@ namespace RibbonLib.Controls
             ButtonOpen = new RibbonButton(ribbon, Cmd.cmdButtonOpen);
             ButtonAbout = new RibbonButton(ribbon, Cmd.cmdButtonAbout);
             ButtonExit = new RibbonButton(ribbon, Cmd.cmdButtonExit);
+            ButtonStartPage = new RibbonButton(ribbon, Cmd.cmdButtonStartPage);
             ButtonSave = new RibbonButton(ribbon, Cmd.cmdButtonSave);
             RibbonEditor = new RibbonTabGroup(ribbon, Cmd.cmdRibbonEditor);
             MenuEditor = new RibbonTab(ribbon, Cmd.cmdMenuEditor);

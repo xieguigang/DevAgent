@@ -19,6 +19,7 @@ Namespace RibbonLib.Controls
             Public Const cmdButtonOpen As UInteger = 11
             Public Const cmdButtonAbout As UInteger = 4
             Public Const cmdButtonExit As UInteger = 3
+            Public Const cmdButtonStartPage As UInteger = 20
             Public Const cmdButtonSave As UInteger = 5
             Public Const cmdRibbonEditor As UInteger = 7
             Public Const cmdMenuEditor As UInteger = 8
@@ -65,6 +66,12 @@ Namespace RibbonLib.Controls
         Public ReadOnly Property ButtonExit As RibbonButton
             Get
                 Return _ButtonExit
+            End Get
+        End Property
+        Private _ButtonStartPage As RibbonButton
+        Public ReadOnly Property ButtonStartPage As RibbonButton
+            Get
+                Return _ButtonStartPage
             End Get
         End Property
         Private _ButtonSave As RibbonButton
@@ -161,6 +168,7 @@ Namespace RibbonLib.Controls
             _ButtonOpen = New RibbonButton(_ribbon, Cmd.cmdButtonOpen)
             _ButtonAbout = New RibbonButton(_ribbon, Cmd.cmdButtonAbout)
             _ButtonExit = New RibbonButton(_ribbon, Cmd.cmdButtonExit)
+            _ButtonStartPage = New RibbonButton(_ribbon, Cmd.cmdButtonStartPage)
             _ButtonSave = New RibbonButton(_ribbon, Cmd.cmdButtonSave)
             _RibbonEditor = New RibbonTabGroup(_ribbon, Cmd.cmdRibbonEditor)
             _MenuEditor = New RibbonTab(_ribbon, Cmd.cmdMenuEditor)
