@@ -10,6 +10,7 @@ Module RibbonMenu
 
         AddHandler ribbon.ButtonExit.ExecuteEvent, Sub() Call host.Close()
         AddHandler ribbon.ButtonAbout.ExecuteEvent, Sub() Call OpenAboutPage()
+        AddHandler ribbon.ButtonStartPage.ExecuteEvent, Sub() Call CommonRuntime.ShowSingleDocument(Of FormStartPage)()
     End Sub
 
     Private Sub OpenAboutPage()

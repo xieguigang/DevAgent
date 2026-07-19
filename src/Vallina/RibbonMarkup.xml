@@ -104,6 +104,7 @@
         <Image MinDPI="192">Icons8/icons8-start-menu-96.png</Image>
       </Command.LargeImages>
     </Command>
+    <Command Name="cmdGroupWorkbench" Id="21" LabelTitle="Developer Workbench" />
   </Application.Commands>
   <Application.Views>
     <Ribbon>
@@ -153,9 +154,9 @@
             <Button CommandName="cmdButtonSaveAs" />
             <Button CommandName="cmdButtonSaveAll" />
           </Group>
-          <Group SizeDefinition="TwoButtons">
-            <Button CommandName="cmdButtonStartPage" />
+          <Group CommandName="cmdGroupWorkbench" SizeDefinition="TwoButtons">
             <Button CommandName="cmdButtonAbout" />
+            <Button CommandName="cmdButtonStartPage" />
           </Group>
         </Tab>
       </Ribbon.Tabs>

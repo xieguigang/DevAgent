@@ -34,6 +34,7 @@ Namespace RibbonLib.Controls
             Public Const cmdGroupSave As UInteger = 13
             Public Const cmdButtonSaveAs As UInteger = 10
             Public Const cmdButtonSaveAll As UInteger = 6
+            Public Const cmdGroupWorkbench As UInteger = 21
         End Class
 
         ' ContextPopup CommandName
@@ -158,6 +159,12 @@ Namespace RibbonLib.Controls
                 Return _ButtonSaveAll
             End Get
         End Property
+        Private _GroupWorkbench As RibbonGroup
+        Public ReadOnly Property GroupWorkbench As RibbonGroup
+            Get
+                Return _GroupWorkbench
+            End Get
+        End Property
 
         Public Sub New(ByVal ribbon As Ribbon)
             If ribbon Is Nothing Then
@@ -183,6 +190,7 @@ Namespace RibbonLib.Controls
             _GroupSave = New RibbonGroup(_ribbon, Cmd.cmdGroupSave)
             _ButtonSaveAs = New RibbonButton(_ribbon, Cmd.cmdButtonSaveAs)
             _ButtonSaveAll = New RibbonButton(_ribbon, Cmd.cmdButtonSaveAll)
+            _GroupWorkbench = New RibbonGroup(_ribbon, Cmd.cmdGroupWorkbench)
         End Sub
 
     End Class

@@ -37,6 +37,7 @@ namespace RibbonLib.Controls
             public const uint cmdGroupSave = 13;
             public const uint cmdButtonSaveAs = 10;
             public const uint cmdButtonSaveAll = 6;
+            public const uint cmdGroupWorkbench = 21;
         }
 
         // ContextPopup CommandName
@@ -61,6 +62,7 @@ namespace RibbonLib.Controls
         public RibbonGroup GroupSave { get; private set; }
         public RibbonButton ButtonSaveAs { get; private set; }
         public RibbonButton ButtonSaveAll { get; private set; }
+        public RibbonGroup GroupWorkbench { get; private set; }
 
         public RibbonItems(Ribbon ribbon)
         {
@@ -86,6 +88,7 @@ namespace RibbonLib.Controls
             GroupSave = new RibbonGroup(ribbon, Cmd.cmdGroupSave);
             ButtonSaveAs = new RibbonButton(ribbon, Cmd.cmdButtonSaveAs);
             ButtonSaveAll = new RibbonButton(ribbon, Cmd.cmdButtonSaveAll);
+            GroupWorkbench = new RibbonGroup(ribbon, Cmd.cmdGroupWorkbench);
         }
 
     }
