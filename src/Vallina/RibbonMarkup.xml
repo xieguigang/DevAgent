@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application xmlns="http://schemas.microsoft.com/windows/2009/Ribbon">
+  <Application.Commands>
+    <Command Name="cmdButtonNew" Id="2" LabelTitle="New">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-create-order-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-create-order-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdButtonExit" Id="3" LabelTitle="Exit">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-exit-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-exit-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdButtonAbout" Id="4" LabelTitle="About">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-information-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-information-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdButtonSave" Id="5" LabelTitle="Save">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-save-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-save-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdButtonSaveAll" Id="6" LabelTitle="Save All">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-save-all-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-save-all-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdRibbonEditor" Id="7" LabelTitle="Code Editor" />
+    <Command Name="cmdMenuEditor" Id="8" LabelTitle="Code Editor" />
+    <Command Name="cmdGroupEditor" Id="9" LabelTitle="Code Editor" />
+    <Command Name="cmdButtonSaveAs" Id="10" LabelTitle="Save As">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-save-as-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-save-as-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdButtonOpen" Id="11" LabelTitle="Open">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-file-explorer-new-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-file-explorer-new-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdGroupFile" Id="12" LabelTitle="File" />
+    <Command Name="cmdGroupSave" Id="13" LabelTitle="Save File" />
+    <Command Name="cmdMenuEdit" Id="14" LabelTitle="Developing" />
+  </Application.Commands>
+  <Application.Views>
+    <Ribbon>
+      <Ribbon.ApplicationMenu>
+        <ApplicationMenu>
+          <MenuGroup>
+            <Button CommandName="cmdButtonNew" />
+            <Button CommandName="cmdButtonOpen" />
+          </MenuGroup>
+          <MenuGroup>
+            <Button CommandName="cmdButtonAbout" />
+            <Button CommandName="cmdButtonExit" />
+          </MenuGroup>
+        </ApplicationMenu>
+      </Ribbon.ApplicationMenu>
+      <Ribbon.QuickAccessToolbar>
+        <QuickAccessToolbar>
+          <QuickAccessToolbar.ApplicationDefaults>
+            <Button CommandName="cmdButtonNew" ApplicationDefaults.IsChecked="true" />
+            <Button CommandName="cmdButtonSave" ApplicationDefaults.IsChecked="true" />
+          </QuickAccessToolbar.ApplicationDefaults>
+        </QuickAccessToolbar>
+      </Ribbon.QuickAccessToolbar>
+      <Ribbon.ContextualTabs>
+        <TabGroup CommandName="cmdRibbonEditor">
+          <Tab CommandName="cmdMenuEditor">
+            <Group CommandName="cmdGroupEditor" />
+          </Tab>
+        </TabGroup>
+      </Ribbon.ContextualTabs>
+      <Ribbon.Tabs>
+        <Tab CommandName="cmdMenuEdit">
+          <Group CommandName="cmdGroupFile" SizeDefinition="TwoButtons">
+            <Button CommandName="cmdButtonNew" />
+            <Button CommandName="cmdButtonOpen" />
+          </Group>
+          <Group CommandName="cmdGroupSave" SizeDefinition="ThreeButtons-OneBigAndTwoSmall">
+            <Button CommandName="cmdButtonSave" />
+            <Button CommandName="cmdButtonSaveAs" />
+            <Button CommandName="cmdButtonSaveAll" />
+          </Group>
+        </Tab>
+      </Ribbon.Tabs>
+    </Ribbon>
+    <ContextPopup />
+  </Application.Views>
+</Application>
+<!--ResourceName Value="APPLICATION"-->
