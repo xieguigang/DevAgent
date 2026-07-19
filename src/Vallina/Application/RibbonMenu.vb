@@ -1,5 +1,6 @@
 ﻿Imports Galaxy.Workbench
 Imports Galaxy.Workbench.CommonDialogs
+Imports Microsoft.VisualStudio.WinForms.Docking
 Imports VallinaDevelopment.Javascript
 Imports VallinaDevelopment.RibbonLib.Controls
 
@@ -27,6 +28,16 @@ Module RibbonMenu
                 Call CommonRuntime.ShowDocument(Of FormEditor)(title:=file.FileName.FileName).SetCodeFile(file.FileName)
             End If
         End Using
+    End Sub
+
+    Public Sub OpenSolutionExplorer()
+        Dim explorer As FormSolutionExplorer = CommonRuntime.TryGetToolWindow("solution_explorer")
+
+        If explorer Is Nothing Then
+            explorer = New FormSolutionExplorer With {.Name = "solution_explorer"}
+        End If
+
+        Call CommonRuntime.RegisterToolWindow(explorer, DockState.DockRightAutoHide)
     End Sub
 
     Public Sub OpenLicenseDialog()
