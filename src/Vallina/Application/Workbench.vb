@@ -1,4 +1,5 @@
 ﻿Imports Fluteway
+Imports VallinaDevelopment.Settings
 
 Module Workbench
 
@@ -14,6 +15,16 @@ Module Workbench
     End Property
 
     Dim WithEvents http As HttpServices
+
+    Public ReadOnly Property config As ConfigJSON
+
+    Public Sub LoadConfig()
+        _config = ConfigJSON.Load
+    End Sub
+
+    Public Sub SaveConfig()
+        _config.Save()
+    End Sub
 
     Public Sub StartHttp()
         http = New HttpServices(GetWebRoot)
