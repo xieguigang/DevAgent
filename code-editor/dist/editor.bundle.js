@@ -3026,7 +3026,10 @@ var CodeEditor;
                     return;
                 }
                 const pos = this.cursor.position;
-                const top = (pos.line - this.firstVisibleLine + 1) * this.lineHeight;
+                // The popup is a child of the scrolling container, so it scrolls
+                // with the content. Use absolute line/column coordinates (not
+                // viewport-relative) so it stays aligned after the user scrolls.
+                const top = pos.line * this.lineHeight;
                 const left = pos.column * this.charWidth;
                 this.completionPopup.style.display = "block";
                 this.completionPopup.style.top = top + "px";

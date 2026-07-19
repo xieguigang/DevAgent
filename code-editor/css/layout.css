@@ -287,9 +287,10 @@ body {
   position: absolute;
   left: 80px;
   top: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
+  /* Allow the code area to grow to its full content height so it scrolls
+     together with the gutter inside .editor-scroll. Previously bottom:0 +
+     overflow:hidden pinned it to the viewport and clipped every line past it. */
+  overflow: visible;
   font-family: var(--code-font-family);
   font-size: var(--code-font-size);
   line-height: var(--code-line-height);
