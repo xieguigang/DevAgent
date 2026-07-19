@@ -1,0 +1,1915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings — Code Editor</title>
+    <link rel="icon" type="image/png" href="assets/app-icon.png">
+    <style>
+        /* ============================================================
+           Light theme for the Settings page.
+           Color palette mirrors the editor's theme-light.css and
+           about.html so all pages feel like one product.
+           ============================================================ */
+
+        :root {
+            /* UI surfaces */
+            --ui-foreground: #1e1e1e;
+            --ui-foreground-muted: #6a6a6a;
+            --ui-foreground-subtle: #8a8a8a;
+            --ui-background: #ffffff;
+            --ui-background-alt: #f5f5f5;
+            --ui-background-hover: #e5f3ff;
+            --ui-border: #e0e0e0;
+            --ui-border-strong: #cccccc;
+
+            /* Accents (Visual Studio blue) */
+            --accent: #007acc;
+            --accent-hover: #0067b8;
+            --accent-soft: #e5f3ff;
+            --accent-soft-border: #b3d7f2;
+
+            /* Status bar */
+            --statusbar-background: #007acc;
+            --statusbar-foreground: #ffffff;
+
+            /* Code blocks */
+            --code-background: #f8f8f8;
+            --code-border: #e0e0e0;
+            --code-foreground: #1e1e1e;
+
+            /* Syntax tokens (VS light) */
+            --tok-keyword: #0000ff;
+            --tok-type: #2b91af;
+            --tok-string: #a31515;
+            --tok-number: #098658;
+            --tok-comment: #008000;
+            --tok-tag: #811f3f;
+            --tok-attrname: #ff0000;
+            --tok-attrvalue: #0000ff;
+            --tok-xmldelimiter: #0000ff;
+            --tok-xmltext: #1e1e1e;
+            --tok-function: #795e26;
+            --tok-constant: #007acc;
+
+            /* Section accents */
+            --accent-blue: #007acc;
+            --accent-green: #107c10;
+            --accent-purple: #6b69d6;
+            --accent-orange: #ca5010;
+            --accent-teal: #038387;
+            --accent-pink: #c239b3;
+
+            /* States */
+            --success: #107c10;
+            --success-bg: #dff6dd;
+            --warning: #ca5010;
+            --warning-bg: #fdf2d9;
+            --error: #c50f1f;
+            --error-bg: #fde7e9;
+
+            /* Typography */
+            --font-ui: "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+            --font-code: "Cascadia Code", "Consolas", "Courier New", monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-ui);
+            font-size: 15px;
+            line-height: 1.65;
+            color: var(--ui-foreground);
+            background: var(--ui-background);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ---- Top navigation bar ---- */
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            padding: 12px 32px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: saturate(180%) blur(8px);
+            -webkit-backdrop-filter: saturate(180%) blur(8px);
+            border-bottom: 1px solid var(--ui-border);
+        }
+
+        .topbar .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--ui-foreground);
+            text-decoration: none;
+        }
+
+        .topbar .brand-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, var(--accent) 0%, #00bcf2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-family: var(--font-code);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .topbar nav {
+            display: flex;
+            gap: 4px;
+            margin-left: auto;
+        }
+
+        .topbar nav a {
+            color: var(--ui-foreground-muted);
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: all 0.15s;
+        }
+
+        .topbar nav a:hover {
+            color: var(--accent);
+            background: var(--accent-soft);
+        }
+
+        .topbar nav a.active {
+            color: var(--accent);
+            background: var(--accent-soft);
+            font-weight: 500;
+        }
+
+        .topbar .launch-btn {
+            margin-left: 12px;
+            padding: 7px 16px;
+            background: var(--accent);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.15s;
+        }
+
+        .topbar .launch-btn:hover {
+            background: var(--accent-hover);
+        }
+
+        /* ---- Layout ---- */
+
+        .layout {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 32px;
+            gap: 32px;
+        }
+
+        /* ---- Sidebar nav ---- */
+
+        .side-nav {
+            position: sticky;
+            top: 80px;
+            align-self: start;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            padding: 8px 0;
+        }
+
+        .side-nav a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 14px;
+            color: var(--ui-foreground-muted);
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.15s;
+            border-left: 3px solid transparent;
+        }
+
+        .side-nav a:hover {
+            color: var(--ui-foreground);
+            background: var(--ui-background-alt);
+        }
+
+        .side-nav a.active {
+            color: var(--accent);
+            background: var(--accent-soft);
+            border-left-color: var(--accent);
+        }
+
+        .side-nav a .nav-icon {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        /* ---- Main content ---- */
+
+        .main {
+            min-width: 0;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--ui-border);
+        }
+
+        .page-header h1 {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--ui-foreground);
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .page-header p {
+            font-size: 15px;
+            color: var(--ui-foreground-muted);
+            max-width: 720px;
+        }
+
+        /* ---- Settings sections ---- */
+
+        .section {
+            margin-bottom: 40px;
+            background: var(--ui-background);
+            border: 1px solid var(--ui-border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 18px 24px;
+            background: var(--ui-background-alt);
+            border-bottom: 1px solid var(--ui-border);
+        }
+
+        .section-header .section-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .section-header .section-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .section-header .section-title {
+            flex: 1;
+        }
+
+        .section-header h2 {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--ui-foreground);
+            margin: 0;
+        }
+
+        .section-header .section-desc {
+            font-size: 13px;
+            color: var(--ui-foreground-muted);
+            margin-top: 2px;
+        }
+
+        .section-body {
+            padding: 24px;
+        }
+
+        /* Accent colors for section icons */
+        .icon-blue { background: var(--accent-blue); }
+        .icon-purple { background: var(--accent-purple); }
+        .icon-orange { background: var(--accent-orange); }
+        .icon-green { background: var(--accent-green); }
+        .icon-teal { background: var(--accent-teal); }
+
+        /* ---- Form fields ---- */
+
+        .field {
+            margin-bottom: 22px;
+        }
+
+        .field:last-child {
+            margin-bottom: 0;
+        }
+
+        .field-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--ui-foreground);
+            margin-bottom: 6px;
+        }
+
+        .field-hint {
+            font-size: 13px;
+            color: var(--ui-foreground-muted);
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .field-control {
+            width: 100%;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="url"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px 12px;
+            font-family: var(--font-ui);
+            font-size: 14px;
+            color: var(--ui-foreground);
+            background: var(--ui-background);
+            border: 1px solid var(--ui-border-strong);
+            border-radius: 4px;
+            transition: border-color 0.15s, box-shadow 0.15s;
+            outline: none;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type="url"]:focus,
+        input[type="number"]:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(0, 122, 204, 0.12);
+        }
+
+        input.mono,
+        textarea.mono {
+            font-family: var(--font-code);
+            font-size: 13px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+            line-height: 1.5;
+        }
+
+        .field-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 720px) {
+            .field-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ---- Toggle switch ---- */
+
+        .toggle-field {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--ui-border);
+        }
+
+        .toggle-field:last-child {
+            border-bottom: none;
+        }
+
+        .toggle-field .toggle-info {
+            flex: 1;
+        }
+
+        .toggle-field .toggle-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--ui-foreground);
+        }
+
+        .toggle-field .toggle-hint {
+            font-size: 13px;
+            color: var(--ui-foreground-muted);
+            margin-top: 2px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 22px;
+            flex-shrink: 0;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .switch .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #ccc;
+            border-radius: 22px;
+            transition: background 0.2s;
+        }
+
+        .switch .slider:before {
+            content: "";
+            position: absolute;
+            height: 16px;
+            width: 16px;
+            left: 3px;
+            bottom: 3px;
+            background: #fff;
+            border-radius: 50%;
+            transition: transform 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .switch input:checked + .slider {
+            background: var(--accent);
+        }
+
+        .switch input:checked + .slider:before {
+            transform: translateX(18px);
+        }
+
+        .switch input:focus + .slider {
+            box-shadow: 0 0 0 3px rgba(0, 122, 204, 0.2);
+        }
+
+        /* ---- Theme picker ---- */
+
+        .theme-picker {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            max-width: 480px;
+        }
+
+        .theme-option {
+            position: relative;
+            padding: 16px;
+            border: 2px solid var(--ui-border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s;
+            background: var(--ui-background);
+        }
+
+        .theme-option:hover {
+            border-color: var(--ui-border-strong);
+        }
+
+        .theme-option.selected {
+            border-color: var(--accent);
+            background: var(--accent-soft);
+        }
+
+        .theme-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .theme-preview {
+            height: 56px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border: 1px solid var(--ui-border);
+            overflow: hidden;
+            display: flex;
+        }
+
+        .theme-preview-light {
+            background: #ffffff;
+        }
+
+        .theme-preview-dark {
+            background: #1e1e1e;
+        }
+
+        .theme-preview .preview-gutter {
+            width: 28px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 6px;
+            font-family: var(--font-code);
+            font-size: 9px;
+            line-height: 1.4;
+        }
+
+        .theme-preview-light .preview-gutter {
+            background: #ffffff;
+            color: #2b91af;
+            border-right: 1px solid #e0e0e0;
+        }
+
+        .theme-preview-dark .preview-gutter {
+            background: #1e1e1e;
+            color: #858585;
+            border-right: 1px solid #2d2d30;
+        }
+
+        .theme-preview .preview-code {
+            flex: 1;
+            padding: 6px 8px;
+            font-family: var(--font-code);
+            font-size: 9px;
+            line-height: 1.5;
+        }
+
+        .theme-preview-light .preview-code {
+            color: #1e1e1e;
+        }
+
+        .theme-preview-light .preview-code .kw { color: #0000ff; }
+        .theme-preview-light .preview-code .st { color: #a31515; }
+        .theme-preview-light .preview-code .cm { color: #008000; }
+
+        .theme-preview-dark .preview-code {
+            color: #d4d4d4;
+        }
+
+        .theme-preview-dark .preview-code .kw { color: #569cd6; }
+        .theme-preview-dark .preview-code .st { color: #ce9178; }
+        .theme-preview-dark .preview-code .cm { color: #57a64a; }
+
+        .theme-option .theme-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--ui-foreground);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .theme-option .theme-check {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: #fff;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+        }
+
+        .theme-option.selected .theme-check {
+            display: flex;
+        }
+
+        /* ---- Checkbox grid (LLM function tools) ---- */
+
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px 14px;
+            border: 1px solid var(--ui-border);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s;
+            background: var(--ui-background);
+        }
+
+        .checkbox-item:hover {
+            border-color: var(--accent);
+            background: var(--accent-soft);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin-top: 2px;
+            width: 16px;
+            height: 16px;
+            accent-color: var(--accent);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .checkbox-item .cb-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .checkbox-item .cb-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--ui-foreground);
+            display: block;
+        }
+
+        .checkbox-item .cb-desc {
+            font-size: 12px;
+            color: var(--ui-foreground-muted);
+            margin-top: 2px;
+            line-height: 1.4;
+        }
+
+        .checkbox-item.checked {
+            border-color: var(--accent);
+            background: var(--accent-soft);
+        }
+
+        /* ---- Path input with browse ---- */
+
+        .path-input-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .path-input-group input {
+            flex: 1;
+        }
+
+        .path-input-group .browse-btn {
+            padding: 8px 14px;
+            background: var(--ui-background-alt);
+            border: 1px solid var(--ui-border-strong);
+            border-radius: 4px;
+            color: var(--ui-foreground);
+            font-size: 13px;
+            cursor: pointer;
+            font-family: var(--font-ui);
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+
+        .path-input-group .browse-btn:hover {
+            background: var(--accent-soft);
+            border-color: var(--accent);
+        }
+
+        .path-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 6px;
+            font-size: 12px;
+            padding: 3px 10px;
+            border-radius: 12px;
+        }
+
+        .path-status.unknown {
+            color: var(--ui-foreground-muted);
+            background: var(--ui-background-alt);
+        }
+
+        .path-status.valid {
+            color: var(--success);
+            background: var(--success-bg);
+        }
+
+        .path-status.invalid {
+            color: var(--error);
+            background: var(--error-bg);
+        }
+
+        /* ---- API key field with show/hide ---- */
+
+        .api-key-group {
+            position: relative;
+        }
+
+        .api-key-group .toggle-visibility {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--ui-foreground-muted);
+            padding: 4px;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .api-key-group .toggle-visibility:hover {
+            color: var(--accent);
+            background: var(--accent-soft);
+        }
+
+        .api-key-group .toggle-visibility svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .api-key-group input {
+            padding-right: 40px;
+        }
+
+        /* ---- Action bar ---- */
+
+        .action-bar {
+            position: sticky;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 14px 32px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-top: 1px solid var(--ui-border);
+            z-index: 50;
+        }
+
+        .action-bar .status-msg {
+            font-size: 13px;
+            color: var(--ui-foreground-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-bar .status-msg.success {
+            color: var(--success);
+        }
+
+        .action-bar .status-msg.error {
+            color: var(--error);
+        }
+
+        .action-bar .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 18px;
+            font-family: var(--font-ui);
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.15s;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn svg {
+            width: 15px;
+            height: 15px;
+        }
+
+        .btn-secondary {
+            background: var(--ui-background-alt);
+            color: var(--ui-foreground);
+            border-color: var(--ui-border-strong);
+        }
+
+        .btn-secondary:hover {
+            background: var(--ui-background-hover);
+            border-color: var(--accent);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+        }
+
+        .btn-danger {
+            background: transparent;
+            color: var(--error);
+            border-color: var(--error);
+        }
+
+        .btn-danger:hover {
+            background: var(--error-bg);
+        }
+
+        /* ---- JSON viewer modal ---- */
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            padding: 24px;
+        }
+
+        .modal-overlay.visible {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--ui-background);
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 720px;
+            width: 100%;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--ui-border);
+        }
+
+        .modal-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .modal-header .close-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--ui-foreground-muted);
+            padding: 4px;
+            border-radius: 4px;
+            display: flex;
+        }
+
+        .modal-header .close-btn:hover {
+            color: var(--ui-foreground);
+            background: var(--ui-background-alt);
+        }
+
+        .modal-body {
+            flex: 1;
+            overflow: auto;
+            padding: 20px;
+        }
+
+        .modal-body textarea {
+            width: 100%;
+            min-height: 360px;
+            font-family: var(--font-code);
+            font-size: 13px;
+            line-height: 1.6;
+            border: 1px solid var(--ui-border);
+            border-radius: 4px;
+            padding: 14px;
+            resize: none;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            padding: 14px 20px;
+            border-top: 1px solid var(--ui-border);
+            background: var(--ui-background-alt);
+        }
+
+        /* ---- Toast ---- */
+
+        .toast {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--ui-foreground);
+            color: var(--ui-background);
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: all 0.25s;
+            z-index: 300;
+            pointer-events: none;
+        }
+
+        .toast.visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast.success { background: var(--success); color: #fff; }
+        .toast.error { background: var(--error); color: #fff; }
+
+        /* ---- Hidden file input ---- */
+        .hidden-input {
+            display: none;
+        }
+
+        /* ---- Responsive ---- */
+        @media (max-width: 900px) {
+            .layout {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+            .side-nav {
+                position: static;
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 4px;
+                padding: 0 0 16px;
+                border-bottom: 1px solid var(--ui-border);
+            }
+            .side-nav a {
+                border-left: none;
+                border-bottom: 3px solid transparent;
+                padding: 8px 12px;
+            }
+            .side-nav a.active {
+                border-left: none;
+                border-bottom-color: var(--accent);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============ Top bar ============ -->
+    <div class="topbar">
+        <a href="startpage.html" class="brand">
+            <div class="brand-icon">&lt;/&gt;</div>
+            <span>Code Editor</span>
+        </a>
+        <nav>
+            <a href="startpage.html">Start</a>
+            <a href="index.html">Editor</a>
+            <a href="about.html">About</a>
+            <a href="settings.html" class="active">Settings</a>
+        </nav>
+        <a href="index.html" class="launch-btn">Open Editor</a>
+    </div>
+
+    <!-- ============ Layout ============ -->
+    <div class="layout">
+
+        <!-- Sidebar nav -->
+        <nav class="side-nav">
+            <a href="#appearance" class="active" data-target="appearance">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="4"></circle></svg>
+                Appearance
+            </a>
+            <a href="#llms" data-target="llms">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="9" cy="9" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
+                LLMs
+            </a>
+            <a href="#devtools" data-target="devtools">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                Dev Tools
+            </a>
+            <a href="#json" data-target="json">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                Import / Export
+            </a>
+        </nav>
+
+        <!-- Main content -->
+        <div class="main">
+
+            <div class="page-header">
+                <h1>Settings</h1>
+                <p>Configure the editor appearance, LLM integration, and local development tools. All settings are stored as a JSON object that you can import, export, and share across machines.</p>
+            </div>
+
+            <!-- ============ Appearance ============ -->
+            <section class="section" id="appearance">
+                <div class="section-header">
+                    <div class="section-icon icon-blue">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="4"></circle></svg>
+                    </div>
+                    <div class="section-title">
+                        <h2>Appearance</h2>
+                        <div class="section-desc">Customize the editor's visual theme and UI panels.</div>
+                    </div>
+                </div>
+                <div class="section-body">
+
+                    <div class="field">
+                        <label class="field-label">Color Theme</label>
+                        <div class="field-hint">Choose between the light and dark color schemes. Syntax highlighting colors adapt automatically to match the Visual Studio palette for the selected theme.</div>
+                        <div class="theme-picker">
+                            <label class="theme-option selected" data-theme="light">
+                                <input type="radio" name="theme" value="light" checked>
+                                <div class="theme-preview theme-preview-light">
+                                    <div class="preview-gutter">1<br>2<br>3</div>
+                                    <div class="preview-code"><span class="kw">Dim</span> x = <span class="st">"hi"</span><br><span class="cm">' comment</span></div>
+                                </div>
+                                <div class="theme-name">
+                                    Light
+                                    <span class="theme-check">&#10003;</span>
+                                </div>
+                            </label>
+                            <label class="theme-option" data-theme="dark">
+                                <input type="radio" name="theme" value="dark">
+                                <div class="theme-preview theme-preview-dark">
+                                    <div class="preview-gutter">1<br>2<br>3</div>
+                                    <div class="preview-code"><span class="kw">Dim</span> x = <span class="st">"hi"</span><br><span class="cm">' comment</span></div>
+                                </div>
+                                <div class="theme-name">
+                                    Dark
+                                    <span class="theme-check">&#10003;</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label">Editor Panels</label>
+                        <div class="field-hint">Toggle which auxiliary panels are visible in the editor window.</div>
+
+                        <div class="toggle-field">
+                            <div class="toggle-info">
+                                <div class="toggle-label">Show Symbols Navigation</div>
+                                <div class="toggle-hint">Display the symbol navigator sidebar that lists functions, classes, modules, properties, and other declarations in the current document.</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="show-symbols" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="toggle-field">
+                            <div class="toggle-info">
+                                <div class="toggle-label">Show Line Numbers</div>
+                                <div class="toggle-hint">Display line numbers in the editor gutter.</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="show-line-numbers" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="toggle-field">
+                            <div class="toggle-info">
+                                <div class="toggle-label">Show Minimap</div>
+                                <div class="toggle-hint">Display a code minimap in the right margin for quick navigation.</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="show-minimap">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="toggle-field">
+                            <div class="toggle-info">
+                                <div class="toggle-label">Enable Code Folding</div>
+                                <div class="toggle-hint">Allow collapsible code blocks via fold markers in the gutter.</div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="enable-folding" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label">Font Size</label>
+                        <div class="field-hint">Editor font size in pixels (12 - 24).</div>
+                        <input type="number" id="font-size" min="12" max="24" value="14" style="max-width: 120px;">
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ============ LLMs ============ -->
+            <section class="section" id="llms">
+                <div class="section-header">
+                    <div class="section-icon icon-purple">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="9" cy="9" r="1.5"></circle><path d="M21 15l-5-5L5 21"></path></svg>
+                    </div>
+                    <div class="section-title">
+                        <h2>Large Language Models</h2>
+                        <div class="section-desc">Configure the LLM backend used for code completion, chat, and AI-assisted editing.</div>
+                    </div>
+                </div>
+                <div class="section-body">
+
+                    <div class="field-row">
+                        <div class="field">
+                            <label class="field-label" for="llm-endpoint">Server Endpoint</label>
+                            <div class="field-hint">The base URL of the LLM server. The editor sends completion requests to <code>{endpoint}/completions</code> and chat requests to <code>{endpoint}/chat</code>.</div>
+                            <input type="url" id="llm-endpoint" class="mono" placeholder="https://api.example.com/v1" value="https://api.openai.com/v1">
+                        </div>
+                        <div class="field">
+                            <label class="field-label" for="llm-model">Model Name</label>
+                            <div class="field-hint">The model identifier to use for inference.</div>
+                            <input type="text" id="llm-model" class="mono" placeholder="gpt-4o" value="gpt-4o">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="llm-api-key">API Key</label>
+                        <div class="field-hint">Authentication key sent as <code>Authorization: Bearer {key}</code>. Stored locally in your browser; never transmitted except to the endpoint above.</div>
+                        <div class="api-key-group">
+                            <input type="password" id="llm-api-key" class="mono" placeholder="sk-..." value="">
+                            <button type="button" class="toggle-visibility" id="toggle-api-key" title="Show / hide API key" aria-label="Toggle API key visibility">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="eye-icon">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="field-row">
+                        <div class="field">
+                            <label class="field-label" for="llm-temperature">Temperature</label>
+                            <div class="field-hint">Controls randomness. Lower values are more focused and deterministic; higher values are more creative.</div>
+                            <input type="number" id="llm-temperature" min="0" max="2" step="0.1" value="0.2" style="max-width: 120px;">
+                        </div>
+                        <div class="field">
+                            <label class="field-label" for="llm-max-tokens">Max Tokens</label>
+                            <div class="field-hint">Maximum number of tokens to generate in a single response.</div>
+                            <input type="number" id="llm-max-tokens" min="1" max="32768" value="2048" style="max-width: 120px;">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label">Enabled Function Tools</label>
+                        <div class="field-hint">Select which LLM function-calling tools the agent is allowed to invoke. Disabled tools are hidden from the model's tool list.</div>
+                        <div class="checkbox-grid" id="llm-tools-grid">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ============ Dev Tools ============ -->
+            <section class="section" id="devtools">
+                <div class="section-header">
+                    <div class="section-icon icon-orange">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                    </div>
+                    <div class="section-title">
+                        <h2>Local Development Tools</h2>
+                        <div class="section-desc">Paths to local command-line tools used for building, version control, and running scripts.</div>
+                    </div>
+                </div>
+                <div class="section-body">
+
+                    <div class="field">
+                        <label class="field-label" for="dotnet-path">.NET SDK (dotnet)</label>
+                        <div class="field-hint">Path to the <code>dotnet</code> executable. Used to build, run, and test VB.NET projects. Leave empty to use the system PATH.</div>
+                        <div class="path-input-group">
+                            <input type="text" id="dotnet-path" class="mono" placeholder="/usr/local/share/dotnet/dotnet" value="">
+                            <button type="button" class="browse-btn" data-target-input="dotnet-path">Browse…</button>
+                        </div>
+                        <span class="path-status unknown" id="dotnet-status">Not validated</span>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="git-path">Git</label>
+                        <div class="field-hint">Path to the <code>git</code> executable. Used for diff visualization and source-control operations. Leave empty to use the system PATH.</div>
+                        <div class="path-input-group">
+                            <input type="text" id="git-path" class="mono" placeholder="/usr/bin/git" value="">
+                            <button type="button" class="browse-btn" data-target-input="git-path">Browse…</button>
+                        </div>
+                        <span class="path-status unknown" id="git-status">Not validated</span>
+                    </div>
+
+                    <div class="field">
+                        <label class="field-label" for="rscript-path">R Script (Rscript)</label>
+                        <div class="field-hint">Path to the <code>Rscript</code> executable. Used to run R scripts. Leave empty to use the system PATH.</div>
+                        <div class="path-input-group">
+                            <input type="text" id="rscript-path" class="mono" placeholder="/usr/local/bin/Rscript" value="">
+                            <button type="button" class="browse-btn" data-target-input="rscript-path">Browse…</button>
+                        </div>
+                        <span class="path-status unknown" id="rscript-status">Not validated</span>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ============ Import / Export ============ -->
+            <section class="section" id="json">
+                <div class="section-header">
+                    <div class="section-icon icon-green">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                    </div>
+                    <div class="section-title">
+                        <h2>Import / Export Configuration</h2>
+                        <div class="section-desc">All settings are serialized as a single JSON object. Import a JSON file to load settings, or export the current settings to a downloadable JSON file.</div>
+                    </div>
+                </div>
+                <div class="section-body">
+                    <p style="margin-bottom: 16px; color: var(--ui-foreground-muted); font-size: 14px;">The configuration JSON has the following shape:</p>
+                    <pre style="background: var(--code-background); border: 1px solid var(--code-border); border-radius: 5px; padding: 14px; font-family: var(--font-code); font-size: 12px; line-height: 1.6; overflow-x: auto; margin-bottom: 18px; color: var(--code-foreground);"><code id="schema-preview"></code></pre>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button type="button" class="btn btn-primary" id="btn-export">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            Export to JSON File
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="btn-import">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                            Import from JSON File
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="btn-view-json">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                            View Current JSON
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="btn-apply-json">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            Apply JSON from Text
+                        </button>
+                    </div>
+                    <input type="file" id="import-file-input" class="hidden-input" accept=".json,application/json">
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- ============ Action bar ============ -->
+    <div class="action-bar">
+        <div class="status-msg" id="status-msg">All changes are saved automatically.</div>
+        <div class="actions">
+            <button type="button" class="btn btn-danger" id="btn-reset">Reset to Defaults</button>
+            <button type="button" class="btn btn-secondary" id="btn-save">Save</button>
+            <button type="button" class="btn btn-primary" id="btn-save-and-close">Save &amp; Close</button>
+        </div>
+    </div>
+
+    <!-- ============ JSON modal ============ -->
+    <div class="modal-overlay" id="json-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modal-title">Configuration JSON</h3>
+                <button type="button" class="close-btn" id="modal-close" aria-label="Close">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <textarea id="json-textarea" spellcheck="false"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="modal-cancel">Cancel</button>
+                <button type="button" class="btn btn-primary" id="modal-apply">Apply</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============ Toast ============ -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+    (function () {
+        "use strict";
+
+        /* ============================================================
+           Settings management.
+           All settings are stored as a single JSON object and persisted
+           to localStorage. The same JSON object can be imported from a
+           file or exported to a file.
+           ============================================================ */
+
+        var STORAGE_KEY = "codeEditor.settings";
+
+        /* ---- LLM function tool catalog ---- */
+        var LLM_TOOLS = [
+            { id: "code_completion",  label: "Code Completion",       desc: "Suggest code completions at the cursor position." },
+            { id: "code_explanation", label: "Explain Code",          desc: "Generate natural-language explanations of selected code." },
+            { id: "code_refactor",    label: "Refactor Code",         desc: "Restructure code without changing its behavior." },
+            { id: "code_review",      label: "Code Review",           desc: "Review selected code for bugs and improvements." },
+            { id: "generate_tests",   label: "Generate Tests",        desc: "Produce unit tests for the selected function or module." },
+            { id: "generate_docs",    label: "Generate Documentation",desc: "Generate doc comments and API documentation." },
+            { id: "fix_errors",       label: "Fix Errors",            desc: "Diagnose and propose fixes for compile/runtime errors." },
+            { id: "chat",             label: "Chat Assistant",        desc: "General-purpose conversational assistant." },
+            { id: "semantic_search",  label: "Semantic Search",       desc: "Search the codebase using natural-language queries." },
+            { id: "summarize",        label: "Summarize File",        desc: "Produce a concise summary of the current file." },
+            { id: "translate",        label: "Translate Language",    desc: "Convert code between VB.NET, R, and other languages." },
+            { id: "snippet_gen",      label: "Generate Snippet",      desc: "Create reusable code snippets from a description." }
+        ];
+
+        /* ---- Default settings ---- */
+        function defaultSettings() {
+            var tools = {};
+            LLM_TOOLS.forEach(function (t) { tools[t.id] = true; });
+            return {
+                appearance: {
+                    theme: "light",
+                    showSymbols: true,
+                    showLineNumbers: true,
+                    showMinimap: false,
+                    enableFolding: true,
+                    fontSize: 14
+                },
+                llm: {
+                    endpoint: "https://api.openai.com/v1",
+                    apiKey: "",
+                    model: "gpt-4o",
+                    temperature: 0.2,
+                    maxTokens: 2048,
+                    enabledTools: tools
+                },
+                devTools: {
+                    dotnetPath: "",
+                    gitPath: "",
+                    rscriptPath: ""
+                }
+            };
+        }
+
+        /* ---- State ---- */
+        var settings = defaultSettings();
+
+        /* ============================================================
+           DOM helpers
+           ============================================================ */
+
+        function $(id) { return document.getElementById(id); }
+        function $$(sel) { return document.querySelectorAll(sel); }
+
+        function escapeHtml(text) {
+            if (text == null) return "";
+            return String(text)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;");
+        }
+
+        /* ============================================================
+           Load / save to localStorage
+           ============================================================ */
+
+        function loadFromStorage() {
+            try {
+                var raw = localStorage.getItem(STORAGE_KEY);
+                if (!raw) return null;
+                var parsed = JSON.parse(raw);
+                return parsed;
+            } catch (e) {
+                console.warn("Failed to load settings from localStorage:", e);
+                return null;
+            }
+        }
+
+        function saveToStorage() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+                return true;
+            } catch (e) {
+                console.warn("Failed to save settings to localStorage:", e);
+                return false;
+            }
+        }
+
+        /* ============================================================
+           Apply settings JSON to the form
+           ============================================================ */
+
+        function applySettingsToForm(s) {
+            var a = s.appearance || {};
+            var l = s.llm || {};
+            var d = s.devTools || {};
+
+            // Appearance
+            setTheme(a.theme || "light");
+            $("show-symbols").checked = a.showSymbols !== false;
+            $("show-line-numbers").checked = a.showLineNumbers !== false;
+            $("show-minimap").checked = a.showMinimap === true;
+            $("enable-folding").checked = a.enableFolding !== false;
+            $("font-size").value = a.fontSize || 14;
+
+            // LLM
+            $("llm-endpoint").value = l.endpoint || "";
+            $("llm-api-key").value = l.apiKey || "";
+            $("llm-model").value = l.model || "";
+            $("llm-temperature").value = l.temperature != null ? l.temperature : 0.2;
+            $("llm-max-tokens").value = l.maxTokens || 2048;
+            renderToolCheckboxes(l.enabledTools || {});
+
+            // Dev tools
+            $("dotnet-path").value = d.dotnetPath || "";
+            $("git-path").value = d.gitPath || "";
+            $("rscript-path").value = d.rscriptPath || "";
+            updatePathStatuses();
+        }
+
+        /* ============================================================
+           Collect form values into a settings JSON object
+           ============================================================ */
+
+        function collectSettingsFromForm() {
+            var enabledTools = {};
+            $$("#llm-tools-grid .checkbox-item input[type=checkbox]").forEach(function (cb) {
+                enabledTools[cb.value] = cb.checked;
+            });
+            return {
+                appearance: {
+                    theme: getSelectedTheme(),
+                    showSymbols: $("show-symbols").checked,
+                    showLineNumbers: $("show-line-numbers").checked,
+                    showMinimap: $("show-minimap").checked,
+                    enableFolding: $("enable-folding").checked,
+                    fontSize: parseInt($("font-size").value, 10) || 14
+                },
+                llm: {
+                    endpoint: $("llm-endpoint").value.trim(),
+                    apiKey: $("llm-api-key").value,
+                    model: $("llm-model").value.trim(),
+                    temperature: parseFloat($("llm-temperature").value) || 0,
+                    maxTokens: parseInt($("llm-max-tokens").value, 10) || 2048,
+                    enabledTools: enabledTools
+                },
+                devTools: {
+                    dotnetPath: $("dotnet-path").value.trim(),
+                    gitPath: $("git-path").value.trim(),
+                    rscriptPath: $("rscript-path").value.trim()
+                }
+            };
+        }
+
+        /* ============================================================
+           Theme picker
+           ============================================================ */
+
+        function getSelectedTheme() {
+            var checked = document.querySelector('input[name="theme"]:checked');
+            return checked ? checked.value : "light";
+        }
+
+        function setTheme(theme) {
+            var radios = document.querySelectorAll('input[name="theme"]');
+            radios.forEach(function (r) {
+                r.checked = (r.value === theme);
+            });
+            $$(".theme-option").forEach(function (opt) {
+                opt.classList.toggle("selected", opt.getAttribute("data-theme") === theme);
+            });
+        }
+
+        /* ============================================================
+           LLM tool checkboxes
+           ============================================================ */
+
+        function renderToolCheckboxes(enabledMap) {
+            var grid = $("llm-tools-grid");
+            grid.innerHTML = "";
+            LLM_TOOLS.forEach(function (tool) {
+                var enabled = enabledMap[tool.id] !== false;
+                var item = document.createElement("label");
+                item.className = "checkbox-item" + (enabled ? " checked" : "");
+                item.innerHTML =
+                    '<input type="checkbox" value="' + escapeHtml(tool.id) + '"' + (enabled ? " checked" : "") + '>' +
+                    '<div class="cb-content">' +
+                    '<span class="cb-label">' + escapeHtml(tool.label) + '</span>' +
+                    '<div class="cb-desc">' + escapeHtml(tool.desc) + '</div>' +
+                    '</div>';
+                var cb = item.querySelector("input");
+                cb.addEventListener("change", function () {
+                    item.classList.toggle("checked", cb.checked);
+                });
+                grid.appendChild(item);
+            });
+        }
+
+        /* ============================================================
+           Path validation (heuristic — checks for non-empty path)
+           ============================================================ */
+
+        function updatePathStatuses() {
+            updatePathStatus("dotnet-path", "dotnet-status");
+            updatePathStatus("git-path", "git-status");
+            updatePathStatus("rscript-path", "rscript-status");
+        }
+
+        function updatePathStatus(inputId, statusId) {
+            var input = $(inputId);
+            var status = $(statusId);
+            var value = input.value.trim();
+            if (!value) {
+                status.textContent = "Empty — will use system PATH";
+                status.className = "path-status unknown";
+            } else {
+                status.textContent = "Configured: " + value;
+                status.className = "path-status valid";
+            }
+        }
+
+        /* ============================================================
+           Schema preview
+           ============================================================ */
+
+        function renderSchemaPreview() {
+            var sample = {
+                appearance: {
+                    theme: "light | dark",
+                    showSymbols: true,
+                    showLineNumbers: true,
+                    showMinimap: false,
+                    enableFolding: true,
+                    fontSize: 14
+                },
+                llm: {
+                    endpoint: "https://api.openai.com/v1",
+                    apiKey: "sk-...",
+                    model: "gpt-4o",
+                    temperature: 0.2,
+                    maxTokens: 2048,
+                    enabledTools: {
+                        code_completion: true,
+                        code_explanation: true,
+                        code_refactor: true,
+                        code_review: true,
+                        generate_tests: true,
+                        generate_docs: true,
+                        fix_errors: true,
+                        chat: true,
+                        semantic_search: true,
+                        summarize: true,
+                        translate: true,
+                        snippet_gen: true
+                    }
+                },
+                devTools: {
+                    dotnetPath: "/usr/local/share/dotnet/dotnet",
+                    gitPath: "/usr/bin/git",
+                    rscriptPath: "/usr/local/bin/Rscript"
+                }
+            };
+            $("schema-preview").textContent = JSON.stringify(sample, null, 2);
+        }
+
+        /* ============================================================
+           Toast
+           ============================================================ */
+
+        var toastTimer = null;
+        function showToast(message, type) {
+            var toast = $("toast");
+            toast.textContent = message;
+            toast.className = "toast visible" + (type ? " " + type : "");
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(function () {
+                toast.className = "toast";
+            }, 2800);
+        }
+
+        /* ============================================================
+           Status message
+           ============================================================ */
+
+        function setStatus(message, type) {
+            var el = $("status-msg");
+            el.textContent = message;
+            el.className = "status-msg" + (type ? " " + type : "");
+        }
+
+        /* ============================================================
+           Deep merge (source overrides target)
+           ============================================================ */
+
+        function deepMerge(target, source) {
+            if (typeof source !== "object" || source === null) return target;
+            if (typeof target !== "object" || target === null) return source;
+            var result = Array.isArray(target) ? target.slice() : Object.assign({}, target);
+            for (var key in source) {
+                if (!source.hasOwnProperty(key)) continue;
+                if (typeof source[key] === "object" && source[key] !== null && !Array.isArray(source[key])) {
+                    result[key] = deepMerge(target[key] || {}, source[key]);
+                } else {
+                    result[key] = source[key];
+                }
+            }
+            return result;
+        }
+
+        /* ============================================================
+           Import / Export
+           ============================================================ */
+
+        function exportToFile() {
+            var current = collectSettingsFromForm();
+            var json = JSON.stringify(current, null, 2);
+            var blob = new Blob([json], { type: "application/json" });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement("a");
+            a.href = url;
+            a.download = "code-editor-settings.json";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast("Settings exported to code-editor-settings.json", "success");
+            setStatus("Exported to code-editor-settings.json", "success");
+        }
+
+        function importFromFile(file) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                try {
+                    var parsed = JSON.parse(reader.result);
+                    settings = deepMerge(defaultSettings(), parsed);
+                    applySettingsToForm(settings);
+                    saveToStorage();
+                    showToast("Settings imported successfully.", "success");
+                    setStatus("Imported settings from " + file.name, "success");
+                } catch (e) {
+                    showToast("Invalid JSON file: " + e.message, "error");
+                    setStatus("Import failed: " + e.message, "error");
+                }
+            };
+            reader.onerror = function () {
+                showToast("Failed to read file.", "error");
+            };
+            reader.readAsText(file);
+        }
+
+        /* ============================================================
+           JSON modal
+           ============================================================ */
+
+        function openJsonModal(mode) {
+            var modal = $("json-modal");
+            var title = $("modal-title");
+            var textarea = $("json-textarea");
+            if (mode === "view") {
+                title.textContent = "Current Configuration JSON";
+                textarea.value = JSON.stringify(collectSettingsFromForm(), null, 2);
+                textarea.readOnly = true;
+            } else {
+                title.textContent = "Apply Configuration JSON";
+                textarea.value = JSON.stringify(collectSettingsFromForm(), null, 2);
+                textarea.readOnly = false;
+            }
+            modal.classList.add("visible");
+            setTimeout(function () { textarea.focus(); }, 50);
+        }
+
+        function closeJsonModal() {
+            $("json-modal").classList.remove("visible");
+        }
+
+        function applyJsonFromModal() {
+            var textarea = $("json-textarea");
+            try {
+                var parsed = JSON.parse(textarea.value);
+                settings = deepMerge(defaultSettings(), parsed);
+                applySettingsToForm(settings);
+                saveToStorage();
+                closeJsonModal();
+                showToast("Configuration applied from JSON.", "success");
+                setStatus("Applied JSON configuration.", "success");
+            } catch (e) {
+                showToast("Invalid JSON: " + e.message, "error");
+            }
+        }
+
+        /* ============================================================
+           Save
+           ============================================================ */
+
+        function save() {
+            settings = collectSettingsFromForm();
+            if (saveToStorage()) {
+                showToast("Settings saved.", "success");
+                setStatus("Settings saved to local storage.", "success");
+            } else {
+                showToast("Failed to save settings.", "error");
+                setStatus("Save failed.", "error");
+            }
+        }
+
+        function saveAndClose() {
+            save();
+            setTimeout(function () {
+                window.location.href = "index.html";
+            }, 600);
+        }
+
+        function resetToDefaults() {
+            if (!confirm("Reset all settings to their default values? This cannot be undone.")) return;
+            settings = defaultSettings();
+            applySettingsToForm(settings);
+            saveToStorage();
+            showToast("Settings reset to defaults.", "success");
+            setStatus("Reset to defaults.", "success");
+        }
+
+        /* ============================================================
+           Event wiring
+           ============================================================ */
+
+        function attachEvents() {
+            // Theme picker
+            $$(".theme-option").forEach(function (opt) {
+                opt.addEventListener("click", function () {
+                    setTheme(opt.getAttribute("data-theme"));
+                });
+            });
+
+            // API key show/hide
+            $("toggle-api-key").addEventListener("click", function () {
+                var input = $("llm-api-key");
+                var icon = $("eye-icon");
+                if (input.type === "password") {
+                    input.type = "text";
+                    icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>';
+                } else {
+                    input.type = "password";
+                    icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
+                }
+            });
+
+            // Path inputs
+            ["dotnet-path", "git-path", "rscript-path"].forEach(function (id) {
+                $(id).addEventListener("input", function () {
+                    updatePathStatuses();
+                });
+            });
+
+            // Browse buttons (file input — works in browsers that support directory picking)
+            $$(".browse-btn").forEach(function (btn) {
+                btn.addEventListener("click", function () {
+                    var targetId = btn.getAttribute("data-target-input");
+                    var target = $(targetId);
+                    // Browsers don't allow picking an executable path directly.
+                    // We use a file input as a workaround; the selected file's
+                    // name is placed in the field.
+                    var fileInput = document.createElement("input");
+                    fileInput.type = "file";
+                    fileInput.addEventListener("change", function () {
+                        if (fileInput.files && fileInput.files[0]) {
+                            target.value = fileInput.files[0].name;
+                            updatePathStatuses();
+                        }
+                    });
+                    fileInput.click();
+                });
+            });
+
+            // Import / Export
+            $("btn-export").addEventListener("click", exportToFile);
+            $("btn-import").addEventListener("click", function () {
+                $("import-file-input").click();
+            });
+            $("import-file-input").addEventListener("change", function () {
+                if (this.files && this.files[0]) {
+                    importFromFile(this.files[0]);
+                    this.value = "";
+                }
+            });
+            $("btn-view-json").addEventListener("click", function () {
+                openJsonModal("view");
+            });
+            $("btn-apply-json").addEventListener("click", function () {
+                openJsonModal("apply");
+            });
+
+            // Modal
+            $("modal-close").addEventListener("click", closeJsonModal);
+            $("modal-cancel").addEventListener("click", closeJsonModal);
+            $("modal-apply").addEventListener("click", applyJsonFromModal);
+            $("json-modal").addEventListener("click", function (e) {
+                if (e.target === this) closeJsonModal();
+            });
+
+            // Action bar
+            $("btn-save").addEventListener("click", save);
+            $("btn-save-and-close").addEventListener("click", saveAndClose);
+            $("btn-reset").addEventListener("click", resetToDefaults);
+
+            // Sidebar nav — smooth scroll + active state
+            $$(".side-nav a").forEach(function (link) {
+                link.addEventListener("click", function (e) {
+                    $$(".side-nav a").forEach(function (l) { l.classList.remove("active"); });
+                    link.classList.add("active");
+                });
+            });
+
+            // Auto-save on field change (debounced)
+            var saveTimer = null;
+            function scheduleAutoSave() {
+                if (saveTimer) clearTimeout(saveTimer);
+                saveTimer = setTimeout(function () {
+                    settings = collectSettingsFromForm();
+                    saveToStorage();
+                    setStatus("Auto-saved.", "success");
+                }, 1000);
+            }
+            document.addEventListener("change", scheduleAutoSave);
+            document.addEventListener("input", function (e) {
+                if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA" || e.target.tagName === "SELECT") {
+                    scheduleAutoSave();
+                }
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener("keydown", function (e) {
+                if (e.key === "Escape") {
+                    if ($("json-modal").classList.contains("visible")) {
+                        closeJsonModal();
+                    }
+                }
+                if ((e.ctrlKey || e.metaKey) && e.key === "s") {
+                    e.preventDefault();
+                    save();
+                }
+            });
+
+            // Scroll spy for sidebar
+            var sections = ["appearance", "llms", "devtools", "json"];
+            window.addEventListener("scroll", function () {
+                var scrollY = window.scrollY + 120;
+                var current = sections[0];
+                for (var i = 0; i < sections.length; i++) {
+                    var el = $(sections[i]);
+                    if (el && el.offsetTop <= scrollY) {
+                        current = sections[i];
+                    }
+                }
+                $$(".side-nav a").forEach(function (link) {
+                    var target = link.getAttribute("data-target");
+                    link.classList.toggle("active", target === current);
+                });
+            });
+        }
+
+        /* ============================================================
+           Init
+           ============================================================ */
+
+        function init() {
+            renderSchemaPreview();
+            var stored = loadFromStorage();
+            if (stored) {
+                settings = deepMerge(defaultSettings(), stored);
+            }
+            applySettingsToForm(settings);
+            attachEvents();
+            setStatus("Settings loaded. Changes auto-save.");
+        }
+
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", init);
+        } else {
+            init();
+        }
+    })();
+    </script>
+</body>
+</html>
