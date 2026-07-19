@@ -50,6 +50,10 @@ Public Class FormMain : Implements AppHost
         Await InvokeAsync(Sub() ToolStripStatusLabel3.Text = $"File: {file} Language: {lang} Line: {line} Col: {col}")
     End Function
 
+    Public Sub ResetEditorStatus()
+        ToolStripStatusLabel3.Text = "{}"
+    End Sub
+
     Public Sub SetTitle(title As String) Implements AppHost.SetTitle
         Call Invoke(Sub() Text = title & " - Vallina Development")
     End Sub
