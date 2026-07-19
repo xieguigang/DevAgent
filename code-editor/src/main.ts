@@ -165,6 +165,28 @@ End Namespace
                 }
             });
 
+            // Delegated handler for the symbols tree: collapse/expand nodes and
+            // navigate when a symbol row is clicked.
+            this.symbolList.addEventListener("click", (e: MouseEvent) => {
+                const target = e.target as HTMLElement;
+                const toggle = target.closest(".symbol-toggle-expandable") as HTMLElement | null;
+                if (toggle) {
+                    const node = toggle.closest(".symbol-node") as HTMLElement | null;
+                    if (node) {
+                        node.classList.toggle("collapsed");
+                        e.stopPropagation();
+                    }
+                    return;
+                }
+                const item = target.closest(".symbol-item") as HTMLElement | null;
+                if (item) {
+                    const line = parseInt(item.getAttribute("data-line") || "0", 10);
+                    const col = parseInt(item.getAttribute("data-col") || "0", 10);
+                    const kind = (item.getAttribute("data-kind") as SymbolKind) || SymbolKind.Function;
+                    this.editor.goToSymbol({ name: "", kind, line, column: col });
+                }
+            });
+
             // Toggle diff view.
             document.getElementById("btn-toggle-diff")!.addEventListener("click", () => {
                 this.toggleDiffView();
@@ -280,34 +302,53 @@ End Namespace
         }
 
         private refreshSymbols(): void {
-            const symbols = this.editor.getSymbols();
-            if (symbols.length === 0) {
+            const tree = this.editor.getSymbolTree();
+            if (tree.length === 0) {
                 this.symbolList.innerHTML = '<div class="symbol-empty">No symbols found</div>';
                 return;
             }
+            this.symbolList.innerHTML = this.renderSymbolNodes(tree, 0);
+        }
+
+        /**
+         * Recursively renders the symbol tree as nested, collapsible rows.
+         * `depth` is the visual nesting level (number of ancestors) used for
+         * indentation, independent of the structural level used for building.
+         */
+        private renderSymbolNodes(nodes: Features.SymbolNode[], depth: number): string {
             const parts: string[] = [];
-            for (const sym of symbols) {
-                const icon = this.symbolIcon(sym.kind);
-                parts.push(
-                    `<div class="symbol-item" data-line="${sym.line}" data-col="${sym.column}">` +
+            for (const node of nodes) {
+                parts.push(this.renderSymbolNode(node, depth));
+            }
+            return parts.join("");
+        }
+
+        private renderSymbolNode(node: Features.SymbolNode, depth: number): string {
+            const sym = node.symbol;
+            const icon = this.symbolIcon(sym.kind);
+            const hasChildren = node.children.length > 0;
+            const toggle = hasChildren
+                ? `<span class="symbol-toggle symbol-toggle-expandable" title="Collapse / expand">&#9662;</span>`
+                : `<span class="symbol-toggle symbol-toggle-leaf"></span>`;
+            const childrenHtml = hasChildren
+                ? `<div class="symbol-children">` +
+                    this.renderSymbolNodes(node.children, depth + 1) +
+                  `</div>`
+                : "";
+            const indent = depth * 16 + 10;
+            return (
+                `<div class="symbol-node">` +
+                `<div class="symbol-item" data-line="${sym.line}" data-col="${sym.column}" ` +
+                    `data-kind="${sym.kind}" style="padding-left:${indent}px">` +
+                    toggle +
                     `<span class="symbol-icon symbol-${sym.kind.toLowerCase()}">${icon}</span>` +
                     `<span class="symbol-name">${Utils.escapeHtml(sym.name)}</span>` +
                     `<span class="symbol-kind">${sym.kind}</span>` +
                     `<span class="symbol-line">:${sym.line + 1}</span>` +
-                    `</div>`
-                );
-            }
-            this.symbolList.innerHTML = parts.join("");
-
-            // Attach click handlers.
-            const items = this.symbolList.querySelectorAll(".symbol-item");
-            items.forEach(el => {
-                el.addEventListener("click", () => {
-                    const line = parseInt(el.getAttribute("data-line") || "0", 10);
-                    const col = parseInt(el.getAttribute("data-col") || "0", 10);
-                    this.editor.goToSymbol({ name: "", kind: SymbolKind.Function, line, column: col });
-                });
-            });
+                `</div>` +
+                childrenHtml +
+                `</div>`
+            );
         }
 
         private symbolIcon(kind: SymbolKind): string {

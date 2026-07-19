@@ -11,6 +11,17 @@ namespace CodeEditor.Features {
         detail?: string;
     }
 
+    /**
+     * A symbol together with its nested children, forming a tree that mirrors
+     * the document's structural hierarchy (namespaces > types > members, etc.).
+     */
+    export interface SymbolNode {
+        symbol: Symbol;
+        /** Structural nesting level (1 = outermost). Used for tree building. */
+        level: number;
+        children: SymbolNode[];
+    }
+
     export enum SymbolKind {
         Function = "Function",
         Sub = "Sub",
@@ -48,6 +59,63 @@ namespace CodeEditor.Features {
                     return this.extractYaml(lines);
                 default:
                     return [];
+            }
+        }
+
+        /**
+         * Builds a hierarchical tree from a flat symbol list. The nesting level
+         * is derived per-language:
+         *  - vbnet / r: by declaration kind (Namespace > Type > Member).
+         *  - markdown: by heading level (H1 > H2 > ...).
+         *  - yaml / json / xml: by leading indentation (column position).
+         */
+        buildSymbolTree(symbols: Symbol[], language: string): SymbolNode[] {
+            const root: SymbolNode[] = [];
+            const stack: { node: SymbolNode; level: number }[] = [];
+
+            for (const sym of symbols) {
+                const level = this.levelOf(sym, language);
+                while (stack.length > 0 && stack[stack.length - 1].level >= level) {
+                    stack.pop();
+                }
+                const parentNode = stack.length > 0 ? stack[stack.length - 1].node : null;
+                const node: SymbolNode = { symbol: sym, level, children: [] };
+                if (parentNode) {
+                    parentNode.children.push(node);
+                } else {
+                    root.push(node);
+                }
+                stack.push({ node, level });
+            }
+            return root;
+        }
+
+        private levelOf(sym: Symbol, language: string): number {
+            switch (language) {
+                case "markdown": {
+                    const m = /^H(\d+)$/.exec(sym.detail || "");
+                    return m ? parseInt(m[1], 10) : 1;
+                }
+                case "yaml":
+                case "json":
+                case "xml":
+                    // Indentation-based nesting: deeper keys sit further right.
+                    return sym.column;
+                case "vbnet":
+                case "r":
+                default:
+                    switch (sym.kind) {
+                        case SymbolKind.Namespace:
+                            return 1;
+                        case SymbolKind.Module:
+                        case SymbolKind.Class:
+                        case SymbolKind.Structure:
+                        case SymbolKind.Interface:
+                        case SymbolKind.Enum:
+                            return 2;
+                        default:
+                            return 3;
+                    }
             }
         }
 

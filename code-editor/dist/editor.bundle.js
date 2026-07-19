@@ -2134,6 +2134,61 @@ var CodeEditor;
                         return [];
                 }
             }
+            /**
+             * Builds a hierarchical tree from a flat symbol list. The nesting level
+             * is derived per-language:
+             *  - vbnet / r: by declaration kind (Namespace > Type > Member).
+             *  - markdown: by heading level (H1 > H2 > ...).
+             *  - yaml / json / xml: by leading indentation (column position).
+             */
+            buildSymbolTree(symbols, language) {
+                const root = [];
+                const stack = [];
+                for (const sym of symbols) {
+                    const level = this.levelOf(sym, language);
+                    while (stack.length > 0 && stack[stack.length - 1].level >= level) {
+                        stack.pop();
+                    }
+                    const parentNode = stack.length > 0 ? stack[stack.length - 1].node : null;
+                    const node = { symbol: sym, level, children: [] };
+                    if (parentNode) {
+                        parentNode.children.push(node);
+                    }
+                    else {
+                        root.push(node);
+                    }
+                    stack.push({ node, level });
+                }
+                return root;
+            }
+            levelOf(sym, language) {
+                switch (language) {
+                    case "markdown": {
+                        const m = /^H(\d+)$/.exec(sym.detail || "");
+                        return m ? parseInt(m[1], 10) : 1;
+                    }
+                    case "yaml":
+                    case "json":
+                    case "xml":
+                        // Indentation-based nesting: deeper keys sit further right.
+                        return sym.column;
+                    case "vbnet":
+                    case "r":
+                    default:
+                        switch (sym.kind) {
+                            case SymbolKind.Namespace:
+                                return 1;
+                            case SymbolKind.Module:
+                            case SymbolKind.Class:
+                            case SymbolKind.Structure:
+                            case SymbolKind.Interface:
+                            case SymbolKind.Enum:
+                                return 2;
+                            default:
+                                return 3;
+                        }
+                }
+            }
             extractVbNet(lines) {
                 const symbols = [];
                 for (let i = 0; i < lines.length; i++) {
@@ -2958,6 +3013,9 @@ var CodeEditor;
             getSymbols() {
                 return this.symbols;
             }
+            getSymbolTree() {
+                return this.symbolNav.buildSymbolTree(this.symbols, this.language);
+            }
             goToSymbol(symbol) {
                 this.cursor.setPosition({ line: symbol.line, column: symbol.column });
                 const pos = this.bufferToTextareaPos(symbol.line, symbol.column);
@@ -3386,6 +3444,27 @@ End Namespace
                     this.refreshSymbols();
                 }
             });
+            // Delegated handler for the symbols tree: collapse/expand nodes and
+            // navigate when a symbol row is clicked.
+            this.symbolList.addEventListener("click", (e) => {
+                const target = e.target;
+                const toggle = target.closest(".symbol-toggle-expandable");
+                if (toggle) {
+                    const node = toggle.closest(".symbol-node");
+                    if (node) {
+                        node.classList.toggle("collapsed");
+                        e.stopPropagation();
+                    }
+                    return;
+                }
+                const item = target.closest(".symbol-item");
+                if (item) {
+                    const line = parseInt(item.getAttribute("data-line") || "0", 10);
+                    const col = parseInt(item.getAttribute("data-col") || "0", 10);
+                    const kind = item.getAttribute("data-kind") || SymbolKind.Function;
+                    this.editor.goToSymbol({ name: "", kind, line, column: col });
+                }
+            });
             // Toggle diff view.
             document.getElementById("btn-toggle-diff").addEventListener("click", () => {
                 this.toggleDiffView();
@@ -3489,31 +3568,49 @@ End Namespace
             return this.editor.getText();
         }
         refreshSymbols() {
-            const symbols = this.editor.getSymbols();
-            if (symbols.length === 0) {
+            const tree = this.editor.getSymbolTree();
+            if (tree.length === 0) {
                 this.symbolList.innerHTML = '<div class="symbol-empty">No symbols found</div>';
                 return;
             }
+            this.symbolList.innerHTML = this.renderSymbolNodes(tree, 0);
+        }
+        /**
+         * Recursively renders the symbol tree as nested, collapsible rows.
+         * `depth` is the visual nesting level (number of ancestors) used for
+         * indentation, independent of the structural level used for building.
+         */
+        renderSymbolNodes(nodes, depth) {
             const parts = [];
-            for (const sym of symbols) {
-                const icon = this.symbolIcon(sym.kind);
-                parts.push(`<div class="symbol-item" data-line="${sym.line}" data-col="${sym.column}">` +
-                    `<span class="symbol-icon symbol-${sym.kind.toLowerCase()}">${icon}</span>` +
-                    `<span class="symbol-name">${CodeEditor.Utils.escapeHtml(sym.name)}</span>` +
-                    `<span class="symbol-kind">${sym.kind}</span>` +
-                    `<span class="symbol-line">:${sym.line + 1}</span>` +
-                    `</div>`);
+            for (const node of nodes) {
+                parts.push(this.renderSymbolNode(node, depth));
             }
-            this.symbolList.innerHTML = parts.join("");
-            // Attach click handlers.
-            const items = this.symbolList.querySelectorAll(".symbol-item");
-            items.forEach(el => {
-                el.addEventListener("click", () => {
-                    const line = parseInt(el.getAttribute("data-line") || "0", 10);
-                    const col = parseInt(el.getAttribute("data-col") || "0", 10);
-                    this.editor.goToSymbol({ name: "", kind: SymbolKind.Function, line, column: col });
-                });
-            });
+            return parts.join("");
+        }
+        renderSymbolNode(node, depth) {
+            const sym = node.symbol;
+            const icon = this.symbolIcon(sym.kind);
+            const hasChildren = node.children.length > 0;
+            const toggle = hasChildren
+                ? `<span class="symbol-toggle symbol-toggle-expandable" title="Collapse / expand">&#9662;</span>`
+                : `<span class="symbol-toggle symbol-toggle-leaf"></span>`;
+            const childrenHtml = hasChildren
+                ? `<div class="symbol-children">` +
+                    this.renderSymbolNodes(node.children, depth + 1) +
+                    `</div>`
+                : "";
+            const indent = depth * 16 + 10;
+            return (`<div class="symbol-node">` +
+                `<div class="symbol-item" data-line="${sym.line}" data-col="${sym.column}" ` +
+                `data-kind="${sym.kind}" style="padding-left:${indent}px">` +
+                toggle +
+                `<span class="symbol-icon symbol-${sym.kind.toLowerCase()}">${icon}</span>` +
+                `<span class="symbol-name">${CodeEditor.Utils.escapeHtml(sym.name)}</span>` +
+                `<span class="symbol-kind">${sym.kind}</span>` +
+                `<span class="symbol-line">:${sym.line + 1}</span>` +
+                `</div>` +
+                childrenHtml +
+                `</div>`);
         }
         symbolIcon(kind) {
             switch (kind) {

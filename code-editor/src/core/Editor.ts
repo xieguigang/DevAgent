@@ -5,6 +5,7 @@ namespace CodeEditor.Core {
     import FoldRange = Features.FoldRange;
     import CodeFolder = Features.CodeFolder;
     import Symbol = Features.Symbol;
+    import SymbolNode = Features.SymbolNode;
     import SymbolNavigator = Features.SymbolNavigator;
     import SymbolKind = Features.SymbolKind;
     import DiffViewer = Features.DiffViewer;
@@ -451,6 +452,10 @@ namespace CodeEditor.Core {
 
         getSymbols(): Symbol[] {
             return this.symbols;
+        }
+
+        getSymbolTree(): SymbolNode[] {
+            return this.symbolNav.buildSymbolTree(this.symbols, this.language);
         }
 
         goToSymbol(symbol: Symbol): void {

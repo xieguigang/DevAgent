@@ -194,6 +194,43 @@ body {
   color: var(--ui-foreground-muted);
 }
 
+/* ---- Symbol tree (hierarchical, collapsible) ---- */
+
+.symbol-node {
+  /* Wrapper holding a row plus its (optional) nested children. */
+}
+
+.symbol-children {
+  /* Indentation is applied per-row via inline padding-left. */
+}
+
+/* Hide descendants of a collapsed node. */
+.symbol-node.collapsed > .symbol-children {
+  display: none;
+}
+
+.symbol-toggle {
+  flex: 0 0 14px;
+  width: 14px;
+  text-align: center;
+  font-size: 10px;
+  line-height: 1;
+  color: var(--ui-foreground-muted);
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.1s ease;
+}
+
+.symbol-toggle-leaf {
+  cursor: default;
+  visibility: hidden;
+}
+
+/* Rotated triangle when the node is collapsed. */
+.symbol-node.collapsed > .symbol-item > .symbol-toggle-expandable {
+  transform: rotate(-90deg);
+}
+
 .symbol-empty {
   padding: 12px;
   text-align: center;

@@ -87,6 +87,7 @@ Public Class FormEditor
 
             ' 3. 通过消息通道发送（不会作为脚本执行，性能极高且安全）
             WebView21.CoreWebView2.PostWebMessageAsJson(jsonPayload)
+            CommonRuntime.GetOutputWindow.AddLog("open file", "editor open code file: " & codefile)
         End If
     End Sub
 
@@ -170,6 +171,12 @@ Public Class FormEditor
 
     Private Sub FormEditor_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         Call UnloadRibbonHook()
+
+        If codefile.StringEmpty Then
+            Call CommonRuntime.GetOutputWindow.AddLog("close editor", "close editor for code.")
+        Else
+            Call CommonRuntime.GetOutputWindow.AddLog("close editor", "close editor for code file: " & codefile)
+        End If
     End Sub
 
     Private Sub FormEditor_LostFocus(sender As Object, e As EventArgs) Handles Me.LostFocus
