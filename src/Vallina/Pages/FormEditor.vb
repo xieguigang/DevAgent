@@ -17,7 +17,7 @@ Public Class FormEditor
     Shared ReadOnly btnTheme As RibbonEventBinding
     Shared ReadOnly btnMinimap As RibbonEventBinding
 
-    Dim codefile As String
+    Public ReadOnly Property codefile As String
 
     Shared Sub New()
         btnSave = New RibbonEventBinding(Ribbon.ButtonSaveCodeFile)
@@ -36,7 +36,7 @@ Public Class FormEditor
     End Sub
 
     Public Function SetCodeFile(filepath As String) As FormEditor
-        codefile = filepath
+        _codefile = filepath
         Return Me
     End Function
 

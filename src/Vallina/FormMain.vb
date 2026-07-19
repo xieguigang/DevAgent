@@ -107,4 +107,15 @@ Public Class FormMain : Implements AppHost
     Private Sub FormMain_ResizeEnd(sender As Object, e As EventArgs) Handles Me.ResizeEnd
         RaiseEvent ResizeForm(Location, Size)
     End Sub
+
+    Private Sub DockPanel1_ActiveDocumentChanged(sender As Object, e As EventArgs) Handles DockPanel1.ActiveDocumentChanged
+        If TypeOf DockPanel1.ActiveDocument Is FormEditor Then
+            Dim chatbox As FormLLMsTool = CommonRuntime.TryGetToolWindow("llms")
+            Dim editor As FormEditor = DirectCast(DockPanel1.ActiveDocument, FormEditor)
+
+            If Not chatbox Is Nothing Then
+                chatbox.TabText = $"LLMs Chat [{editor.codefile.FileName}]"
+            End If
+        End If
+    End Sub
 End Class
