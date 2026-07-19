@@ -1,4 +1,5 @@
-﻿Imports VallinaDevelopment.RibbonLib.Controls
+﻿Imports Galaxy.Workbench
+Imports VallinaDevelopment.RibbonLib.Controls
 
 Module RibbonMenu
 
@@ -8,6 +9,10 @@ Module RibbonMenu
         _Ribbon = ribbon
 
         AddHandler ribbon.ButtonExit.ExecuteEvent, Sub() Call host.Close()
+        AddHandler ribbon.ButtonAbout.ExecuteEvent, Sub() Call OpenAboutPage()
     End Sub
 
+    Private Sub OpenAboutPage()
+        Call CommonRuntime.ShowDocument(Of FormHtmlViewer)(title:="About").SetUrl($"http://localhost:{Workbench.port}/about.html")
+    End Sub
 End Module
