@@ -110,7 +110,7 @@ Public Class FormEditor
     End Function
 
     Private Async Function ToggleMinimap() As Task
-
+        Await WebView21.ExecuteScriptAsync("codeEditor.toggleMinimap();")
     End Function
 
     Protected Overrides Async Sub SaveDocument()
