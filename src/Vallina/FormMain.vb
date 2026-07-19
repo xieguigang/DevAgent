@@ -23,6 +23,7 @@ Public Class FormMain : Implements AppHost
 
     Private Sub FormMain_Load(sender As Object, e As EventArgs) Handles Me.Load
         DockPanel1.Theme = VS2015LightTheme1
+        DockPanel1.ShowDocumentIcon = True
         VisualStudioToolStripExtender1.SetStyle(StatusStrip1, VisualStudioToolStripExtender.VsVersion.Vs2015, VS2015LightTheme1)
 
         If DockPanel1.Theme.ColorPalette IsNot Nothing Then
@@ -33,6 +34,7 @@ Public Class FormMain : Implements AppHost
         Call RibbonMenu.Hook(New RibbonItems(Ribbon1), Me)
         Call CommonRuntime.Hook(Me)
         Call StatusMessage("Ready", Icons8.Information)
+        Call RibbonMenu.OpenStartupPage()
         Call CommonRuntime.GetOutputWindow.AddLog("startup", "code editor is ready")
     End Sub
 
