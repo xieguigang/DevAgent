@@ -391,7 +391,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
         if (message.type === 'loadFile') {
             // 直接使用传递过来的 text 和 filename
-            codeEditor.loadFileText(message.text, message.filename);
+            codeEditor.loadFileText(JSON.parse(message.text), message.filename);
         }
     });
 });

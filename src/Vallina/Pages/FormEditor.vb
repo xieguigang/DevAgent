@@ -36,8 +36,6 @@ Public Class FormEditor
         Await WebView21.ExecuteScriptAsync("$('statusbar').style.display='none';")
         Await WebView21.ExecuteScriptAsync("$('toolbar').style.display='none';")
 
-        Await Task.Delay(100)
-
         If codefile.FileExists Then
             Dim filename As String = JsonSerializer.Serialize(codefile.FileName)
             Dim codetext As String = JsonSerializer.Serialize(codefile.ReadAllText)
