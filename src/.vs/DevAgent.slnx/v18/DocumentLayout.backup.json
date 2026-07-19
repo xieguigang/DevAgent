@@ -7,11 +7,8 @@
       "RelativeMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|solutionrelative:devagent\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{396CCD83-4B4E-84CB-6056-022317FD64BE}|..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\applicationservices\\debugger\\logging\\logfile\\logfile.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|g:\\devagent\\src\\devagent\\opts.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|solutionrelative:devagent\\opts.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|g:\\devagent\\src\\devagent\\devagent.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|solutionrelative:devagent\\devagent.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -21,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 179,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,27 +35,13 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "LogFile.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Debugger\\Logging\\LogFile\\LogFile.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Debugger\\Logging\\LogFile\\LogFile.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Debugger\\Logging\\LogFile\\LogFile.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\Debugger\\Logging\\LogFile\\LogFile.vb",
-              "ViewState": "AgIAAHoAAAAAAAAAAAAYwJUAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-19T18:42:07.713Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Opts.vb",
-              "DocumentMoniker": "G:\\DevAgent\\src\\DevAgent\\Opts.vb",
-              "RelativeDocumentMoniker": "DevAgent\\Opts.vb",
-              "ToolTip": "G:\\DevAgent\\src\\DevAgent\\Opts.vb",
-              "RelativeToolTip": "DevAgent\\Opts.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAuAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-19T18:39:49.912Z",
+              "Title": "DevAgent",
+              "DocumentMoniker": "G:\\DevAgent\\src\\DevAgent\\DevAgent.vbproj",
+              "RelativeDocumentMoniker": "DevAgent\\DevAgent.vbproj",
+              "ToolTip": "G:\\DevAgent\\src\\DevAgent\\DevAgent.vbproj",
+              "RelativeToolTip": "DevAgent\\DevAgent.vbproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2026-07-19T18:50:38.251Z",
               "EditorCaption": ""
             },
             {
@@ -69,7 +52,7 @@
               "RelativeDocumentMoniker": "DevAgent\\Program.vb",
               "ToolTip": "G:\\DevAgent\\src\\DevAgent\\Program.vb",
               "RelativeToolTip": "DevAgent\\Program.vb",
-              "ViewState": "AgIAABoAAAAAAAAAAAAzwCoAAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAABoAAAAAAAAAAAAzwCUAAABjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-07-19T17:48:25.48Z",
               "EditorCaption": ""
