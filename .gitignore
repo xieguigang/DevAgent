@@ -272,3 +272,5 @@ storage.ide-wal
 *.bin
 *.v5
 *.wsuo
+/src/.vs/DevAgent/CopilotIndices/18.8.1083.22234
+/src/.vs/DevAgent/CopilotIndices/18.8.1083.22234
