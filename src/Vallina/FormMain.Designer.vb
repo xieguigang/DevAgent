@@ -24,11 +24,14 @@ Partial Class FormMain
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        components = New ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormMain))
         Ribbon1 = New Ribbon()
         DockPanel1 = New Microsoft.VisualStudio.WinForms.Docking.DockPanel()
         StatusStrip1 = New StatusStrip()
         ToolStripStatusLabel1 = New ToolStripStatusLabel()
+        VisualStudioToolStripExtender1 = New Microsoft.VisualStudio.WinForms.Docking.VisualStudioToolStripExtender(components)
+        VS2015LightTheme1 = New ThemeVS2015.VS2015LightTheme()
         StatusStrip1.SuspendLayout()
         SuspendLayout()
         ' 
@@ -65,6 +68,10 @@ Partial Class FormMain
         ToolStripStatusLabel1.Size = New Size(39, 17)
         ToolStripStatusLabel1.Text = "Ready"
         ' 
+        ' VisualStudioToolStripExtender1
+        ' 
+        VisualStudioToolStripExtender1.DefaultRenderer = Nothing
+        ' 
         ' FormMain
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -86,5 +93,7 @@ Partial Class FormMain
     Friend WithEvents DockPanel1 As Microsoft.VisualStudio.WinForms.Docking.DockPanel
     Friend WithEvents StatusStrip1 As StatusStrip
     Friend WithEvents ToolStripStatusLabel1 As ToolStripStatusLabel
+    Friend WithEvents VisualStudioToolStripExtender1 As Microsoft.VisualStudio.WinForms.Docking.VisualStudioToolStripExtender
+    Friend WithEvents VS2015LightTheme1 As ThemeVS2015.VS2015LightTheme
 
 End Class

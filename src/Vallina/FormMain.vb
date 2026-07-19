@@ -23,6 +23,7 @@ Public Class FormMain : Implements AppHost
         Call RibbonMenu.Hook(New RibbonItems(Ribbon1), Me)
         Call CommonRuntime.Hook(Me)
         Call StatusMessage("Ready", Icons8.Information)
+        Call CommonRuntime.GetOutputWindow.AddLog("startup", "code editor is ready")
     End Sub
 
     Public Sub SetWorkbenchVisible(visible As Boolean) Implements AppHost.SetWorkbenchVisible
