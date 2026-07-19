@@ -24,6 +24,7 @@ Public Class FormEditor
 
     Private Async Sub WebView21_NavigationCompleted(sender As Object, e As CoreWebView2NavigationCompletedEventArgs) Handles WebView21.NavigationCompleted
         Await WebView21.ExecuteScriptAsync("$('statusbar').style.display='none';")
+        Await WebView21.ExecuteScriptAsync("$('toolbar').style.display='none';")
     End Sub
 
     Private Async Function GotoLine() As Task
