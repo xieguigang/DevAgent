@@ -68,5 +68,7 @@
   <Project Path="DevAgent/DevAgent.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
-  <Project Path="Vallina/Vallina.vbproj" Id="0e76aaa3-11dc-4e81-b752-0345354da17c" />
+  <Project Path="Vallina/Vallina.vbproj" Id="0e76aaa3-11dc-4e81-b752-0345354da17c">
+    <Platform Solution="Debug|x64" Project="x64" />
+  </Project>
 </Solution>
