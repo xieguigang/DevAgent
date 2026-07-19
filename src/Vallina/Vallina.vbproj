@@ -79,4 +79,6 @@
     </Reference>
   </ItemGroup>
 
+  <Import Project="..\..\..\galaxy\src\RibbonEventBinding\RibbonEventBinding.projitems" Label="Shared" />
+
 </Project>

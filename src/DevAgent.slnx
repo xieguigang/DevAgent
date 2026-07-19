@@ -67,6 +67,7 @@
     <Project Path="../../galaxy/src/Microsoft.Windows.FeatureAPI/Microsoft.Windows.FeatureAPI.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="../../galaxy/src/RibbonEventBinding/RibbonEventBinding.shproj" Id="72a4c1ee-5cbf-4f72-9b71-c997d7e33c18" />
   </Folder>
   <Project Path="DevAgent/DevAgent.vbproj">
     <Platform Solution="*|x64" Project="x64" />
