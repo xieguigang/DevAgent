@@ -138,6 +138,14 @@
         <Image MinDPI="192">Icons8/icons8-code-file-96.png</Image>
       </Command.LargeImages>
     </Command>
+    <Command Name="cmdButtonLicense" Id="27" LabelTitle="License">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-user-manual-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-user-manual-96.png</Image>
+      </Command.LargeImages>
+    </Command>
   </Application.Commands>
   <Application.Views>
     <Ribbon>
@@ -149,6 +157,7 @@
           </MenuGroup>
           <MenuGroup>
             <Button CommandName="cmdButtonSettings" />
+            <Button CommandName="cmdButtonLicense" />
           </MenuGroup>
           <MenuGroup>
             <Button CommandName="cmdButtonAbout" />
@@ -195,8 +204,9 @@
             <Button CommandName="cmdButtonSaveAs" />
             <Button CommandName="cmdButtonSaveAll" />
           </Group>
-          <Group CommandName="cmdGroupWorkbench" SizeDefinition="TwoButtons">
+          <Group CommandName="cmdGroupWorkbench" SizeDefinition="ThreeButtons">
             <Button CommandName="cmdButtonStartPage" />
+            <Button CommandName="cmdButtonLicense" />
             <Button CommandName="cmdButtonAbout" />
           </Group>
         </Tab>

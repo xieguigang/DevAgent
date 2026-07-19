@@ -1,4 +1,5 @@
 ﻿Imports Galaxy.Workbench
+Imports Galaxy.Workbench.CommonDialogs
 Imports VallinaDevelopment.Javascript
 Imports VallinaDevelopment.RibbonLib.Controls
 
@@ -15,6 +16,7 @@ Module RibbonMenu
         AddHandler ribbon.ButtonNew.ExecuteEvent, Sub() Call OpenEditor()
         AddHandler ribbon.ButtonOpen.ExecuteEvent, Sub() Call OpenFileEdit()
         AddHandler ribbon.ButtonSettings.ExecuteEvent, Sub() Call OpenSettingsPage()
+        AddHandler ribbon.ButtonLicense.ExecuteEvent, Sub() Call OpenLicenseDialog()
     End Sub
 
     Public Sub OpenFileEdit()
@@ -25,6 +27,10 @@ Module RibbonMenu
                 Call CommonRuntime.ShowDocument(Of FormEditor)(title:=file.FileName.FileName).SetCodeFile(file.FileName)
             End If
         End Using
+    End Sub
+
+    Public Sub OpenLicenseDialog()
+        Call InputDialog.Input(Of FormLicenseDialog)()
     End Sub
 
     Public Sub OpenSettingsPage()

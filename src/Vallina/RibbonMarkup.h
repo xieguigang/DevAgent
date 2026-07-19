@@ -87,4 +87,8 @@
 #define cmdButtonEditorMiniMap_LabelTitle_RESID 60055
 #define cmdButtonEditorMiniMap_SmallImages_192__RESID 60056
 #define cmdButtonEditorMiniMap_LargeImages_192__RESID 60057
-#define InternalCmd2_LabelTitle_RESID 60058
+#define cmdButtonLicense 27 
+#define cmdButtonLicense_LabelTitle_RESID 60058
+#define cmdButtonLicense_SmallImages_192__RESID 60059
+#define cmdButtonLicense_LargeImages_192__RESID 60060
+#define InternalCmd2_LabelTitle_RESID 60061
