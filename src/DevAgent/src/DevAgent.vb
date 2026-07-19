@@ -503,15 +503,23 @@ Public Class DevAgent
 
     Private Async Function BuildAndFixErrors() As Task
         Dim attempts As i32 = 0
+        Dim result As ProcessResult
 
         Call Log("  Building project...")
 
         Do
-            Await DebugLoop(++attempts)
+            result = Await DebugLoop(++attempts)
+
+            If attempts >= _options.MaxBuildFixAttempts Then
+                Log("  [ERROR] Max build fix attempts reached. Giving up.")
+                Log("  Last build output:")
+                Log(result.CombinedOutput.Substring(0, Math.Min(2000, result.CombinedOutput.Length)))
+                Return
+            End If
         Loop
     End Function
 
-    Private Async Function DebugLoop(attempts As Integer) As Task
+    Private Async Function DebugLoop(attempts As Integer) As Task(Of ProcessResult)
         Log($"  Build attempt {attempts}/{_options.MaxBuildFixAttempts}...")
 
         Dim result As ProcessResult = ProcessHelper.DotNet(
@@ -535,17 +543,10 @@ Public Class DevAgent
                     Log($"    ... and {warningCount - 5} more warning(s)")
                 End If
             End If
-            Return
+            Return result
         End If
 
         Log($"  Build failed (exit code: {result.ExitCode})")
-
-        If attempts >= _options.MaxBuildFixAttempts Then
-            Log("  [ERROR] Max build fix attempts reached. Giving up.")
-            Log("  Last build output:")
-            Log(result.CombinedOutput.Substring(0, Math.Min(2000, result.CombinedOutput.Length)))
-            Return
-        End If
 
         ' 将编译错误发送给 LLM 修复
         Log("  Asking LLM to fix build errors...")
@@ -580,6 +581,8 @@ Public Class DevAgent
         Else
             Log("  [WARN] No code files in LLM fix response. Will retry build...")
         End If
+
+        Return result
     End Function
 
     ' ========================================================================

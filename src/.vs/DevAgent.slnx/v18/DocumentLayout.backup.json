@@ -3,6 +3,16 @@
   "WorkspaceRootPath": "G:\\DevAgent\\src\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{65D3564D-F186-7A81-3B80-2E8603B4C97B}|..\\..\\LLMs\\src\\Ollama\\Ollama.vbproj|g:\\llms\\src\\ollama\\openaiprovider.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BE4A2EA0-C600-FCE9-D542-79B9A0D68583}|..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%json\\JSON-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\mime\\application%json\\serializer\\objectserializer\\objectserializer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|g:\\devagent\\src\\devagent\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|solutionrelative:devagent\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|g:\\devagent\\src\\devagent\\src\\devagent.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|solutionrelative:devagent\\src\\devagent.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
@@ -11,16 +21,6 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{BE4A2EA0-C600-FCE9-D542-79B9A0D68583}|..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%json\\JSON-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\mime\\application%json\\serializer\\jsonserializer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BE4A2EA0-C600-FCE9-D542-79B9A0D68583}|..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%json\\JSON-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\mime\\application%json\\serializer\\objectserializer\\objectserializer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{65D3564D-F186-7A81-3B80-2E8603B4C97B}|..\\..\\LLMs\\src\\Ollama\\Ollama.vbproj|g:\\llms\\src\\ollama\\openaiprovider.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|g:\\devagent\\src\\devagent\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|solutionrelative:devagent\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,20 +46,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "ObjectSerializer.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%json\\Serializer\\ObjectSerializer\\ObjectSerializer.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%json\\Serializer\\ObjectSerializer\\ObjectSerializer.vb",
               "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%json\\Serializer\\ObjectSerializer\\ObjectSerializer.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%json\\Serializer\\ObjectSerializer\\ObjectSerializer.vb",
-              "ViewState": "AgIAAF8AAAAAAAAAAAAowH4AAAAiAAAAAAAAAA==",
+              "ViewState": "AgIAAF8AAAAAAAAAAAAowKUAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-07-19T17:08:56.975Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "JSONSerializer.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%json\\Serializer\\JSONSerializer.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%json\\Serializer\\JSONSerializer.vb",
@@ -72,7 +72,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "JSONTextParser.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%json\\JSONTextParser.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\mime\\application%json\\JSONTextParser.vb",
@@ -85,7 +85,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "DevAgent.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\DevAgent\\src\\DevAgent.vb",
               "RelativeDocumentMoniker": "DevAgent\\src\\DevAgent.vb",
@@ -98,26 +98,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
               "Title": "OpenAIProvider.vb",
               "DocumentMoniker": "G:\\LLMs\\src\\Ollama\\OpenAIProvider.vb",
               "RelativeDocumentMoniker": "..\\..\\LLMs\\src\\Ollama\\OpenAIProvider.vb",
               "ToolTip": "G:\\LLMs\\src\\Ollama\\OpenAIProvider.vb",
               "RelativeToolTip": "..\\..\\LLMs\\src\\Ollama\\OpenAIProvider.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC0AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAH0AAAAAAAAAAAAuwI0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-07-19T16:45:58.495Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 2,
               "Title": "Program.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\DevAgent\\Program.vb",
               "RelativeDocumentMoniker": "DevAgent\\Program.vb",
               "ToolTip": "G:\\DevAgent\\src\\DevAgent\\Program.vb",
               "RelativeToolTip": "DevAgent\\Program.vb",
-              "ViewState": "AgIAAGYAAAAAAAAAAAAiwGsAAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAGYAAAAAAAAAAAAiwHkAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-07-19T16:17:21.367Z",
               "EditorCaption": ""
