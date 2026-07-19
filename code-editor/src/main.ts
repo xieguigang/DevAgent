@@ -74,7 +74,7 @@ namespace CodeEditor {
 
         private languageDisplayName(lang: string): string {
             switch (lang) {
-                case "vbnet": return "VB.NET";
+                case "vbnet": return "VisualBasic.NET";
                 case "r": return "R";
                 case "json": return "JSON";
                 case "xml": return "XML";
@@ -110,7 +110,7 @@ namespace CodeEditor {
             this.themeSelect.addEventListener("change", () => {
                 this.editor.setTheme(this.themeSelect.value as "light" | "dark");
             });
-            this.editor.setTheme("dark");
+            this.editor.setTheme("light");
 
             // Toggle symbols panel.
             document.getElementById("btn-toggle-symbols")!.addEventListener("click", () => {
