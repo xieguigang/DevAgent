@@ -3580,5 +3580,4 @@ End Namespace`;
 window.addEventListener("DOMContentLoaded", () => {
     CodeEditor.bootstrap();
 });
-const devkit = chrome.webview.hostObjects.devkit;
 //# sourceMappingURL=editor.bundle.js.map

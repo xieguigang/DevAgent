@@ -1,6 +1,7 @@
 ﻿Imports Galaxy.Workbench
 Imports Microsoft.Web.WebView2.Core
 Imports RibbonLib.Interop
+Imports VallinaDevelopment.Javascript
 
 Public Class FormEditor
 
@@ -19,6 +20,7 @@ Public Class FormEditor
     End Sub
 
     Private Sub WebView21_CoreWebView2InitializationCompleted(sender As Object, e As CoreWebView2InitializationCompletedEventArgs) Handles WebView21.CoreWebView2InitializationCompleted
+        Call WebView21.CoreWebView2.AddHostObjectToScript(BasePage.HostObject, New CodeEditorPage)
         Call WebView21.CoreWebView2.Navigate($"http://localhost:{Workbench.port}/index.html")
     End Sub
 
