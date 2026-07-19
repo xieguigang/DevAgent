@@ -63,6 +63,32 @@
     <Command Name="cmdGroupFile" Id="12" LabelTitle="File" />
     <Command Name="cmdGroupSave" Id="13" LabelTitle="Save File" />
     <Command Name="cmdMenuEdit" Id="14" LabelTitle="Developing" />
+    <Command Name="cmdButtonEditorTheme" Id="15" LabelTitle="Light/Dark Theme">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-visual-studio-code-insides-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-visual-studio-code-insides-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdButtonEditorSymbols" Id="16" LabelTitle="Symbols">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-source-code-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-source-code-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdButtonEditorDiff" Id="17" LabelTitle="Edit Diff">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-edit-pencil-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-edit-pencil-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdButtonGotoLine" Id="18" LabelTitle="Goto Line" />
+    <Command Name="cmdGroupEditorMics" Id="19" LabelTitle="Mics" />
   </Application.Commands>
   <Application.Views>
     <Ribbon>
@@ -89,7 +115,14 @@
       <Ribbon.ContextualTabs>
         <TabGroup CommandName="cmdRibbonEditor">
           <Tab CommandName="cmdMenuEditor">
-            <Group CommandName="cmdGroupEditor" />
+            <Group CommandName="cmdGroupEditor" SizeDefinition="ThreeButtons-OneBigAndTwoSmall">
+              <Button CommandName="cmdButtonEditorDiff" />
+              <Button CommandName="cmdButtonGotoLine" />
+              <Button CommandName="cmdButtonEditorSymbols" />
+            </Group>
+            <Group CommandName="cmdGroupEditorMics" SizeDefinition="OneButton">
+              <Button CommandName="cmdButtonEditorTheme" />
+            </Group>
           </Tab>
         </TabGroup>
       </Ribbon.ContextualTabs>

@@ -26,6 +26,11 @@ namespace RibbonLib.Controls
             public const uint cmdRibbonEditor = 7;
             public const uint cmdMenuEditor = 8;
             public const uint cmdGroupEditor = 9;
+            public const uint cmdButtonEditorDiff = 17;
+            public const uint cmdButtonGotoLine = 18;
+            public const uint cmdButtonEditorSymbols = 16;
+            public const uint cmdGroupEditorMics = 19;
+            public const uint cmdButtonEditorTheme = 15;
             public const uint cmdMenuEdit = 14;
             public const uint cmdGroupFile = 12;
             public const uint cmdGroupSave = 13;
@@ -44,6 +49,11 @@ namespace RibbonLib.Controls
         public RibbonTabGroup RibbonEditor { get; private set; }
         public RibbonTab MenuEditor { get; private set; }
         public RibbonGroup GroupEditor { get; private set; }
+        public RibbonButton ButtonEditorDiff { get; private set; }
+        public RibbonButton ButtonGotoLine { get; private set; }
+        public RibbonButton ButtonEditorSymbols { get; private set; }
+        public RibbonGroup GroupEditorMics { get; private set; }
+        public RibbonButton ButtonEditorTheme { get; private set; }
         public RibbonTab MenuEdit { get; private set; }
         public RibbonGroup GroupFile { get; private set; }
         public RibbonGroup GroupSave { get; private set; }
@@ -63,6 +73,11 @@ namespace RibbonLib.Controls
             RibbonEditor = new RibbonTabGroup(ribbon, Cmd.cmdRibbonEditor);
             MenuEditor = new RibbonTab(ribbon, Cmd.cmdMenuEditor);
             GroupEditor = new RibbonGroup(ribbon, Cmd.cmdGroupEditor);
+            ButtonEditorDiff = new RibbonButton(ribbon, Cmd.cmdButtonEditorDiff);
+            ButtonGotoLine = new RibbonButton(ribbon, Cmd.cmdButtonGotoLine);
+            ButtonEditorSymbols = new RibbonButton(ribbon, Cmd.cmdButtonEditorSymbols);
+            GroupEditorMics = new RibbonGroup(ribbon, Cmd.cmdGroupEditorMics);
+            ButtonEditorTheme = new RibbonButton(ribbon, Cmd.cmdButtonEditorTheme);
             MenuEdit = new RibbonTab(ribbon, Cmd.cmdMenuEdit);
             GroupFile = new RibbonGroup(ribbon, Cmd.cmdGroupFile);
             GroupSave = new RibbonGroup(ribbon, Cmd.cmdGroupSave);

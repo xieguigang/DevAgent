@@ -23,6 +23,11 @@ Namespace RibbonLib.Controls
             Public Const cmdRibbonEditor As UInteger = 7
             Public Const cmdMenuEditor As UInteger = 8
             Public Const cmdGroupEditor As UInteger = 9
+            Public Const cmdButtonEditorDiff As UInteger = 17
+            Public Const cmdButtonGotoLine As UInteger = 18
+            Public Const cmdButtonEditorSymbols As UInteger = 16
+            Public Const cmdGroupEditorMics As UInteger = 19
+            Public Const cmdButtonEditorTheme As UInteger = 15
             Public Const cmdMenuEdit As UInteger = 14
             Public Const cmdGroupFile As UInteger = 12
             Public Const cmdGroupSave As UInteger = 13
@@ -86,6 +91,36 @@ Namespace RibbonLib.Controls
                 Return _GroupEditor
             End Get
         End Property
+        Private _ButtonEditorDiff As RibbonButton
+        Public ReadOnly Property ButtonEditorDiff As RibbonButton
+            Get
+                Return _ButtonEditorDiff
+            End Get
+        End Property
+        Private _ButtonGotoLine As RibbonButton
+        Public ReadOnly Property ButtonGotoLine As RibbonButton
+            Get
+                Return _ButtonGotoLine
+            End Get
+        End Property
+        Private _ButtonEditorSymbols As RibbonButton
+        Public ReadOnly Property ButtonEditorSymbols As RibbonButton
+            Get
+                Return _ButtonEditorSymbols
+            End Get
+        End Property
+        Private _GroupEditorMics As RibbonGroup
+        Public ReadOnly Property GroupEditorMics As RibbonGroup
+            Get
+                Return _GroupEditorMics
+            End Get
+        End Property
+        Private _ButtonEditorTheme As RibbonButton
+        Public ReadOnly Property ButtonEditorTheme As RibbonButton
+            Get
+                Return _ButtonEditorTheme
+            End Get
+        End Property
         Private _MenuEdit As RibbonTab
         Public ReadOnly Property MenuEdit As RibbonTab
             Get
@@ -130,6 +165,11 @@ Namespace RibbonLib.Controls
             _RibbonEditor = New RibbonTabGroup(_ribbon, Cmd.cmdRibbonEditor)
             _MenuEditor = New RibbonTab(_ribbon, Cmd.cmdMenuEditor)
             _GroupEditor = New RibbonGroup(_ribbon, Cmd.cmdGroupEditor)
+            _ButtonEditorDiff = New RibbonButton(_ribbon, Cmd.cmdButtonEditorDiff)
+            _ButtonGotoLine = New RibbonButton(_ribbon, Cmd.cmdButtonGotoLine)
+            _ButtonEditorSymbols = New RibbonButton(_ribbon, Cmd.cmdButtonEditorSymbols)
+            _GroupEditorMics = New RibbonGroup(_ribbon, Cmd.cmdGroupEditorMics)
+            _ButtonEditorTheme = New RibbonButton(_ribbon, Cmd.cmdButtonEditorTheme)
             _MenuEdit = New RibbonTab(_ribbon, Cmd.cmdMenuEdit)
             _GroupFile = New RibbonGroup(_ribbon, Cmd.cmdGroupFile)
             _GroupSave = New RibbonGroup(_ribbon, Cmd.cmdGroupSave)
