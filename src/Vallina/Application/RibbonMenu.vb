@@ -49,7 +49,7 @@ Module RibbonMenu
     End Sub
 
     Public Sub OpenSettingsPage()
-        Call CommonRuntime.ShowSingleDocument(Of FormHtmlViewer)().SetUrl($"http://127.0.0.1:{Workbench.port}/settings.html", New SettingsPage).SetTitle("Settings")
+        Call CommonRuntime.ShowSingleDocument(Of FormSettingsPage)()
     End Sub
 
     Public Sub OpenEditor()
