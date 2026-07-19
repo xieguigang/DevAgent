@@ -71,6 +71,11 @@ body {
   background: var(--button-active-background);
 }
 
+.toolbar button.active {
+  background: var(--button-active-background);
+  border-color: var(--button-hover-border);
+}
+
 .toolbar label {
   font-size: 12px;
   color: var(--ui-foreground-muted);
@@ -274,13 +279,61 @@ body {
   height: 100%;
   position: relative;
   background: var(--editor-background);
+  display: flex;
+  flex-direction: row;
 }
 
 .editor-scroll {
-  width: 100%;
+  flex: 1 1 0;
+  min-width: 0;
   height: 100%;
   overflow: auto;
   position: relative;
+}
+
+/* ---- Minimap (right-side code thumbnail / scrollbar proxy) ---- */
+
+.editor-minimap {
+  flex: 0 0 120px;
+  width: 120px;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  display: none;
+  background: var(--minimap-background);
+  border-left: 1px solid var(--minimap-border);
+  cursor: pointer;
+  user-select: none;
+  font-family: var(--code-font-family);
+  line-height: 1;
+}
+
+.editor-root.show-minimap .editor-minimap {
+  display: block;
+}
+
+.editor-minimap .minimap-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.editor-minimap .minimap-line {
+  white-space: pre;
+  overflow: hidden;
+  color: var(--minimap-foreground);
+}
+
+.editor-minimap .minimap-viewport {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  background: var(--minimap-viewport-background);
+  border: 1px solid var(--minimap-viewport-border);
+  box-sizing: border-box;
+  pointer-events: none;
 }
 
 .editor-gutter {

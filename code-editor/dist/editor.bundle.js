@@ -2685,6 +2685,10 @@ var CodeEditor;
                 this.completionActive = false;
                 this.completionIndex = 0;
                 this.completionAnchor = { line: 0, column: 0 };
+                this.minimapVisible = false;
+                this.minimapLineHeight = 2;
+                this.minimapDirty = true;
+                this.minimapDragging = false;
                 this.onChangeCallbacks = [];
                 this.onCursorChangeCallbacks = [];
                 this.container = container;
@@ -2699,6 +2703,7 @@ var CodeEditor;
                     this.recomputeFolds();
                     this.recomputeSymbols();
                     this.diffViewer.setCurrent(this.buffer.getText());
+                    this.minimapDirty = true;
                     this.render();
                     this.fireChange();
                 });
@@ -2729,6 +2734,16 @@ var CodeEditor;
                 this.scrollContainer.appendChild(this.textarea);
                 this.scrollContainer.appendChild(this.completionPopup);
                 this.container.appendChild(this.scrollContainer);
+                // Minimap (right-side code thumbnail / scrollbar proxy).
+                this.minimap = document.createElement("div");
+                this.minimap.className = "editor-minimap";
+                this.minimapContent = document.createElement("div");
+                this.minimapContent.className = "minimap-content";
+                this.minimapViewport = document.createElement("div");
+                this.minimapViewport.className = "minimap-viewport";
+                this.minimap.appendChild(this.minimapContent);
+                this.minimap.appendChild(this.minimapViewport);
+                this.container.appendChild(this.minimap);
                 // Measure char width.
                 this.measureCharWidth();
             }
@@ -2746,6 +2761,21 @@ var CodeEditor;
                 this.scrollContainer.addEventListener("scroll", () => {
                     this.firstVisibleLine = Math.floor(this.scrollContainer.scrollTop / this.lineHeight);
                     this.render();
+                });
+                // Minimap acts like a scrollbar: click/drag scrolls the editor.
+                this.minimap.addEventListener("mousedown", (e) => {
+                    if (!this.minimapVisible)
+                        return;
+                    this.minimapDragging = true;
+                    this.scrollFromMinimap(e);
+                    e.preventDefault();
+                });
+                window.addEventListener("mousemove", (e) => {
+                    if (this.minimapDragging)
+                        this.scrollFromMinimap(e);
+                });
+                window.addEventListener("mouseup", () => {
+                    this.minimapDragging = false;
                 });
                 this.textarea.addEventListener("input", (e) => {
                     this.handleInput();
@@ -2769,6 +2799,7 @@ var CodeEditor;
                     this.handleGutterClick(e);
                 });
                 window.addEventListener("resize", () => {
+                    this.minimapDirty = true;
                     this.render();
                 });
             }
@@ -2954,6 +2985,7 @@ var CodeEditor;
                 this.currentHighlighter = CodeEditor.Highlighters.HighlighterRegistry.get(language);
                 this.highlighter.setHighlighter(this.currentHighlighter);
                 this.highlighter.invalidateAll();
+                this.minimapDirty = true;
                 this.recomputeFolds();
                 this.recomputeSymbols();
                 this.render();
@@ -2992,6 +3024,7 @@ var CodeEditor;
                 else {
                     this.collapsedLines.add(line);
                 }
+                this.minimapDirty = true;
                 this.render();
             }
             isLineCollapsed(line) {
@@ -3193,6 +3226,78 @@ var CodeEditor;
                 this.renderGutter();
                 this.renderCodeView();
                 this.renderCaret();
+                this.renderMinimap();
+            }
+            // ---- Minimap (right-side code thumbnail / scrollbar proxy) ----
+            setMinimapVisible(visible) {
+                this.minimapVisible = visible;
+                this.container.classList.toggle("show-minimap", visible);
+                if (visible) {
+                    this.minimapDirty = true;
+                    this.renderMinimap();
+                }
+            }
+            toggleMinimap() {
+                this.setMinimapVisible(!this.minimapVisible);
+            }
+            isMinimapVisible() {
+                return this.minimapVisible;
+            }
+            renderMinimap() {
+                if (!this.minimapVisible)
+                    return;
+                if (this.minimapDirty) {
+                    this.renderMinimapContent();
+                    this.minimapDirty = false;
+                }
+                this.updateMinimapViewport();
+            }
+            renderMinimapContent() {
+                const lineCount = this.buffer.lineCount;
+                const parts = [];
+                let visible = 0;
+                for (let i = 0; i < lineCount; i++) {
+                    if (this.isLineHiddenByFold(i))
+                        continue;
+                    visible++;
+                    const lineText = this.buffer.getLine(i);
+                    const lineHtml = this.renderLine(i, lineText);
+                    parts.push(`<div class="minimap-line">${lineHtml}</div>`);
+                }
+                this.minimapContent.innerHTML = parts.join("");
+                // Compress every line so the whole document fits the minimap height.
+                const containerH = this.minimap.clientHeight || 1;
+                const lineH = visible > 0 ? Math.max(1, containerH / visible) : containerH;
+                this.minimapLineHeight = lineH;
+                const lineEls = this.minimapContent.querySelectorAll(".minimap-line");
+                lineEls.forEach((el) => {
+                    const node = el;
+                    node.style.height = lineH + "px";
+                    node.style.fontSize = lineH + "px";
+                });
+            }
+            updateMinimapViewport() {
+                const sh = this.scrollContainer.scrollHeight;
+                const ch = this.scrollContainer.clientHeight;
+                const mmH = this.minimap.clientHeight;
+                const top = sh > 0 ? (this.scrollContainer.scrollTop / sh) * mmH : 0;
+                const height = sh > 0 ? (ch / sh) * mmH : mmH;
+                this.minimapViewport.style.top = top + "px";
+                this.minimapViewport.style.height = Math.max(4, height) + "px";
+            }
+            scrollFromMinimap(e) {
+                if (!this.minimapVisible)
+                    return;
+                const rect = this.minimap.getBoundingClientRect();
+                let y = e.clientY - rect.top;
+                y = Math.max(0, Math.min(y, rect.height));
+                const fraction = y / rect.height;
+                const sh = this.scrollContainer.scrollHeight;
+                const ch = this.scrollContainer.clientHeight;
+                const maxScroll = Math.max(0, sh - ch);
+                // Center the clicked point under the cursor, like dragging a thumb.
+                const target = fraction * sh - ch / 2;
+                this.scrollContainer.scrollTop = Math.max(0, Math.min(target, maxScroll));
             }
             renderGutter() {
                 const lineCount = this.buffer.lineCount;
@@ -3443,6 +3548,12 @@ End Namespace
                 if (!panel.classList.contains("hidden")) {
                     this.refreshSymbols();
                 }
+            });
+            // Toggle minimap (right-side code thumbnail / scrollbar proxy).
+            const minimapBtn = document.getElementById("btn-toggle-minimap");
+            minimapBtn.addEventListener("click", () => {
+                this.editor.toggleMinimap();
+                minimapBtn.classList.toggle("active", this.editor.isMinimapVisible());
             });
             // Delegated handler for the symbols tree: collapse/expand nodes and
             // navigate when a symbol row is clicked.

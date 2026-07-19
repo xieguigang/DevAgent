@@ -99,6 +99,7 @@ namespace CodeEditor.Core {
                 this.recomputeFolds();
                 this.recomputeSymbols();
                 this.diffViewer.setCurrent(this.buffer.getText());
+                this.minimapDirty = true;
                 this.render();
                 this.fireChange();
             });
@@ -212,6 +213,7 @@ namespace CodeEditor.Core {
             });
 
             window.addEventListener("resize", () => {
+                this.minimapDirty = true;
                 this.render();
             });
         }
@@ -416,6 +418,7 @@ namespace CodeEditor.Core {
             this.currentHighlighter = Highlighters.HighlighterRegistry.get(language);
             this.highlighter.setHighlighter(this.currentHighlighter);
             this.highlighter.invalidateAll();
+            this.minimapDirty = true;
             this.recomputeFolds();
             this.recomputeSymbols();
             this.render();
@@ -461,6 +464,7 @@ namespace CodeEditor.Core {
             } else {
                 this.collapsedLines.add(line);
             }
+            this.minimapDirty = true;
             this.render();
         }
 
@@ -692,6 +696,84 @@ namespace CodeEditor.Core {
             this.renderGutter();
             this.renderCodeView();
             this.renderCaret();
+            this.renderMinimap();
+        }
+
+        // ---- Minimap (right-side code thumbnail / scrollbar proxy) ----
+
+        setMinimapVisible(visible: boolean): void {
+            this.minimapVisible = visible;
+            this.container.classList.toggle("show-minimap", visible);
+            if (visible) {
+                this.minimapDirty = true;
+                this.renderMinimap();
+            }
+        }
+
+        toggleMinimap(): void {
+            this.setMinimapVisible(!this.minimapVisible);
+        }
+
+        isMinimapVisible(): boolean {
+            return this.minimapVisible;
+        }
+
+        private renderMinimap(): void {
+            if (!this.minimapVisible) return;
+            if (this.minimapDirty) {
+                this.renderMinimapContent();
+                this.minimapDirty = false;
+            }
+            this.updateMinimapViewport();
+        }
+
+        private renderMinimapContent(): void {
+            const lineCount = this.buffer.lineCount;
+            const parts: string[] = [];
+            let visible = 0;
+            for (let i = 0; i < lineCount; i++) {
+                if (this.isLineHiddenByFold(i)) continue;
+                visible++;
+                const lineText = this.buffer.getLine(i);
+                const lineHtml = this.renderLine(i, lineText);
+                parts.push(`<div class="minimap-line">${lineHtml}</div>`);
+            }
+            this.minimapContent.innerHTML = parts.join("");
+
+            // Compress every line so the whole document fits the minimap height.
+            const containerH = this.minimap.clientHeight || 1;
+            const lineH = visible > 0 ? Math.max(1, containerH / visible) : containerH;
+            this.minimapLineHeight = lineH;
+            const lineEls = this.minimapContent.querySelectorAll(".minimap-line");
+            lineEls.forEach((el) => {
+                const node = el as HTMLElement;
+                node.style.height = lineH + "px";
+                node.style.fontSize = lineH + "px";
+            });
+        }
+
+        private updateMinimapViewport(): void {
+            const sh = this.scrollContainer.scrollHeight;
+            const ch = this.scrollContainer.clientHeight;
+            const mmH = this.minimap.clientHeight;
+            const top = sh > 0 ? (this.scrollContainer.scrollTop / sh) * mmH : 0;
+            const height = sh > 0 ? (ch / sh) * mmH : mmH;
+            this.minimapViewport.style.top = top + "px";
+            this.minimapViewport.style.height = Math.max(4, height) + "px";
+        }
+
+        private scrollFromMinimap(e: MouseEvent): void {
+            if (!this.minimapVisible) return;
+            const rect = this.minimap.getBoundingClientRect();
+            let y = e.clientY - rect.top;
+            y = Math.max(0, Math.min(y, rect.height));
+            const fraction = y / rect.height;
+            const sh = this.scrollContainer.scrollHeight;
+            const ch = this.scrollContainer.clientHeight;
+            const maxScroll = Math.max(0, sh - ch);
+            // Center the clicked point under the cursor, like dragging a thumb.
+            const target = fraction * sh - ch / 2;
+            this.scrollContainer.scrollTop = Math.max(0, Math.min(target, maxScroll));
         }
 
         private renderGutter(): void {

@@ -47,6 +47,13 @@ body[data-theme="light"] {
   --symbol-name-foreground: #1e1e1e;
   --symbol-kind-background: #eeeeee;
 
+  /* ---- Minimap ---- */
+  --minimap-background: #f7f7f7;
+  --minimap-border: #e2e2e2;
+  --minimap-foreground: #767676;
+  --minimap-viewport-background: rgba(0, 0, 0, 0.10);
+  --minimap-viewport-border: rgba(0, 0, 0, 0.28);
+
   /* ---- Editor ---- */
   --editor-background: #ffffff;
   --gutter-background: #ffffff;

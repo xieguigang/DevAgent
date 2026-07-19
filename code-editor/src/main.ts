@@ -165,6 +165,13 @@ End Namespace
                 }
             });
 
+            // Toggle minimap (right-side code thumbnail / scrollbar proxy).
+            const minimapBtn = document.getElementById("btn-toggle-minimap")!;
+            minimapBtn.addEventListener("click", () => {
+                this.editor.toggleMinimap();
+                minimapBtn.classList.toggle("active", this.editor.isMinimapVisible());
+            });
+
             // Delegated handler for the symbols tree: collapse/expand nodes and
             // navigate when a symbol row is clicked.
             this.symbolList.addEventListener("click", (e: MouseEvent) => {
