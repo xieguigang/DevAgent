@@ -39,7 +39,7 @@ Module Workbench
     Private Function CheckDevelopmentMode() As Boolean
         Dim home As String = App.HOME.ToLower.Replace("\", "/").Replace("//", "/")
 
-        If home.StartsWith("g:\devagent") Then
+        If home.StartsWith("g:/devagent") Then
             Return True
         Else
             Return False
