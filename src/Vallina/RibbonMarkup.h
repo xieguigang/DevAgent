@@ -75,4 +75,8 @@
 #define cmdButtonSaveCodeFile_LargeImages_192__RESID 60047
 #define cmdGroupCodeFile 23 
 #define cmdGroupCodeFile_LabelTitle_RESID 60048
-#define InternalCmd2_LabelTitle_RESID 60049
+#define cmdButtonSaveAsCodeFile 24 
+#define cmdButtonSaveAsCodeFile_LabelTitle_RESID 60049
+#define cmdButtonSaveAsCodeFile_SmallImages_192__RESID 60050
+#define cmdButtonSaveAsCodeFile_LargeImages_192__RESID 60051
+#define InternalCmd2_LabelTitle_RESID 60052

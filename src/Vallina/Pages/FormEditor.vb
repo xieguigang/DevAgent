@@ -8,6 +8,7 @@ Imports VallinaDevelopment.Javascript
 Public Class FormEditor
 
     Shared ReadOnly btnSave As RibbonEventBinding
+    Shared ReadOnly btnSaveAs As RibbonEventBinding
 
     Shared ReadOnly btnGotoLine As RibbonEventBinding
     Shared ReadOnly btnShowSymbols As RibbonEventBinding
@@ -19,6 +20,7 @@ Public Class FormEditor
 
     Shared Sub New()
         btnSave = New RibbonEventBinding(Ribbon.ButtonSaveCodeFile)
+        btnSaveAs = New RibbonEventBinding(Ribbon.ButtonSaveAsCodeFile)
 
         btnGotoLine = New RibbonEventBinding(Ribbon.ButtonGotoLine)
         btnShowDiffs = New RibbonEventBinding(Ribbon.ButtonEditorDiff)
@@ -88,21 +90,26 @@ Public Class FormEditor
 
     Private Async Function SaveCodeFile() As Task
         If codefile.StringEmpty Then
-            Using file As New SaveFileDialog With {.Filter = "VisualBasic(*.vb)|*.vb"}
-                If file.ShowDialog = DialogResult.OK Then
-                    Call SetCodeFile(file.FileName)
-                    Call (Await GetCodeText()).SaveTo(file.FileName)
-                End If
-            End Using
+            Await SaveAsCodeFile()
         Else
             Call (Await GetCodeText()).SaveTo(codefile)
         End If
+    End Function
+
+    Private Async Function SaveAsCodeFile() As Task
+        Using file As New SaveFileDialog With {.Filter = "VisualBasic(*.vb)|*.vb|Rscript(*.r)|*.r"}
+            If file.ShowDialog = DialogResult.OK Then
+                Call SetCodeFile(file.FileName)
+                Call (Await GetCodeText()).SaveTo(file.FileName)
+            End If
+        End Using
     End Function
 
     Private Sub ActivateRibbon()
         Ribbon.RibbonEditor.ContextAvailable = ContextAvailability.Active
 
         Call btnSave.Addhandler(Async Sub() Await SaveCodeFile())
+        Call btnSaveAs.Addhandler(Async Sub() Await SaveAsCodeFile())
 
         Call btnGotoLine.Addhandler(Async Sub() Await GotoLine())
         Call btnShowDiffs.Addhandler(Async Sub() Await ShowDiffs())
