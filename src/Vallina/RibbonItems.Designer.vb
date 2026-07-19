@@ -23,8 +23,8 @@ Namespace RibbonLib.Controls
             Public Const cmdRibbonEditor As UInteger = 7
             Public Const cmdMenuEditor As UInteger = 8
             Public Const cmdGroupEditor As UInteger = 9
-            Public Const cmdButtonEditorDiff As UInteger = 17
             Public Const cmdButtonGotoLine As UInteger = 18
+            Public Const cmdButtonEditorDiff As UInteger = 17
             Public Const cmdButtonEditorSymbols As UInteger = 16
             Public Const cmdGroupEditorMics As UInteger = 19
             Public Const cmdButtonEditorTheme As UInteger = 15
@@ -91,16 +91,16 @@ Namespace RibbonLib.Controls
                 Return _GroupEditor
             End Get
         End Property
-        Private _ButtonEditorDiff As RibbonButton
-        Public ReadOnly Property ButtonEditorDiff As RibbonButton
-            Get
-                Return _ButtonEditorDiff
-            End Get
-        End Property
         Private _ButtonGotoLine As RibbonButton
         Public ReadOnly Property ButtonGotoLine As RibbonButton
             Get
                 Return _ButtonGotoLine
+            End Get
+        End Property
+        Private _ButtonEditorDiff As RibbonButton
+        Public ReadOnly Property ButtonEditorDiff As RibbonButton
+            Get
+                Return _ButtonEditorDiff
             End Get
         End Property
         Private _ButtonEditorSymbols As RibbonButton
@@ -165,8 +165,8 @@ Namespace RibbonLib.Controls
             _RibbonEditor = New RibbonTabGroup(_ribbon, Cmd.cmdRibbonEditor)
             _MenuEditor = New RibbonTab(_ribbon, Cmd.cmdMenuEditor)
             _GroupEditor = New RibbonGroup(_ribbon, Cmd.cmdGroupEditor)
-            _ButtonEditorDiff = New RibbonButton(_ribbon, Cmd.cmdButtonEditorDiff)
             _ButtonGotoLine = New RibbonButton(_ribbon, Cmd.cmdButtonGotoLine)
+            _ButtonEditorDiff = New RibbonButton(_ribbon, Cmd.cmdButtonEditorDiff)
             _ButtonEditorSymbols = New RibbonButton(_ribbon, Cmd.cmdButtonEditorSymbols)
             _GroupEditorMics = New RibbonGroup(_ribbon, Cmd.cmdGroupEditorMics)
             _ButtonEditorTheme = New RibbonButton(_ribbon, Cmd.cmdButtonEditorTheme)

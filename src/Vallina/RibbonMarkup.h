@@ -59,6 +59,8 @@
 #define cmdButtonEditorDiff_LargeImages_192__RESID 60036
 #define cmdButtonGotoLine 18 
 #define cmdButtonGotoLine_LabelTitle_RESID 60037
+#define cmdButtonGotoLine_SmallImages_192__RESID 60038
+#define cmdButtonGotoLine_LargeImages_192__RESID 60039
 #define cmdGroupEditorMics 19 
-#define cmdGroupEditorMics_LabelTitle_RESID 60038
-#define InternalCmd2_LabelTitle_RESID 60039
+#define cmdGroupEditorMics_LabelTitle_RESID 60040
+#define InternalCmd2_LabelTitle_RESID 60041

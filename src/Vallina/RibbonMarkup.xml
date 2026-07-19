@@ -87,7 +87,14 @@
         <Image MinDPI="192">Icons8/icons8-edit-pencil-96.png</Image>
       </Command.LargeImages>
     </Command>
-    <Command Name="cmdButtonGotoLine" Id="18" LabelTitle="Goto Line" />
+    <Command Name="cmdButtonGotoLine" Id="18" LabelTitle="Goto Line">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-goto-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-goto-96.png</Image>
+      </Command.LargeImages>
+    </Command>
     <Command Name="cmdGroupEditorMics" Id="19" LabelTitle="Mics" />
   </Application.Commands>
   <Application.Views>
@@ -116,8 +123,8 @@
         <TabGroup CommandName="cmdRibbonEditor">
           <Tab CommandName="cmdMenuEditor">
             <Group CommandName="cmdGroupEditor" SizeDefinition="ThreeButtons-OneBigAndTwoSmall">
-              <Button CommandName="cmdButtonEditorDiff" />
               <Button CommandName="cmdButtonGotoLine" />
+              <Button CommandName="cmdButtonEditorDiff" />
               <Button CommandName="cmdButtonEditorSymbols" />
             </Group>
             <Group CommandName="cmdGroupEditorMics" SizeDefinition="OneButton">
