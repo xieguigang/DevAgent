@@ -144,6 +144,7 @@ Module Program
         Console.WriteLine("  - Ollama service running locally (ollama serve)")
         Console.WriteLine("  - .NET 10 SDK installed")
         Console.WriteLine("  - git installed and in PATH")
+        Console.WriteLine("  - api key for openai LLMs will be read from file '<mydocument>/.openai.key' by default if apikey parameter is missing.")
         Console.WriteLine("  - An Ollama model pulled (e.g., ollama pull llama3.2)")
         Console.WriteLine()
     End Sub
