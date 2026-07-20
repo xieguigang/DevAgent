@@ -36,6 +36,9 @@ Public Class Opts
         If Not requirementFile.StringEmpty Then
             requirements = requirementFile.ReadAllText
         End If
+        If apikey.StringEmpty Then
+            apikey = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) & "/.openai.key"
+        End If
 
         Return Me
     End Function
