@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "G:\\DevAgent\\src\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\vallina.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|solutionrelative:vallina\\vallina.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{65D3564D-F186-7A81-3B80-2E8603B4C97B}|..\\..\\LLMs\\src\\Ollama\\Ollama.vbproj|g:\\llms\\src\\ollama\\llmclient.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -17,21 +21,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 179,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "LLMClient.vb",
-              "DocumentMoniker": "G:\\LLMs\\src\\Ollama\\LLMClient.vb",
-              "RelativeDocumentMoniker": "..\\..\\LLMs\\src\\Ollama\\LLMClient.vb",
-              "ToolTip": "G:\\LLMs\\src\\Ollama\\LLMClient.vb",
-              "RelativeToolTip": "..\\..\\LLMs\\src\\Ollama\\LLMClient.vb",
-              "ViewState": "AgIAADMAAAAAAAAAAAAUwF0AAABAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-20T07:47:48.481Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -46,7 +37,33 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Vallina",
+              "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\Vallina.vbproj",
+              "RelativeDocumentMoniker": "Vallina\\Vallina.vbproj",
+              "ToolTip": "G:\\DevAgent\\src\\Vallina\\Vallina.vbproj",
+              "RelativeToolTip": "Vallina\\Vallina.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2026-07-21T16:26:40.387Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "LLMClient.vb",
+              "DocumentMoniker": "G:\\LLMs\\src\\Ollama\\LLMClient.vb",
+              "RelativeDocumentMoniker": "..\\..\\LLMs\\src\\Ollama\\LLMClient.vb",
+              "ToolTip": "G:\\LLMs\\src\\Ollama\\LLMClient.vb",
+              "RelativeToolTip": "..\\..\\LLMs\\src\\Ollama\\LLMClient.vb",
+              "ViewState": "AgIAACMAAAAAAAAAAAAowF0AAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-20T07:47:48.481Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Program.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\DevAgent\\Program.vb",
               "RelativeDocumentMoniker": "DevAgent\\Program.vb",
@@ -54,8 +71,7 @@
               "RelativeToolTip": "DevAgent\\Program.vb",
               "ViewState": "AgIAACQAAAAAAAAAAAA2wDwAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-20T07:09:05.497Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-20T07:09:05.497Z"
             }
           ]
         },
