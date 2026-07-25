@@ -32,6 +32,12 @@ Public Class Opts
     <Opt("--log", "-l")>
     Public Property logfile As String
 
+    <Opt("--repl")>
+    Public Property repl As Boolean = False
+
+    <Opt("--config", "-c")>
+    Public Property configFile As String
+
     Public Function ResolveFile() As Opts
         If Not requirementFile.StringEmpty Then
             requirements = requirementFile.ReadAllText

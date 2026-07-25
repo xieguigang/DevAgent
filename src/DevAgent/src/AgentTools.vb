@@ -21,10 +21,17 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Public Class AgentTools
 
     Private ReadOnly _basePath As String
+    Private ReadOnly _log As Action(Of String)
 
     ''' <param name="basePath">项目根目录的绝对路径。</param>
-    Public Sub New(basePath As String)
+    ''' <param name="logger">可选日志回调，工具执行动作（如写入文件）时反馈给上层。</param>
+    Public Sub New(basePath As String, Optional logger As Action(Of String) = Nothing)
         _basePath = Path.GetFullPath(basePath)
+        _log = logger
+    End Sub
+
+    Private Sub Log(message As String)
+        If _log IsNot Nothing Then _log(message)
     End Sub
 
     ''' <summary>
@@ -139,6 +146,36 @@ Public Class AgentTools
             Return If(sb.Length > 0, sb.ToString().TrimEnd(), "(empty project)")
         Catch ex As Exception
             Return $"Error getting project tree: {ex.Message}"
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' 将文本内容写入工作区内的指定文件。
+    ''' 会自动创建父目录；若文件已存在则覆盖。路径必须位于工作区内。
+    ''' </summary>
+    <Description("Write text content to a file in the project workspace. Creates parent directories as needed. Overwrites the file if it already exists. The path must be inside the project workspace. Returns a success message or an error message.")>
+    Public Function write_file(
+        <Argument("path", Description:="The file path relative to the project root directory, e.g. 'src/Module1.vb' or 'Program.vb'. Must be inside the project.")> path As String,
+        <Argument("content", Description:="The full text content to write to the file. Should be the complete file content.")> content As String
+    ) As String
+        If String.IsNullOrEmpty(path) Then
+            Return "Error: path is empty."
+        End If
+        Try
+            Dim fullPath As String = ResolveSafePath(path)
+            Dim dir As String = System.IO.Path.GetDirectoryName(fullPath)
+            If Not String.IsNullOrEmpty(dir) AndAlso Not Directory.Exists(dir) Then
+                Directory.CreateDirectory(dir)
+            End If
+            File.WriteAllText(fullPath, If(content, ""))
+            Dim rel As String = fullPath.Substring(_basePath.Length).TrimStart(System.IO.Path.DirectorySeparatorChar, "/"c)
+            Dim len As Integer = If(content?.Length, 0)
+            Log($"[write_file] wrote {rel} ({len} chars)")
+            Return $"OK: wrote {len} chars to {path}"
+        Catch ex As System.Security.SecurityException
+            Return $"Error: path '{path}' is outside the project workspace."
+        Catch ex As Exception
+            Return $"Error writing file '{path}': {ex.Message}"
         End Try
     End Function
 
