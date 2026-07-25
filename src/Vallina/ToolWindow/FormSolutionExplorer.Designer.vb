@@ -28,14 +28,19 @@ Partial Class FormSolutionExplorer
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormSolutionExplorer))
         TreeView1 = New TreeView()
         ToolStrip1 = New ToolStrip()
+        ImageList1 = New ImageList(components)
         SuspendLayout()
         ' 
         ' TreeView1
         ' 
         TreeView1.Dock = DockStyle.Fill
+        TreeView1.ImageIndex = 0
+        TreeView1.ImageList = ImageList1
         TreeView1.Location = New Point(0, 25)
         TreeView1.Name = "TreeView1"
+        TreeView1.SelectedImageIndex = 0
         TreeView1.Size = New Size(403, 600)
+        TreeView1.StateImageList = ImageList1
         TreeView1.TabIndex = 0
         ' 
         ' ToolStrip1
@@ -45,6 +50,14 @@ Partial Class FormSolutionExplorer
         ToolStrip1.Size = New Size(403, 25)
         ToolStrip1.TabIndex = 1
         ToolStrip1.Text = "ToolStrip1"
+        ' 
+        ' ImageList1
+        ' 
+        ImageList1.ColorDepth = ColorDepth.Depth32Bit
+        ImageList1.ImageStream = CType(resources.GetObject("ImageList1.ImageStream"), ImageListStreamer)
+        ImageList1.TransparentColor = Color.Transparent
+        ImageList1.Images.SetKeyName(0, "icons8-code-file-96.png")
+        ImageList1.Images.SetKeyName(1, "icons8-open-folder-in-new-tab-96.png")
         ' 
         ' FormSolutionExplorer
         ' 
@@ -65,4 +78,5 @@ Partial Class FormSolutionExplorer
 
     Friend WithEvents TreeView1 As TreeView
     Friend WithEvents ToolStrip1 As ToolStrip
+    Friend WithEvents ImageList1 As ImageList
 End Class

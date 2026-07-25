@@ -26,7 +26,7 @@ Module RibbonMenu
         }
             If file.ShowDialog = DialogResult.OK Then
                 If file.FileName.ExtensionSuffix("vbproj") Then
-                    Call OpenSolutionExplorer()
+                    Call OpenSolutionExplorer(file.FileName)
                 Else
                     Call CommonRuntime.ShowDocument(Of FormEditor)(title:=file.FileName.FileName).SetCodeFile(file.FileName)
                     Call OpenLLMsChat()
@@ -45,11 +45,14 @@ Module RibbonMenu
         Call CommonRuntime.RegisterToolWindow(chatbox, DockState.DockRight)
     End Sub
 
-    Public Sub OpenSolutionExplorer()
+    Public Sub OpenSolutionExplorer(proj As String)
         Dim explorer As FormSolutionExplorer = CommonRuntime.TryGetToolWindow("solution_explorer")
 
         If explorer Is Nothing Then
-            explorer = New FormSolutionExplorer With {.Name = "solution_explorer"}
+            explorer = New FormSolutionExplorer With {
+                .Name = "solution_explorer",
+                .ProjectFile = proj
+            }
         End If
 
         Call CommonRuntime.RegisterToolWindow(explorer, DockState.DockRightAutoHide)
