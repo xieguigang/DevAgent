@@ -19,7 +19,7 @@ Public Class FormSolutionExplorer
         TabText = $"Project Explorer [{ProjectFile.FileName}]"
         proj = Project.Load(ProjectFile)
 
-        Call ApplyVsTheme(ToolStrip1)
+        Call ApplyVsTheme(ToolStrip1, ContextMenuStrip1)
         Call LoadProjectFileTree()
     End Sub
 
@@ -45,5 +45,20 @@ Public Class FormSolutionExplorer
         End If
 
         Call RibbonMenu.OpenFileEdit($"{Workspace}/{node.FullName}".GetFullPath)
+    End Sub
+
+    Private Sub OpenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenToolStripMenuItem.Click
+        Dim node = TreeView1.SelectedNode
+
+        If node Is Nothing Then
+            Return
+        End If
+
+        Dim file As FileSystemTree = node.Tag
+
+        If file.IsDirectory Then
+        Else
+            Call RibbonMenu.OpenFileEdit($"{Workspace}/{ file.FullName}".GetFullPath)
+        End If
     End Sub
 End Class

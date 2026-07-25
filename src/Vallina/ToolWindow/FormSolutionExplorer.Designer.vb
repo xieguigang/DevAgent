@@ -30,11 +30,15 @@ Partial Class FormSolutionExplorer
         ImageList1 = New ImageList(components)
         ToolStrip1 = New ToolStrip()
         ToolStripButton1 = New ToolStripButton()
+        ContextMenuStrip1 = New ContextMenuStrip(components)
+        OpenToolStripMenuItem = New ToolStripMenuItem()
         ToolStrip1.SuspendLayout()
+        ContextMenuStrip1.SuspendLayout()
         SuspendLayout()
         ' 
         ' TreeView1
         ' 
+        TreeView1.ContextMenuStrip = ContextMenuStrip1
         TreeView1.Dock = DockStyle.Fill
         TreeView1.ImageIndex = 0
         TreeView1.ImageList = ImageList1
@@ -71,6 +75,19 @@ Partial Class FormSolutionExplorer
         ToolStripButton1.Size = New Size(23, 22)
         ToolStripButton1.Text = "ToolStripButton1"
         ' 
+        ' ContextMenuStrip1
+        ' 
+        ContextMenuStrip1.Items.AddRange(New ToolStripItem() {OpenToolStripMenuItem})
+        ContextMenuStrip1.Name = "ContextMenuStrip1"
+        ContextMenuStrip1.Size = New Size(181, 48)
+        ' 
+        ' OpenToolStripMenuItem
+        ' 
+        OpenToolStripMenuItem.Image = CType(resources.GetObject("OpenToolStripMenuItem.Image"), Image)
+        OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
+        OpenToolStripMenuItem.Size = New Size(180, 22)
+        OpenToolStripMenuItem.Text = "Open"
+        ' 
         ' FormSolutionExplorer
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -86,6 +103,7 @@ Partial Class FormSolutionExplorer
         Text = "Solution Explorer"
         ToolStrip1.ResumeLayout(False)
         ToolStrip1.PerformLayout()
+        ContextMenuStrip1.ResumeLayout(False)
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -94,4 +112,6 @@ Partial Class FormSolutionExplorer
     Friend WithEvents ToolStrip1 As ToolStrip
     Friend WithEvents ImageList1 As ImageList
     Friend WithEvents ToolStripButton1 As ToolStripButton
+    Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
+    Friend WithEvents OpenToolStripMenuItem As ToolStripMenuItem
 End Class
