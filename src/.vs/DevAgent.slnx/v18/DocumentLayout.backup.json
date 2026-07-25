@@ -1,7 +1,34 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\DevAgent\\src\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{9CDFC7C0-DB7A-49BE-8C6A-52BFBFB38A16}|LanguageServer\\LanguageServer.vbproj|g:\\devagent\\src\\languageserver\\services.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{9CDFC7C0-DB7A-49BE-8C6A-52BFBFB38A16}|LanguageServer\\LanguageServer.vbproj|solutionrelative:languageserver\\services.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24611552-70DC-08CD-A63B-B0475723C84F}|..\\..\\GCModeller\\src\\runtime\\httpd\\src\\Flute\\Flute.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\httpd\\src\\flute\\httpdriver.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{24611552-70DC-08CD-A63B-B0475723C84F}|..\\..\\GCModeller\\src\\runtime\\httpd\\src\\Flute\\Flute.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\httpd\\src\\flute\\servercomponent.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DDC44E20-41AD-8D6E-0FB1-3785F2A6CD20}|..\\..\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\Fluteway.vbproj|g:\\gcmodeller\\src\\runtime\\httpd\\src\\http_server\\fluteway.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DDC44E20-41AD-8D6E-0FB1-3785F2A6CD20}|..\\..\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\Fluteway.vbproj|g:\\gcmodeller\\src\\runtime\\httpd\\src\\http_server\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DDC44E20-41AD-8D6E-0FB1-3785F2A6CD20}|..\\..\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\Fluteway.vbproj|g:\\gcmodeller\\src\\runtime\\httpd\\src\\http_server\\interop.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DDC44E20-41AD-8D6E-0FB1-3785F2A6CD20}|..\\..\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\Fluteway.vbproj|g:\\gcmodeller\\src\\runtime\\httpd\\src\\http_server\\httpservices.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9CDFC7C0-DB7A-49BE-8C6A-52BFBFB38A16}|LanguageServer\\LanguageServer.vbproj|g:\\devagent\\src\\languageserver\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{9CDFC7C0-DB7A-49BE-8C6A-52BFBFB38A16}|LanguageServer\\LanguageServer.vbproj|solutionrelative:languageserver\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +36,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 179,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
@@ -22,6 +49,110 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ServerComponent.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\httpd\\src\\Flute\\ServerComponent.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\src\\runtime\\httpd\\src\\Flute\\ServerComponent.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\httpd\\src\\Flute\\ServerComponent.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\src\\runtime\\httpd\\src\\Flute\\ServerComponent.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-25T17:11:41.861Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Fluteway.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\Fluteway.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\Fluteway.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\Fluteway.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\Fluteway.vb",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-25T17:11:39.148Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\Program.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\Program.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\Program.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\Program.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-25T17:11:36.112Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Interop.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\Interop.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\Interop.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\Interop.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\Interop.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-25T17:11:35.153Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "HttpServices.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\HttpServices.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\HttpServices.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\HttpServices.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\HttpServices.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-25T17:11:30.479Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "HttpDriver.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\httpd\\src\\Flute\\HttpDriver.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\src\\runtime\\httpd\\src\\Flute\\HttpDriver.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\httpd\\src\\Flute\\HttpDriver.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\src\\runtime\\httpd\\src\\Flute\\HttpDriver.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGMAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-25T17:05:34.964Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Services.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\LanguageServer\\Services.vb",
+              "RelativeDocumentMoniker": "LanguageServer\\Services.vb",
+              "ToolTip": "G:\\DevAgent\\src\\LanguageServer\\Services.vb",
+              "RelativeToolTip": "LanguageServer\\Services.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-25T17:03:55.237Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Program.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\LanguageServer\\Program.vb",
+              "RelativeDocumentMoniker": "LanguageServer\\Program.vb",
+              "ToolTip": "G:\\DevAgent\\src\\LanguageServer\\Program.vb",
+              "RelativeToolTip": "LanguageServer\\Program.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-25T17:03:15.895Z",
+              "EditorCaption": ""
             }
           ]
         },
