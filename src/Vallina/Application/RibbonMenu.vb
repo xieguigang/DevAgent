@@ -18,6 +18,14 @@ Module RibbonMenu
         AddHandler ribbon.ButtonOpen.ExecuteEvent, Sub() Call OpenFileEdit()
         AddHandler ribbon.ButtonSettings.ExecuteEvent, Sub() Call OpenSettingsPage()
         AddHandler ribbon.ButtonLicense.ExecuteEvent, Sub() Call OpenLicenseDialog()
+        AddHandler ribbon.ButtonConsole.ExecuteEvent, Sub() Call OpenConsole()
+    End Sub
+
+    Public Sub OpenConsole()
+        Dim console As New FormConsole
+
+        console.Show(CommonRuntime.AppHost.GetDockPanel)
+        console.DockState = DockState.DockBottom
     End Sub
 
     Public Sub OpenFileEdit()

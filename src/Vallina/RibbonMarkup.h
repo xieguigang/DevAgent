@@ -91,4 +91,8 @@
 #define cmdButtonLicense_LabelTitle_RESID 60058
 #define cmdButtonLicense_SmallImages_192__RESID 60059
 #define cmdButtonLicense_LargeImages_192__RESID 60060
-#define InternalCmd2_LabelTitle_RESID 60061
+#define cmdButtonConsole 28 
+#define cmdButtonConsole_LabelTitle_RESID 60061
+#define cmdButtonConsole_SmallImages_192__RESID 60062
+#define cmdButtonConsole_LargeImages_192__RESID 60063
+#define InternalCmd2_LabelTitle_RESID 60064
