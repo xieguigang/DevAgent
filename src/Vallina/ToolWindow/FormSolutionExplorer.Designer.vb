@@ -29,6 +29,8 @@ Partial Class FormSolutionExplorer
         TreeView1 = New TreeView()
         ImageList1 = New ImageList(components)
         ToolStrip1 = New ToolStrip()
+        ToolStripButton1 = New ToolStripButton()
+        ToolStrip1.SuspendLayout()
         SuspendLayout()
         ' 
         ' TreeView1
@@ -53,11 +55,21 @@ Partial Class FormSolutionExplorer
         ' 
         ' ToolStrip1
         ' 
+        ToolStrip1.Items.AddRange(New ToolStripItem() {ToolStripButton1})
         ToolStrip1.Location = New Point(0, 0)
         ToolStrip1.Name = "ToolStrip1"
         ToolStrip1.Size = New Size(403, 25)
         ToolStrip1.TabIndex = 1
         ToolStrip1.Text = "ToolStrip1"
+        ' 
+        ' ToolStripButton1
+        ' 
+        ToolStripButton1.DisplayStyle = ToolStripItemDisplayStyle.Image
+        ToolStripButton1.Image = CType(resources.GetObject("ToolStripButton1.Image"), Image)
+        ToolStripButton1.ImageTransparentColor = Color.Magenta
+        ToolStripButton1.Name = "ToolStripButton1"
+        ToolStripButton1.Size = New Size(23, 22)
+        ToolStripButton1.Text = "ToolStripButton1"
         ' 
         ' FormSolutionExplorer
         ' 
@@ -72,6 +84,8 @@ Partial Class FormSolutionExplorer
         Name = "FormSolutionExplorer"
         ShowHint = Microsoft.VisualStudio.WinForms.Docking.DockState.Unknown
         Text = "Solution Explorer"
+        ToolStrip1.ResumeLayout(False)
+        ToolStrip1.PerformLayout()
         ResumeLayout(False)
         PerformLayout()
     End Sub
@@ -79,4 +93,5 @@ Partial Class FormSolutionExplorer
     Friend WithEvents TreeView1 As TreeView
     Friend WithEvents ToolStrip1 As ToolStrip
     Friend WithEvents ImageList1 As ImageList
+    Friend WithEvents ToolStripButton1 As ToolStripButton
 End Class
