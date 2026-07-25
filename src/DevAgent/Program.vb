@@ -1,4 +1,4 @@
-Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
+﻿Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine
 Imports Ollama
 
@@ -161,7 +161,7 @@ Module Program
         Console.WriteLine("Usage:")
         Console.WriteLine("  DevAgent --project <path> --requirements <text> [options]")
         Console.WriteLine("  DevAgent --project <path> --requirements-file <file> [options]")
-        Console.WriteLine("  DevAgent [--repl]                   Start interactive REPL (workspace = current dir)")
+        Console.WriteLine("  DevAgent [--repl]             Start interactive REPL (workspace = current dir)")
         Console.WriteLine()
         Console.WriteLine("Required (CLI mode):")
         Console.WriteLine("  --project, -p <path>          Project directory path")

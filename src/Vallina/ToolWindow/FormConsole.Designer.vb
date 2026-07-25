@@ -25,6 +25,7 @@ Partial Class FormConsole
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         components = New ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormConsole))
         ConsoleControl1 = New Microsoft.VisualBasic.Windows.Forms.ConsoleControl()
         SuspendLayout()
         ' 
@@ -51,8 +52,10 @@ Partial Class FormConsole
         Controls.Add(ConsoleControl1)
         DockAreas = Microsoft.VisualStudio.WinForms.Docking.DockAreas.Float Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockLeft Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockRight Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockTop Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockBottom Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.Document
         DoubleBuffered = True
+        Icon = CType(resources.GetObject("$this.Icon"), Icon)
         Name = "FormConsole"
         ShowHint = Microsoft.VisualStudio.WinForms.Docking.DockState.Unknown
+        Text = "Console: CMD"
         ResumeLayout(False)
     End Sub
 
