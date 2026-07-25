@@ -28,11 +28,15 @@ Module RibbonMenu
                 If file.FileName.ExtensionSuffix("vbproj") Then
                     Call OpenSolutionExplorer(file.FileName)
                 Else
-                    Call CommonRuntime.ShowDocument(Of FormEditor)(title:=file.FileName.FileName).SetCodeFile(file.FileName)
+                    Call OpenFileEdit(file.FileName)
                     Call OpenLLMsChat()
                 End If
             End If
         End Using
+    End Sub
+
+    Public Sub OpenFileEdit(filepath As String)
+        Call CommonRuntime.ShowDocument(Of FormEditor)(title:=filepath.FileName).SetCodeFile(filepath)
     End Sub
 
     Public Sub OpenLLMsChat()

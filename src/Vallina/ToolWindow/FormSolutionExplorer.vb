@@ -38,7 +38,12 @@ Public Class FormSolutionExplorer
     End Sub
 
     Private Sub TreeView1_NodeMouseDoubleClick(sender As Object, e As TreeNodeMouseClickEventArgs) Handles TreeView1.NodeMouseDoubleClick
-        Dim node = e.Node
+        Dim node As FileSystemTree = e.Node.Tag
 
+        If node.IsDirectory Then
+            Return
+        End If
+
+        Call RibbonMenu.OpenFileEdit($"{Workspace}/{node.FullName}".GetFullPath)
     End Sub
 End Class
