@@ -79,6 +79,7 @@
     <ProjectReference Include="..\..\..\LLMs\src\Ollama\Ollama.vbproj" />
     <ProjectReference Include="..\..\..\mini-R\src\console\console\console.NET5.vbproj" />
     <ProjectReference Include="..\DevAgent\DevAgent.vbproj" />
+    <ProjectReference Include="..\LanguageServer\LanguageServer.vbproj" />
   </ItemGroup>
 
   <ItemGroup>
