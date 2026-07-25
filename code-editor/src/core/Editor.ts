@@ -83,6 +83,13 @@ namespace CodeEditor.Core {
         private minimapDirty: boolean = true;
         private minimapDragging: boolean = false;
 
+        // While setting the textarea selection the browser triggers a native
+        // "caret scrolling" side-effect. Because the textarea is transformed
+        // to the cursor line, this double-counts the line offset and scrolls
+        // the container to the wrong position. This flag gates the scroll
+        // handler so the caret-scroll does not cause a render loop.
+        private _suppressCaretScroll: boolean = false;
+
         private onChangeCallbacks: Array<() => void> = [];
         private onCursorChangeCallbacks: Array<() => void> = [];
 
@@ -166,6 +173,7 @@ namespace CodeEditor.Core {
 
         private attachEvents(): void {
             this.scrollContainer.addEventListener("scroll", () => {
+                if (this._suppressCaretScroll) return;
                 this.firstVisibleLine = Math.floor(this.scrollContainer.scrollTop / this.lineHeight);
                 this.render();
             });
@@ -264,6 +272,36 @@ namespace CodeEditor.Core {
             return pos + column;
         }
 
+        /**
+         * Sets the textarea caret position without triggering the browser's
+         * native caret-scrolling side-effect. The textarea is visually moved
+         * to the cursor line via transform in renderCaret(), so letting the
+         * browser scroll the container to bring the caret into view would
+         * double-count the line offset and scroll to the wrong position.
+         */
+        private setTextareaSelection(start: number, end?: number): void {
+            const scrollTop = this.scrollContainer.scrollTop;
+            const scrollLeft = this.scrollContainer.scrollLeft;
+            this._suppressCaretScroll = true;
+            try {
+                this.textarea.focus({ preventScroll: true });
+                this.textarea.selectionStart = start;
+                this.textarea.selectionEnd = end !== undefined ? end : start;
+            } finally {
+                // Undo any synchronous scroll the browser performed.
+                this.scrollContainer.scrollTop = scrollTop;
+                this.scrollContainer.scrollLeft = scrollLeft;
+            }
+            // Caret scrolling may be applied asynchronously on the next frame.
+            // Restore again, then release the flag (order matters: restore
+            // first while still suppressed, then clear the flag).
+            requestAnimationFrame(() => {
+                this.scrollContainer.scrollTop = scrollTop;
+                this.scrollContainer.scrollLeft = scrollLeft;
+                this._suppressCaretScroll = false;
+            });
+        }
+
         private updateCaretFromTextarea(): void {
             const pos = this.textarea.selectionStart;
             this.cursor.setPosition(this.textareaToBufferPos(pos));
@@ -306,7 +344,7 @@ namespace CodeEditor.Core {
                 const start = this.textarea.selectionStart;
                 const end = this.textarea.selectionEnd;
                 this.textarea.value = this.textarea.value.substring(0, start) + insertStr + this.textarea.value.substring(end);
-                this.textarea.selectionStart = this.textarea.selectionEnd = start + insertStr.length;
+                this.setTextareaSelection(start + insertStr.length);
                 this.handleInput();
                 return;
             }
@@ -350,8 +388,7 @@ namespace CodeEditor.Core {
                 const lineText = this.buffer.getLine(line);
                 const clampedCol = Math.min(column, lineText.length);
                 const pos = this.bufferToTextareaPos(line, clampedCol);
-                this.textarea.focus();
-                this.textarea.selectionStart = this.textarea.selectionEnd = pos;
+                this.setTextareaSelection(pos);
                 this.cursor.setPosition({ line, column: clampedCol });
                 this.render();
                 this.fireCursorChange();
@@ -372,9 +409,7 @@ namespace CodeEditor.Core {
                 this.cursor.setSelection({ line, column: 0 }, { line, column: lineLen });
                 const startPos = this.bufferToTextareaPos(line, 0);
                 const endPos = this.bufferToTextareaPos(line, lineLen);
-                this.textarea.focus();
-                this.textarea.selectionStart = startPos;
-                this.textarea.selectionEnd = endPos;
+                this.setTextareaSelection(startPos, endPos);
                 this.render();
                 this.fireCursorChange();
             }
@@ -396,7 +431,7 @@ namespace CodeEditor.Core {
             this.collapsedLines.clear();
             this.cursor.setPosition({ line: 0, column: 0 });
             this.textarea.value = text;
-            this.textarea.selectionStart = this.textarea.selectionEnd = 0;
+            this.setTextareaSelection(0);
             this.render();
             this.fireCursorChange();
         }
@@ -499,8 +534,7 @@ namespace CodeEditor.Core {
         goToSymbol(symbol: Symbol): void {
             this.cursor.setPosition({ line: symbol.line, column: symbol.column });
             const pos = this.bufferToTextareaPos(symbol.line, symbol.column);
-            this.textarea.focus();
-            this.textarea.selectionStart = this.textarea.selectionEnd = pos;
+            this.setTextareaSelection(pos);
             this.scrollToLine(symbol.line);
             this.render();
             this.fireCursorChange();
@@ -644,7 +678,7 @@ namespace CodeEditor.Core {
             this.cursor.setPosition({ line: pos.line, column: newCol });
             const taPos = this.bufferToTextareaPos(pos.line, newCol);
             this.textarea.value = this.buffer.getText();
-            this.textarea.selectionStart = this.textarea.selectionEnd = taPos;
+            this.setTextareaSelection(taPos);
             this.hideCompletion();
             this.render();
             this.fireCursorChange();
@@ -665,8 +699,7 @@ namespace CodeEditor.Core {
             const zeroBased = Math.max(0, Math.min(line - 1, this.buffer.lineCount - 1));
             this.cursor.setPosition({ line: zeroBased, column: 0 });
             const pos = this.bufferToTextareaPos(zeroBased, 0);
-            this.textarea.focus();
-            this.textarea.selectionStart = this.textarea.selectionEnd = pos;
+            this.setTextareaSelection(pos);
             this.scrollToLine(zeroBased);
             this.render();
             this.fireCursorChange();
