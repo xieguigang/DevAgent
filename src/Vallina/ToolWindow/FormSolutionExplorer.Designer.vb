@@ -27,8 +27,8 @@ Partial Class FormSolutionExplorer
         components = New ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormSolutionExplorer))
         TreeView1 = New TreeView()
-        ToolStrip1 = New ToolStrip()
         ImageList1 = New ImageList(components)
+        ToolStrip1 = New ToolStrip()
         SuspendLayout()
         ' 
         ' TreeView1
@@ -40,8 +40,16 @@ Partial Class FormSolutionExplorer
         TreeView1.Name = "TreeView1"
         TreeView1.SelectedImageIndex = 0
         TreeView1.Size = New Size(403, 600)
-        TreeView1.StateImageList = ImageList1
         TreeView1.TabIndex = 0
+        ' 
+        ' ImageList1
+        ' 
+        ImageList1.ColorDepth = ColorDepth.Depth32Bit
+        ImageList1.ImageStream = CType(resources.GetObject("ImageList1.ImageStream"), ImageListStreamer)
+        ImageList1.TransparentColor = Color.Transparent
+        ImageList1.Images.SetKeyName(0, "icons8-visual-studio-96.png")
+        ImageList1.Images.SetKeyName(1, "icons8-open-folder-in-new-tab-96.png")
+        ImageList1.Images.SetKeyName(2, "icons8-code-file-96.png")
         ' 
         ' ToolStrip1
         ' 
@@ -50,14 +58,6 @@ Partial Class FormSolutionExplorer
         ToolStrip1.Size = New Size(403, 25)
         ToolStrip1.TabIndex = 1
         ToolStrip1.Text = "ToolStrip1"
-        ' 
-        ' ImageList1
-        ' 
-        ImageList1.ColorDepth = ColorDepth.Depth32Bit
-        ImageList1.ImageStream = CType(resources.GetObject("ImageList1.ImageStream"), ImageListStreamer)
-        ImageList1.TransparentColor = Color.Transparent
-        ImageList1.Images.SetKeyName(0, "icons8-code-file-96.png")
-        ImageList1.Images.SetKeyName(1, "icons8-open-folder-in-new-tab-96.png")
         ' 
         ' FormSolutionExplorer
         ' 
