@@ -24,23 +24,24 @@ Module Program
     ''' 程序入口。
     ''' 使用 .GetAwaiter().GetResult() 避免异步 Main 的兼容性问题。
     ''' </summary>
-    Sub Main(args As String())
+    Public Function Main(args As String()) As Integer
         Try
-            RunAsync(args).GetAwaiter().GetResult()
+            Return RunAsync(args).GetAwaiter().GetResult()
         Catch ex As Exception
             Console.WriteLine("[FATAL] " & ex.Message)
             Console.WriteLine(ex.StackTrace)
             Environment.Exit(1)
         End Try
-    End Sub
 
-    Private Async Function RunAsync(args As String()) As Task
+        Return 1
+    End Function
+
+    Private Async Function RunAsync(args As String()) As Task(Of Integer)
         Dim opt As Opts = CommandLine.BuildFromArguments(args, NoSubCommand:=True).CreateOpts(Of Opts).ResolveFile
 
         ' --- --help 优先：直接打印用法，不做 INI 副作用 ---
         If opt.help Then
-            PrintUsage()
-            Return
+            Return PrintUsage()
         End If
 
         ' --- 加载配置（CLI > INI > 内置默认）---
@@ -49,16 +50,14 @@ Module Program
         ' --- REPL 模式：无参数或 --repl ---
         Dim isRepl As Boolean = args.Length = 0 OrElse opt.repl
         If isRepl Then
-            Await RunRepl(config)
-            Return
+            Return Await RunRepl(config)
         End If
 
         ' --- 验证 CLI 参数 ---
         If String.IsNullOrEmpty(opt.projectPath) OrElse
             String.IsNullOrEmpty(opt.requirements) Then
 
-            PrintUsage()
-            Return
+            Return PrintUsage()
         End If
 
         ' 打印配置信息
@@ -76,7 +75,7 @@ Module Program
         Catch ex As Exception
             Console.WriteLine("[ERROR] Failed to create Ollama client: " & ex.Message)
             Console.WriteLine("Please ensure Ollama service is running at: " & config.Url)
-            Return
+            Return 2
         End Try
 
         ' --- 创建配置 ---
@@ -107,12 +106,14 @@ Module Program
         Console.WriteLine()
         Console.WriteLine("Press any key to exit...")
         Console.ReadKey()
+
+        Return 0
     End Function
 
     ''' <summary>
     ''' 启动 REPL 交互模式。工作区为当前工作目录。
     ''' </summary>
-    Private Async Function RunRepl(config As AppConfig) As Task
+    Private Async Function RunRepl(config As AppConfig) As Task(Of Integer)
         Console.WriteLine("=== DevAgent REPL Configuration ===")
         Console.WriteLine($"  INI:          {config.IniPath} ({If(config.IniExists, "loaded", "not found")})")
         Console.WriteLine(config.SourceBanner)
@@ -124,7 +125,7 @@ Module Program
         Catch ex As Exception
             Console.WriteLine("[ERROR] Failed to create Ollama client: " & ex.Message)
             Console.WriteLine("Please ensure LLM service is running at: " & config.Url)
-            Return
+            Return 3
         End Try
 
         Dim logger As Action(Of String) = AddressOf Console.WriteLine
@@ -134,6 +135,8 @@ Module Program
             Dim session As New ReplSession(ollama, workspace, logger)
             Await session.Run()
         End Using
+
+        Return 0
     End Function
 
     ''' <summary>
@@ -150,7 +153,7 @@ Module Program
     ''' <summary>
     ''' 打印使用说明。
     ''' </summary>
-    Private Sub PrintUsage()
+    Private Function PrintUsage() As Integer
         Console.WriteLine()
         Console.WriteLine("DevAgent - VB.NET Automated Development Agent")
         Console.WriteLine("Powered by Ollama LLM And .NET 10 SDK")
@@ -194,6 +197,8 @@ Module Program
         Console.WriteLine("  - api key for openai LLMs will be read from file '<mydocument>/.openai.key' by default if apikey parameter is missing.")
         Console.WriteLine("  - An Ollama model pulled (e.g., ollama pull llama3.2)")
         Console.WriteLine()
-    End Sub
+
+        Return 0
+    End Function
 
 End Module
