@@ -24,13 +24,15 @@ Partial Class FormConsole
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        components = New ComponentModel.Container()
         ConsoleControl1 = New Microsoft.VisualBasic.Windows.Forms.ConsoleControl()
         SuspendLayout()
         ' 
         ' ConsoleControl1
         ' 
-        ConsoleControl1.BackColor = Color.LightGray
+        ConsoleControl1.BackColor = Color.DimGray
         ConsoleControl1.Dock = DockStyle.Fill
+        ConsoleControl1.ForeColor = Color.White
         ConsoleControl1.IsInputEnabled = True
         ConsoleControl1.Location = New Point(0, 0)
         ConsoleControl1.Margin = New Padding(4, 4, 4, 4)
@@ -47,8 +49,10 @@ Partial Class FormConsole
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1106, 706)
         Controls.Add(ConsoleControl1)
+        DockAreas = Microsoft.VisualStudio.WinForms.Docking.DockAreas.Float Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockLeft Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockRight Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockTop Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockBottom Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.Document
+        DoubleBuffered = True
         Name = "FormConsole"
-        Text = "Form1"
+        ShowHint = Microsoft.VisualStudio.WinForms.Docking.DockState.Unknown
         ResumeLayout(False)
     End Sub
 
