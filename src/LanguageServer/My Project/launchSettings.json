@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "LanguageServer": {
+      "commandName": "Project",
+      "commandLineArgs": "--listen --port=8080"
+    }
+  }
+}

@@ -120,6 +120,10 @@ End Namespace
             this.editor.setTheme(theme);
         }
 
+        public setApiEndpoint(url: string) {
+            this.editor.getCompletionProvider().setEndpoint(url);
+        }
+
         public toggleTheme() {
             if (this.editor.getTheme() == "light") {
                 this.setTheme("dark");

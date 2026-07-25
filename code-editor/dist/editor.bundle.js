@@ -3607,6 +3607,9 @@ End Namespace
         setTheme(theme) {
             this.editor.setTheme(theme);
         }
+        setApiEndpoint(url) {
+            this.editor.getCompletionProvider().setEndpoint(url);
+        }
         toggleTheme() {
             if (this.editor.getTheme() == "light") {
                 this.setTheme("dark");
