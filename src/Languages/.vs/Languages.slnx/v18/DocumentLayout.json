@@ -1,7 +1,38 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\DevAgent\\src\\Languages\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\il\\methodbodyreader.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\il\\methodanalyzer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\il\\ilinstruction.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\il\\globals.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\codesign\\vbcodesignature.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\codesign\\supportedlanguages.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\codesign\\licensemgr.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\codesign\\licenseinfo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\codesign\\codesign.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\codesign\\codestatistics.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +40,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -22,6 +53,136 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MethodBodyReader.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\MethodBodyReader.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\MethodBodyReader.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\MethodBodyReader.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\MethodBodyReader.vb",
+              "ViewState": "AgIAAOoAAAAAAAAAAAAuwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T18:20:19.391Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MethodAnalyzer.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\MethodAnalyzer.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\MethodAnalyzer.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\MethodAnalyzer.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\MethodAnalyzer.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoBAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T18:20:15.751Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ILInstruction.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\ILInstruction.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\ILInstruction.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\ILInstruction.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\ILInstruction.vb",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAUwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T18:20:11.74Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Globals.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\Globals.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\Globals.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\Globals.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\Globals.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T18:20:05.011Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "VBCodeSignature.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\VBCodeSignature.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\VBCodeSignature.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\VBCodeSignature.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\VBCodeSignature.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T18:19:59.705Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "SupportedLanguages.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\SupportedLanguages.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\SupportedLanguages.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\SupportedLanguages.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\SupportedLanguages.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T18:19:57.741Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "LicenseMgr.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\LicenseMgr.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\LicenseMgr.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\LicenseMgr.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\LicenseMgr.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T18:19:53.057Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "LicenseInfo.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\LicenseInfo.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\LicenseInfo.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\LicenseInfo.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\LicenseInfo.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T18:19:47.633Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CodeStatistics.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\CodeStatistics.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\CodeStatistics.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\CodeStatistics.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\CodeStatistics.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T18:19:43.828Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "CodeSign.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\CodeSign.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\CodeSign.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\CodeSign.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\CodeSign.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T18:19:37.504Z",
+              "EditorCaption": ""
             }
           ]
         },
