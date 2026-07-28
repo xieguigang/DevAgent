@@ -51,7 +51,7 @@ Public Class Services : Inherits HttpServer
         Select Case post.URL.path.Trim("/"c).ToLower
             Case "api/completion", "api/vbnet/completion"
                 ' 调用 VB.NET 语言服务处理补全请求
-                Call VbNetLanguageService.GetCompletions(post, response)
+                Call VisualBasicLanguageService.GetCompletions(post, response)
             Case Else
                 ' 未知路由返回空 items
                 Dim emptyJson As String = "{""items"":[]}"

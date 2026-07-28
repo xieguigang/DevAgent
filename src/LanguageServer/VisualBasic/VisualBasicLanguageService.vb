@@ -7,7 +7,7 @@ Imports Flute.Http.Core.Message
 ''' 通过分析 VB.NET 源代码文本，提取已声明的符号（类、模块、函数、属性、变量），
 ''' 结合内置关键词、类型、代码片段，生成补全候选项。
 ''' </summary>
-Public Class VbNetLanguageService
+Public Class VisualBasicLanguageService
 
 #Region "静态数据"
 
@@ -82,202 +82,187 @@ Public Class VbNetLanguageService
         ("Get Set", "Public Property $1 As $2" & vbCrLf & "    Get" & vbCrLf & "        Return $3" & vbCrLf & "    End Get" & vbCrLf & "    Set(value As $2)" & vbCrLf & "        $4 = value" & vbCrLf & "    End Set" & vbCrLf & "End Property", "带 Get/Set 的属性")
     }
 
-    ' 成员信息结构
-    Private Structure MemberInfo
-        Public ReadOnly Label As String
-        Public ReadOnly Kind As String
-        Public ReadOnly Detail As String
-        Public ReadOnly InsertText As String
-
-        Public Sub New(label As String, kind As String, detail As String, insertText As String)
-            Me.Label = label
-            Me.Kind = kind
-            Me.Detail = detail
-            Me.InsertText = If(insertText, label)
-        End Sub
-    End Structure
-
     ' 内置类型的常用成员
-    Private Shared Function BuildBuiltinTypeMembers() As Dictionary(Of String, MemberInfo())
-        Dim dict As New Dictionary(Of String, MemberInfo())(StringComparer.OrdinalIgnoreCase)
+    Private Shared Function BuildBuiltinTypeMembers() As Dictionary(Of String, LanguageMemberInfo())
+        Dim dict As New Dictionary(Of String, LanguageMemberInfo())(StringComparer.OrdinalIgnoreCase)
 
         dict("String") = {
-            New MemberInfo("Length", "property", "ReadOnly Property Length As Integer", "Length"),
-            New MemberInfo("Substring", "function", "Function Substring(startIndex As Integer) As String", "Substring($1)"),
-            New MemberInfo("IndexOf", "function", "Function IndexOf(value As String) As Integer", "IndexOf($1)"),
-            New MemberInfo("LastIndexOf", "function", "Function LastIndexOf(value As String) As Integer", "LastIndexOf($1)"),
-            New MemberInfo("Contains", "function", "Function Contains(value As String) As Boolean", "Contains($1)"),
-            New MemberInfo("StartsWith", "function", "Function StartsWith(value As String) As Boolean", "StartsWith($1)"),
-            New MemberInfo("EndsWith", "function", "Function EndsWith(value As String) As Boolean", "EndsWith($1)"),
-            New MemberInfo("Replace", "function", "Function Replace(oldValue As String, newValue As String) As String", "Replace($1, $2)"),
-            New MemberInfo("Split", "function", "Function Split(separator As Char()) As String()", "Split($1)"),
-            New MemberInfo("Trim", "function", "Function Trim() As String", "Trim()"),
-            New MemberInfo("TrimStart", "function", "Function TrimStart() As String", "TrimStart()"),
-            New MemberInfo("TrimEnd", "function", "Function TrimEnd() As String", "TrimEnd()"),
-            New MemberInfo("ToUpper", "function", "Function ToUpper() As String", "ToUpper()"),
-            New MemberInfo("ToLower", "function", "Function ToLower() As String", "ToLower()"),
-            New MemberInfo("ToString", "function", "Function ToString() As String", "ToString()"),
-            New MemberInfo("Equals", "function", "Function Equals(value As String) As Boolean", "Equals($1)"),
-            New MemberInfo("CompareTo", "function", "Function CompareTo(strB As String) As Integer", "CompareTo($1)"),
-            New MemberInfo("Concat", "function", "Shared Function Concat(a As String, b As String) As String", "Concat($1, $2)"),
-            New MemberInfo("Join", "function", "Shared Function Join(separator As String, value As String()) As String", "Join($1, $2)"),
-            New MemberInfo("IsNullOrEmpty", "function", "Shared Function IsNullOrEmpty(value As String) As Boolean", "IsNullOrEmpty($1)"),
-            New MemberInfo("IsNullOrWhiteSpace", "function", "Shared Function IsNullOrWhiteSpace(value As String) As Boolean", "IsNullOrWhiteSpace($1)"),
-            New MemberInfo("PadLeft", "function", "Function PadLeft(totalWidth As Integer) As String", "PadLeft($1)"),
-            New MemberInfo("PadRight", "function", "Function PadRight(totalWidth As Integer) As String", "PadRight($1)"),
-            New MemberInfo("Remove", "function", "Function Remove(startIndex As Integer) As String", "Remove($1)"),
-            New MemberInfo("Insert", "function", "Function Insert(startIndex As Integer, value As String) As String", "Insert($1, $2)"),
-            New MemberInfo("Chars", "property", "ReadOnly Property Chars(index As Integer) As Char", "Chars($1)")
+            New LanguageMemberInfo("Length", "property", "ReadOnly Property Length As Integer", "Length"),
+            New LanguageMemberInfo("Substring", "function", "Function Substring(startIndex As Integer) As String", "Substring($1)"),
+            New LanguageMemberInfo("IndexOf", "function", "Function IndexOf(value As String) As Integer", "IndexOf($1)"),
+            New LanguageMemberInfo("LastIndexOf", "function", "Function LastIndexOf(value As String) As Integer", "LastIndexOf($1)"),
+            New LanguageMemberInfo("Contains", "function", "Function Contains(value As String) As Boolean", "Contains($1)"),
+            New LanguageMemberInfo("StartsWith", "function", "Function StartsWith(value As String) As Boolean", "StartsWith($1)"),
+            New LanguageMemberInfo("EndsWith", "function", "Function EndsWith(value As String) As Boolean", "EndsWith($1)"),
+            New LanguageMemberInfo("Replace", "function", "Function Replace(oldValue As String, newValue As String) As String", "Replace($1, $2)"),
+            New LanguageMemberInfo("Split", "function", "Function Split(separator As Char()) As String()", "Split($1)"),
+            New LanguageMemberInfo("Trim", "function", "Function Trim() As String", "Trim()"),
+            New LanguageMemberInfo("TrimStart", "function", "Function TrimStart() As String", "TrimStart()"),
+            New LanguageMemberInfo("TrimEnd", "function", "Function TrimEnd() As String", "TrimEnd()"),
+            New LanguageMemberInfo("ToUpper", "function", "Function ToUpper() As String", "ToUpper()"),
+            New LanguageMemberInfo("ToLower", "function", "Function ToLower() As String", "ToLower()"),
+            New LanguageMemberInfo("ToString", "function", "Function ToString() As String", "ToString()"),
+            New LanguageMemberInfo("Equals", "function", "Function Equals(value As String) As Boolean", "Equals($1)"),
+            New LanguageMemberInfo("CompareTo", "function", "Function CompareTo(strB As String) As Integer", "CompareTo($1)"),
+            New LanguageMemberInfo("Concat", "function", "Shared Function Concat(a As String, b As String) As String", "Concat($1, $2)"),
+            New LanguageMemberInfo("Join", "function", "Shared Function Join(separator As String, value As String()) As String", "Join($1, $2)"),
+            New LanguageMemberInfo("IsNullOrEmpty", "function", "Shared Function IsNullOrEmpty(value As String) As Boolean", "IsNullOrEmpty($1)"),
+            New LanguageMemberInfo("IsNullOrWhiteSpace", "function", "Shared Function IsNullOrWhiteSpace(value As String) As Boolean", "IsNullOrWhiteSpace($1)"),
+            New LanguageMemberInfo("PadLeft", "function", "Function PadLeft(totalWidth As Integer) As String", "PadLeft($1)"),
+            New LanguageMemberInfo("PadRight", "function", "Function PadRight(totalWidth As Integer) As String", "PadRight($1)"),
+            New LanguageMemberInfo("Remove", "function", "Function Remove(startIndex As Integer) As String", "Remove($1)"),
+            New LanguageMemberInfo("Insert", "function", "Function Insert(startIndex As Integer, value As String) As String", "Insert($1, $2)"),
+            New LanguageMemberInfo("Chars", "property", "ReadOnly Property Chars(index As Integer) As Char", "Chars($1)")
         }
 
         dict("Integer") = {
-            New MemberInfo("ToString", "function", "Function ToString() As String", "ToString()"),
-            New MemberInfo("Equals", "function", "Function Equals(obj As Object) As Boolean", "Equals($1)"),
-            New MemberInfo("CompareTo", "function", "Function CompareTo(value As Integer) As Integer", "CompareTo($1)"),
-            New MemberInfo("Parse", "function", "Shared Function Parse(s As String) As Integer", "Parse($1)"),
-            New MemberInfo("TryParse", "function", "Shared Function TryParse(s As String, ByRef result As Integer) As Boolean", "TryParse($1, $2)")
+            New LanguageMemberInfo("ToString", "function", "Function ToString() As String", "ToString()"),
+            New LanguageMemberInfo("Equals", "function", "Function Equals(obj As Object) As Boolean", "Equals($1)"),
+            New LanguageMemberInfo("CompareTo", "function", "Function CompareTo(value As Integer) As Integer", "CompareTo($1)"),
+            New LanguageMemberInfo("Parse", "function", "Shared Function Parse(s As String) As Integer", "Parse($1)"),
+            New LanguageMemberInfo("TryParse", "function", "Shared Function TryParse(s As String, ByRef result As Integer) As Boolean", "TryParse($1, $2)")
         }
 
         dict("Double") = {
-            New MemberInfo("ToString", "function", "Function ToString() As String", "ToString()"),
-            New MemberInfo("Equals", "function", "Function Equals(obj As Object) As Boolean", "Equals($1)"),
-            New MemberInfo("Parse", "function", "Shared Function Parse(s As String) As Double", "Parse($1)"),
-            New MemberInfo("TryParse", "function", "Shared Function TryParse(s As String, ByRef result As Double) As Boolean", "TryParse($1, $2)"),
-            New MemberInfo("IsNaN", "function", "Shared Function IsNaN(d As Double) As Boolean", "IsNaN($1)"),
-            New MemberInfo("IsInfinity", "function", "Shared Function IsInfinity(d As Double) As Boolean", "IsInfinity($1)")
+            New LanguageMemberInfo("ToString", "function", "Function ToString() As String", "ToString()"),
+            New LanguageMemberInfo("Equals", "function", "Function Equals(obj As Object) As Boolean", "Equals($1)"),
+            New LanguageMemberInfo("Parse", "function", "Shared Function Parse(s As String) As Double", "Parse($1)"),
+            New LanguageMemberInfo("TryParse", "function", "Shared Function TryParse(s As String, ByRef result As Double) As Boolean", "TryParse($1, $2)"),
+            New LanguageMemberInfo("IsNaN", "function", "Shared Function IsNaN(d As Double) As Boolean", "IsNaN($1)"),
+            New LanguageMemberInfo("IsInfinity", "function", "Shared Function IsInfinity(d As Double) As Boolean", "IsInfinity($1)")
         }
 
         dict("Decimal") = {
-            New MemberInfo("ToString", "function", "Function ToString() As String", "ToString()"),
-            New MemberInfo("Parse", "function", "Shared Function Parse(s As String) As Decimal", "Parse($1)"),
-            New MemberInfo("TryParse", "function", "Shared Function TryParse(s As String, ByRef result As Decimal) As Boolean", "TryParse($1, $2)")
+            New LanguageMemberInfo("ToString", "function", "Function ToString() As String", "ToString()"),
+            New LanguageMemberInfo("Parse", "function", "Shared Function Parse(s As String) As Decimal", "Parse($1)"),
+            New LanguageMemberInfo("TryParse", "function", "Shared Function TryParse(s As String, ByRef result As Decimal) As Boolean", "TryParse($1, $2)")
         }
 
         dict("Boolean") = {
-            New MemberInfo("ToString", "function", "Function ToString() As String", "ToString()"),
-            New MemberInfo("Equals", "function", "Function Equals(obj As Object) As Boolean", "Equals($1)"),
-            New MemberInfo("Parse", "function", "Shared Function Parse(value As String) As Boolean", "Parse($1)"),
-            New MemberInfo("TrueString", "constant", "ReadOnly TrueString As String = ""True""", "TrueString"),
-            New MemberInfo("FalseString", "constant", "ReadOnly FalseString As String = ""False""", "FalseString")
+            New LanguageMemberInfo("ToString", "function", "Function ToString() As String", "ToString()"),
+            New LanguageMemberInfo("Equals", "function", "Function Equals(obj As Object) As Boolean", "Equals($1)"),
+            New LanguageMemberInfo("Parse", "function", "Shared Function Parse(value As String) As Boolean", "Parse($1)"),
+            New LanguageMemberInfo("TrueString", "constant", "ReadOnly TrueString As String = ""True""", "TrueString"),
+            New LanguageMemberInfo("FalseString", "constant", "ReadOnly FalseString As String = ""False""", "FalseString")
         }
 
         dict("Date") = {
-            New MemberInfo("Now", "property", "Shared ReadOnly Property Now As Date", "Now"),
-            New MemberInfo("Today", "property", "Shared ReadOnly Property Today As Date", "Today"),
-            New MemberInfo("Year", "property", "ReadOnly Property Year As Integer", "Year"),
-            New MemberInfo("Month", "property", "ReadOnly Property Month As Integer", "Month"),
-            New MemberInfo("Day", "property", "ReadOnly Property Day As Integer", "Day"),
-            New MemberInfo("Hour", "property", "ReadOnly Property Hour As Integer", "Hour"),
-            New MemberInfo("Minute", "property", "ReadOnly Property Minute As Integer", "Minute"),
-            New MemberInfo("Second", "property", "ReadOnly Property Second As Integer", "Second"),
-            New MemberInfo("ToString", "function", "Function ToString() As String", "ToString()"),
-            New MemberInfo("AddDays", "function", "Function AddDays(value As Double) As Date", "AddDays($1)"),
-            New MemberInfo("AddMonths", "function", "Function AddMonths(months As Integer) As Date", "AddMonths($1)"),
-            New MemberInfo("AddYears", "function", "Function AddYears(value As Integer) As Date", "AddYears($1)"),
-            New MemberInfo("AddHours", "function", "Function AddHours(value As Double) As Date", "AddHours($1)"),
-            New MemberInfo("AddMinutes", "function", "Function AddMinutes(value As Double) As Date", "AddMinutes($1)"),
-            New MemberInfo("Parse", "function", "Shared Function Parse(s As String) As Date", "Parse($1)"),
-            New MemberInfo("TryParse", "function", "Shared Function TryParse(s As String, ByRef result As Date) As Boolean", "TryParse($1, $2)")
+            New LanguageMemberInfo("Now", "property", "Shared ReadOnly Property Now As Date", "Now"),
+            New LanguageMemberInfo("Today", "property", "Shared ReadOnly Property Today As Date", "Today"),
+            New LanguageMemberInfo("Year", "property", "ReadOnly Property Year As Integer", "Year"),
+            New LanguageMemberInfo("Month", "property", "ReadOnly Property Month As Integer", "Month"),
+            New LanguageMemberInfo("Day", "property", "ReadOnly Property Day As Integer", "Day"),
+            New LanguageMemberInfo("Hour", "property", "ReadOnly Property Hour As Integer", "Hour"),
+            New LanguageMemberInfo("Minute", "property", "ReadOnly Property Minute As Integer", "Minute"),
+            New LanguageMemberInfo("Second", "property", "ReadOnly Property Second As Integer", "Second"),
+            New LanguageMemberInfo("ToString", "function", "Function ToString() As String", "ToString()"),
+            New LanguageMemberInfo("AddDays", "function", "Function AddDays(value As Double) As Date", "AddDays($1)"),
+            New LanguageMemberInfo("AddMonths", "function", "Function AddMonths(months As Integer) As Date", "AddMonths($1)"),
+            New LanguageMemberInfo("AddYears", "function", "Function AddYears(value As Integer) As Date", "AddYears($1)"),
+            New LanguageMemberInfo("AddHours", "function", "Function AddHours(value As Double) As Date", "AddHours($1)"),
+            New LanguageMemberInfo("AddMinutes", "function", "Function AddMinutes(value As Double) As Date", "AddMinutes($1)"),
+            New LanguageMemberInfo("Parse", "function", "Shared Function Parse(s As String) As Date", "Parse($1)"),
+            New LanguageMemberInfo("TryParse", "function", "Shared Function TryParse(s As String, ByRef result As Date) As Boolean", "TryParse($1, $2)")
         }
 
         dict("Array") = {
-            New MemberInfo("Length", "property", "ReadOnly Property Length As Integer", "Length"),
-            New MemberInfo("Rank", "property", "ReadOnly Property Rank As Integer", "Rank"),
-            New MemberInfo("GetLength", "function", "Function GetLength(dimension As Integer) As Integer", "GetLength($1)"),
-            New MemberInfo("GetValue", "function", "Function GetValue(index As Integer) As Object", "GetValue($1)"),
-            New MemberInfo("SetValue", "function", "Function SetValue(value As Object, index As Integer)", "SetValue($1, $2)"),
-            New MemberInfo("Sort", "function", "Shared Sub Sort(array As Array)", "Sort($1)"),
-            New MemberInfo("Reverse", "function", "Shared Sub Reverse(array As Array)", "Reverse($1)"),
-            New MemberInfo("IndexOf", "function", "Shared Function IndexOf(array As Array, value As Object) As Integer", "IndexOf($1, $2)"),
-            New MemberInfo("Copy", "function", "Shared Sub Copy(sourceArray As Array, destArray As Array, length As Integer)", "Copy($1, $2, $3)"),
-            New MemberInfo("Clear", "function", "Shared Sub Clear(array As Array, index As Integer, length As Integer)", "Clear($1, $2, $3)")
+            New LanguageMemberInfo("Length", "property", "ReadOnly Property Length As Integer", "Length"),
+            New LanguageMemberInfo("Rank", "property", "ReadOnly Property Rank As Integer", "Rank"),
+            New LanguageMemberInfo("GetLength", "function", "Function GetLength(dimension As Integer) As Integer", "GetLength($1)"),
+            New LanguageMemberInfo("GetValue", "function", "Function GetValue(index As Integer) As Object", "GetValue($1)"),
+            New LanguageMemberInfo("SetValue", "function", "Function SetValue(value As Object, index As Integer)", "SetValue($1, $2)"),
+            New LanguageMemberInfo("Sort", "function", "Shared Sub Sort(array As Array)", "Sort($1)"),
+            New LanguageMemberInfo("Reverse", "function", "Shared Sub Reverse(array As Array)", "Reverse($1)"),
+            New LanguageMemberInfo("IndexOf", "function", "Shared Function IndexOf(array As Array, value As Object) As Integer", "IndexOf($1, $2)"),
+            New LanguageMemberInfo("Copy", "function", "Shared Sub Copy(sourceArray As Array, destArray As Array, length As Integer)", "Copy($1, $2, $3)"),
+            New LanguageMemberInfo("Clear", "function", "Shared Sub Clear(array As Array, index As Integer, length As Integer)", "Clear($1, $2, $3)")
         }
 
         dict("List") = {
-            New MemberInfo("Count", "property", "ReadOnly Property Count As Integer", "Count"),
-            New MemberInfo("Capacity", "property", "Property Capacity As Integer", "Capacity"),
-            New MemberInfo("Item", "property", "Property Item(index As Integer) As T", "Item($1)"),
-            New MemberInfo("Add", "function", "Sub Add(item As T)", "Add($1)"),
-            New MemberInfo("AddRange", "function", "Sub AddRange(collection As IEnumerable(Of T))", "AddRange($1)"),
-            New MemberInfo("Remove", "function", "Function Remove(item As T) As Boolean", "Remove($1)"),
-            New MemberInfo("RemoveAt", "function", "Sub RemoveAt(index As Integer)", "RemoveAt($1)"),
-            New MemberInfo("RemoveAll", "function", "Function RemoveAll(match As Predicate(Of T)) As Integer", "RemoveAll($1)"),
-            New MemberInfo("Clear", "function", "Sub Clear()", "Clear()"),
-            New MemberInfo("Contains", "function", "Function Contains(item As T) As Boolean", "Contains($1)"),
-            New MemberInfo("IndexOf", "function", "Function IndexOf(item As T) As Integer", "IndexOf($1)"),
-            New MemberInfo("Insert", "function", "Sub Insert(index As Integer, item As T)", "Insert($1, $2)"),
-            New MemberInfo("Sort", "function", "Sub Sort()", "Sort()"),
-            New MemberInfo("Reverse", "function", "Sub Reverse()", "Reverse()"),
-            New MemberInfo("ToArray", "function", "Function ToArray() As T()", "ToArray()"),
-            New MemberInfo("Find", "function", "Function Find(match As Predicate(Of T)) As T", "Find($1)"),
-            New MemberInfo("FindAll", "function", "Function FindAll(match As Predicate(Of T)) As List(Of T)", "FindAll($1)"),
-            New MemberInfo("ForEach", "function", "Sub ForEach(action As Action(Of T))", "ForEach($1)"),
-            New MemberInfo("GetRange", "function", "Function GetRange(index As Integer, count As Integer) As List(Of T)", "GetRange($1, $2)")
+            New LanguageMemberInfo("Count", "property", "ReadOnly Property Count As Integer", "Count"),
+            New LanguageMemberInfo("Capacity", "property", "Property Capacity As Integer", "Capacity"),
+            New LanguageMemberInfo("Item", "property", "Property Item(index As Integer) As T", "Item($1)"),
+            New LanguageMemberInfo("Add", "function", "Sub Add(item As T)", "Add($1)"),
+            New LanguageMemberInfo("AddRange", "function", "Sub AddRange(collection As IEnumerable(Of T))", "AddRange($1)"),
+            New LanguageMemberInfo("Remove", "function", "Function Remove(item As T) As Boolean", "Remove($1)"),
+            New LanguageMemberInfo("RemoveAt", "function", "Sub RemoveAt(index As Integer)", "RemoveAt($1)"),
+            New LanguageMemberInfo("RemoveAll", "function", "Function RemoveAll(match As Predicate(Of T)) As Integer", "RemoveAll($1)"),
+            New LanguageMemberInfo("Clear", "function", "Sub Clear()", "Clear()"),
+            New LanguageMemberInfo("Contains", "function", "Function Contains(item As T) As Boolean", "Contains($1)"),
+            New LanguageMemberInfo("IndexOf", "function", "Function IndexOf(item As T) As Integer", "IndexOf($1)"),
+            New LanguageMemberInfo("Insert", "function", "Sub Insert(index As Integer, item As T)", "Insert($1, $2)"),
+            New LanguageMemberInfo("Sort", "function", "Sub Sort()", "Sort()"),
+            New LanguageMemberInfo("Reverse", "function", "Sub Reverse()", "Reverse()"),
+            New LanguageMemberInfo("ToArray", "function", "Function ToArray() As T()", "ToArray()"),
+            New LanguageMemberInfo("Find", "function", "Function Find(match As Predicate(Of T)) As T", "Find($1)"),
+            New LanguageMemberInfo("FindAll", "function", "Function FindAll(match As Predicate(Of T)) As List(Of T)", "FindAll($1)"),
+            New LanguageMemberInfo("ForEach", "function", "Sub ForEach(action As Action(Of T))", "ForEach($1)"),
+            New LanguageMemberInfo("GetRange", "function", "Function GetRange(index As Integer, count As Integer) As List(Of T)", "GetRange($1, $2)")
         }
 
         dict("Dictionary") = {
-            New MemberInfo("Count", "property", "ReadOnly Property Count As Integer", "Count"),
-            New MemberInfo("Keys", "property", "ReadOnly Property Keys As KeyCollection", "Keys"),
-            New MemberInfo("Values", "property", "ReadOnly Property Values As ValueCollection", "Values"),
-            New MemberInfo("Item", "property", "Property Item(key As TKey) As TValue", "Item($1)"),
-            New MemberInfo("Add", "function", "Sub Add(key As TKey, value As TValue)", "Add($1, $2)"),
-            New MemberInfo("Remove", "function", "Function Remove(key As TKey) As Boolean", "Remove($1)"),
-            New MemberInfo("Clear", "function", "Sub Clear()", "Clear()"),
-            New MemberInfo("ContainsKey", "function", "Function ContainsKey(key As TKey) As Boolean", "ContainsKey($1)"),
-            New MemberInfo("ContainsValue", "function", "Function ContainsValue(value As TValue) As Boolean", "ContainsValue($1)"),
-            New MemberInfo("TryGetValue", "function", "Function TryGetValue(key As TKey, ByRef value As TValue) As Boolean", "TryGetValue($1, $2)")
+            New LanguageMemberInfo("Count", "property", "ReadOnly Property Count As Integer", "Count"),
+            New LanguageMemberInfo("Keys", "property", "ReadOnly Property Keys As KeyCollection", "Keys"),
+            New LanguageMemberInfo("Values", "property", "ReadOnly Property Values As ValueCollection", "Values"),
+            New LanguageMemberInfo("Item", "property", "Property Item(key As TKey) As TValue", "Item($1)"),
+            New LanguageMemberInfo("Add", "function", "Sub Add(key As TKey, value As TValue)", "Add($1, $2)"),
+            New LanguageMemberInfo("Remove", "function", "Function Remove(key As TKey) As Boolean", "Remove($1)"),
+            New LanguageMemberInfo("Clear", "function", "Sub Clear()", "Clear()"),
+            New LanguageMemberInfo("ContainsKey", "function", "Function ContainsKey(key As TKey) As Boolean", "ContainsKey($1)"),
+            New LanguageMemberInfo("ContainsValue", "function", "Function ContainsValue(value As TValue) As Boolean", "ContainsValue($1)"),
+            New LanguageMemberInfo("TryGetValue", "function", "Function TryGetValue(key As TKey, ByRef value As TValue) As Boolean", "TryGetValue($1, $2)")
         }
 
         dict("Math") = {
-            New MemberInfo("Abs", "function", "Shared Function Abs(value As Double) As Double", "Abs($1)"),
-            New MemberInfo("Max", "function", "Shared Function Max(val1 As Double, val2 As Double) As Double", "Max($1, $2)"),
-            New MemberInfo("Min", "function", "Shared Function Min(val1 As Double, val2 As Double) As Double", "Min($1, $2)"),
-            New MemberInfo("Sqrt", "function", "Shared Function Sqrt(d As Double) As Double", "Sqrt($1)"),
-            New MemberInfo("Pow", "function", "Shared Function Pow(x As Double, y As Double) As Double", "Pow($1, $2)"),
-            New MemberInfo("Round", "function", "Shared Function Round(d As Double) As Double", "Round($1)"),
-            New MemberInfo("Floor", "function", "Shared Function Floor(d As Double) As Double", "Floor($1)"),
-            New MemberInfo("Ceiling", "function", "Shared Function Ceiling(d As Double) As Double", "Ceiling($1)"),
-            New MemberInfo("Log", "function", "Shared Function Log(d As Double) As Double", "Log($1)"),
-            New MemberInfo("Log10", "function", "Shared Function Log10(d As Double) As Double", "Log10($1)"),
-            New MemberInfo("Exp", "function", "Shared Function Exp(d As Double) As Double", "Exp($1)"),
-            New MemberInfo("Sin", "function", "Shared Function Sin(d As Double) As Double", "Sin($1)"),
-            New MemberInfo("Cos", "function", "Shared Function Cos(d As Double) As Double", "Cos($1)"),
-            New MemberInfo("Tan", "function", "Shared Function Tan(d As Double) As Double", "Tan($1)"),
-            New MemberInfo("Sign", "function", "Shared Function Sign(d As Double) As Integer", "Sign($1)"),
-            New MemberInfo("PI", "constant", "Const PI As Double = 3.14159265358979", "PI"),
-            New MemberInfo("E", "constant", "Const E As Double = 2.71828182845905", "E")
+            New LanguageMemberInfo("Abs", "function", "Shared Function Abs(value As Double) As Double", "Abs($1)"),
+            New LanguageMemberInfo("Max", "function", "Shared Function Max(val1 As Double, val2 As Double) As Double", "Max($1, $2)"),
+            New LanguageMemberInfo("Min", "function", "Shared Function Min(val1 As Double, val2 As Double) As Double", "Min($1, $2)"),
+            New LanguageMemberInfo("Sqrt", "function", "Shared Function Sqrt(d As Double) As Double", "Sqrt($1)"),
+            New LanguageMemberInfo("Pow", "function", "Shared Function Pow(x As Double, y As Double) As Double", "Pow($1, $2)"),
+            New LanguageMemberInfo("Round", "function", "Shared Function Round(d As Double) As Double", "Round($1)"),
+            New LanguageMemberInfo("Floor", "function", "Shared Function Floor(d As Double) As Double", "Floor($1)"),
+            New LanguageMemberInfo("Ceiling", "function", "Shared Function Ceiling(d As Double) As Double", "Ceiling($1)"),
+            New LanguageMemberInfo("Log", "function", "Shared Function Log(d As Double) As Double", "Log($1)"),
+            New LanguageMemberInfo("Log10", "function", "Shared Function Log10(d As Double) As Double", "Log10($1)"),
+            New LanguageMemberInfo("Exp", "function", "Shared Function Exp(d As Double) As Double", "Exp($1)"),
+            New LanguageMemberInfo("Sin", "function", "Shared Function Sin(d As Double) As Double", "Sin($1)"),
+            New LanguageMemberInfo("Cos", "function", "Shared Function Cos(d As Double) As Double", "Cos($1)"),
+            New LanguageMemberInfo("Tan", "function", "Shared Function Tan(d As Double) As Double", "Tan($1)"),
+            New LanguageMemberInfo("Sign", "function", "Shared Function Sign(d As Double) As Integer", "Sign($1)"),
+            New LanguageMemberInfo("PI", "constant", "Const PI As Double = 3.14159265358979", "PI"),
+            New LanguageMemberInfo("E", "constant", "Const E As Double = 2.71828182845905", "E")
         }
 
         dict("Console") = {
-            New MemberInfo("WriteLine", "function", "Shared Sub WriteLine(value As String)", "WriteLine($1)"),
-            New MemberInfo("Write", "function", "Shared Sub Write(value As String)", "Write($1)"),
-            New MemberInfo("ReadLine", "function", "Shared Function ReadLine() As String", "ReadLine()"),
-            New MemberInfo("Read", "function", "Shared Function Read() As Integer", "Read()"),
-            New MemberInfo("ReadKey", "function", "Shared Function ReadKey() As ConsoleKeyInfo", "ReadKey()"),
-            New MemberInfo("Clear", "function", "Shared Sub Clear()", "Clear()")
+            New LanguageMemberInfo("WriteLine", "function", "Shared Sub WriteLine(value As String)", "WriteLine($1)"),
+            New LanguageMemberInfo("Write", "function", "Shared Sub Write(value As String)", "Write($1)"),
+            New LanguageMemberInfo("ReadLine", "function", "Shared Function ReadLine() As String", "ReadLine()"),
+            New LanguageMemberInfo("Read", "function", "Shared Function Read() As Integer", "Read()"),
+            New LanguageMemberInfo("ReadKey", "function", "Shared Function ReadKey() As ConsoleKeyInfo", "ReadKey()"),
+            New LanguageMemberInfo("Clear", "function", "Shared Sub Clear()", "Clear()")
         }
 
         dict("Convert") = {
-            New MemberInfo("ToString", "function", "Shared Function ToString(value As Integer) As String", "ToString($1)"),
-            New MemberInfo("ToInt32", "function", "Shared Function ToInt32(value As String) As Integer", "ToInt32($1)"),
-            New MemberInfo("ToDouble", "function", "Shared Function ToDouble(value As String) As Double", "ToDouble($1)"),
-            New MemberInfo("ToBoolean", "function", "Shared Function ToBoolean(value As String) As Boolean", "ToBoolean($1)"),
-            New MemberInfo("ToDecimal", "function", "Shared Function ToDecimal(value As String) As Decimal", "ToDecimal($1)"),
-            New MemberInfo("ToChar", "function", "Shared Function ToChar(value As String) As Char", "ToChar($1)")
+            New LanguageMemberInfo("ToString", "function", "Shared Function ToString(value As Integer) As String", "ToString($1)"),
+            New LanguageMemberInfo("ToInt32", "function", "Shared Function ToInt32(value As String) As Integer", "ToInt32($1)"),
+            New LanguageMemberInfo("ToDouble", "function", "Shared Function ToDouble(value As String) As Double", "ToDouble($1)"),
+            New LanguageMemberInfo("ToBoolean", "function", "Shared Function ToBoolean(value As String) As Boolean", "ToBoolean($1)"),
+            New LanguageMemberInfo("ToDecimal", "function", "Shared Function ToDecimal(value As String) As Decimal", "ToDecimal($1)"),
+            New LanguageMemberInfo("ToChar", "function", "Shared Function ToChar(value As String) As Char", "ToChar($1)")
         }
 
         Return dict
     End Function
 
     ' 静态共享实例（初始化一次后复用）
-    Private Shared ReadOnly BuiltinTypeMembers As Dictionary(Of String, MemberInfo()) = BuildBuiltinTypeMembers()
+    Private Shared ReadOnly BuiltinTypeMembers As Dictionary(Of String, LanguageMemberInfo()) = BuildBuiltinTypeMembers()
 
     ' Object 类型的通用成员（所有类型的基类）
-    Private Shared ReadOnly ObjectMembers As MemberInfo() = {
-        New MemberInfo("ToString", "function", "Function ToString() As String", "ToString()"),
-        New MemberInfo("Equals", "function", "Function Equals(obj As Object) As Boolean", "Equals($1)"),
-        New MemberInfo("GetHashCode", "function", "Function GetHashCode() As Integer", "GetHashCode()"),
-        New MemberInfo("GetType", "function", "Function GetType() As Type", "GetType()")
+    Private Shared ReadOnly ObjectMembers As LanguageMemberInfo() = {
+        New LanguageMemberInfo("ToString", "function", "Function ToString() As String", "ToString()"),
+        New LanguageMemberInfo("Equals", "function", "Function Equals(obj As Object) As Boolean", "Equals($1)"),
+        New LanguageMemberInfo("GetHashCode", "function", "Function GetHashCode() As Integer", "GetHashCode()"),
+        New LanguageMemberInfo("GetType", "function", "Function GetType() As Type", "GetType()")
     }
 
 #End Region
@@ -663,7 +648,7 @@ Public Class VbNetLanguageService
             Return result
         End If
 
-        Dim members As MemberInfo() = Nothing
+        Dim members As LanguageMemberInfo() = Nothing
         If BuiltinTypeMembers.TryGetValue(typeName, members) Then
             For Each m In members
                 result.Add(MakeItem(m.Label, m.Kind, m.Detail, m.InsertText))
@@ -882,7 +867,7 @@ Public Class VbNetLanguageService
             ElseIf TypeOf val Is Integer Then
                 Return CInt(val)
             Else
-                Return CInt(Val(CStr(val)))
+                Return CInt(val(CStr(val)))
             End If
         End If
         Return 0
