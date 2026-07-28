@@ -1,5 +1,7 @@
 Imports System
+Imports System.Collections.Generic
 Imports System.IO
+Imports System.Xml.Linq
 Imports VBLang.Syntax
 
 Module Program
@@ -155,6 +157,64 @@ End Namespace
         For Each doc In proj.CompileFiles
             Console.WriteLine("  " & doc.FileName & "  ->  " & doc.Types.Count & " top-level types, " & doc.Imports.Length & " imports")
         Next
+
+        Console.WriteLine(vbCrLf & "--- VBProject metadata / references ---")
+        Console.WriteLine("Sdk              : " & If(proj.Sdk, ""))
+        Console.WriteLine("TargetFramework  : " & If(proj.Metadata?.TargetFramework, ""))
+        Console.WriteLine("TargetFrameworks : " & If(proj.Metadata?.TargetFrameworks, ""))
+        Console.WriteLine("Platforms        : " & If(proj.Metadata?.Platforms, ""))
+        Console.WriteLine("Configurations   : " & If(proj.Configurations, New VBBuildConfiguration() {}).Length)
+        For Each cfg In If(proj.Configurations, New VBBuildConfiguration() {})
+            Console.WriteLine("  [" & If(cfg.Configuration, "") & "|" & If(cfg.Platform, "") & "] DefineConstants=" & If(cfg.DefineConstants, "") & " Optimize=" & cfg.Optimize & " OutputPath=" & If(cfg.OutputPath, ""))
+        Next
+        Console.WriteLine("ProjectReferences: " & If(proj.ProjectReferences, New VBProjectReference() {}).Length)
+        For Each pr In If(proj.ProjectReferences, New VBProjectReference() {})
+            Console.WriteLine("  -> " & pr.Include)
+        Next
+        Console.WriteLine("PackageReferences: " & If(proj.PackageReferences, New VBPackageReference() {}).Length)
+        For Each pkg In If(proj.PackageReferences, New VBPackageReference() {})
+            Console.WriteLine("  -> " & pkg.Id & " v" & If(pkg.Version, ""))
+        Next
+        Console.WriteLine("CompileExcludes  : " & If(proj.CompileExcludes, New String() {}).Length)
+
+        Console.WriteLine(vbCrLf & "--- VBProject.Generate ---")
+        Dim gen As XDocument = proj.Generate()
+        Dim xml As String = gen.ToString()
+        Console.WriteLine(xml)
+        Dim check = Sub(cond As Boolean, label As String)
+                        Console.WriteLine((If(cond, "[OK]   ", "[MISS] ")) & label)
+                    End Sub
+        check(xml.Contains("<Project"), "Generate: Project root")
+        check(xml.Contains("Sdk="), "Generate: Sdk attribute")
+        check(xml.Contains("<Compile"), "Generate: Compile items")
+        check(If(proj.ProjectReferences, New VBProjectReference() {}).Length = 0 OrElse xml.Contains("<ProjectReference"), "Generate: ProjectReference items")
+        check(If(proj.PackageReferences, New VBPackageReference() {}).Length = 0 OrElse xml.Contains("<PackageReference"), "Generate: PackageReference items")
+
+        Console.WriteLine(vbCrLf & "--- synthetic config + nuget round-trip ---")
+        Dim synthetic As New VBProject()
+        synthetic.Sdk = "Microsoft.NET.Sdk"
+        synthetic.RootNamespace = "Demo"
+        synthetic.AssemblyName = "Demo"
+        synthetic.OutputType = "Exe"
+        synthetic.Metadata = New VBProjectMetadata() With {.TargetFramework = "net8.0", .Nullable = "enable", .Other = New Dictionary(Of String, String)()}
+        synthetic.NuGet = New VBNuGetMetadata() With {.PackageId = "Demo", .Version = "1.2.3", .Authors = "Me", .Other = New Dictionary(Of String, String)()}
+        Dim cfgDebug As New VBBuildConfiguration() With {
+            .Condition = "'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'",
+            .Configuration = "Debug", .Platform = "AnyCPU",
+            .DefineConstants = "TRACE;DEBUG", .Optimize = False,
+            .Extra = New Dictionary(Of String, String)()}
+        Dim cfgRelease As New VBBuildConfiguration() With {
+            .Condition = "'$(Configuration)|$(Platform)' == 'Release|AnyCPU'",
+            .Configuration = "Release", .Platform = "AnyCPU",
+            .DefineConstants = "TRACE", .Optimize = True,
+            .Extra = New Dictionary(Of String, String)()}
+        synthetic.Configurations = New VBBuildConfiguration() {cfgDebug, cfgRelease}
+        Dim synXml As String = synthetic.Generate().ToString()
+        Console.WriteLine(synXml)
+        check(synXml.Contains("'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'"), "synthetic: Debug conditional group")
+        check(synXml.Contains("'$(Configuration)|$(Platform)' == 'Release|AnyCPU'"), "synthetic: Release conditional group")
+        check(synXml.Contains("<PackageId>Demo</PackageId>"), "synthetic: nuget PackageId")
+        check(synXml.Contains("<Optimize>true</Optimize>"), "synthetic: Release Optimize=true")
 
         Console.WriteLine(vbCrLf & "--- VBProject.GetType ---")
         Dim probes As String() = {
