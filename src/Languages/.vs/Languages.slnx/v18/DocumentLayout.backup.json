@@ -1,15 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\DevAgent\\src\\Languages\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{F1AD283F-EC3C-186B-F1C8-95145A6AAE15}|VBLang\\VBLang.vbproj|g:\\devagent\\src\\languages\\vblang\\languagesymboltype.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{F1AD283F-EC3C-186B-F1C8-95145A6AAE15}|VBLang\\VBLang.vbproj|solutionrelative:vblang\\languagesymboltype.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{896A1DF9-BF52-17C7-D41C-F7730E5B1968}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\globals.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -17,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,32 +22,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Globals.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Globals.vb",
-              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Globals.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Globals.vb",
-              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Globals.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-28T13:37:25.101Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "LanguageSymbolType.vb",
-              "DocumentMoniker": "G:\\DevAgent\\src\\Languages\\VBLang\\LanguageSymbolType.vb",
-              "RelativeDocumentMoniker": "VBLang\\LanguageSymbolType.vb",
-              "ToolTip": "G:\\DevAgent\\src\\Languages\\VBLang\\LanguageSymbolType.vb \u2B24",
-              "RelativeToolTip": "VBLang\\LanguageSymbolType.vb \u2B24",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADcAAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-28T13:25:02.521Z",
-              "EditorCaption": ""
             }
           ]
         },
