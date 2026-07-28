@@ -110,10 +110,15 @@ Namespace Syntax
             While i <= toIdx
                 Dim t = tokens(i)
 
-                If t.Text = "("c Then pd += 1
-                ElseIf t.Text = ")"c Then pd -= 1
-                ElseIf t.Text = "{"c Then bd += 1
-                ElseIf t.Text = "}"c Then bd -= 1
+                If t.Text = "("c Then
+                    pd += 1
+                ElseIf t.Text = ")"c Then
+                    pd -= 1
+                ElseIf t.Text = "{"c Then
+                    bd += 1
+                ElseIf t.Text = "}"c Then
+                    bd -= 1
+                End If
 
                 If pd = 0 AndAlso bd = 0 AndAlso IsAssignOp(t) Then
                     Dim a As New AssignRec()
@@ -130,7 +135,7 @@ Namespace Syntax
         End Function
 
         Private Sub ProcessAssignment(tokens As List(Of Token), a As AssignRec, res As RParseResult, parent As RFunctionSymbol, fromIdx As Integer, toIdx As Integer)
-            Dim lhsName As String = LhsName(tokens, a, toIdx)
+            Dim lhsName As String = ResolveLhsName(tokens, a, toIdx)
 
             If a.isFunction Then
                 Dim fn As New RFunctionSymbol()
@@ -215,7 +220,7 @@ Namespace Syntax
             Return t.Kind = TokenKind.Identifier AndAlso t.Text.Equals("function", StringComparison.OrdinalIgnoreCase)
         End Function
 
-        Private Function LhsName(tokens As List(Of Token), a As AssignRec, toIdx As Integer) As String
+        Private Function ResolveLhsName(tokens As List(Of Token), a As AssignRec, toIdx As Integer) As String
             If a.isRightAssign Then
                 Dim idx = a.opIndex + 1
                 If idx > toIdx Then
@@ -241,6 +246,11 @@ Namespace Syntax
         Private Function FindLhsStart(tokens As List(Of Token), idx As Integer) As Integer
             Dim i = idx
             While i - 1 >= 0 AndAlso IsLhsPart(tokens(i - 1))
+                ' a name can never start with a digit, so a number that would become the
+                ' new leftmost token belongs to a preceding expression, not this name.
+                If tokens(i - 1).Kind = TokenKind.Number AndAlso i <= idx Then
+                    Exit While
+                End If
                 i -= 1
             End While
             Return i
@@ -272,10 +282,15 @@ Namespace Syntax
             Dim i = openIdx
             While i < tokens.Count
                 Dim t = tokens(i).Text
-                If t = "("c Then pd += 1
-                ElseIf t = ")"c Then pd -= 1
-                ElseIf t = "{"c Then bd += 1
-                ElseIf t = "}"c Then bd -= 1
+                If t = "("c Then
+                    pd += 1
+                ElseIf t = ")"c Then
+                    pd -= 1
+                ElseIf t = "{"c Then
+                    bd += 1
+                ElseIf t = "}"c Then
+                    bd -= 1
+                End If
                 If pd = 0 Then
                     Return i
                 End If
@@ -290,10 +305,15 @@ Namespace Syntax
             Dim i = openIdx
             While i < tokens.Count
                 Dim t = tokens(i).Text
-                If t = "("c Then pd += 1
-                ElseIf t = ")"c Then pd -= 1
-                ElseIf t = "{"c Then bd += 1
-                ElseIf t = "}"c Then bd -= 1
+                If t = "("c Then
+                    pd += 1
+                ElseIf t = ")"c Then
+                    pd -= 1
+                ElseIf t = "{"c Then
+                    bd += 1
+                ElseIf t = "}"c Then
+                    bd -= 1
+                End If
                 If bd = 0 Then
                     Return i
                 End If
@@ -314,8 +334,11 @@ Namespace Syntax
 
             While k <= [to]
                 Dim t = tokens(k).Text
-                If t = "("c Then pd += 1
-                ElseIf t = ")"c Then pd -= 1
+                If t = "("c Then
+                    pd += 1
+                ElseIf t = ")"c Then
+                    pd -= 1
+                End If
                 If pd = 0 AndAlso t = ","c Then
                     AddParam(d, tokens, segStart, k - 1)
                     segStart = k + 1
@@ -353,8 +376,11 @@ Namespace Syntax
 
             While k <= [to]
                 Dim t = tokens(k).Text
-                If t = "("c Then pd += 1
-                ElseIf t = ")"c Then pd -= 1
+                If t = "("c Then
+                    pd += 1
+                ElseIf t = ")"c Then
+                    pd -= 1
+                End If
                 If pd = 0 AndAlso t = ","c Then
                     Exit While
                 End If

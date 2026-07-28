@@ -48,6 +48,8 @@ multiply <- function(x, y) {
         Console.WriteLine("Variables: " & String.Join(", ", vars.ConvertAll(Function(v) v.Name)))
         AssertEquals(2, fns.Count, "top-level function count")
         AssertEquals(2, vars.Count, "top-level variable count")
+        Assert(vars.Exists(Function(v) v.Name = "x"), "variable 'x'")
+        Assert(vars.Exists(Function(v) v.Name = "config"), "variable 'config'")
 
         Dim add = fns.Find(Function(f) f.Name = "add")
         Assert(add IsNot Nothing, "function 'add' found")
@@ -58,6 +60,7 @@ multiply <- function(x, y) {
         Assert(add.NestedFunctions IsNot Nothing AndAlso add.NestedFunctions.Count = 1, "add has 1 nested function")
         If add.NestedFunctions IsNot Nothing Then
             Console.WriteLine("  nested in add: " & add.NestedFunctions(0).Name)
+            Assert(add.NestedFunctions(0).Name = "helper", "nested function name is 'helper'")
         End If
 
         Assert(add.Locals IsNot Nothing AndAlso add.Locals.ContainsKey("total"), "add has local 'total'")
@@ -135,7 +138,7 @@ load_data <- function(path) {
 
             Assert(proj.PackageReferences IsNot Nothing, "PackageReferences not nothing")
             If proj.PackageReferences IsNot Nothing Then
-                Dim ids = proj.PackageReferences.ConvertAll(Function(p) p.Id)
+                Dim ids = Array.ConvertAll(proj.PackageReferences, Function(p) p.Id)
                 Console.WriteLine("PackageReferences: " & String.Join(", ", ids))
                 ' R dependency must be dropped; ggplot2, dplyr, testthat kept
                 Assert(Not ids.Contains("R"), "R dependency dropped from PackageReferences")

@@ -43,6 +43,12 @@ Namespace Syntax
             For Each line As String In lines
                 lineNo += 1
                 TokenizeLine(line, lineNo, toks, strState)
+                ' emit a newline token as a statement separator so that the parser can
+                ' bound assignments / names to their own line (R statements are
+                ' newline separated). It is skipped while a multi-line string is open.
+                If strState = "" Then
+                    toks.Add(New Token With {.Kind = TokenKind.Punctuation, .Text = vbLf, .Line = lineNo})
+                End If
             Next
 
             Return toks
