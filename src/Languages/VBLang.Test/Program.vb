@@ -11,6 +11,13 @@ Module Program
             Console.WriteLine("[WARN] VBProject.Load test failed: " & ex.Message)
         End Try
 
+        Try
+            TestReflection()
+        Catch ex As Exception
+            Console.WriteLine("[WARN] VBProject.LoadAssembly test failed: " & ex.Message)
+            Console.WriteLine(ex.ToString())
+        End Try
+
         Dim src As String = "
 Imports System
 
@@ -169,6 +176,73 @@ End Namespace
                 Console.WriteLine("  " & p & " -> " & sym.Type.ToString() & " " & sym.Name)
             End If
         Next
+    End Sub
+
+    Sub TestReflection()
+        ' Load the VBLang assembly itself (copied next to the test exe) via
+        ' read-only reflection and verify the symbol tree & queries.
+        Dim dllPath As String = Path.Combine(AppContext.BaseDirectory, "VBLang.dll")
+        If Not File.Exists(dllPath) Then
+            Console.WriteLine("[SKIP] Reflection test: " & dllPath & " not found")
+            Return
+        End If
+
+        Console.WriteLine(vbCrLf & "--- VBProject.LoadAssembly (reflection) ---")
+        Console.WriteLine("dll: " & dllPath)
+
+        Dim proj As VBProject = VBProject.LoadAssembly(dllPath)
+        Console.WriteLine("AssemblyName  : " & proj.AssemblyName)
+        Console.WriteLine("OutputType    : " & proj.OutputType)
+        Console.WriteLine("Compile files : " & If(proj.CompileFiles, New VBDocument() {}).Length)
+
+        Dim doc = proj.CompileFiles(0)
+        Console.WriteLine("Virtual doc   : " & doc.FileName)
+        Console.WriteLine("Top namespaces/types: " & doc.Types.Count)
+
+        ' Dump the tree through a synthetic root so we reuse Dump().
+        Dim root As New ContainerType(SymbolType.Namespace)
+        root.Name = ""
+        root.InternalNested = New Dictionary(Of String, LanguageSymbolType)(doc.Types)
+        Dump(root, 0)
+
+        Dim failures As New List(Of String)
+
+        Dim probes As String() = {
+            "VBLang.VBProject",
+            "VBLang.VBDocument",
+            "VBLang.LanguageSymbolType",
+            "VBLang.ContainerType",
+            "VBLang.SymbolType",
+            "VBLang.Reflection.AssemblySymbolLoader",
+            "VBLang.EventSymbolType"
+        }
+        For Each p In probes
+            Assert(proj.GetType(p) IsNot Nothing, "reflection GetType: " & p, failures)
+        Next
+
+        ' VBProject should be a Class carrying the loader + source Load members.
+        Dim vbproj = proj.GetType("VBLang.VBProject")
+        Assert(vbproj IsNot Nothing AndAlso vbproj.Type = SymbolType.Class, "VBProject is a Class", failures)
+        Dim vpCt = CType(vbproj, ContainerType)
+        Assert(vpCt.Members IsNot Nothing AndAlso vpCt.Members.ContainsKey("LoadAssembly"), "VBProject has LoadAssembly member", failures)
+        Assert(vpCt.Members.ContainsKey("Load"), "VBProject has Load member", failures)
+
+        ' Tree shape: namespaces hold their types (not flattened).
+        Dim vblangNs = proj.GetType("VBLang")
+        Assert(vblangNs IsNot Nothing AndAlso vblangNs.Type = SymbolType.Namespace, "VBLang namespace exists (tree)", failures)
+        Dim nsCt = CType(vblangNs, ContainerType)
+        Assert(nsCt.InternalNested IsNot Nothing AndAlso nsCt.InternalNested.ContainsKey("VBProject"), "VBProject nested under VBLang namespace (not flat)", failures)
+        Assert(nsCt.InternalNested.ContainsKey("Reflection"), "Reflection namespace nested under VBLang (not flat)", failures)
+
+        If failures.Count = 0 Then
+            Console.WriteLine(vbCrLf & "REFLECTION TESTS PASSED")
+        Else
+            Console.WriteLine(vbCrLf & "REFLECTION FAILURES:")
+            For Each f In failures
+                Console.WriteLine("  - " & f)
+            Next
+            Environment.Exit(1)
+        End If
     End Sub
 
     Sub Assert(cond As Boolean, label As String, failures As List(Of String))

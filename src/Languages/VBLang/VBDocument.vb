@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports System.Text.RegularExpressions
+Imports VBLang.Reflection
 Imports VBLang.Syntax
 
 Public Class VBDocument
@@ -155,6 +156,15 @@ Public Class VBProject
     Private Shared Function StripGenerics(fullName As String) As String
         If fullName Is Nothing Then Return ""
         Return Regex.Replace(fullName, "\(Of[^)]*\)", "", RegexOptions.IgnoreCase).Trim()
+    End Function
+
+    ''' <summary>
+    ''' Load a .NET assembly (dll) via reflection and map its symbols into a
+    ''' virtual VBProject. The assembly metadata is read only (no execution).
+    ''' </summary>
+    ''' <param name="dllPath">path to the target dll file.</param>
+    Public Shared Function LoadAssembly(dllPath As String) As VBProject
+        Return AssemblySymbolLoader.LoadAssembly(dllPath)
     End Function
 
     ''' <summary>

@@ -60,6 +60,24 @@ Public Class DelegateType : Inherits LanguageSymbolType
 End Class
 
 ''' <summary>
+''' event symbol, e.g. Event XXX(x As XX)
+''' </summary>
+Public Class EventSymbolType : Inherits LanguageSymbolType
+
+    ''' <summary>
+    ''' the delegate type that backs this event
+    ''' </summary>
+    Public Property DelegateType As TypeInfo
+
+    Public Overrides ReadOnly Property Type As SymbolType
+        Get
+            Return SymbolType.[Event]
+        End Get
+    End Property
+
+End Class
+
+''' <summary>
 ''' function/sub/operator/property
 ''' </summary>
 Public Class InvokeSymbolType : Inherits ContainerType
