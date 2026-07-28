@@ -1,7 +1,7 @@
 Imports System.Collections.Generic
 Imports System.Text
 
-Namespace VBLang.Syntax
+Namespace Syntax
 
     ''' <summary>
     ''' a logical (already line-continued) source line together with the
@@ -11,6 +11,7 @@ Namespace VBLang.Syntax
         Public Line As Integer
         Public Tokens As List(Of Token)
         Public XmlDoc As String
+        Public Attributes As New List(Of String)
     End Class
 
     ''' <summary>
@@ -53,6 +54,7 @@ Namespace VBLang.Syntax
 
             Dim stmts As New List(Of VBStatement)
             Dim xmlBuf As String = ""
+            Dim attrBuf As New List(Of String)
             Dim i As Integer = 0
 
             While i < physical.Length
@@ -84,14 +86,73 @@ Namespace VBLang.Syntax
 
                 Dim tokens As List(Of Token) = Tokenize(logical)
 
-                If tokens.Count > 0 OrElse xmlBuf.Length > 0 Then
-                    stmts.Add(New VBStatement With {.Line = startLine, .Tokens = tokens, .XmlDoc = xmlBuf})
+                ' a statement that consists solely of attribute blocks
+                ' (e.g. a <ExportAPI> line on its own) is buffered and attached
+                ' to the next real declaration
+                Dim ownLineAttrs As List(Of String) = TryParseAttributes(tokens)
+                If ownLineAttrs IsNot Nothing Then
+                    attrBuf.AddRange(ownLineAttrs)
+                    i += 1
+                    Continue While
+                End If
+
+                If tokens.Count > 0 OrElse xmlBuf.Length > 0 OrElse attrBuf.Count > 0 Then
+                    stmts.Add(New VBStatement With {
+                        .Line = startLine,
+                        .Tokens = tokens,
+                        .XmlDoc = xmlBuf,
+                        .Attributes = New List(Of String)(attrBuf)
+                    })
                 End If
 
                 xmlBuf = ""
+                attrBuf.Clear()
             End While
 
             Return stmts
+        End Function
+
+        ' if the whole token list is composed only of attribute blocks
+        ' (<...>), return their inner texts; otherwise return nothing.
+        Private Shared Function TryParseAttributes(tokens As List(Of Token)) As List(Of String)
+            Dim result As New List(Of String)
+            Dim pos As Integer = 0
+
+            While pos < tokens.Count
+                If tokens(pos).Text <> "<"c Then
+                    Return Nothing
+                End If
+
+                pos += 1
+                Dim depth As Integer = 0
+                Dim sb As New StringBuilder()
+
+                While pos < tokens.Count
+                    Dim tk As Token = tokens(pos)
+                    If tk.Text = "("c Then
+                        depth += 1
+                        sb.Append(tk.Text)
+                        pos += 1
+                    ElseIf tk.Text = ")"c Then
+                        depth -= 1
+                        sb.Append(tk.Text)
+                        pos += 1
+                    ElseIf tk.Text = ">"c AndAlso depth = 0 Then
+                        pos += 1
+                        Exit While
+                    Else
+                        sb.Append(tk.Text)
+                        pos += 1
+                    End If
+                End While
+
+                result.Add(sb.ToString().Trim())
+            End While
+
+            If result.Count = 0 Then
+                Return Nothing
+            End If
+            Return result
         End Function
 
         ' merge a run of physical lines that are joined by the line continuation

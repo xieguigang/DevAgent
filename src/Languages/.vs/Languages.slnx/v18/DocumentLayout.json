@@ -1,7 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\DevAgent\\src\\Languages\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F1AD283F-EC3C-186B-F1C8-95145A6AAE15}|VBLang\\VBLang.vbproj|g:\\devagent\\src\\languages\\vblang\\languagesymboltype.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{F1AD283F-EC3C-186B-F1C8-95145A6AAE15}|VBLang\\VBLang.vbproj|solutionrelative:vblang\\languagesymboltype.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -22,6 +27,19 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "LanguageSymbolType.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\Languages\\VBLang\\LanguageSymbolType.vb",
+              "RelativeDocumentMoniker": "VBLang\\LanguageSymbolType.vb",
+              "ToolTip": "G:\\DevAgent\\src\\Languages\\VBLang\\LanguageSymbolType.vb",
+              "RelativeToolTip": "VBLang\\LanguageSymbolType.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T14:05:53.67Z",
+              "EditorCaption": ""
             }
           ]
         },

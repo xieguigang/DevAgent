@@ -1,4 +1,4 @@
-Namespace VBLang.Syntax
+Namespace Syntax
 
     ''' <summary>
     ''' the kind of a lexical token produced by <see cref="VBScanner"/>

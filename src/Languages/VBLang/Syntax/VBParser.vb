@@ -2,7 +2,7 @@ Imports System.Collections.Generic
 Imports System.Text
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
-Namespace VBLang.Syntax
+Namespace Syntax
 
     ''' <summary>
     ''' recursive descent parser for VB.NET source code.
@@ -37,6 +37,17 @@ Namespace VBLang.Syntax
         End Function
 
         ' ------------------------------------------------------------------
+        ' statement cursor factory
+        ' ------------------------------------------------------------------
+
+        Private Function NewCursor(stmt As VBStatement) As StmtParser
+            Dim sp As New StmtParser(stmt.Tokens)
+            sp.Attributes = New List(Of String)(stmt.Attributes)
+            sp.CollectLeading()
+            Return sp
+        End Function
+
+        ' ------------------------------------------------------------------
         ' block driver
         ' ------------------------------------------------------------------
 
@@ -51,8 +62,7 @@ Namespace VBLang.Syntax
                     Continue While
                 End If
 
-                Dim sp As New StmtParser(stmt.Tokens)
-                sp.CollectLeading()
+                Dim sp As StmtParser = NewCursor(stmt)
                 Dim head As String = sp.Current.Text.ToLowerInvariant()
 
                 If head = "end" Then
@@ -108,8 +118,7 @@ Namespace VBLang.Syntax
         ' ------------------------------------------------------------------
 
         Private Sub ParseContainerType(stmt As VBStatement, stmts As List(Of VBStatement), ByRef i As Integer, container As ContainerType)
-            Dim sp As New StmtParser(stmt.Tokens)
-            sp.CollectLeading()
+            Dim sp As StmtParser = NewCursor(stmt)
             Dim kw As String = sp.Current.Text.ToLowerInvariant()
             Dim sym As SymbolType = MapContainerSymbol(kw)
 
@@ -125,7 +134,9 @@ Namespace VBLang.Syntax
                 sp.Pos += 1
             End If
 
-            If Not sp.Eof AndAlso sp.Current.Text.Equals("Of", StringComparison.OrdinalIgnoreCase) Then
+            ' generics: Name (Of T)
+            If Not sp.Eof AndAlso sp.Current.Text = "("c AndAlso sp.Pos + 1 < stmt.Tokens.Count AndAlso stmt.Tokens(sp.Pos + 1).Text.Equals("Of", StringComparison.OrdinalIgnoreCase) Then
+                sp.Pos += 1
                 ct.GenericTypeArguments = ReadGenericParameters(sp)
             End If
 
@@ -167,26 +178,35 @@ Namespace VBLang.Syntax
         ' ------------------------------------------------------------------
 
         Private Sub ParseInvokeMember(stmt As VBStatement, stmts As List(Of VBStatement), ByRef i As Integer, container As ContainerType)
-            Dim sp As New StmtParser(stmt.Tokens)
-            sp.CollectLeading()
+            Dim sp As StmtParser = NewCursor(stmt)
             Dim kw As String = sp.Current.Text.ToLowerInvariant()
+
+            sp.Pos += 1
+            Dim name As String
+            If kw = "operator" Then
+                name = ReadOperatorName(sp)
+            ElseIf Not sp.Eof Then
+                name = sp.Current.Text
+                sp.Pos += 1
+            Else
+                name = ""
+            End If
+
             Dim sym As SymbolType = MapMemberSymbol(kw)
+            If kw = "sub" AndAlso name.Equals("New", StringComparison.OrdinalIgnoreCase) Then
+                sym = SymbolType.[New]
+            End If
 
             Dim inv As New InvokeSymbolType(sym)
             inv.Modifiers = sp.Modifiers
             inv.Attributes = sp.Attributes
             inv.XmlDoc = stmt.XmlDoc
             inv.Parent = container
-            sp.Pos += 1
+            inv.Name = name
 
-            If kw = "operator" Then
-                inv.Name = ReadOperatorName(sp)
-            ElseIf Not sp.Eof Then
-                inv.Name = sp.Current.Text
+            ' generics: Name (Of T) ( params )
+            If Not sp.Eof AndAlso sp.Current.Text = "("c AndAlso sp.Pos + 1 < stmt.Tokens.Count AndAlso stmt.Tokens(sp.Pos + 1).Text.Equals("Of", StringComparison.OrdinalIgnoreCase) Then
                 sp.Pos += 1
-            End If
-
-            If Not sp.Eof AndAlso sp.Current.Text.Equals("Of", StringComparison.OrdinalIgnoreCase) Then
                 inv.GenericTypeArguments = ReadGenericParameters(sp)
             End If
 
@@ -201,7 +221,32 @@ Namespace VBLang.Syntax
 
             AddToContainer(container, inv)
             i += 1
-            ParseBlock(stmts, i, container, kw, inv)
+
+            If kw = "property" Then
+                ' an auto-property has no Get/Set/End Property body
+                Dim hasBody As Boolean = False
+                Dim k2 As Integer = i
+                While k2 < stmts.Count AndAlso stmts(k2).Tokens.Count = 0
+                    k2 += 1
+                End While
+                If k2 < stmts.Count Then
+                    Dim sp2 As StmtParser = NewCursor(stmts(k2))
+                    Dim h2 As String = sp2.Current.Text.ToLowerInvariant()
+                    If h2 = "get" OrElse h2 = "set" Then
+                        hasBody = True
+                    ElseIf h2 = "end" Then
+                        Dim en2 As String = If(sp2.Pos + 1 < stmts(k2).Tokens.Count, stmts(k2).Tokens(sp2.Pos + 1).Text.ToLowerInvariant(), "")
+                        If en2 = "property" Then
+                            hasBody = True
+                        End If
+                    End If
+                End If
+                If hasBody Then
+                    ParseBlock(stmts, i, container, "property", inv)
+                End If
+            Else
+                ParseBlock(stmts, i, container, kw, inv)
+            End If
         End Sub
 
         ' ------------------------------------------------------------------
@@ -209,8 +254,7 @@ Namespace VBLang.Syntax
         ' ------------------------------------------------------------------
 
         Private Sub ParseDelegate(stmt As VBStatement, stmts As List(Of VBStatement), ByRef i As Integer, container As ContainerType)
-            Dim sp As New StmtParser(stmt.Tokens)
-            sp.CollectLeading()
+            Dim sp As StmtParser = NewCursor(stmt)
 
             If Not sp.Eof AndAlso sp.Current.Text.Equals("delegate", StringComparison.OrdinalIgnoreCase) Then
                 sp.Pos += 1
@@ -232,7 +276,8 @@ Namespace VBLang.Syntax
                 sp.Pos += 1
             End If
 
-            If Not sp.Eof AndAlso sp.Current.Text.Equals("Of", StringComparison.OrdinalIgnoreCase) Then
+            If Not sp.Eof AndAlso sp.Current.Text = "("c AndAlso sp.Pos + 1 < stmt.Tokens.Count AndAlso stmt.Tokens(sp.Pos + 1).Text.Equals("Of", StringComparison.OrdinalIgnoreCase) Then
+                sp.Pos += 1
                 del.GenericTypeArguments = ReadGenericParameters(sp)
             End If
 
@@ -254,13 +299,12 @@ Namespace VBLang.Syntax
         ' ------------------------------------------------------------------
 
         Private Sub ParseField(stmt As VBStatement, container As ContainerType)
-            Dim sp As New StmtParser(stmt.Tokens)
-            sp.CollectLeading()
+            Dim sp As StmtParser = NewCursor(stmt)
             Dim rest As List(Of Token) = stmt.Tokens.GetRange(sp.Pos, stmt.Tokens.Count - sp.Pos)
             DeclareVariables(rest, container)
         End Sub
 
-        Private Sub DeclareVariables(tokens As List(Of Token), parent As LanguageSymbolType)
+        Private Sub DeclareVariables(tokens As List(Of Token), parent As ContainerType)
             If parent.Members Is Nothing Then
                 parent.Members = New Dictionary(Of String, LanguageSymbolType)
             End If
@@ -271,32 +315,44 @@ Namespace VBLang.Syntax
             End If
 
             Dim segs As List(Of List(Of Token)) = SplitTopLevel(tokens.GetRange(start, tokens.Count - start), ","c)
-            Dim sharedType As TypeInfo = Nothing
-
-            If segs.Count > 0 Then
-                Dim last As List(Of Token) = segs(segs.Count - 1)
-                If last.Count >= 2 AndAlso last(0).Text.Equals("As", StringComparison.OrdinalIgnoreCase) Then
-                    sharedType = TypeInfoHelper.TypeRef(CleanType(last, 1))
-                    segs.RemoveAt(segs.Count - 1)
-                End If
+            If segs.Count = 0 Then
+                Return
             End If
 
-            For Each seg In segs
+            ' precompute the own "As" type of every segment
+            Dim ownType(segs.Count - 1) As TypeInfo
+            For s As Integer = 0 To segs.Count - 1
+                Dim seg As List(Of Token) = segs(s)
+                If seg.Count >= 3 AndAlso seg(1).Text.Equals("As", StringComparison.OrdinalIgnoreCase) Then
+                    ownType(s) = TypeInfoHelper.TypeRef(CleanType(seg, 2))
+                Else
+                    ownType(s) = Nothing
+                End If
+            Next
+
+            For s As Integer = 0 To segs.Count - 1
+                Dim seg As List(Of Token) = segs(s)
                 If seg.Count = 0 Then
                     Continue For
                 End If
 
                 Dim name As String = seg(0).Text
-                Dim type As TypeInfo = sharedType
+                Dim type As TypeInfo = ownType(s)
 
-                If seg.Count >= 3 AndAlso seg(1).Text.Equals("As", StringComparison.OrdinalIgnoreCase) Then
-                    type = TypeInfoHelper.TypeRef(CleanType(seg, 2))
+                If type Is Nothing Then
+                    ' inherit the first following "As" clause
+                    For j As Integer = s + 1 To segs.Count - 1
+                        If ownType(j) IsNot Nothing Then
+                            type = ownType(j)
+                            Exit For
+                        End If
+                    Next
                 End If
 
                 If Not parent.Members.ContainsKey(name) Then
                     parent.Members(name) = New VariableSymbolType With {
                         .Name = name,
-                        .Parent = CType(parent, ContainerType),
+                        .Parent = parent,
                         .ValueType = If(type, TypeInfoHelper.TypeRef("Object"))
                     }
                 End If
@@ -481,8 +537,14 @@ Namespace VBLang.Syntax
                         sp.Pos += 1
                         Continue While
                     End If
-                    names.Add(sp.Current.Text)
+                    Dim pname As String = sp.Current.Text
                     sp.Pos += 1
+                    If Not sp.Eof AndAlso sp.Current.Text.Equals("As", StringComparison.OrdinalIgnoreCase) Then
+                        While Not sp.Eof AndAlso sp.Current.Text <> ","c AndAlso sp.Current.Text <> ")"c
+                            sp.Pos += 1
+                        End While
+                    End If
+                    names.Add(pname)
                 End While
                 If Not sp.Eof AndAlso sp.Current.Text = ")"c Then
                     sp.Pos += 1
@@ -493,9 +555,23 @@ Namespace VBLang.Syntax
                         sp.Pos += 1
                         Continue While
                     End If
-                    names.Add(sp.Current.Text)
+                    If sp.Current.Text.Equals("In", StringComparison.OrdinalIgnoreCase) OrElse sp.Current.Text.Equals("Out", StringComparison.OrdinalIgnoreCase) Then
+                        sp.Pos += 1
+                        Continue While
+                    End If
+                    Dim pname As String = sp.Current.Text
                     sp.Pos += 1
+                    If Not sp.Eof AndAlso sp.Current.Text.Equals("As", StringComparison.OrdinalIgnoreCase) Then
+                        While Not sp.Eof AndAlso sp.Current.Text <> ","c AndAlso sp.Current.Text <> ")"c AndAlso sp.Current.Text <> "("c
+                            sp.Pos += 1
+                        End While
+                    End If
+                    names.Add(pname)
                 End While
+            End If
+
+            If names.Count = 0 Then
+                Return New TypeInfo() {}
             End If
 
             Dim arr(names.Count - 1) As TypeInfo
@@ -570,10 +646,11 @@ Namespace VBLang.Syntax
         End Function
 
         Private Function IsBlockStarter(kw As String) As Boolean
+            ' only control-flow blocks need depth balancing; declarations
+            ' (class/function/...) are fully consumed by their own recursive
+            ' parser and therefore must not be skipped here.
             Select Case kw
-                Case "class", "module", "structure", "struct", "enum", "interface", "namespace",
-                     "function", "sub", "property", "operator", "get", "set",
-                     "if", "while", "do", "for", "select", "try", "with", "synclock", "using"
+                Case "if", "while", "do", "for", "select", "try", "with", "synclock", "using", "get", "set"
                     Return True
             End Select
             Return False
