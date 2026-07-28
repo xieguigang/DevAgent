@@ -11,7 +11,9 @@
       <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>
-  <Project Path="RLang/RLang.vbproj" />
+  <Project Path="RLang/RLang.vbproj">
+    <Platform Solution="Debug|x64" Project="x64" />
+  </Project>
   <Project Path="VBLang/VBLang.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
