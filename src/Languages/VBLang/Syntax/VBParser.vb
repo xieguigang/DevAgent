@@ -112,6 +112,9 @@ Namespace Syntax
                             ParseContainerClause(stmt, container)
                         End If
                         i += 1
+                    Case "imports", "option"
+                        ' top level directives : skip (not symbol declarations)
+                        i += 1
                     Case Else
                         If member Is Nothing Then
                             ParseField(stmt, container)
@@ -453,32 +456,38 @@ Namespace Syntax
                 End If
             End While
 
-            If Not sp.Eof AndAlso sp.Current.Text.Equals("Of", StringComparison.OrdinalIgnoreCase) Then
+            ' generic arguments : either "Type (Of ...)" or just "Of ..."
+            If Not sp.Eof AndAlso sp.Current.Text = "("c AndAlso
+               sp.Pos + 1 < sp.Tokens.Count AndAlso
+               sp.Tokens(sp.Pos + 1).Text.Equals("Of", StringComparison.OrdinalIgnoreCase) Then
+                sp.Pos += 1
                 sp.Pos += 1
                 sb.Append("(Of ")
+            ElseIf Not sp.Eof AndAlso sp.Current.Text.Equals("Of", StringComparison.OrdinalIgnoreCase) Then
+                sp.Pos += 1
+                sb.Append("(Of ")
+            End If
 
-                If Not sp.Eof AndAlso sp.Current.Text = "("c Then
+            If sb.ToString().EndsWith("(Of ") Then
+                ' we just consumed the "(Of" opener; we are now positioned at
+                ' the first type argument, inside one level of parentheses
+                ' (the "(" precedes "Of" in VB syntax). Track its paren depth
+                ' so we stop at the matching ")".
+                Dim depth As Integer = 1
+
+                Do
+                    If sp.Eof Then
+                        Exit Do
+                    End If
+                    Dim tk As Token = sp.Current
+                    sb.Append(tk.Text)
+                    If tk.Text = "("c Then
+                        depth += 1
+                    ElseIf tk.Text = ")"c Then
+                        depth -= 1
+                    End If
                     sp.Pos += 1
-                    Dim depth As Integer = 0
-                    Do
-                        Dim tk As Token = sp.Current
-                        sb.Append(tk.Text)
-                        If tk.Text = "("c Then
-                            depth += 1
-                        ElseIf tk.Text = ")"c Then
-                            depth -= 1
-                        End If
-                        sp.Pos += 1
-                    Loop While Not sp.Eof AndAlso depth > 0
-                    ' the closing ")" of (Of ...) is already appended by the
-                    ' loop above; do NOT append a second one.
-                Else
-                    While Not sp.Eof AndAlso sp.Current.Text <> ","c AndAlso sp.Current.Text <> ")"c AndAlso Not sp.Current.Text.Equals("As", StringComparison.OrdinalIgnoreCase)
-                        sb.Append(" "c & sp.Current.Text)
-                        sp.Pos += 1
-                    End While
-                    sb.Append(")"c)
-                End If
+                Loop While depth > 0
             End If
 
             Return TypeInfoHelper.TypeRef(sb.ToString().Trim())
@@ -492,66 +501,48 @@ Namespace Syntax
             End If
 
             sp.Pos += 1
-            Dim depth As Integer = 0
-            Dim cur As New List(Of Token)
 
-            While Not sp.Eof
-                Dim tk As Token = sp.Current
+            While Not sp.Eof AndAlso sp.Current.Text <> ")"c
+                ParseOneParam(sp, dict)
 
-                If tk.Text = "("c Then
-                    depth += 1
-                    cur.Add(tk)
-                    sp.Pos += 1
-                ElseIf tk.Text = ")"c Then
-                    depth -= 1
-                    If depth < 0 Then
-                        sp.Pos += 1
-                        Exit While
-                    Else
-                        cur.Add(tk)
-                        sp.Pos += 1
-                    End If
-                ElseIf tk.Text = ","c AndAlso depth = 0 Then
-                    ParseOneParam(cur, dict)
-                    cur = New List(Of Token)
+                If Not sp.Eof AndAlso sp.Current.Text = ","c Then
                     sp.Pos += 1
                 Else
-                    cur.Add(tk)
-                    sp.Pos += 1
+                    Exit While
                 End If
             End While
 
-            If cur.Count > 0 Then
-                ParseOneParam(cur, dict)
+            If Not sp.Eof AndAlso sp.Current.Text = ")"c Then
+                sp.Pos += 1
             End If
 
             Return dict
         End Function
 
-        Private Sub ParseOneParam(tokens As List(Of Token), dict As Dictionary(Of String, TypeInfo))
-            If tokens.Count = 0 Then
-                Return
-            End If
-
-            Dim pos As Integer = 0
-            While pos < tokens.Count AndAlso IsParamModifier(tokens(pos).Text)
-                pos += 1
+        Private Sub ParseOneParam(sp As StmtParser, dict As Dictionary(Of String, TypeInfo))
+            ' optional parameter modifier (ByVal / ByRef / Optional / ParamArray)
+            While Not sp.Eof AndAlso IsParamModifier(sp.Current.Text)
+                sp.Pos += 1
             End While
 
-            If pos >= tokens.Count Then
+            If sp.Eof OrElse sp.Current.Text = ","c OrElse sp.Current.Text = ")"c Then
                 Return
             End If
 
-            Dim name As String = tokens(pos).Text
-            pos += 1
+            Dim name As String = sp.Current.Text
+            sp.Pos += 1
 
             Dim type As TypeInfo = Nothing
-            If pos < tokens.Count AndAlso tokens(pos).Text.Equals("As", StringComparison.OrdinalIgnoreCase) Then
-                pos += 1
-                Dim tsp As New StmtParser(tokens, pos)
-                type = ReadTypeRef(tsp)
-                pos = tsp.Pos
+            If Not sp.Eof AndAlso sp.Current.Text.Equals("As", StringComparison.OrdinalIgnoreCase) Then
+                sp.Pos += 1
+                type = ReadTypeRef(sp)
             End If
+
+            ' skip any trailing default value / array parentheses so we land on
+            ' the next parameter or the closing ")"
+            While Not sp.Eof AndAlso sp.Current.Text <> ","c AndAlso sp.Current.Text <> ")"c
+                sp.Pos += 1
+            End While
 
             If Not dict.ContainsKey(name) Then
                 dict(name) = If(type, TypeInfoHelper.TypeRef("Object"))
@@ -563,55 +554,40 @@ Namespace Syntax
                 Return Nothing
             End If
 
+            ' the caller has already consumed the opening "(" of "(Of ...)",
+            ' so here Current points at the first type parameter name.
             sp.Pos += 1
+
             Dim names As New List(Of String)
 
-            If Not sp.Eof AndAlso sp.Current.Text = "("c Then
-                sp.Pos += 1
-                If Not sp.Eof AndAlso sp.Current.Text = "("c Then sp.Pos += 1
-                While Not sp.Eof AndAlso sp.Current.Text <> ")"c
-                    If sp.Current.Text = ","c Then
-                        sp.Pos += 1
-                        Continue While
-                    End If
-                    If sp.Current.Text.Equals("In", StringComparison.OrdinalIgnoreCase) OrElse sp.Current.Text.Equals("Out", StringComparison.OrdinalIgnoreCase) Then
-                        sp.Pos += 1
-                        Continue While
-                    End If
-                    Dim pname As String = sp.Current.Text
+            While Not sp.Eof AndAlso sp.Current.Text <> ")"c
+                If sp.Current.Text = ","c Then
                     sp.Pos += 1
-                    If Not sp.Eof AndAlso sp.Current.Text.Equals("As", StringComparison.OrdinalIgnoreCase) Then
-                        While Not sp.Eof AndAlso sp.Current.Text <> ","c AndAlso sp.Current.Text <> ")"c
-                            sp.Pos += 1
-                        End While
-                    End If
-                    names.Add(pname)
-                End While
-                If Not sp.Eof AndAlso sp.Current.Text = ")"c Then
-                    sp.Pos += 1
+                    Continue While
                 End If
-            Else
-                While Not sp.Eof AndAlso sp.Current.Text <> "("c AndAlso Not sp.Current.Text.Equals("As", StringComparison.OrdinalIgnoreCase)
-                    If sp.Current.Text = ","c Then
-                        sp.Pos += 1
-                        Continue While
-                    End If
-                    If sp.Current.Text.Equals("In", StringComparison.OrdinalIgnoreCase) OrElse sp.Current.Text.Equals("Out", StringComparison.OrdinalIgnoreCase) Then
-                        sp.Pos += 1
-                        Continue While
-                    End If
-                    Dim pname As String = sp.Current.Text
-                    sp.Pos += 1
-                    If Not sp.Eof AndAlso sp.Current.Text.Equals("As", StringComparison.OrdinalIgnoreCase) Then
-                        While Not sp.Eof AndAlso sp.Current.Text <> ","c AndAlso sp.Current.Text <> ")"c AndAlso sp.Current.Text <> "("c
-                            sp.Pos += 1
-                        End While
-                    End If
-                    names.Add(pname)
-                End While
-            End If
 
-            Console.Error.WriteLine("DBG generic names=" & String.Join("|", names) & " (count=" & names.Count & ")")
+                If sp.Current.Text.Equals("In", StringComparison.OrdinalIgnoreCase) OrElse
+                   sp.Current.Text.Equals("Out", StringComparison.OrdinalIgnoreCase) Then
+                    sp.Pos += 1
+                    Continue While
+                End If
+
+                Dim pname As String = sp.Current.Text
+                sp.Pos += 1
+
+                ' skip an optional constraint clause : As <bound>
+                If Not sp.Eof AndAlso sp.Current.Text.Equals("As", StringComparison.OrdinalIgnoreCase) Then
+                    While Not sp.Eof AndAlso sp.Current.Text <> ","c AndAlso sp.Current.Text <> ")"c
+                        sp.Pos += 1
+                    End While
+                End If
+
+                names.Add(pname)
+            End While
+
+            If Not sp.Eof AndAlso sp.Current.Text = ")"c Then
+                sp.Pos += 1
+            End If
 
             If names.Count = 0 Then
                 Return New TypeInfo() {}
