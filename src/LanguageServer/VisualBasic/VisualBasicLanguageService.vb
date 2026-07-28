@@ -319,22 +319,22 @@ Public Class VisualBasicLanguageService
 #Region "符号提取"
 
     ' 类型声明正则：Public Class Foo / Private Module Bar / Structure S / Interface I / Enum E
-    Private Shared ReadOnly TypePattern As New Regex(
+    Shared ReadOnly TypePattern As New Regex(
         "^\s*(?<access>(Public|Private|Protected|Friend|Shared|Partial|\s)*)\s*(?<kind>(Class|Module|Structure|Interface|Enum))\s+(?<name>[A-Za-z_][A-Za-z0-9_]*)",
         RegexOptions.Compiled Or RegexOptions.IgnoreCase)
 
     ' 方法声明正则：Public Function Foo(...) As Integer / Private Sub Bar(...)
-    Private Shared ReadOnly MethodPattern As New Regex(
+    Shared ReadOnly MethodPattern As New Regex(
         "^\s*(?<access>(Public|Private|Protected|Friend|Shared|Overridable|Overrides|Overloads|MustOverride|NotOverridable|Shadows|Async|Iterator|\s)*)\s*(?<kind>(Sub|Function))\s+(?<name>[A-Za-z_][A-Za-z0-9_]*)\s*\((?<params>[^)]*)\)(\s+As\s+(?<retType>[A-Za-z_][A-Za-z0-9_\.\(\),\s]*))?",
         RegexOptions.Compiled Or RegexOptions.IgnoreCase)
 
     ' 属性声明正则：Public Property Foo As Integer
-    Private Shared ReadOnly PropertyPattern As New Regex(
+    Shared ReadOnly PropertyPattern As New Regex(
         "^\s*(?<access>(Public|Private|Protected|Friend|Shared|ReadOnly|WriteOnly|Overridable|Overrides|Overloads|MustOverride|NotOverridable|Shadows|\s)*)\s*Property\s+(?<name>[A-Za-z_][A-Za-z0-9_]*)\s*(\(\s*\))?\s*(As\s+(?<type>[A-Za-z_][A-Za-z0-9_\.\(\),\s]*))?",
         RegexOptions.Compiled Or RegexOptions.IgnoreCase)
 
     ' 变量声明正则：Dim x As Integer / Const y As String = "hello" / Private field As Double
-    Private Shared ReadOnly VariablePattern As New Regex(
+    Shared ReadOnly VariablePattern As New Regex(
         "^\s*(?<mod>(Dim|Const|Static|Private|Public|Protected|Friend|Shared|\s)*)\s+(?<name>[A-Za-z_][A-Za-z0-9_]*)\s*(\((?<size>[^)]*)\))?\s*(As\s+(?<type>[A-Za-z_][A-Za-z0-9_\.\(\),\s]*?))?\s*(=|$)",
         RegexOptions.Compiled Or RegexOptions.IgnoreCase)
 

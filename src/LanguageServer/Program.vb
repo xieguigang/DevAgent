@@ -1,8 +1,9 @@
 Imports Flute.Http.Configurations
 Imports Microsoft.VisualBasic.CommandLine
+Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 
-Module Program
+<CLI> Module Program
 
     Public Function Main(args As String()) As Integer
         Return GetType(Program).RunCLI(App.CommandLine)
