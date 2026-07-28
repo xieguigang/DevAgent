@@ -1,5 +1,5 @@
 Imports System.Text
-Imports VBLang.Syntax
+Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj.Syntax
 
 Namespace Syntax
 
@@ -60,12 +60,12 @@ Namespace Syntax
             Dim sb As New StringBuilder()
 
             Dim flush = Sub()
-                If sb.Length > 0 Then
-                    Dim word = sb.ToString()
-                    sb.Clear()
-                    toks.Add(New Token With {.Kind = TokenKind.Identifier, .Text = word, .Line = lineNo})
-                End If
-            End Sub
+                            If sb.Length > 0 Then
+                                Dim word = sb.ToString()
+                                sb.Clear()
+                                toks.Add(New Token With {.Kind = TokenKind.Identifier, .Text = word, .Line = lineNo})
+                            End If
+                        End Sub
 
             ' continue an open multi-line string started on a previous line
             If strState <> "" Then

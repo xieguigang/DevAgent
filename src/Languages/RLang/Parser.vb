@@ -1,6 +1,6 @@
-Imports System.Collections.Generic
 Imports System.IO
-Imports VBLang
+Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj
+Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj.ProjectXml
 Imports RLang.Syntax
 
 ''' <summary>

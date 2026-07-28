@@ -1,5 +1,4 @@
-Imports System.Collections.Generic
-Imports VBLang
+Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj
 
 Namespace Syntax
 

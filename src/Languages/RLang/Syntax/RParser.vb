@@ -1,7 +1,6 @@
-Imports System.Collections.Generic
+Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj
+Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj.Syntax
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports VBLang
-Imports VBLang.Syntax
 
 Namespace Syntax
 

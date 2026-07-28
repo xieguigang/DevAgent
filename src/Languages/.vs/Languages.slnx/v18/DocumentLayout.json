@@ -1,7 +1,28 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\DevAgent\\src\\Languages\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3F6F5B43-4919-69DB-70FD-2782FFA107F7}|RLang\\RLang.vbproj|g:\\devagent\\src\\languages\\rlang\\syntax\\rscanner.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{3F6F5B43-4919-69DB-70FD-2782FFA107F7}|RLang\\RLang.vbproj|solutionrelative:rlang\\syntax\\rscanner.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3F6F5B43-4919-69DB-70FD-2782FFA107F7}|RLang\\RLang.vbproj|g:\\devagent\\src\\languages\\rlang\\syntax\\rparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{3F6F5B43-4919-69DB-70FD-2782FFA107F7}|RLang\\RLang.vbproj|solutionrelative:rlang\\syntax\\rparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{01F20376-4F18-0767-2C81-467FE5881183}|RLang.Test\\test.vbproj|g:\\devagent\\src\\languages\\rlang.test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{01F20376-4F18-0767-2C81-467FE5881183}|RLang.Test\\test.vbproj|solutionrelative:rlang.test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3F6F5B43-4919-69DB-70FD-2782FFA107F7}|RLang\\RLang.vbproj|g:\\devagent\\src\\languages\\rlang\\parser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{3F6F5B43-4919-69DB-70FD-2782FFA107F7}|RLang\\RLang.vbproj|solutionrelative:rlang\\parser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3F6F5B43-4919-69DB-70FD-2782FFA107F7}|RLang\\RLang.vbproj|g:\\devagent\\src\\languages\\rlang\\syntax\\rsymbols.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{3F6F5B43-4919-69DB-70FD-2782FFA107F7}|RLang\\RLang.vbproj|solutionrelative:rlang\\syntax\\rsymbols.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,8 +30,34 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "RScanner.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\Languages\\RLang\\Syntax\\RScanner.vb",
+              "RelativeDocumentMoniker": "RLang\\Syntax\\RScanner.vb",
+              "ToolTip": "G:\\DevAgent\\src\\Languages\\RLang\\Syntax\\RScanner.vb",
+              "RelativeToolTip": "RLang\\Syntax\\RScanner.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T19:39:53.471Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "RSymbols.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\Languages\\RLang\\Syntax\\RSymbols.vb",
+              "RelativeDocumentMoniker": "RLang\\Syntax\\RSymbols.vb",
+              "ToolTip": "G:\\DevAgent\\src\\Languages\\RLang\\Syntax\\RSymbols.vb",
+              "RelativeToolTip": "RLang\\Syntax\\RSymbols.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T19:39:32.456Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -22,6 +69,45 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Parser.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\Languages\\RLang\\Parser.vb",
+              "RelativeDocumentMoniker": "RLang\\Parser.vb",
+              "ToolTip": "G:\\DevAgent\\src\\Languages\\RLang\\Parser.vb",
+              "RelativeToolTip": "RLang\\Parser.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T19:39:08.722Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RParser.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\Languages\\RLang\\Syntax\\RParser.vb",
+              "RelativeDocumentMoniker": "RLang\\Syntax\\RParser.vb",
+              "ToolTip": "G:\\DevAgent\\src\\Languages\\RLang\\Syntax\\RParser.vb",
+              "RelativeToolTip": "RLang\\Syntax\\RParser.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAKcAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T19:38:50.176Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\Languages\\RLang.Test\\Program.vb",
+              "RelativeDocumentMoniker": "RLang.Test\\Program.vb",
+              "ToolTip": "G:\\DevAgent\\src\\Languages\\RLang.Test\\Program.vb",
+              "RelativeToolTip": "RLang.Test\\Program.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T19:38:28.94Z",
+              "EditorCaption": ""
             }
           ]
         },
