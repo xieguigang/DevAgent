@@ -1,4 +1,3 @@
-Imports System.IO
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
 ''' <summary>
