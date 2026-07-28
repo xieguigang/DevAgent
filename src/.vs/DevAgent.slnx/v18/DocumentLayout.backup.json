@@ -3,6 +3,13 @@
   "WorkspaceRootPath": "G:\\DevAgent\\src\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{D98C3F2E-4A2C-F032-CECB-51BCFCC6A97C}|..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\codesign\\vbcodesignature.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49DD1F9C-AE3A-45FE-A4D4-43D8BCBB7F97}|LanguageServer\\test\\test.vbproj|g:\\devagent\\src\\languageserver\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{49DD1F9C-AE3A-45FE-A4D4-43D8BCBB7F97}|LanguageServer\\test\\test.vbproj|solutionrelative:languageserver\\test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{9CDFC7C0-DB7A-49BE-8C6A-52BFBFB38A16}|LanguageServer\\LanguageServer.vbproj|g:\\devagent\\src\\languageserver\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{9CDFC7C0-DB7A-49BE-8C6A-52BFBFB38A16}|LanguageServer\\LanguageServer.vbproj|solutionrelative:languageserver\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
@@ -19,9 +26,6 @@
       "RelativeMoniker": "D:0:0:{9CDFC7C0-DB7A-49BE-8C6A-52BFBFB38A16}|LanguageServer\\LanguageServer.vbproj|solutionrelative:languageserver\\visualbasic\\visualbasiclanguageservice.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D98C3F2E-4A2C-F032-CECB-51BCFCC6A97C}|..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\codesign\\vbcodesignature.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{9CDFC7C0-DB7A-49BE-8C6A-52BFBFB38A16}|LanguageServer\\LanguageServer.vbproj|g:\\devagent\\src\\languageserver\\languageserver.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
       "RelativeMoniker": "D:0:0:{9CDFC7C0-DB7A-49BE-8C6A-52BFBFB38A16}|LanguageServer\\LanguageServer.vbproj|solutionrelative:languageserver\\languageserver.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     }
@@ -33,7 +37,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 179,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -49,20 +53,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
+              "Title": "Program.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\LanguageServer\\test\\Program.vb",
+              "RelativeDocumentMoniker": "LanguageServer\\test\\Program.vb",
+              "ToolTip": "G:\\DevAgent\\src\\LanguageServer\\test\\Program.vb",
+              "RelativeToolTip": "LanguageServer\\test\\Program.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T13:11:32.936Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "VBCodeSignature.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\VBCodeSignature.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\VBCodeSignature.vb",
               "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\VBCodeSignature.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\VBCodeSignature.vb",
-              "ViewState": "AgIAAIEAAAAAAAAAAAAowFAAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAEMAAAAAAAAAAAAAAF4AAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-07-28T13:06:59.989Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "LanguageMemberInfo.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\LanguageServer\\VisualBasic\\LanguageMemberInfo.vb",
               "RelativeDocumentMoniker": "LanguageServer\\VisualBasic\\LanguageMemberInfo.vb",
@@ -75,7 +92,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "LanguageServer",
               "DocumentMoniker": "G:\\DevAgent\\src\\LanguageServer\\LanguageServer.vbproj",
               "RelativeDocumentMoniker": "LanguageServer\\LanguageServer.vbproj",
@@ -87,7 +104,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "VisualBasicLanguageService.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\LanguageServer\\VisualBasic\\VisualBasicLanguageService.vb",
               "RelativeDocumentMoniker": "LanguageServer\\VisualBasic\\VisualBasicLanguageService.vb",
@@ -100,7 +117,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Services.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\LanguageServer\\Services.vb",
               "RelativeDocumentMoniker": "LanguageServer\\Services.vb",
@@ -113,13 +130,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Program.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\LanguageServer\\Program.vb",
               "RelativeDocumentMoniker": "LanguageServer\\Program.vb",
               "ToolTip": "G:\\DevAgent\\src\\LanguageServer\\Program.vb",
               "RelativeToolTip": "LanguageServer\\Program.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-07-25T17:03:15.895Z",
               "EditorCaption": ""
