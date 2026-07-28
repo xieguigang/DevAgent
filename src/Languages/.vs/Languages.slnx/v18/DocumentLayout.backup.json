@@ -3,43 +3,58 @@
   "WorkspaceRootPath": "G:\\DevAgent\\src\\Languages\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\visualstudio.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\versioncontrol\\git\\log.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\ngen\\registry.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\versioncontrol\\svn.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\ngen\\ngen.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\wcftracefile.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\il\\methodbodyreader.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\vbproj\\xml\\itemgroup.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\il\\methodanalyzer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\vbproj\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\il\\ilinstruction.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\vbproj\\assemblyinfo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\il\\globals.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\sourcemap\\sourcemap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\codesign\\vbcodesignature.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\sourcemap\\mappingline.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\codesign\\supportedlanguages.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\sourcemap\\mappingencode.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\codesign\\licensemgr.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\sourcemap\\mappingdecode.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\codesign\\licenseinfo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\sourcemap\\base64vlq.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\codesign\\codesign.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\sln\\solution.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\codesign\\codestatistics.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\sln\\parser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\sln\\global.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\resource\\mimedata.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\resource\\xml\\schema.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\resource\\xml\\resx.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\resource\\xml\\resheader.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -49,7 +64,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -65,171 +80,236 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "VisualStudio.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2026-07-28T18:21:48.403Z",
+              "DocumentIndex": 1,
+              "Title": "svn.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VersionControl\\svn.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VersionControl\\svn.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VersionControl\\svn.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VersionControl\\svn.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T18:34:34.09Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Registry.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Ngen\\Registry.vb",
-              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Ngen\\Registry.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Ngen\\Registry.vb",
-              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Ngen\\Registry.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD4AAAAbAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "log.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VersionControl\\git\\log.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VersionControl\\git\\log.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VersionControl\\git\\log.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VersionControl\\git\\log.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADkAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-28T18:21:22.789Z",
+              "WhenOpened": "2026-07-28T18:34:32.433Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Ngen.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Ngen\\Ngen.vb",
-              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Ngen\\Ngen.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Ngen\\Ngen.vb",
-              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Ngen\\Ngen.vb",
-              "ViewState": "AgIAAIcBAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
+              "Title": "WCFTraceFile.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\WCFTraceFile.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\WCFTraceFile.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\WCFTraceFile.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\WCFTraceFile.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFIAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-28T18:21:11.505Z",
+              "WhenOpened": "2026-07-28T18:29:33.663Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "MethodBodyReader.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\MethodBodyReader.vb",
-              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\MethodBodyReader.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\MethodBodyReader.vb",
-              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\MethodBodyReader.vb",
-              "ViewState": "AgIAAOoAAAAAAAAAAAAuwAAAAAAAAAAAAAAAAA==",
+              "Title": "ItemGroup.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\vbproj\\Xml\\ItemGroup.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\vbproj\\Xml\\ItemGroup.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\vbproj\\Xml\\ItemGroup.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\vbproj\\Xml\\ItemGroup.vb",
+              "ViewState": "AgIAAG4AAAAAAAAAAAAmwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-28T18:20:19.391Z",
+              "WhenOpened": "2026-07-28T18:29:26.28Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "MethodAnalyzer.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\MethodAnalyzer.vb",
-              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\MethodAnalyzer.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\MethodAnalyzer.vb",
-              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\MethodAnalyzer.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoBAAAcAAAAAAAAAA==",
+              "Title": "Extensions.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\vbproj\\Extensions.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\vbproj\\Extensions.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\vbproj\\Extensions.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\vbproj\\Extensions.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-28T18:20:15.751Z",
+              "WhenOpened": "2026-07-28T18:28:53.902Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "ILInstruction.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\ILInstruction.vb",
-              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\ILInstruction.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\ILInstruction.vb",
-              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\ILInstruction.vb",
-              "ViewState": "AgIAAE4AAAAAAAAAAAAUwAAAAAAAAAAAAAAAAA==",
+              "Title": "AssemblyInfo.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\vbproj\\AssemblyInfo.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\vbproj\\AssemblyInfo.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\vbproj\\AssemblyInfo.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\vbproj\\AssemblyInfo.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-28T18:20:11.74Z",
+              "WhenOpened": "2026-07-28T18:28:12.424Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "Globals.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\Globals.vb",
-              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\Globals.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\Globals.vb",
-              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\IL\\Globals.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD4AAAAAAAAAAAAAAA==",
+              "Title": "sourceMap.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\sourceMap.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\sourceMap.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\sourceMap.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\sourceMap.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-28T18:20:05.011Z",
+              "WhenOpened": "2026-07-28T18:27:39.875Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "VBCodeSignature.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\VBCodeSignature.vb",
-              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\VBCodeSignature.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\VBCodeSignature.vb",
-              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\VBCodeSignature.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "mappingLine.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\mappingLine.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\mappingLine.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\mappingLine.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\mappingLine.vb",
+              "ViewState": "AgIAAFEAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-28T18:19:59.705Z",
+              "WhenOpened": "2026-07-28T18:27:35.224Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
-              "Title": "SupportedLanguages.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\SupportedLanguages.vb",
-              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\SupportedLanguages.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\SupportedLanguages.vb",
-              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\SupportedLanguages.vb",
+              "Title": "mappingEncode.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\mappingEncode.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\mappingEncode.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\mappingEncode.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\mappingEncode.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-28T18:19:57.741Z",
+              "WhenOpened": "2026-07-28T18:27:19.627Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 9,
-              "Title": "LicenseMgr.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\LicenseMgr.vb",
-              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\LicenseMgr.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\LicenseMgr.vb",
-              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\LicenseMgr.vb",
+              "Title": "mappingDecode.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\mappingDecode.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\mappingDecode.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\mappingDecode.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\mappingDecode.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-28T18:19:53.057Z",
+              "WhenOpened": "2026-07-28T18:27:17.09Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 10,
-              "Title": "LicenseInfo.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\LicenseInfo.vb",
-              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\LicenseInfo.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\LicenseInfo.vb",
-              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\LicenseInfo.vb",
+              "Title": "base64VLQ.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\base64VLQ.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\base64VLQ.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\base64VLQ.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\base64VLQ.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-28T18:19:47.633Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "CodeStatistics.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\CodeStatistics.vb",
-              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\CodeStatistics.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\CodeStatistics.vb",
-              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\CodeStatistics.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-28T18:19:43.828Z",
+              "WhenOpened": "2026-07-28T18:27:13.574Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 11,
-              "Title": "CodeSign.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\CodeSign.vb",
-              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\CodeSign.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\CodeSign.vb",
-              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\CodeSign\\CodeSign.vb",
+              "Title": "Solution.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sln\\Solution.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sln\\Solution.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sln\\Solution.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sln\\Solution.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFoAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T18:25:18.843Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Parser.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sln\\Parser.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sln\\Parser.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sln\\Parser.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sln\\Parser.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-28T18:19:37.504Z",
+              "WhenOpened": "2026-07-28T18:25:17.127Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Global.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sln\\Global.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sln\\Global.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sln\\Global.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sln\\Global.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T18:25:15.308Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "schema.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Resource\\xml\\schema.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Resource\\xml\\schema.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Resource\\xml\\schema.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Resource\\xml\\schema.vb",
+              "ViewState": "AgIAAGQAAAAAAAAAAAA7wAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T18:23:24.681Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "resx.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Resource\\xml\\resx.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Resource\\xml\\resx.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Resource\\xml\\resx.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Resource\\xml\\resx.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T18:23:22.91Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "resheader.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Resource\\xml\\resheader.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Resource\\xml\\resheader.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Resource\\xml\\resheader.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Resource\\xml\\resheader.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T18:23:21.356Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "MimeData.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Resource\\MimeData.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Resource\\MimeData.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Resource\\MimeData.vb",
+              "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Resource\\MimeData.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T18:22:54.93Z",
               "EditorCaption": ""
             }
           ]
