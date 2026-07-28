@@ -8,8 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="test\**" />
     <Compile Remove="_verify\**" />
+    <EmbeddedResource Remove="test\**" />
     <EmbeddedResource Remove="_verify\**" />
+    <None Remove="test\**" />
     <None Remove="_verify\**" />
   </ItemGroup>
 

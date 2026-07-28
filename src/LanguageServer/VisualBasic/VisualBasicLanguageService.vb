@@ -1,7 +1,6 @@
+Imports System.Collections.Concurrent
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports System.Collections.Generic
-Imports System.Collections.Concurrent
 Imports Flute.Http.Core.Message
 
 ''' <summary>
