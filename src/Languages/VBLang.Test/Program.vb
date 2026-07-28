@@ -1,9 +1,16 @@
 Imports System
+Imports System.IO
 Imports VBLang.Syntax
 
 Module Program
 
     Sub Main()
+        Try
+            TestProject()
+        Catch ex As Exception
+            Console.WriteLine("[WARN] VBProject.Load test failed: " & ex.Message)
+        End Try
+
         Dim src As String = "
 Imports System
 
@@ -109,6 +116,59 @@ End Namespace
         Dim en = CType(cls.InternalNested("InnerEnum"), ContainerType)
         Assert(en IsNot Nothing AndAlso en.Type = SymbolType.[Enum], "nested enum", failures)
         Assert(en.EnumBaseType IsNot Nothing AndAlso en.EnumBaseType.fullName = "Byte", "enum base Byte", failures)
+    End Sub
+
+    Sub TestProject()
+        Dim baseDir = AppContext.BaseDirectory
+        Dim dir = baseDir
+        Dim vbprojPath As String = Nothing
+        While dir IsNot Nothing
+            Dim cand = Path.Combine(dir, "VBLang", "VBLang.vbproj")
+            If File.Exists(cand) Then
+                vbprojPath = cand
+                Exit While
+            End If
+            dir = Path.GetDirectoryName(dir)
+        End While
+
+        If vbprojPath Is Nothing Then
+            Console.WriteLine("[SKIP] VBProject.Load test: VBLang.vbproj not found")
+            Return
+        End If
+
+        Console.WriteLine(vbCrLf & "--- VBProject.Load ---")
+        Console.WriteLine("vbproj: " & vbprojPath)
+
+        Dim proj As VBProject = VBProject.Load(vbprojPath)
+        Console.WriteLine("RootNamespace : " & proj.RootNamespace)
+        Console.WriteLine("AssemblyName  : " & proj.AssemblyName)
+        Console.WriteLine("OutputType    : " & proj.OutputType)
+        Console.WriteLine("Compile files : " & If(proj.CompileFiles, New VBDocument() {}).Length)
+
+        For Each doc In proj.CompileFiles
+            Console.WriteLine("  " & doc.FileName & "  ->  " & doc.Types.Count & " top-level types, " & doc.Imports.Length & " imports")
+        Next
+
+        Console.WriteLine(vbCrLf & "--- VBProject.GetType ---")
+        Dim probes As String() = {
+            "VBLang.VBDocument",
+            "VBLang.VBProject",
+            "VBLang.Syntax.VBParser",
+            "VBLang.LanguageSymbolType",
+            "VBLang.Syntax.TokenKind",
+            "VBLang.Syntax.VBScanner",
+            "VBLang.VBDocument(Of T)",
+            "VBParser",
+            "NotExist.Type"
+        }
+        For Each p In probes
+            Dim sym = proj.GetType(p)
+            If sym Is Nothing Then
+                Console.WriteLine("  " & p & " -> NOT FOUND")
+            Else
+                Console.WriteLine("  " & p & " -> " & sym.Type.ToString() & " " & sym.Name)
+            End If
+        Next
     End Sub
 
     Sub Assert(cond As Boolean, label As String, failures As List(Of String))

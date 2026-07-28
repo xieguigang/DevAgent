@@ -679,7 +679,8 @@ Namespace Syntax
             Select Case kw
                 Case "public", "private", "friend", "protected", "shared", "overloads", "overrides",
                      "overridable", "mustoverride", "notoverridable", "readonly", "writeonly", "default",
-                     "partial", "custom", "narrow", "wide", "ansi", "auto", "unicode"
+                     "partial", "custom", "narrow", "wide", "ansi", "auto", "unicode",
+                     "mustinherit", "notinheritable", "shadows"
                     Return True
             End Select
             Return False
