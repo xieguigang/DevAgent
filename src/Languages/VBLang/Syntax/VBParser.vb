@@ -1,0 +1,677 @@
+Imports System.Collections.Generic
+Imports System.Text
+Imports Microsoft.VisualBasic.Scripting.MetaData
+
+Namespace VBLang.Syntax
+
+    ''' <summary>
+    ''' recursive descent parser for VB.NET source code.
+    '''
+    ''' <see cref="Parse"/> turns a VB.NET source text string into a symbol
+    ''' tree rooted at a synthetic <see cref="ContainerType"/> (namespace kind).
+    ''' It recognises container types (class/module/structure/enum/interface/
+    ''' namespace), their members (function/sub/operator/property and delegate
+    ''' declarations) and the local variable symbols (Dim/Static/Const) that
+    ''' appear inside a member body. Every clr type reference is stored as a
+    ''' <see cref="TypeInfo"/>.
+    ''' </summary>
+    Public Module VBParser
+
+        ''' <summary>
+        ''' parse the given VB.NET source text and return the root symbol
+        ''' container (a synthetic namespace). Its <see cref="ContainerType.InternalNested"/>
+        ''' holds nested types and its <see cref="ContainerType.Members"/> holds
+        ''' top level members / fields.
+        ''' </summary>
+        Public Function Parse(source As String) As ContainerType
+            Dim scanner As New VBScanner()
+            Dim stmts As List(Of VBStatement) = scanner.Scan(source)
+
+            Dim root As New ContainerType(SymbolType.[Namespace])
+            root.Name = ""
+
+            Dim i As Integer = 0
+            ParseBlock(stmts, i, root, Nothing, Nothing)
+
+            Return root
+        End Function
+
+        ' ------------------------------------------------------------------
+        ' block driver
+        ' ------------------------------------------------------------------
+
+        Private Sub ParseBlock(stmts As List(Of VBStatement), ByRef i As Integer, container As ContainerType, stopKeyword As String, member As InvokeSymbolType)
+            Dim depth As Integer = 0
+
+            While i < stmts.Count
+                Dim stmt As VBStatement = stmts(i)
+
+                If stmt.Tokens.Count = 0 Then
+                    i += 1
+                    Continue While
+                End If
+
+                Dim sp As New StmtParser(stmt.Tokens)
+                sp.CollectLeading()
+                Dim head As String = sp.Current.Text.ToLowerInvariant()
+
+                If head = "end" Then
+                    Dim endName As String = If(sp.Pos + 1 < stmt.Tokens.Count, stmt.Tokens(sp.Pos + 1).Text.ToLowerInvariant(), "")
+                    If stopKeyword IsNot Nothing AndAlso depth <= 0 AndAlso endName = stopKeyword Then
+                        i += 1
+                        Return
+                    End If
+                    depth -= 1
+                    i += 1
+                    Continue While
+                End If
+
+                If head = "next" OrElse head = "loop" Then
+                    depth -= 1
+                    i += 1
+                    Continue While
+                End If
+
+                If IsBlockStarter(head) Then
+                    depth += 1
+                    i += 1
+                    Continue While
+                End If
+
+                Select Case head
+                    Case "class", "module", "structure", "struct", "enum", "interface", "namespace"
+                        ParseContainerType(stmt, stmts, i, container)
+                    Case "function", "sub", "property", "operator"
+                        ParseInvokeMember(stmt, stmts, i, container)
+                    Case "delegate"
+                        ParseDelegate(stmt, stmts, i, container)
+                    Case "dim", "static", "const"
+                        If member IsNot Nothing Then
+                            DeclareVariables(stmt.Tokens, member)
+                        Else
+                            ParseField(stmt, container)
+                        End If
+                        i += 1
+                    Case "public", "private", "friend", "protected", "shared", "readonly", "writeonly", "default"
+                        If member Is Nothing Then
+                            ParseField(stmt, container)
+                        End If
+                        i += 1
+                    Case Else
+                        i += 1
+                End Select
+            End While
+        End Sub
+
+        ' ------------------------------------------------------------------
+        ' container types
+        ' ------------------------------------------------------------------
+
+        Private Sub ParseContainerType(stmt As VBStatement, stmts As List(Of VBStatement), ByRef i As Integer, container As ContainerType)
+            Dim sp As New StmtParser(stmt.Tokens)
+            sp.CollectLeading()
+            Dim kw As String = sp.Current.Text.ToLowerInvariant()
+            Dim sym As SymbolType = MapContainerSymbol(kw)
+
+            Dim ct As New ContainerType(sym)
+            ct.Modifiers = sp.Modifiers
+            ct.Attributes = sp.Attributes
+            ct.XmlDoc = stmt.XmlDoc
+            ct.Parent = container
+            sp.Pos += 1
+
+            If Not sp.Eof Then
+                ct.Name = sp.Current.Text
+                sp.Pos += 1
+            End If
+
+            If Not sp.Eof AndAlso sp.Current.Text.Equals("Of", StringComparison.OrdinalIgnoreCase) Then
+                ct.GenericTypeArguments = ReadGenericParameters(sp)
+            End If
+
+            If sym = SymbolType.[Enum] Then
+                If Not sp.Eof AndAlso sp.Current.Text.Equals("As", StringComparison.OrdinalIgnoreCase) Then
+                    sp.Pos += 1
+                    ct.EnumBaseType = ReadTypeRef(sp)
+                End If
+            ElseIf sym <> SymbolType.[Namespace] Then
+                While Not sp.Eof
+                    Dim k As String = sp.Current.Text.ToLowerInvariant()
+
+                    If k = "inherits" Then
+                        sp.Pos += 1
+                        If ct.InheritsType Is Nothing Then
+                            ct.InheritsType = ReadTypeRef(sp)
+                        End If
+                    ElseIf k = "implements" Then
+                        sp.Pos += 1
+                        Dim lst As New List(Of TypeInfo)
+                        Do
+                            lst.Add(ReadTypeRef(sp))
+                        Loop While Not sp.Eof AndAlso sp.Current.Text = ","c
+                        ct.ImplementsInterfaces = lst.ToArray()
+                    Else
+                        sp.Pos += 1
+                    End If
+                End While
+            End If
+
+            AddToContainer(container, ct)
+            i += 1
+            Dim stopKw As String = If(kw = "struct", "structure", kw)
+            ParseBlock(stmts, i, ct, stopKw, Nothing)
+        End Sub
+
+        ' ------------------------------------------------------------------
+        ' members : function / sub / property / operator
+        ' ------------------------------------------------------------------
+
+        Private Sub ParseInvokeMember(stmt As VBStatement, stmts As List(Of VBStatement), ByRef i As Integer, container As ContainerType)
+            Dim sp As New StmtParser(stmt.Tokens)
+            sp.CollectLeading()
+            Dim kw As String = sp.Current.Text.ToLowerInvariant()
+            Dim sym As SymbolType = MapMemberSymbol(kw)
+
+            Dim inv As New InvokeSymbolType(sym)
+            inv.Modifiers = sp.Modifiers
+            inv.Attributes = sp.Attributes
+            inv.XmlDoc = stmt.XmlDoc
+            inv.Parent = container
+            sp.Pos += 1
+
+            If kw = "operator" Then
+                inv.Name = ReadOperatorName(sp)
+            ElseIf Not sp.Eof Then
+                inv.Name = sp.Current.Text
+                sp.Pos += 1
+            End If
+
+            If Not sp.Eof AndAlso sp.Current.Text.Equals("Of", StringComparison.OrdinalIgnoreCase) Then
+                inv.GenericTypeArguments = ReadGenericParameters(sp)
+            End If
+
+            If Not sp.Eof AndAlso sp.Current.Text = "("c Then
+                inv.Parameters = ReadParameters(sp)
+            End If
+
+            If Not sp.Eof AndAlso sp.Current.Text.Equals("As", StringComparison.OrdinalIgnoreCase) Then
+                sp.Pos += 1
+                inv.ReturnType = ReadTypeRef(sp)
+            End If
+
+            AddToContainer(container, inv)
+            i += 1
+            ParseBlock(stmts, i, container, kw, inv)
+        End Sub
+
+        ' ------------------------------------------------------------------
+        ' delegate declarations
+        ' ------------------------------------------------------------------
+
+        Private Sub ParseDelegate(stmt As VBStatement, stmts As List(Of VBStatement), ByRef i As Integer, container As ContainerType)
+            Dim sp As New StmtParser(stmt.Tokens)
+            sp.CollectLeading()
+
+            If Not sp.Eof AndAlso sp.Current.Text.Equals("delegate", StringComparison.OrdinalIgnoreCase) Then
+                sp.Pos += 1
+            End If
+
+            Dim del As New DelegateType()
+            del.Modifiers = sp.Modifiers
+            del.Attributes = sp.Attributes
+            del.XmlDoc = stmt.XmlDoc
+            del.Parent = container
+
+            ' skip the Sub / Function keyword of the delegate
+            If Not sp.Eof Then
+                sp.Pos += 1
+            End If
+
+            If Not sp.Eof Then
+                del.Name = sp.Current.Text
+                sp.Pos += 1
+            End If
+
+            If Not sp.Eof AndAlso sp.Current.Text.Equals("Of", StringComparison.OrdinalIgnoreCase) Then
+                del.GenericTypeArguments = ReadGenericParameters(sp)
+            End If
+
+            If Not sp.Eof AndAlso sp.Current.Text = "("c Then
+                del.Parameters = ReadParameters(sp)
+            End If
+
+            If Not sp.Eof AndAlso sp.Current.Text.Equals("As", StringComparison.OrdinalIgnoreCase) Then
+                sp.Pos += 1
+                del.ValueType = ReadTypeRef(sp)
+            End If
+
+            AddToContainer(container, del)
+            i += 1
+        End Sub
+
+        ' ------------------------------------------------------------------
+        ' fields and local variables
+        ' ------------------------------------------------------------------
+
+        Private Sub ParseField(stmt As VBStatement, container As ContainerType)
+            Dim sp As New StmtParser(stmt.Tokens)
+            sp.CollectLeading()
+            Dim rest As List(Of Token) = stmt.Tokens.GetRange(sp.Pos, stmt.Tokens.Count - sp.Pos)
+            DeclareVariables(rest, container)
+        End Sub
+
+        Private Sub DeclareVariables(tokens As List(Of Token), parent As LanguageSymbolType)
+            If parent.Members Is Nothing Then
+                parent.Members = New Dictionary(Of String, LanguageSymbolType)
+            End If
+
+            Dim start As Integer = 0
+            If start < tokens.Count AndAlso {"dim", "static", "const"}.Contains(tokens(start).Text.ToLowerInvariant()) Then
+                start += 1
+            End If
+
+            Dim segs As List(Of List(Of Token)) = SplitTopLevel(tokens.GetRange(start, tokens.Count - start), ","c)
+            Dim sharedType As TypeInfo = Nothing
+
+            If segs.Count > 0 Then
+                Dim last As List(Of Token) = segs(segs.Count - 1)
+                If last.Count >= 2 AndAlso last(0).Text.Equals("As", StringComparison.OrdinalIgnoreCase) Then
+                    sharedType = TypeInfoHelper.TypeRef(CleanType(last, 1))
+                    segs.RemoveAt(segs.Count - 1)
+                End If
+            End If
+
+            For Each seg In segs
+                If seg.Count = 0 Then
+                    Continue For
+                End If
+
+                Dim name As String = seg(0).Text
+                Dim type As TypeInfo = sharedType
+
+                If seg.Count >= 3 AndAlso seg(1).Text.Equals("As", StringComparison.OrdinalIgnoreCase) Then
+                    type = TypeInfoHelper.TypeRef(CleanType(seg, 2))
+                End If
+
+                If Not parent.Members.ContainsKey(name) Then
+                    parent.Members(name) = New VariableSymbolType With {
+                        .Name = name,
+                        .Parent = CType(parent, ContainerType),
+                        .ValueType = If(type, TypeInfoHelper.TypeRef("Object"))
+                    }
+                End If
+            Next
+        End Sub
+
+        ' ------------------------------------------------------------------
+        ' low level token helpers
+        ' ------------------------------------------------------------------
+
+        Private Sub AddToContainer(container As ContainerType, sym As LanguageSymbolType)
+            Select Case sym.Type
+                Case SymbolType.[Class], SymbolType.[Module], SymbolType.[Structure], SymbolType.[Enum], SymbolType.[Interface], SymbolType.[Namespace]
+                    If container.InternalNested Is Nothing Then
+                        container.InternalNested = New Dictionary(Of String, LanguageSymbolType)
+                    End If
+                    container.InternalNested(sym.Name) = sym
+                Case Else
+                    If container.Members Is Nothing Then
+                        container.Members = New Dictionary(Of String, LanguageSymbolType)
+                    End If
+                    container.Members(sym.Name) = sym
+            End Select
+        End Sub
+
+        Private Function ReadOperatorName(sp As StmtParser) As String
+            If sp.Eof Then
+                Return ""
+            End If
+
+            Dim tk As Token = sp.Current
+
+            If tk.Text.Equals("CType", StringComparison.OrdinalIgnoreCase) OrElse
+               tk.Text.Equals("IsTrue", StringComparison.OrdinalIgnoreCase) OrElse
+               tk.Text.Equals("IsFalse", StringComparison.OrdinalIgnoreCase) Then
+                sp.Pos += 1
+                Return tk.Text
+            End If
+
+            Dim nm As String = tk.Text
+            sp.Pos += 1
+            Return nm
+        End Function
+
+        Private Function ReadTypeRef(sp As StmtParser) As TypeInfo
+            If sp.Eof Then
+                Return Nothing
+            End If
+
+            Dim sb As New StringBuilder()
+            sb.Append(sp.Current.Text)
+            sp.Pos += 1
+
+            While Not sp.Eof AndAlso sp.Current.Text = "."c
+                sb.Append("."c)
+                sp.Pos += 1
+                If Not sp.Eof Then
+                    sb.Append(sp.Current.Text)
+                    sp.Pos += 1
+                End If
+            End While
+
+            If Not sp.Eof AndAlso sp.Current.Text.Equals("Of", StringComparison.OrdinalIgnoreCase) Then
+                sp.Pos += 1
+                sb.Append("(Of ")
+
+                If Not sp.Eof AndAlso sp.Current.Text = "("c Then
+                    Dim depth As Integer = 0
+                    Do
+                        Dim tk As Token = sp.Current
+                        sb.Append(tk.Text)
+                        If tk.Text = "("c Then
+                            depth += 1
+                        ElseIf tk.Text = ")"c Then
+                            depth -= 1
+                        End If
+                        sp.Pos += 1
+                    Loop While Not sp.Eof AndAlso depth > 0
+                    sb.Append(")"c)
+                Else
+                    While Not sp.Eof AndAlso sp.Current.Text <> ","c AndAlso sp.Current.Text <> ")"c AndAlso Not sp.Current.Text.Equals("As", StringComparison.OrdinalIgnoreCase)
+                        sb.Append(" "c & sp.Current.Text)
+                        sp.Pos += 1
+                    End While
+                    sb.Append(")"c)
+                End If
+            End If
+
+            Return TypeInfoHelper.TypeRef(sb.ToString().Trim())
+        End Function
+
+        Private Function ReadParameters(sp As StmtParser) As Dictionary(Of String, TypeInfo)
+            Dim dict As New Dictionary(Of String, TypeInfo)
+
+            If sp.Eof OrElse sp.Current.Text <> "("c Then
+                Return dict
+            End If
+
+            sp.Pos += 1
+            Dim depth As Integer = 0
+            Dim cur As New List(Of Token)
+
+            While Not sp.Eof
+                Dim tk As Token = sp.Current
+
+                If tk.Text = "("c Then
+                    depth += 1
+                    cur.Add(tk)
+                    sp.Pos += 1
+                ElseIf tk.Text = ")"c Then
+                    depth -= 1
+                    If depth < 0 Then
+                        sp.Pos += 1
+                        Exit While
+                    Else
+                        cur.Add(tk)
+                        sp.Pos += 1
+                    End If
+                ElseIf tk.Text = ","c AndAlso depth = 0 Then
+                    ParseOneParam(cur, dict)
+                    cur = New List(Of Token)
+                    sp.Pos += 1
+                Else
+                    cur.Add(tk)
+                    sp.Pos += 1
+                End If
+            End While
+
+            If cur.Count > 0 Then
+                ParseOneParam(cur, dict)
+            End If
+
+            Return dict
+        End Function
+
+        Private Sub ParseOneParam(tokens As List(Of Token), dict As Dictionary(Of String, TypeInfo))
+            If tokens.Count = 0 Then
+                Return
+            End If
+
+            Dim pos As Integer = 0
+            While pos < tokens.Count AndAlso IsParamModifier(tokens(pos).Text)
+                pos += 1
+            End While
+
+            If pos >= tokens.Count Then
+                Return
+            End If
+
+            Dim name As String = tokens(pos).Text
+            pos += 1
+
+            Dim type As TypeInfo = Nothing
+            If pos < tokens.Count AndAlso tokens(pos).Text.Equals("As", StringComparison.OrdinalIgnoreCase) Then
+                pos += 1
+                Dim tsp As New StmtParser(tokens, pos)
+                type = ReadTypeRef(tsp)
+                pos = tsp.Pos
+            End If
+
+            If Not dict.ContainsKey(name) Then
+                dict(name) = If(type, TypeInfoHelper.TypeRef("Object"))
+            End If
+        End Sub
+
+        Private Function ReadGenericParameters(sp As StmtParser) As TypeInfo()
+            If sp.Eof OrElse Not sp.Current.Text.Equals("Of", StringComparison.OrdinalIgnoreCase) Then
+                Return Nothing
+            End If
+
+            sp.Pos += 1
+            Dim names As New List(Of String)
+
+            If Not sp.Eof AndAlso sp.Current.Text = "("c Then
+                sp.Pos += 1
+                While Not sp.Eof AndAlso sp.Current.Text <> ")"c
+                    If sp.Current.Text = ","c Then
+                        sp.Pos += 1
+                        Continue While
+                    End If
+                    If sp.Current.Text.Equals("In", StringComparison.OrdinalIgnoreCase) OrElse sp.Current.Text.Equals("Out", StringComparison.OrdinalIgnoreCase) Then
+                        sp.Pos += 1
+                        Continue While
+                    End If
+                    names.Add(sp.Current.Text)
+                    sp.Pos += 1
+                End While
+                If Not sp.Eof AndAlso sp.Current.Text = ")"c Then
+                    sp.Pos += 1
+                End If
+            Else
+                While Not sp.Eof AndAlso sp.Current.Text <> "("c AndAlso Not sp.Current.Text.Equals("As", StringComparison.OrdinalIgnoreCase)
+                    If sp.Current.Text = ","c Then
+                        sp.Pos += 1
+                        Continue While
+                    End If
+                    names.Add(sp.Current.Text)
+                    sp.Pos += 1
+                End While
+            End If
+
+            Dim arr(names.Count - 1) As TypeInfo
+            For k As Integer = 0 To names.Count - 1
+                arr(k) = TypeInfoHelper.TypeRef(names(k))
+            Next
+            Return arr
+        End Function
+
+        Private Function CleanType(tokens As List(Of Token), start As Integer) As String
+            Dim parts As New List(Of String)
+            For k As Integer = start To tokens.Count - 1
+                If tokens(k).Text = "="c Then
+                    Exit For
+                End If
+                parts.Add(tokens(k).Text)
+            Next
+
+            If parts.Count = 0 Then
+                Return "Object"
+            End If
+
+            Dim s As String = String.Join(" ", parts)
+            s = s.Replace(" (", "(").Replace(" )", ")").Replace("( ", "(").Replace(" )", ")").Replace(" ,", ",")
+            Return s.Trim()
+        End Function
+
+        Private Function SplitTopLevel(tokens As List(Of Token), sep As String) As List(Of List(Of Token))
+            Dim result As New List(Of List(Of Token))
+            Dim cur As New List(Of Token)
+            Dim depth As Integer = 0
+
+            For Each tk In tokens
+                If tk.Text = "("c Then
+                    depth += 1
+                    cur.Add(tk)
+                ElseIf tk.Text = ")"c Then
+                    depth -= 1
+                    cur.Add(tk)
+                ElseIf tk.Text = sep AndAlso depth = 0 Then
+                    result.Add(cur)
+                    cur = New List(Of Token)
+                Else
+                    cur.Add(tk)
+                End If
+            Next
+
+            result.Add(cur)
+            Return result
+        End Function
+
+        Private Function MapContainerSymbol(kw As String) As SymbolType
+            Select Case kw
+                Case "class" : Return SymbolType.[Class]
+                Case "module" : Return SymbolType.[Module]
+                Case "structure", "struct" : Return SymbolType.[Structure]
+                Case "enum" : Return SymbolType.[Enum]
+                Case "interface" : Return SymbolType.[Interface]
+                Case "namespace" : Return SymbolType.[Namespace]
+            End Select
+            Return SymbolType.[Class]
+        End Function
+
+        Private Function MapMemberSymbol(kw As String) As SymbolType
+            Select Case kw
+                Case "function" : Return SymbolType.[Function]
+                Case "sub" : Return SymbolType.[Sub]
+                Case "property" : Return SymbolType.[Property]
+                Case "operator" : Return SymbolType.[Operator]
+            End Select
+            Return SymbolType.[Sub]
+        End Function
+
+        Private Function IsBlockStarter(kw As String) As Boolean
+            Select Case kw
+                Case "class", "module", "structure", "struct", "enum", "interface", "namespace",
+                     "function", "sub", "property", "operator", "get", "set",
+                     "if", "while", "do", "for", "select", "try", "with", "synclock", "using"
+                    Return True
+            End Select
+            Return False
+        End Function
+
+        Private Function IsModifier(kw As String) As Boolean
+            Select Case kw
+                Case "public", "private", "friend", "protected", "shared", "overloads", "overrides",
+                     "overridable", "mustoverride", "notoverridable", "readonly", "writeonly", "default",
+                     "partial", "custom", "narrow", "wide", "ansi", "auto", "unicode"
+                    Return True
+            End Select
+            Return False
+        End Function
+
+        Private Function IsParamModifier(kw As String) As Boolean
+            Select Case kw.ToLowerInvariant()
+                Case "byval", "byref", "optional", "paramarray"
+                    Return True
+            End Select
+            Return False
+        End Function
+
+        ' ------------------------------------------------------------------
+        ' statement cursor : skips leading attributes and modifiers
+        ' ------------------------------------------------------------------
+
+        Private Class StmtParser
+            Public Tokens As List(Of Token)
+            Public Pos As Integer
+            Public Attributes As New List(Of String)
+            Public Modifiers As String = ""
+
+            Public Sub New(tk As List(Of Token), Optional p As Integer = 0)
+                Tokens = tk
+                Pos = p
+            End Sub
+
+            Public ReadOnly Property Eof As Boolean
+                Get
+                    Return Pos >= Tokens.Count
+                End Get
+            End Property
+
+            Public ReadOnly Property Current As Token
+                Get
+                    If Eof Then
+                        Return New Token With {.Kind = TokenKind.Punctuation, .Text = ""}
+                    End If
+                    Return Tokens(Pos)
+                End Get
+            End Property
+
+            Public Sub CollectLeading()
+                Do
+                    If Not Eof AndAlso Current.Text = "<"c Then
+                        Attributes.Add(ReadAttributeBlock())
+                    ElseIf Not Eof AndAlso IsModifier(Current.Text.ToLowerInvariant()) Then
+                        If Modifiers.Length > 0 Then
+                            Modifiers &= " "
+                        End If
+                        Modifiers &= Current.Text
+                        Pos += 1
+                    Else
+                        Exit Do
+                    End If
+                Loop
+            End Sub
+
+            Public Function ReadAttributeBlock() As String
+                ' Current is "<"
+                Pos += 1
+                Dim sb As New StringBuilder()
+                Dim depth As Integer = 0
+
+                While Not Eof
+                    Dim tk As Token = Current
+                    If tk.Text = "("c Then
+                        depth += 1
+                        sb.Append(tk.Text)
+                        Pos += 1
+                    ElseIf tk.Text = ")"c Then
+                        depth -= 1
+                        sb.Append(tk.Text)
+                        Pos += 1
+                    ElseIf tk.Text = ">"c AndAlso depth = 0 Then
+                        Pos += 1
+                        Exit While
+                    Else
+                        sb.Append(tk.Text)
+                        Pos += 1
+                    End If
+                End While
+
+                Return sb.ToString().Trim()
+            End Function
+        End Class
+
+    End Module
+
+End Namespace

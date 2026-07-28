@@ -16,6 +16,19 @@ Public MustInherit Class LanguageSymbolType
     ''' <returns></returns>
     Public Property GenericTypeArguments As TypeInfo()
 
+    ''' <summary>
+    ''' access and custom modifiers, e.g. "Public Shared Overloads"
+    ''' </summary>
+    Public Property Modifiers As String
+    ''' <summary>
+    ''' attribute declaration blocks applied on this symbol, e.g. &lt;ExportAPI()&gt;
+    ''' </summary>
+    Public Property Attributes As List(Of String)
+    ''' <summary>
+    ''' the xml documentation comment lines (''') that precedes this symbol
+    ''' </summary>
+    Public Property XmlDoc As String
+
 End Class
 
 ''' <summary>
@@ -71,6 +84,19 @@ Public Class ContainerType : Inherits LanguageSymbolType
     ''' </summary>
     ''' <returns></returns>
     Public Property Members As Dictionary(Of String, LanguageSymbolType)
+
+    ''' <summary>
+    ''' the base type from the Inherits clause
+    ''' </summary>
+    Public Property InheritsType As TypeInfo
+    ''' <summary>
+    ''' the implemented interfaces from the Implements clause
+    ''' </summary>
+    Public Property ImplementsInterfaces As TypeInfo()
+    ''' <summary>
+    ''' the underlying base type of an enum, e.g. Enum X As Long
+    ''' </summary>
+    Public Property EnumBaseType As TypeInfo
 
     Sub New(type As SymbolType)
         Select Case type
