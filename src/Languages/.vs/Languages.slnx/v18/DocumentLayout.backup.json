@@ -3,6 +3,24 @@
   "WorkspaceRootPath": "G:\\DevAgent\\src\\Languages\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{F8828529-DAC5-0FD4-9B62-300351BC2880}|VBLang\\VBLang.vbproj|g:\\devagent\\src\\languages\\vblang\\vbdocument.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{F8828529-DAC5-0FD4-9B62-300351BC2880}|VBLang\\VBLang.vbproj|solutionrelative:vblang\\vbdocument.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F8828529-DAC5-0FD4-9B62-300351BC2880}|VBLang\\VBLang.vbproj|g:\\devagent\\src\\languages\\vblang\\symboltype.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{F8828529-DAC5-0FD4-9B62-300351BC2880}|VBLang\\VBLang.vbproj|solutionrelative:vblang\\symboltype.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F8828529-DAC5-0FD4-9B62-300351BC2880}|VBLang\\VBLang.vbproj|g:\\devagent\\src\\languages\\vblang\\languagesymboltype.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{F8828529-DAC5-0FD4-9B62-300351BC2880}|VBLang\\VBLang.vbproj|solutionrelative:vblang\\languagesymboltype.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\vbproj\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\vbproj\\assemblyinfo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\versioncontrol\\git\\log.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -13,12 +31,6 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\vbproj\\xml\\itemgroup.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\vbproj\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\vbproj\\assemblyinfo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{CFCB556E-83B9-397E-21F1-4A5EEB50573A}|..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\sourcemap\\sourcemap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -64,7 +76,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -80,7 +92,46 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "VBDocument.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\Languages\\VBLang\\VBDocument.vb",
+              "RelativeDocumentMoniker": "VBLang\\VBDocument.vb",
+              "ToolTip": "G:\\DevAgent\\src\\Languages\\VBLang\\VBDocument.vb",
+              "RelativeToolTip": "VBLang\\VBDocument.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T18:37:46.556Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "SymbolType.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\Languages\\VBLang\\SymbolType.vb",
+              "RelativeDocumentMoniker": "VBLang\\SymbolType.vb",
+              "ToolTip": "G:\\DevAgent\\src\\Languages\\VBLang\\SymbolType.vb",
+              "RelativeToolTip": "VBLang\\SymbolType.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T18:37:36.567Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LanguageSymbolType.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\Languages\\VBLang\\LanguageSymbolType.vb",
+              "RelativeDocumentMoniker": "VBLang\\LanguageSymbolType.vb",
+              "ToolTip": "G:\\DevAgent\\src\\Languages\\VBLang\\LanguageSymbolType.vb",
+              "RelativeToolTip": "VBLang\\LanguageSymbolType.vb",
+              "ViewState": "AgIAAKYAAAAAAAAAAAAUwMIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T18:37:23.114Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "svn.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VersionControl\\svn.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VersionControl\\svn.vb",
@@ -93,20 +144,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 5,
               "Title": "log.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VersionControl\\git\\log.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VersionControl\\git\\log.vb",
               "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VersionControl\\git\\log.vb",
               "RelativeToolTip": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VersionControl\\git\\log.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADkAAAAcAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFoAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-07-28T18:34:32.433Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 7,
               "Title": "WCFTraceFile.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\WCFTraceFile.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\WCFTraceFile.vb",
@@ -119,7 +170,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 8,
               "Title": "ItemGroup.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\vbproj\\Xml\\ItemGroup.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\vbproj\\Xml\\ItemGroup.vb",
@@ -132,7 +183,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "Extensions.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\vbproj\\Extensions.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\vbproj\\Extensions.vb",
@@ -145,7 +196,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 4,
               "Title": "AssemblyInfo.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\vbproj\\AssemblyInfo.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\vbproj\\AssemblyInfo.vb",
@@ -158,7 +209,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "sourceMap.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\sourceMap.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\sourceMap.vb",
@@ -171,7 +222,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 10,
               "Title": "mappingLine.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\mappingLine.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\mappingLine.vb",
@@ -184,7 +235,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 11,
               "Title": "mappingEncode.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\mappingEncode.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\mappingEncode.vb",
@@ -197,7 +248,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 12,
               "Title": "mappingDecode.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\mappingDecode.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\mappingDecode.vb",
@@ -210,7 +261,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 13,
               "Title": "base64VLQ.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\base64VLQ.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sourceMap\\base64VLQ.vb",
@@ -223,7 +274,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 14,
               "Title": "Solution.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sln\\Solution.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sln\\Solution.vb",
@@ -236,7 +287,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 15,
               "Title": "Parser.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sln\\Parser.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sln\\Parser.vb",
@@ -249,7 +300,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 16,
               "Title": "Global.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sln\\Global.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\sln\\Global.vb",
@@ -262,7 +313,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 18,
               "Title": "schema.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Resource\\xml\\schema.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Resource\\xml\\schema.vb",
@@ -275,7 +326,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 19,
               "Title": "resx.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Resource\\xml\\resx.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Resource\\xml\\resx.vb",
@@ -288,7 +339,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 20,
               "Title": "resheader.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Resource\\xml\\resheader.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Resource\\xml\\resheader.vb",
@@ -301,7 +352,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 17,
               "Title": "MimeData.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Resource\\MimeData.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\Resource\\MimeData.vb",
