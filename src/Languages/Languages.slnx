@@ -6,7 +6,11 @@
   <Project Path="../../../GCModeller/src/runtime/sciBASIC#/Microsoft.VisualBasic.Core/src/Core.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
+  <Project Path="RLang/RLang.vbproj" Id="e35c5b86-36db-4c91-a375-1c4e0009f8d4" />
   <Project Path="VBLang.Test/test.vbproj">
+    <Platform Solution="Debug|x64" Project="x64" />
+  </Project>
+  <Project Path="RLang.Test/test.vbproj">
     <Platform Solution="Debug|x64" Project="x64" />
   </Project>
   <Project Path="VBLang/VBLang.vbproj">

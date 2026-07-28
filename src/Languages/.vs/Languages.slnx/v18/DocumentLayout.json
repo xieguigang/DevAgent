@@ -3,36 +3,16 @@
   "WorkspaceRootPath": "G:\\DevAgent\\src\\Languages\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F1AD283F-EC3C-186B-F1C8-95145A6AAE15}|VBLang\\VBLang.vbproj|g:\\devagent\\src\\languages\\vblang\\languagesymboltype.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{F1AD283F-EC3C-186B-F1C8-95145A6AAE15}|VBLang\\VBLang.vbproj|solutionrelative:vblang\\languagesymboltype.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F1AD283F-EC3C-186B-F1C8-95145A6AAE15}|VBLang\\VBLang.vbproj|g:\\devagent\\src\\languages\\vblang\\syntax\\vbtoken.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{F1AD283F-EC3C-186B-F1C8-95145A6AAE15}|VBLang\\VBLang.vbproj|solutionrelative:vblang\\syntax\\vbtoken.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F1AD283F-EC3C-186B-F1C8-95145A6AAE15}|VBLang\\VBLang.vbproj|g:\\devagent\\src\\languages\\vblang\\syntax\\vbscanner.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{F1AD283F-EC3C-186B-F1C8-95145A6AAE15}|VBLang\\VBLang.vbproj|solutionrelative:vblang\\syntax\\vbscanner.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F1AD283F-EC3C-186B-F1C8-95145A6AAE15}|VBLang\\VBLang.vbproj|g:\\devagent\\src\\languages\\vblang\\syntax\\vbparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{F1AD283F-EC3C-186B-F1C8-95145A6AAE15}|VBLang\\VBLang.vbproj|solutionrelative:vblang\\syntax\\vbparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F1AD283F-EC3C-186B-F1C8-95145A6AAE15}|VBLang\\VBLang.vbproj|g:\\devagent\\src\\languages\\vblang\\syntax\\typeinfohelper.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{F1AD283F-EC3C-186B-F1C8-95145A6AAE15}|VBLang\\VBLang.vbproj|solutionrelative:vblang\\syntax\\typeinfohelper.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F1AD283F-EC3C-186B-F1C8-95145A6AAE15}|VBLang\\VBLang.vbproj|g:\\devagent\\src\\languages\\vblang\\reflection\\assemblysymbolloader.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{F1AD283F-EC3C-186B-F1C8-95145A6AAE15}|VBLang\\VBLang.vbproj|solutionrelative:vblang\\reflection\\assemblysymbolloader.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{39E8371F-1055-005F-27E9-D5FF7E56884F}|VBLang.Test\\test.vbproj|g:\\devagent\\src\\languages\\vblang.test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{39E8371F-1055-005F-27E9-D5FF7E56884F}|VBLang.Test\\test.vbproj|solutionrelative:vblang.test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{E35C5B86-36DB-4C91-A375-1C4E0009F8D4}|RLang\\RLang.vbproj|g:\\devagent\\src\\languages\\rlang\\parser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{E35C5B86-36DB-4C91-A375-1C4E0009F8D4}|RLang\\RLang.vbproj|solutionrelative:rlang\\parser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F1AD283F-EC3C-186B-F1C8-95145A6AAE15}|VBLang\\VBLang.vbproj|g:\\devagent\\src\\languages\\vblang\\vbdocument.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{F1AD283F-EC3C-186B-F1C8-95145A6AAE15}|VBLang\\VBLang.vbproj|solutionrelative:vblang\\vbdocument.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F1AD283F-EC3C-186B-F1C8-95145A6AAE15}|VBLang\\VBLang.vbproj|g:\\devagent\\src\\languages\\vblang\\languagesymboltype.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{F1AD283F-EC3C-186B-F1C8-95145A6AAE15}|VBLang\\VBLang.vbproj|solutionrelative:vblang\\languagesymboltype.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -58,106 +38,39 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "LanguageSymbolType.vb",
-              "DocumentMoniker": "G:\\DevAgent\\src\\Languages\\VBLang\\LanguageSymbolType.vb",
-              "RelativeDocumentMoniker": "VBLang\\LanguageSymbolType.vb",
-              "ToolTip": "G:\\DevAgent\\src\\Languages\\VBLang\\LanguageSymbolType.vb",
-              "RelativeToolTip": "VBLang\\LanguageSymbolType.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-28T17:39:01.351Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "VBToken.vb",
-              "DocumentMoniker": "G:\\DevAgent\\src\\Languages\\VBLang\\Syntax\\VBToken.vb",
-              "RelativeDocumentMoniker": "VBLang\\Syntax\\VBToken.vb",
-              "ToolTip": "G:\\DevAgent\\src\\Languages\\VBLang\\Syntax\\VBToken.vb",
-              "RelativeToolTip": "VBLang\\Syntax\\VBToken.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-28T17:38:55.37Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "VBScanner.vb",
-              "DocumentMoniker": "G:\\DevAgent\\src\\Languages\\VBLang\\Syntax\\VBScanner.vb",
-              "RelativeDocumentMoniker": "VBLang\\Syntax\\VBScanner.vb",
-              "ToolTip": "G:\\DevAgent\\src\\Languages\\VBLang\\Syntax\\VBScanner.vb",
-              "RelativeToolTip": "VBLang\\Syntax\\VBScanner.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-28T17:38:50.848Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "VBParser.vb",
-              "DocumentMoniker": "G:\\DevAgent\\src\\Languages\\VBLang\\Syntax\\VBParser.vb",
-              "RelativeDocumentMoniker": "VBLang\\Syntax\\VBParser.vb",
-              "ToolTip": "G:\\DevAgent\\src\\Languages\\VBLang\\Syntax\\VBParser.vb",
-              "RelativeToolTip": "VBLang\\Syntax\\VBParser.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-28T17:38:45.857Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "TypeInfoHelper.vb",
-              "DocumentMoniker": "G:\\DevAgent\\src\\Languages\\VBLang\\Syntax\\TypeInfoHelper.vb",
-              "RelativeDocumentMoniker": "VBLang\\Syntax\\TypeInfoHelper.vb",
-              "ToolTip": "G:\\DevAgent\\src\\Languages\\VBLang\\Syntax\\TypeInfoHelper.vb",
-              "RelativeToolTip": "VBLang\\Syntax\\TypeInfoHelper.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-28T17:38:43.724Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "AssemblySymbolLoader.vb",
-              "DocumentMoniker": "G:\\DevAgent\\src\\Languages\\VBLang\\Reflection\\AssemblySymbolLoader.vb",
-              "RelativeDocumentMoniker": "VBLang\\Reflection\\AssemblySymbolLoader.vb",
-              "ToolTip": "G:\\DevAgent\\src\\Languages\\VBLang\\Reflection\\AssemblySymbolLoader.vb",
-              "RelativeToolTip": "VBLang\\Reflection\\AssemblySymbolLoader.vb",
-              "ViewState": "AgIAANYAAAAAAAAAAAAAwAEAAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-28T17:38:28.298Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Program.vb",
-              "DocumentMoniker": "G:\\DevAgent\\src\\Languages\\VBLang.Test\\Program.vb",
-              "RelativeDocumentMoniker": "VBLang.Test\\Program.vb",
-              "ToolTip": "G:\\DevAgent\\src\\Languages\\VBLang.Test\\Program.vb",
-              "RelativeToolTip": "VBLang.Test\\Program.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-28T17:38:22.72Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
               "Title": "VBDocument.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\Languages\\VBLang\\VBDocument.vb",
               "RelativeDocumentMoniker": "VBLang\\VBDocument.vb",
               "ToolTip": "G:\\DevAgent\\src\\Languages\\VBLang\\VBDocument.vb",
               "RelativeToolTip": "VBLang\\VBDocument.vb",
-              "ViewState": "AgIAAAwBAAAAAAAAAAAxwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-28T17:36:56.248Z",
+              "WhenOpened": "2026-07-28T17:40:42.664Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LanguageSymbolType.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\Languages\\VBLang\\LanguageSymbolType.vb",
+              "RelativeDocumentMoniker": "VBLang\\LanguageSymbolType.vb",
+              "ToolTip": "G:\\DevAgent\\src\\Languages\\VBLang\\LanguageSymbolType.vb",
+              "RelativeToolTip": "VBLang\\LanguageSymbolType.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T17:40:37.975Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Parser.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\Languages\\RLang\\Parser.vb",
+              "RelativeDocumentMoniker": "RLang\\Parser.vb",
+              "ToolTip": "G:\\DevAgent\\src\\Languages\\RLang\\Parser.vb",
+              "RelativeToolTip": "RLang\\Parser.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T17:40:11.321Z",
               "EditorCaption": ""
             }
           ]
