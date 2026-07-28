@@ -62,10 +62,10 @@ Namespace Reflection
     Private Function BuildProject(assembly As Assembly, dllPath As String) As VBProject
         ' Synthetic root namespace container, mirrors VBParser.Parse output: the
         ' root's InternalNested dictionary becomes the virtual document's Types.
-        Dim root As New ContainerType(SymbolType.Namespace)
+        Dim root As New NamespaceSymbol()
         root.Name = ""
 
-        Dim nsCache As New Dictionary(Of String, ContainerType)(StringComparer.OrdinalIgnoreCase)
+        Dim nsCache As New Dictionary(Of String, TypeContainerSymbol)(StringComparer.OrdinalIgnoreCase)
         Dim typeSymbols As New Dictionary(Of String, LanguageSymbolType)()
 
         Dim types As Type() = GetAllTypes(assembly)
@@ -90,7 +90,7 @@ Namespace Reflection
             Dim sym As LanguageSymbolType = Nothing
             If Not typeSymbols.TryGetValue(t.FullName, sym) Then Continue For
 
-            Dim container As ContainerType = ResolveParent(t, root, nsCache, typeSymbols)
+            Dim container As TypeContainerSymbol = ResolveParent(t, root, nsCache, typeSymbols)
             If container Is Nothing Then Continue For
 
             If container.InternalNested Is Nothing Then
@@ -104,7 +104,7 @@ Namespace Reflection
             If t.FullName Is Nothing Then Continue For
             Dim sym As LanguageSymbolType = Nothing
             If Not typeSymbols.TryGetValue(t.FullName, sym) Then Continue For
-            Dim ct As ContainerType = TryCast(sym, ContainerType)
+            Dim ct As TypeContainerSymbol = TryCast(sym, TypeContainerSymbol)
             If ct Is Nothing Then Continue For
             Try
                 MapMembers(t, ct)
@@ -127,13 +127,13 @@ Namespace Reflection
     End Function
 
     Private Function ResolveParent(type As Type,
-                                    root As ContainerType,
-                                    nsCache As Dictionary(Of String, ContainerType),
-                                    typeSymbols As Dictionary(Of String, LanguageSymbolType)) As ContainerType
+                                    root As TypeContainerSymbol,
+                                    nsCache As Dictionary(Of String, TypeContainerSymbol),
+                                    typeSymbols As Dictionary(Of String, LanguageSymbolType)) As TypeContainerSymbol
         If type.DeclaringType IsNot Nothing Then
             Dim parentSym As LanguageSymbolType = Nothing
             If typeSymbols.TryGetValue(type.DeclaringType.FullName, parentSym) Then
-                Return TryCast(parentSym, ContainerType)
+                Return TryCast(parentSym, TypeContainerSymbol)
             End If
             Return Nothing
         End If
@@ -144,12 +144,12 @@ Namespace Reflection
     End Function
 
     Private Function GetNamespace(ns As String,
-                                  root As ContainerType,
-                                  nsCache As Dictionary(Of String, ContainerType)) As ContainerType
+                                  root As TypeContainerSymbol,
+                                  nsCache As Dictionary(Of String, TypeContainerSymbol)) As TypeContainerSymbol
         If nsCache.ContainsKey(ns) Then Return nsCache(ns)
 
         Dim segments As String() = ns.Split(New Char() {"."c}, StringSplitOptions.RemoveEmptyEntries)
-        Dim current As ContainerType = root
+        Dim current As TypeContainerSymbol = root
         Dim accumulated As String = ""
 
         For Each seg In segments
@@ -160,7 +160,7 @@ Namespace Reflection
                 Continue For
             End If
 
-            Dim nsContainer As New ContainerType(SymbolType.Namespace)
+            Dim nsContainer As New NamespaceSymbol()
             nsContainer.Name = seg
 
             If current.InternalNested Is Nothing Then
@@ -180,7 +180,7 @@ Namespace Reflection
         Dim sym As LanguageSymbolType
 
         If type.IsEnum Then
-            Dim ct As New ContainerType(SymbolType.Enum)
+            Dim ct As New EnumSymbol()
             ct.Name = type.Name
             ct.EnumBaseType = MapEnumUnderlyingType(type)
             sym = ct
@@ -189,28 +189,28 @@ Namespace Reflection
             sym = MapDelegate(type)
 
         ElseIf type.IsInterface Then
-            Dim ct As New ContainerType(SymbolType.Interface)
+            Dim ct As New InterfaceSymbol()
             ct.Name = type.Name
             sym = ct
 
         ElseIf IsModule(type) Then
-            Dim ct As New ContainerType(SymbolType.Module)
+            Dim ct As New ModuleSymbol()
             ct.Name = type.Name
             sym = ct
 
         ElseIf type.IsValueType Then
-            Dim ct As New ContainerType(SymbolType.Structure)
+            Dim ct As New StructureSymbol()
             ct.Name = type.Name
             sym = ct
 
         Else
-            Dim ct As New ContainerType(SymbolType.Class)
+            Dim ct As New ClassSymbol()
             ct.Name = type.Name
             sym = ct
         End If
 
-        If TypeOf sym Is ContainerType Then
-            Dim ct As ContainerType = DirectCast(sym, ContainerType)
+        If TypeOf sym Is TypeContainerSymbol Then
+            Dim ct As TypeContainerSymbol = DirectCast(sym, TypeContainerSymbol)
             ct.Modifiers = BuildTypeModifiers(type)
             ct.Attributes = MapAttributes(type.GetCustomAttributesData())
             ct.GenericTypeArguments = MapGenericArgs(type)
@@ -221,8 +221,8 @@ Namespace Reflection
                 ct.InheritsType = MapBaseType(baseType)
                 ct.ImplementsInterfaces = MapInterfaces(type, baseType)
             End If
-        ElseIf TypeOf sym Is DelegateType Then
-            Dim dt As DelegateType = DirectCast(sym, DelegateType)
+        ElseIf TypeOf sym Is DelegateSymbol Then
+            Dim dt As DelegateSymbol = DirectCast(sym, DelegateSymbol)
             dt.Modifiers = BuildTypeModifiers(type)
             dt.Attributes = MapAttributes(type.GetCustomAttributesData())
             dt.GenericTypeArguments = MapGenericArgs(type)
@@ -254,8 +254,8 @@ Namespace Reflection
         Return base IsNot Nothing AndAlso base.FullName = "System.MulticastDelegate"
     End Function
 
-    Private Function MapDelegate(type As Type) As DelegateType
-        Dim dt As New DelegateType()
+    Private Function MapDelegate(type As Type) As DelegateSymbol
+        Dim dt As New DelegateSymbol()
         dt.Name = type.Name
 
         Dim invoke As MethodInfo = Nothing
@@ -304,7 +304,7 @@ Namespace Reflection
 
     ' ---------------------------------------------------------------- members
 
-    Private Sub MapMembers(type As Type, ct As ContainerType)
+    Private Sub MapMembers(type As Type, ct As TypeContainerSymbol)
         If ct.Members Is Nothing Then
             ct.Members = New Dictionary(Of String, LanguageSymbolType)()
         End If
@@ -336,18 +336,18 @@ Namespace Reflection
                     End If
                 End If
 
-                Dim sym As InvokeSymbolType
+                Dim sym As MethodSymbol
                 If m.IsConstructor Then
-                    sym = New InvokeSymbolType(SymbolType.New)
+                    sym = New MethodSymbol(SymbolType.New)
                     sym.Name = "New"
                 ElseIf m.IsSpecialName AndAlso m.Name.StartsWith("op_", StringComparison.OrdinalIgnoreCase) Then
-                    sym = New InvokeSymbolType(SymbolType.Operator)
+                    sym = New MethodSymbol(SymbolType.Operator)
                     sym.Name = m.Name
                 ElseIf m.ReturnType IsNot Nothing AndAlso m.ReturnType.FullName = "System.Void" Then
-                    sym = New InvokeSymbolType(SymbolType.Sub)
+                    sym = New MethodSymbol(SymbolType.Sub)
                     sym.Name = m.Name
                 Else
-                    sym = New InvokeSymbolType(SymbolType.Function)
+                    sym = New MethodSymbol(SymbolType.Function)
                     sym.Name = m.Name
                     If m.ReturnType IsNot Nothing Then
                         sym.ReturnType = ToVBTypeInfo(m.ReturnType)
@@ -374,7 +374,7 @@ Namespace Reflection
 
         If props IsNot Nothing Then
             For Each p In props
-                Dim sym As New InvokeSymbolType(SymbolType.Property)
+                Dim sym As New PropertySymbol()
                 sym.Name = p.Name
                 Try
                     sym.Parameters = MapParameters(p.GetIndexParameters())
@@ -405,7 +405,7 @@ Namespace Reflection
                 If f.IsSpecialName Then Continue For
                 If f.Name = "value__" Then Continue For
 
-                Dim sym As New VariableSymbolType()
+                Dim sym As New VariableSymbol()
                 sym.Name = f.Name
                 Dim ft As Type = Nothing
                 Try : ft = f.FieldType : Catch : ft = Nothing : End Try
@@ -428,7 +428,7 @@ Namespace Reflection
 
         If events IsNot Nothing Then
             For Each e In events
-                Dim sym As New EventSymbolType()
+                Dim sym As New EventSymbol()
                 sym.Name = e.Name
                 Dim et As Type = Nothing
                 Try : et = e.EventHandlerType : Catch : et = Nothing : End Try

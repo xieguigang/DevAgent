@@ -8,7 +8,7 @@ Namespace Syntax
     ''' recursive descent parser for VB.NET source code.
     '''
     ''' <see cref="Parse"/> turns a VB.NET source text string into a symbol
-    ''' tree rooted at a synthetic <see cref="ContainerType"/> (namespace kind).
+    ''' tree rooted at a synthetic <see cref="TypeContainerSymbol"/> (namespace kind).
     ''' It recognises container types (class/module/structure/enum/interface/
     ''' namespace), their members (function/sub/operator/property and delegate
     ''' declarations) and the local variable symbols (Dim/Static/Const) that
@@ -19,15 +19,15 @@ Namespace Syntax
 
         ''' <summary>
         ''' parse the given VB.NET source text and return the root symbol
-        ''' container (a synthetic namespace). Its <see cref="ContainerType.InternalNested"/>
-        ''' holds nested types and its <see cref="ContainerType.Members"/> holds
+        ''' container (a synthetic namespace). Its <see cref="TypeContainerSymbol.InternalNested"/>
+        ''' holds nested types and its <see cref="TypeContainerSymbol.Members"/> holds
         ''' top level members / fields.
         ''' </summary>
-        Public Function Parse(source As String) As ContainerType
+        Public Function Parse(source As String) As TypeContainerSymbol
             Dim scanner As New VBScanner()
             Dim stmts As List(Of VBStatement) = scanner.Scan(source)
 
-            Dim root As New ContainerType(SymbolType.[Namespace])
+            Dim root As New NamespaceSymbol()
             root.Name = ""
 
             Dim i As Integer = 0
@@ -51,7 +51,7 @@ Namespace Syntax
         ' block driver
         ' ------------------------------------------------------------------
 
-        Private Sub ParseBlock(stmts As List(Of VBStatement), ByRef i As Integer, container As ContainerType, stopKeyword As String, member As InvokeSymbolType)
+        Private Sub ParseBlock(stmts As List(Of VBStatement), ByRef i As Integer, container As TypeContainerSymbol, stopKeyword As String, member As CallableMemberSymbol)
             Dim depth As Integer = 0
 
             While i < stmts.Count
@@ -97,7 +97,7 @@ Namespace Syntax
                         ParseDelegate(stmt, stmts, i, container)
                     Case "dim", "static", "const"
                         If member IsNot Nothing Then
-                            DeclareVariables(stmt.Tokens, member)
+                            DeclareLocals(stmt.Tokens, member)
                         Else
                             ParseField(stmt, container)
                         End If
@@ -128,12 +128,20 @@ Namespace Syntax
         ' container types
         ' ------------------------------------------------------------------
 
-        Private Sub ParseContainerType(stmt As VBStatement, stmts As List(Of VBStatement), ByRef i As Integer, container As ContainerType)
+        Private Sub ParseContainerType(stmt As VBStatement, stmts As List(Of VBStatement), ByRef i As Integer, container As TypeContainerSymbol)
             Dim sp As StmtParser = NewCursor(stmt)
             Dim kw As String = sp.Current.Text.ToLowerInvariant()
             Dim sym As SymbolType = MapContainerSymbol(kw)
 
-            Dim ct As New ContainerType(sym)
+            Dim ct As TypeContainerSymbol
+            Select Case sym
+                Case SymbolType.[Class] : ct = New ClassSymbol()
+                Case SymbolType.[Module] : ct = New ModuleSymbol()
+                Case SymbolType.[Structure] : ct = New StructureSymbol()
+                Case SymbolType.[Enum] : ct = New EnumSymbol()
+                Case SymbolType.[Interface] : ct = New InterfaceSymbol()
+                Case Else : ct = New NamespaceSymbol()
+            End Select
             ct.Modifiers = sp.Modifiers
             ct.Attributes = sp.Attributes
             ct.XmlDoc = stmt.XmlDoc
@@ -154,7 +162,7 @@ Namespace Syntax
             If sym = SymbolType.[Enum] Then
                 If Not sp.Eof AndAlso sp.Current.Text.Equals("As", StringComparison.OrdinalIgnoreCase) Then
                     sp.Pos += 1
-                    ct.EnumBaseType = ReadTypeRef(sp)
+                    CType(ct, EnumSymbol).EnumBaseType = ReadTypeRef(sp)
                 End If
             ElseIf sym <> SymbolType.[Namespace] Then
                 While Not sp.Eof
@@ -191,7 +199,7 @@ Namespace Syntax
 
         ' container-level clauses that may appear on their own line inside a
         ' class / structure / interface body.
-        Private Sub ParseContainerClause(stmt As VBStatement, container As ContainerType)
+        Private Sub ParseContainerClause(stmt As VBStatement, container As TypeContainerSymbol)
             Dim sp As StmtParser = NewCursor(stmt)
             Dim k As String = sp.Current.Text.ToLowerInvariant()
             sp.Pos += 1
@@ -218,7 +226,7 @@ Namespace Syntax
         ' members : function / sub / property / operator
         ' ------------------------------------------------------------------
 
-        Private Sub ParseInvokeMember(stmt As VBStatement, stmts As List(Of VBStatement), ByRef i As Integer, container As ContainerType)
+        Private Sub ParseInvokeMember(stmt As VBStatement, stmts As List(Of VBStatement), ByRef i As Integer, container As TypeContainerSymbol)
             Dim sp As StmtParser = NewCursor(stmt)
             Dim kw As String = sp.Current.Text.ToLowerInvariant()
 
@@ -238,7 +246,12 @@ Namespace Syntax
                 sym = SymbolType.[New]
             End If
 
-            Dim inv As New InvokeSymbolType(sym)
+            Dim inv As CallableMemberSymbol
+            If kw = "property" Then
+                inv = New PropertySymbol()
+            Else
+                inv = New MethodSymbol(sym)
+            End If
             inv.Modifiers = sp.Modifiers
             inv.Attributes = sp.Attributes
             inv.XmlDoc = stmt.XmlDoc
@@ -294,14 +307,14 @@ Namespace Syntax
         ' delegate declarations
         ' ------------------------------------------------------------------
 
-        Private Sub ParseDelegate(stmt As VBStatement, stmts As List(Of VBStatement), ByRef i As Integer, container As ContainerType)
+        Private Sub ParseDelegate(stmt As VBStatement, stmts As List(Of VBStatement), ByRef i As Integer, container As TypeContainerSymbol)
             Dim sp As StmtParser = NewCursor(stmt)
 
             If Not sp.Eof AndAlso sp.Current.Text.Equals("delegate", StringComparison.OrdinalIgnoreCase) Then
                 sp.Pos += 1
             End If
 
-            Dim del As New DelegateType()
+            Dim del As New DelegateSymbol()
             del.Modifiers = sp.Modifiers
             del.Attributes = sp.Attributes
             del.XmlDoc = stmt.XmlDoc
@@ -339,13 +352,17 @@ Namespace Syntax
         ' fields and local variables
         ' ------------------------------------------------------------------
 
-        Private Sub ParseField(stmt As VBStatement, container As ContainerType)
+        Private Sub ParseField(stmt As VBStatement, container As TypeContainerSymbol)
             Dim sp As StmtParser = NewCursor(stmt)
             Dim rest As List(Of Token) = stmt.Tokens.GetRange(sp.Pos, stmt.Tokens.Count - sp.Pos)
-            DeclareVariables(rest, container)
+            DeclareFields(rest, container)
         End Sub
 
-        Private Sub DeclareVariables(tokens As List(Of Token), parent As ContainerType)
+        ''' <summary>
+        ''' declare type-level fields (Public/Private/Dim X As XX at container scope).
+        ''' They are stored in <see cref="TypeContainerSymbol.Members"/>.
+        ''' </summary>
+        Private Sub DeclareFields(tokens As List(Of Token), parent As TypeContainerSymbol)
             If parent.Members Is Nothing Then
                 parent.Members = New Dictionary(Of String, LanguageSymbolType)
             End If
@@ -391,9 +408,69 @@ Namespace Syntax
                 End If
 
                 If Not parent.Members.ContainsKey(name) Then
-                    parent.Members(name) = New VariableSymbolType With {
+                    parent.Members(name) = New VariableSymbol With {
                         .Name = name,
                         .Parent = parent,
+                        .ValueType = If(type, TypeInfoHelper.TypeRef("Object"))
+                    }
+                End If
+            Next
+        End Sub
+
+        ''' <summary>
+        ''' declare local variables (Dim/Static/Const) inside a member body.
+        ''' They are stored in <see cref="CallableMemberSymbol.Locals"/> so that
+        ''' they are never confused with type-level members.
+        ''' </summary>
+        Private Sub DeclareLocals(tokens As List(Of Token), member As CallableMemberSymbol)
+            If member.Locals Is Nothing Then
+                member.Locals = New Dictionary(Of String, VariableSymbol)
+            End If
+
+            Dim start As Integer = 0
+            If start < tokens.Count AndAlso {"dim", "static", "const"}.Contains(tokens(start).Text.ToLowerInvariant()) Then
+                start += 1
+            End If
+
+            Dim segs As List(Of List(Of Token)) = SplitTopLevel(tokens.GetRange(start, tokens.Count - start), ","c)
+            If segs.Count = 0 Then
+                Return
+            End If
+
+            ' precompute the own "As" type of every segment
+            Dim ownType(segs.Count - 1) As TypeInfo
+            For s As Integer = 0 To segs.Count - 1
+                Dim seg As List(Of Token) = segs(s)
+                If seg.Count >= 3 AndAlso seg(1).Text.Equals("As", StringComparison.OrdinalIgnoreCase) Then
+                    ownType(s) = TypeInfoHelper.TypeRef(CleanType(seg, 2))
+                Else
+                    ownType(s) = Nothing
+                End If
+            Next
+
+            For s As Integer = 0 To segs.Count - 1
+                Dim seg As List(Of Token) = segs(s)
+                If seg.Count = 0 Then
+                    Continue For
+                End If
+
+                Dim name As String = seg(0).Text
+                Dim type As TypeInfo = ownType(s)
+
+                If type Is Nothing Then
+                    ' inherit the first following "As" clause
+                    For j As Integer = s + 1 To segs.Count - 1
+                        If ownType(j) IsNot Nothing Then
+                            type = ownType(j)
+                            Exit For
+                        End If
+                    Next
+                End If
+
+                If Not member.Locals.ContainsKey(name) Then
+                    member.Locals(name) = New VariableSymbol With {
+                        .Name = name,
+                        .Parent = member,
                         .ValueType = If(type, TypeInfoHelper.TypeRef("Object"))
                     }
                 End If
@@ -404,7 +481,7 @@ Namespace Syntax
         ' low level token helpers
         ' ------------------------------------------------------------------
 
-        Private Sub AddToContainer(container As ContainerType, sym As LanguageSymbolType)
+        Private Sub AddToContainer(container As TypeContainerSymbol, sym As LanguageSymbolType)
             Select Case sym.Type
                 Case SymbolType.[Class], SymbolType.[Module], SymbolType.[Structure], SymbolType.[Enum], SymbolType.[Interface], SymbolType.[Namespace]
                     If container.InternalNested Is Nothing Then

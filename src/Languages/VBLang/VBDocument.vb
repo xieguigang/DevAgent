@@ -118,7 +118,7 @@ Public Class VBProject
 
         If index = segs.Length - 1 Then Return sym
 
-        Dim ct = TryCast(sym, ContainerType)
+        Dim ct = TryCast(sym, TypeContainerSymbol)
         If ct Is Nothing Then Return Nothing
 
         Dim deeper = FindInContainer(ct.InternalNested, segs, index + 1)
@@ -135,7 +135,7 @@ Public Class VBProject
             If String.Equals(CleanName(sym.Name), lastName, StringComparison.OrdinalIgnoreCase) Then
                 Return sym
             End If
-            Dim ct = TryCast(sym, ContainerType)
+            Dim ct = TryCast(sym, TypeContainerSymbol)
             If ct IsNot Nothing Then
                 Dim deeper = FindByLastName(ct.InternalNested, lastName)
                 If deeper IsNot Nothing Then Return deeper
@@ -205,7 +205,7 @@ Public Class VBProject
             vbdoc.Imports = ExtractImports(code)
 
             Try
-                Dim root As ContainerType = VBParser.Parse(code)
+                Dim root As TypeContainerSymbol = VBParser.Parse(code)
                 If root.InternalNested IsNot Nothing Then
                     vbdoc.Types = New Dictionary(Of String, LanguageSymbolType)(root.InternalNested)
                 Else

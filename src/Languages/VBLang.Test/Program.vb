@@ -61,7 +61,7 @@ Namespace DemoApp
 End Namespace
 "
 
-        Dim root As ContainerType = VBParser.Parse(src)
+        Dim root As TypeContainerSymbol = VBParser.Parse(src)
         Dump(root, 0)
 
         Dim failures As New List(Of String)
@@ -78,20 +78,20 @@ End Namespace
         End If
     End Sub
 
-    Sub RunAsserts(root As ContainerType, failures As List(Of String))
-        Dim ns = CType(root.InternalNested("DemoApp"), ContainerType)
+    Sub RunAsserts(root As TypeContainerSymbol, failures As List(Of String))
+        Dim ns = CType(root.InternalNested("DemoApp"), TypeContainerSymbol)
         Assert(ns IsNot Nothing AndAlso ns.Type = SymbolType.[Namespace], "namespace DemoApp", failures)
 
         Dim del As LanguageSymbolType = Nothing
         If ns.Members.TryGetValue("Transformer", del) Then
-            Dim delT = CType(del, DelegateType)
+            Dim delT = CType(del, DelegateSymbol)
             Assert(delT.Parameters IsNot Nothing AndAlso delT.Parameters.ContainsKey("input"), "delegate parameter input", failures)
             Assert(delT.ValueType IsNot Nothing AndAlso delT.ValueType.fullName = "T", "delegate return T", failures)
         Else
             Assert(False, "delegate Transformer present", failures)
         End If
 
-        Dim cls = CType(ns.InternalNested("DemoClass"), ContainerType)
+        Dim cls = CType(ns.InternalNested("DemoClass"), TypeContainerSymbol)
         Assert(cls IsNot Nothing AndAlso cls.Type = SymbolType.[Class], "class DemoClass", failures)
         Assert(cls.GenericTypeArguments IsNot Nothing AndAlso cls.GenericTypeArguments.Length = 1, "class generic T", failures)
         Assert(cls.InheritsType IsNot Nothing AndAlso cls.InheritsType.fullName = "BaseClass", "Inherits BaseClass", failures)
@@ -99,28 +99,28 @@ End Namespace
         Assert(cls.Attributes IsNot Nothing AndAlso cls.Attributes.Contains("ExportAPI"), "attribute ExportAPI", failures)
 
         Dim prop = cls.Members("Name")
-        Assert(prop IsNot Nothing AndAlso TypeOf prop Is InvokeSymbolType, "property Name", failures)
+        Assert(prop IsNot Nothing AndAlso TypeOf prop Is PropertySymbol, "property Name", failures)
 
         Dim ctor = cls.Members("New")
-        Assert(ctor IsNot Nothing AndAlso CType(ctor, InvokeSymbolType).Type = SymbolType.[New], "Sub New", failures)
+        Assert(ctor IsNot Nothing AndAlso CType(ctor, MethodSymbol).Type = SymbolType.[New], "Sub New", failures)
 
-        Dim fn = CType(cls.Members("Compute"), InvokeSymbolType)
+        Dim fn = CType(cls.Members("Compute"), MethodSymbol)
         Assert(fn IsNot Nothing, "function Compute", failures)
         Assert(fn.Parameters.ContainsKey("x") AndAlso fn.Parameters("x").fullName = "Integer", "param x As Integer", failures)
         Assert(fn.Parameters.ContainsKey("y") AndAlso fn.Parameters("y").fullName = "T", "param y As T", failures)
         Assert(fn.ReturnType IsNot Nothing AndAlso fn.ReturnType.fullName = "Integer", "return Integer", failures)
-        Assert(fn.Members.ContainsKey("a") AndAlso CType(fn.Members("a"), VariableSymbolType).ValueType.fullName = "Integer", "local a", failures)
-        Assert(fn.Members.ContainsKey("b") AndAlso CType(fn.Members("b"), VariableSymbolType).ValueType.fullName = "Double", "local b", failures)
-        Assert(fn.Members.ContainsKey("c") AndAlso CType(fn.Members("c"), VariableSymbolType).ValueType.fullName = "Double", "local c (shared type)", failures)
-        Assert(fn.Members.ContainsKey("max") AndAlso CType(fn.Members("max"), VariableSymbolType).ValueType.fullName = "Long", "local max", failures)
+        Assert(fn.Locals.ContainsKey("a") AndAlso CType(fn.Locals("a"), VariableSymbol).ValueType.fullName = "Integer", "local a", failures)
+        Assert(fn.Locals.ContainsKey("b") AndAlso CType(fn.Locals("b"), VariableSymbol).ValueType.fullName = "Double", "local b", failures)
+        Assert(fn.Locals.ContainsKey("c") AndAlso CType(fn.Locals("c"), VariableSymbol).ValueType.fullName = "Double", "local c (shared type)", failures)
+        Assert(fn.Locals.ContainsKey("max") AndAlso CType(fn.Locals("max"), VariableSymbol).ValueType.fullName = "Long", "local max", failures)
 
         Dim op = cls.Members("+")
-        Assert(op IsNot Nothing AndAlso CType(op, InvokeSymbolType).Type = SymbolType.[Operator], "operator +", failures)
-        Assert(CType(op, InvokeSymbolType).ReturnType.fullName = "DemoClass(Of T)", "operator return type", failures)
+        Assert(op IsNot Nothing AndAlso CType(op, MethodSymbol).Type = SymbolType.[Operator], "operator +", failures)
+        Assert(CType(op, MethodSymbol).ReturnType.fullName = "DemoClass(Of T)", "operator return type", failures)
 
         Assert(cls.Members.ContainsKey("_value"), "field _value", failures)
 
-        Dim en = CType(cls.InternalNested("InnerEnum"), ContainerType)
+        Dim en = CType(cls.InternalNested("InnerEnum"), EnumSymbol)
         Assert(en IsNot Nothing AndAlso en.Type = SymbolType.[Enum], "nested enum", failures)
         Assert(en.EnumBaseType IsNot Nothing AndAlso en.EnumBaseType.fullName = "Byte", "enum base Byte", failures)
     End Sub
@@ -200,7 +200,7 @@ End Namespace
         Console.WriteLine("Top namespaces/types: " & doc.Types.Count)
 
         ' Dump the tree through a synthetic root so we reuse Dump().
-        Dim root As New ContainerType(SymbolType.Namespace)
+        Dim root As New NamespaceSymbol()
         root.Name = ""
         root.InternalNested = New Dictionary(Of String, LanguageSymbolType)(doc.Types)
         Dump(root, 0)
@@ -211,10 +211,10 @@ End Namespace
             "VBLang.VBProject",
             "VBLang.VBDocument",
             "VBLang.LanguageSymbolType",
-            "VBLang.ContainerType",
+            "VBLang.TypeContainerSymbol",
             "VBLang.SymbolType",
             "VBLang.Reflection.AssemblySymbolLoader",
-            "VBLang.EventSymbolType"
+            "VBLang.EventSymbol"
         }
         For Each p In probes
             Assert(proj.GetType(p) IsNot Nothing, "reflection GetType: " & p, failures)
@@ -223,14 +223,14 @@ End Namespace
         ' VBProject should be a Class carrying the loader + source Load members.
         Dim vbproj = proj.GetType("VBLang.VBProject")
         Assert(vbproj IsNot Nothing AndAlso vbproj.Type = SymbolType.Class, "VBProject is a Class", failures)
-        Dim vpCt = CType(vbproj, ContainerType)
+        Dim vpCt = CType(vbproj, TypeContainerSymbol)
         Assert(vpCt.Members IsNot Nothing AndAlso vpCt.Members.ContainsKey("LoadAssembly"), "VBProject has LoadAssembly member", failures)
         Assert(vpCt.Members.ContainsKey("Load"), "VBProject has Load member", failures)
 
         ' Tree shape: namespaces hold their types (not flattened).
         Dim vblangNs = proj.GetType("VBLang")
         Assert(vblangNs IsNot Nothing AndAlso vblangNs.Type = SymbolType.Namespace, "VBLang namespace exists (tree)", failures)
-        Dim nsCt = CType(vblangNs, ContainerType)
+        Dim nsCt = CType(vblangNs, TypeContainerSymbol)
         Assert(nsCt.InternalNested IsNot Nothing AndAlso nsCt.InternalNested.ContainsKey("VBProject"), "VBProject nested under VBLang namespace (not flat)", failures)
         Assert(nsCt.InternalNested.ContainsKey("Reflection"), "Reflection namespace nested under VBLang (not flat)", failures)
 
@@ -252,7 +252,7 @@ End Namespace
         Console.WriteLine((If(cond, "[OK]   ", "[FAIL] ")) & label)
     End Sub
 
-    Sub Dump(c As ContainerType, indent As Integer)
+    Sub Dump(c As TypeContainerSymbol, indent As Integer)
         Dim pad As String = New String(" "c, indent * 2)
         Console.WriteLine($"{pad}{c.Type} {c.Name} (generic={If(c.GenericTypeArguments Is Nothing, 0, c.GenericTypeArguments.Length)})")
         If c.InheritsType IsNot Nothing Then Console.WriteLine($"{pad}  Inherits {c.InheritsType.fullName}")
@@ -263,22 +263,30 @@ End Namespace
         End If
         If c.InternalNested IsNot Nothing Then
             For Each kv In c.InternalNested
-                If TypeOf kv.Value Is ContainerType Then Dump(CType(kv.Value, ContainerType), indent + 1)
+                If TypeOf kv.Value Is TypeContainerSymbol Then Dump(CType(kv.Value, TypeContainerSymbol), indent + 1)
             Next
         End If
         If c.Members IsNot Nothing Then
             For Each kv In c.Members
                 Dim m = kv.Value
-                If TypeOf m Is ContainerType Then
-                    Dump(CType(m, ContainerType), indent + 1)
-                ElseIf TypeOf m Is InvokeSymbolType Then
-                    Dim inv = CType(m, InvokeSymbolType)
+                If TypeOf m Is TypeContainerSymbol Then
+                    Dump(CType(m, TypeContainerSymbol), indent + 1)
+                ElseIf TypeOf m Is MethodSymbol Then
+                    Dim inv = CType(m, MethodSymbol)
                     Console.WriteLine($"{pad}  {inv.Type} {inv.Name} As {If(inv.ReturnType Is Nothing, "-", inv.ReturnType.fullName)}")
-                ElseIf TypeOf m Is DelegateType Then
-                    Dim d = CType(m, DelegateType)
+                    If inv.Locals IsNot Nothing Then
+                        For Each lv In inv.Locals
+                            Console.WriteLine($"{pad}    var {lv.Value.Name} As {If(lv.Value.ValueType Is Nothing, "-", lv.Value.ValueType.fullName)}")
+                        Next
+                    End If
+                ElseIf TypeOf m Is PropertySymbol Then
+                    Dim p = CType(m, PropertySymbol)
+                    Console.WriteLine($"{pad}  {p.Type} {p.Name} As {If(p.ReturnType Is Nothing, "-", p.ReturnType.fullName)}")
+                ElseIf TypeOf m Is DelegateSymbol Then
+                    Dim d = CType(m, DelegateSymbol)
                     Console.WriteLine($"{pad}  Delegate {d.Name} As {If(d.ValueType Is Nothing, "-", d.ValueType.fullName)}")
-                ElseIf TypeOf m Is VariableSymbolType Then
-                    Dim v = CType(m, VariableSymbolType)
+                ElseIf TypeOf m Is VariableSymbol Then
+                    Dim v = CType(m, VariableSymbol)
                     Console.WriteLine($"{pad}  var {v.Name} As {If(v.ValueType Is Nothing, "-", v.ValueType.fullName)}")
                 Else
                     Console.WriteLine($"{pad}  {m.Type} {m.Name}")
