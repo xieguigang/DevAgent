@@ -1,7 +1,6 @@
 ﻿Imports Galaxy.Workbench
 Imports Microsoft.VisualBasic.ApplicationServices
-Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.vbproj
-Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.vbproj.Xml
+Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj
 
 Public Class FormSolutionExplorer
 
@@ -13,11 +12,11 @@ Public Class FormSolutionExplorer
         End Get
     End Property
 
-    Dim proj As Project
+    Dim proj As VBProject
 
     Private Sub FormSolutionExplorer_Load(sender As Object, e As EventArgs) Handles Me.Load
         TabText = $"Project Explorer [{ProjectFile.FileName}]"
-        proj = Project.Load(ProjectFile)
+        proj = VBProject.Load(ProjectFile)
 
         Call ApplyVsTheme(ToolStrip1, ContextMenuStrip1)
         Call LoadProjectFileTree()
