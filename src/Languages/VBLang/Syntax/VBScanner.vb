@@ -92,7 +92,6 @@ Namespace Syntax
                 Dim ownLineAttrs As List(Of String) = TryParseAttributes(tokens)
                 If ownLineAttrs IsNot Nothing Then
                     attrBuf.AddRange(ownLineAttrs)
-                    i += 1
                     Continue While
                 End If
 

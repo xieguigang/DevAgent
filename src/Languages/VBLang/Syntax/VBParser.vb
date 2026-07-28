@@ -64,7 +64,6 @@ Namespace Syntax
 
                 Dim sp As StmtParser = NewCursor(stmt)
                 Dim head As String = sp.Current.Text.ToLowerInvariant()
-                Console.Error.WriteLine("DBG head=" & head & " i=" & i & " stop=" & If(stopKeyword, "?"))
 
                 If head = "end" Then
                     Dim endName As String = If(sp.Pos + 1 < stmt.Tokens.Count, stmt.Tokens(sp.Pos + 1).Text.ToLowerInvariant(), "")
@@ -108,7 +107,15 @@ Namespace Syntax
                             ParseField(stmt, container)
                         End If
                         i += 1
+                    Case "inherits", "implements"
+                        If member Is Nothing Then
+                            ParseContainerClause(stmt, container)
+                        End If
+                        i += 1
                     Case Else
+                        If member Is Nothing Then
+                            ParseField(stmt, container)
+                        End If
                         i += 1
                 End Select
             End While
@@ -160,7 +167,12 @@ Namespace Syntax
                         Dim lst As New List(Of TypeInfo)
                         Do
                             lst.Add(ReadTypeRef(sp))
-                        Loop While Not sp.Eof AndAlso sp.Current.Text = ","c
+                            If Not sp.Eof AndAlso sp.Current.Text = ","c Then
+                                sp.Pos += 1
+                            Else
+                                Exit Do
+                            End If
+                        Loop
                         ct.ImplementsInterfaces = lst.ToArray()
                     Else
                         sp.Pos += 1
@@ -172,6 +184,31 @@ Namespace Syntax
             i += 1
             Dim stopKw As String = If(kw = "struct", "structure", kw)
             ParseBlock(stmts, i, ct, stopKw, Nothing)
+        End Sub
+
+        ' container-level clauses that may appear on their own line inside a
+        ' class / structure / interface body.
+        Private Sub ParseContainerClause(stmt As VBStatement, container As ContainerType)
+            Dim sp As StmtParser = NewCursor(stmt)
+            Dim k As String = sp.Current.Text.ToLowerInvariant()
+            sp.Pos += 1
+
+            If k = "inherits" Then
+                If container.InheritsType Is Nothing Then
+                    container.InheritsType = ReadTypeRef(sp)
+                End If
+            ElseIf k = "implements" Then
+                Dim lst As New List(Of TypeInfo)
+                Do
+                    lst.Add(ReadTypeRef(sp))
+                    If Not sp.Eof AndAlso sp.Current.Text = ","c Then
+                        sp.Pos += 1
+                    Else
+                        Exit Do
+                    End If
+                Loop
+                container.ImplementsInterfaces = lst.ToArray()
+            End If
         End Sub
 
         ' ------------------------------------------------------------------
@@ -421,6 +458,7 @@ Namespace Syntax
                 sb.Append("(Of ")
 
                 If Not sp.Eof AndAlso sp.Current.Text = "("c Then
+                    sp.Pos += 1
                     Dim depth As Integer = 0
                     Do
                         Dim tk As Token = sp.Current
@@ -432,7 +470,8 @@ Namespace Syntax
                         End If
                         sp.Pos += 1
                     Loop While Not sp.Eof AndAlso depth > 0
-                    sb.Append(")"c)
+                    ' the closing ")" of (Of ...) is already appended by the
+                    ' loop above; do NOT append a second one.
                 Else
                     While Not sp.Eof AndAlso sp.Current.Text <> ","c AndAlso sp.Current.Text <> ")"c AndAlso Not sp.Current.Text.Equals("As", StringComparison.OrdinalIgnoreCase)
                         sb.Append(" "c & sp.Current.Text)
@@ -529,6 +568,7 @@ Namespace Syntax
 
             If Not sp.Eof AndAlso sp.Current.Text = "("c Then
                 sp.Pos += 1
+                If Not sp.Eof AndAlso sp.Current.Text = "("c Then sp.Pos += 1
                 While Not sp.Eof AndAlso sp.Current.Text <> ")"c
                     If sp.Current.Text = ","c Then
                         sp.Pos += 1
@@ -570,6 +610,8 @@ Namespace Syntax
                     names.Add(pname)
                 End While
             End If
+
+            Console.Error.WriteLine("DBG generic names=" & String.Join("|", names) & " (count=" & names.Count & ")")
 
             If names.Count = 0 Then
                 Return New TypeInfo() {}
