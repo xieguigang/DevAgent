@@ -64,6 +64,7 @@ Namespace Syntax
 
                 Dim sp As StmtParser = NewCursor(stmt)
                 Dim head As String = sp.Current.Text.ToLowerInvariant()
+                Console.Error.WriteLine("DBG head=" & head & " i=" & i & " stop=" & If(stopKeyword, "?"))
 
                 If head = "end" Then
                     Dim endName As String = If(sp.Pos + 1 < stmt.Tokens.Count, stmt.Tokens(sp.Pos + 1).Text.ToLowerInvariant(), "")

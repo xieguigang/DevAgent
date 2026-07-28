@@ -48,66 +48,10 @@ End Namespace
 "
 
         Dim root As ContainerType = VBParser.Parse(src)
-        Dim failures As New List(Of String)
-
-        Dim ns = CType(root.InternalNested("DemoApp"), ContainerType)
-        Assert(ns IsNot Nothing AndAlso ns.Type = SymbolType.[Namespace], "namespace DemoApp", failures)
-
-        Console.WriteLine("DemoApp.Members keys: " & String.Join(", ", ns.Members.Keys))
-        Console.WriteLine("DemoApp.InternalNested keys: " & String.Join(", ", If(ns.InternalNested Is Nothing, New List(Of String)(), ns.InternalNested.Keys)))
-
-        ' delegate is a member, not a nested container
-        Dim del As LanguageSymbolType = Nothing
-        If Not ns.Members.TryGetValue("Transformer", del) Then
-            Console.WriteLine("DEBUG: Transformer not found in ns.Members")
-        End If
-        Assert(del IsNot Nothing AndAlso TypeOf del Is DelegateType, "delegate Transformer", failures)
-        Dim delT = CType(del, DelegateType)
-        Assert(delT.Parameters IsNot Nothing AndAlso delT.Parameters.ContainsKey("input"), "delegate parameter input", failures)
-        Assert(delT.ValueType IsNot Nothing AndAlso delT.ValueType.fullName = "T", "delegate return T", failures)
-
-        ' class is a nested container
-        Dim cls = CType(ns.InternalNested("DemoClass"), ContainerType)
-        Assert(cls IsNot Nothing AndAlso cls.Type = SymbolType.[Class], "class DemoClass", failures)
-        Assert(cls.GenericTypeArguments IsNot Nothing AndAlso cls.GenericTypeArguments.Length = 1, "class generic T", failures)
-        Assert(cls.InheritsType IsNot Nothing AndAlso cls.InheritsType.fullName = "BaseClass", "Inherits BaseClass", failures)
-        Assert(cls.ImplementsInterfaces IsNot Nothing AndAlso cls.ImplementsInterfaces.Length = 2, "Implements 2 interfaces", failures)
-        Assert(cls.Attributes IsNot Nothing AndAlso cls.Attributes.Contains("ExportAPI"), "attribute ExportAPI", failures)
-
-        ' property
-        Dim prop = cls.Members("Name")
-        Assert(prop IsNot Nothing AndAlso TypeOf prop Is InvokeSymbolType, "property Name", failures)
-
-        ' sub new
-        Dim ctor = cls.Members("New")
-        Assert(ctor IsNot Nothing AndAlso CType(ctor, InvokeSymbolType).Type = SymbolType.[New], "Sub New", failures)
-
-        ' function with params / return type / locals
-        Dim fn = CType(cls.Members("Compute"), InvokeSymbolType)
-        Assert(fn IsNot Nothing, "function Compute", failures)
-        Assert(fn.Parameters.ContainsKey("x") AndAlso fn.Parameters("x").fullName = "Integer", "param x As Integer", failures)
-        Assert(fn.Parameters.ContainsKey("y") AndAlso fn.Parameters("y").fullName = "T", "param y As T", failures)
-        Assert(fn.ReturnType IsNot Nothing AndAlso fn.ReturnType.fullName = "Integer", "return Integer", failures)
-        Assert(fn.Members.ContainsKey("a") AndAlso CType(fn.Members("a"), VariableSymbolType).ValueType.fullName = "Integer", "local a", failures)
-        Assert(fn.Members.ContainsKey("b") AndAlso CType(fn.Members("b"), VariableSymbolType).ValueType.fullName = "Double", "local b", failures)
-        Assert(fn.Members.ContainsKey("c") AndAlso CType(fn.Members("c"), VariableSymbolType).ValueType.fullName = "Double", "local c (shared type)", failures)
-        Assert(fn.Members.ContainsKey("max") AndAlso CType(fn.Members("max"), VariableSymbolType).ValueType.fullName = "Long", "local max", failures)
-
-        ' operator
-        Dim op = cls.Members("+")
-        Assert(op IsNot Nothing AndAlso CType(op, InvokeSymbolType).Type = SymbolType.[Operator], "operator +", failures)
-        Assert(CType(op, InvokeSymbolType).ReturnType.fullName = "DemoClass(Of T)", "operator return type", failures)
-
-        ' field
-        Assert(cls.Members.ContainsKey("_value"), "field _value", failures)
-
-        ' nested enum
-        Dim en = CType(cls.InternalNested("InnerEnum"), ContainerType)
-        Assert(en IsNot Nothing AndAlso en.Type = SymbolType.[Enum], "nested enum", failures)
-        Assert(en.EnumBaseType IsNot Nothing AndAlso en.EnumBaseType.fullName = "Byte", "enum base Byte", failures)
-
-        ' dump a small tree to stdout
         Dump(root, 0)
+
+        Dim failures As New List(Of String)
+        RunAsserts(root, failures)
 
         If failures.Count = 0 Then
             Console.WriteLine(vbCrLf & "ALL TESTS PASSED")
@@ -118,6 +62,53 @@ End Namespace
             Next
             Environment.Exit(1)
         End If
+    End Sub
+
+    Sub RunAsserts(root As ContainerType, failures As List(Of String))
+        Dim ns = CType(root.InternalNested("DemoApp"), ContainerType)
+        Assert(ns IsNot Nothing AndAlso ns.Type = SymbolType.[Namespace], "namespace DemoApp", failures)
+
+        Dim del As LanguageSymbolType = Nothing
+        If ns.Members.TryGetValue("Transformer", del) Then
+            Dim delT = CType(del, DelegateType)
+            Assert(delT.Parameters IsNot Nothing AndAlso delT.Parameters.ContainsKey("input"), "delegate parameter input", failures)
+            Assert(delT.ValueType IsNot Nothing AndAlso delT.ValueType.fullName = "T", "delegate return T", failures)
+        Else
+            Assert(False, "delegate Transformer present", failures)
+        End If
+
+        Dim cls = CType(ns.InternalNested("DemoClass"), ContainerType)
+        Assert(cls IsNot Nothing AndAlso cls.Type = SymbolType.[Class], "class DemoClass", failures)
+        Assert(cls.GenericTypeArguments IsNot Nothing AndAlso cls.GenericTypeArguments.Length = 1, "class generic T", failures)
+        Assert(cls.InheritsType IsNot Nothing AndAlso cls.InheritsType.fullName = "BaseClass", "Inherits BaseClass", failures)
+        Assert(cls.ImplementsInterfaces IsNot Nothing AndAlso cls.ImplementsInterfaces.Length = 2, "Implements 2 interfaces", failures)
+        Assert(cls.Attributes IsNot Nothing AndAlso cls.Attributes.Contains("ExportAPI"), "attribute ExportAPI", failures)
+
+        Dim prop = cls.Members("Name")
+        Assert(prop IsNot Nothing AndAlso TypeOf prop Is InvokeSymbolType, "property Name", failures)
+
+        Dim ctor = cls.Members("New")
+        Assert(ctor IsNot Nothing AndAlso CType(ctor, InvokeSymbolType).Type = SymbolType.[New], "Sub New", failures)
+
+        Dim fn = CType(cls.Members("Compute"), InvokeSymbolType)
+        Assert(fn IsNot Nothing, "function Compute", failures)
+        Assert(fn.Parameters.ContainsKey("x") AndAlso fn.Parameters("x").fullName = "Integer", "param x As Integer", failures)
+        Assert(fn.Parameters.ContainsKey("y") AndAlso fn.Parameters("y").fullName = "T", "param y As T", failures)
+        Assert(fn.ReturnType IsNot Nothing AndAlso fn.ReturnType.fullName = "Integer", "return Integer", failures)
+        Assert(fn.Members.ContainsKey("a") AndAlso CType(fn.Members("a"), VariableSymbolType).ValueType.fullName = "Integer", "local a", failures)
+        Assert(fn.Members.ContainsKey("b") AndAlso CType(fn.Members("b"), VariableSymbolType).ValueType.fullName = "Double", "local b", failures)
+        Assert(fn.Members.ContainsKey("c") AndAlso CType(fn.Members("c"), VariableSymbolType).ValueType.fullName = "Double", "local c (shared type)", failures)
+        Assert(fn.Members.ContainsKey("max") AndAlso CType(fn.Members("max"), VariableSymbolType).ValueType.fullName = "Long", "local max", failures)
+
+        Dim op = cls.Members("+")
+        Assert(op IsNot Nothing AndAlso CType(op, InvokeSymbolType).Type = SymbolType.[Operator], "operator +", failures)
+        Assert(CType(op, InvokeSymbolType).ReturnType.fullName = "DemoClass(Of T)", "operator return type", failures)
+
+        Assert(cls.Members.ContainsKey("_value"), "field _value", failures)
+
+        Dim en = CType(cls.InternalNested("InnerEnum"), ContainerType)
+        Assert(en IsNot Nothing AndAlso en.Type = SymbolType.[Enum], "nested enum", failures)
+        Assert(en.EnumBaseType IsNot Nothing AndAlso en.EnumBaseType.fullName = "Byte", "enum base Byte", failures)
     End Sub
 
     Sub Assert(cond As Boolean, label As String, failures As List(Of String))
