@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "G:\\DevAgent\\src\\Languages\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{F1AD283F-EC3C-186B-F1C8-95145A6AAE15}|VBLang\\VBLang.vbproj|g:\\devagent\\src\\languages\\vblang\\vbdocument.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{F1AD283F-EC3C-186B-F1C8-95145A6AAE15}|VBLang\\VBLang.vbproj|solutionrelative:vblang\\vbdocument.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F1AD283F-EC3C-186B-F1C8-95145A6AAE15}|VBLang\\VBLang.vbproj|g:\\devagent\\src\\languages\\vblang\\languagesymboltype.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{F1AD283F-EC3C-186B-F1C8-95145A6AAE15}|VBLang\\VBLang.vbproj|solutionrelative:vblang\\languagesymboltype.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{AA2D8F99-5F8A-B5D0-1FFC-E6989049ECE4}|VBLang.Test\\test.vbproj|g:\\devagent\\src\\languages\\vblang.test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{AA2D8F99-5F8A-B5D0-1FFC-E6989049ECE4}|VBLang.Test\\test.vbproj|solutionrelative:vblang.test\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
@@ -14,8 +22,34 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "VBDocument.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\Languages\\VBLang\\VBDocument.vb",
+              "RelativeDocumentMoniker": "VBLang\\VBDocument.vb",
+              "ToolTip": "G:\\DevAgent\\src\\Languages\\VBLang\\VBDocument.vb",
+              "RelativeToolTip": "VBLang\\VBDocument.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T15:38:58.349Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "LanguageSymbolType.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\Languages\\VBLang\\LanguageSymbolType.vb",
+              "RelativeDocumentMoniker": "VBLang\\LanguageSymbolType.vb",
+              "ToolTip": "G:\\DevAgent\\src\\Languages\\VBLang\\LanguageSymbolType.vb",
+              "RelativeToolTip": "VBLang\\LanguageSymbolType.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-28T15:38:24.381Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -30,13 +64,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Program.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\Languages\\VBLang.Test\\Program.vb",
               "RelativeDocumentMoniker": "VBLang.Test\\Program.vb",
               "ToolTip": "G:\\DevAgent\\src\\Languages\\VBLang.Test\\Program.vb",
               "RelativeToolTip": "VBLang.Test\\Program.vb",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAABYAAAAAAAAAAAAYwDEAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-07-28T15:36:38.899Z",
               "EditorCaption": ""
