@@ -18,9 +18,9 @@ Public Class FormSettingsPage
 
     Private Sub WebView21_NavigationCompleted(sender As Object, e As CoreWebView2NavigationCompletedEventArgs) Handles WebView21.NavigationCompleted
         Dim payload = New With {
-                .type = "loadConfig",
-                .text = Workbench.config.GetJson,
-                .filename = Nothing
+            .type = "loadConfig",
+            .text = Workbench.config.GetJson,
+            .filename = Nothing
         }
         ' 2. 序列化为 JSON 字符串
         Dim jsonPayload As String = JsonSerializer.Serialize(payload)
