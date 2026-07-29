@@ -69,7 +69,7 @@ Module RibbonMenu
             }
         End If
 
-        Call CommonRuntime.RegisterToolWindow(explorer, DockState.DockRightAutoHide)
+        Call DirectCast(CommonRuntime.AppHost, Form).Invoke(Sub() CommonRuntime.RegisterToolWindow(explorer, DockState.DockRightAutoHide))
     End Sub
 
     Public Sub OpenLicenseDialog()

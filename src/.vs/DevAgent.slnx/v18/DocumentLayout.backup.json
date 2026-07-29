@@ -1,7 +1,33 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\DevAgent\\src\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B1B7577A-107B-4BD8-34C1-FE08B201F2F3}|..\\..\\LLMs\\src\\WebView2UI\\WebView2UI.vbproj|g:\\llms\\src\\webview2ui\\webview2llmui.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B1B7577A-107B-4BD8-34C1-FE08B201F2F3}|..\\..\\LLMs\\src\\WebView2UI\\WebView2UI.vbproj|g:\\llms\\src\\webview2ui\\llmhost.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B1B7577A-107B-4BD8-34C1-FE08B201F2F3}|..\\..\\LLMs\\src\\WebView2UI\\WebView2UI.vbproj|g:\\llms\\src\\webview2ui\\applicationevents.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\application\\ribbonmenu.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|solutionrelative:vallina\\application\\ribbonmenu.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7270DC93-2AC0-7EE4-CDAB-C7AFFC938E58}|..\\..\\galaxy\\src\\GalaxyWorkbench\\GalaxyWorkbench.vbproj|g:\\galaxy\\src\\galaxyworkbench\\commonruntime.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17C4E8F2-94FB-9CBE-99E2-8DD3CFA197E0}|..\\..\\galaxy\\src\\dockpanelsuite\\VSDockPanel\\VSDockPanel.vbproj|g:\\galaxy\\src\\dockpanelsuite\\vsdockpanel\\dockcontent.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17C4E8F2-94FB-9CBE-99E2-8DD3CFA197E0}|..\\..\\galaxy\\src\\dockpanelsuite\\VSDockPanel\\VSDockPanel.vbproj|g:\\galaxy\\src\\dockpanelsuite\\vsdockpanel\\dockcontenthandler.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{17C4E8F2-94FB-9CBE-99E2-8DD3CFA197E0}|..\\..\\galaxy\\src\\dockpanelsuite\\VSDockPanel\\VSDockPanel.vbproj|g:\\galaxy\\src\\dockpanelsuite\\vsdockpanel\\dockpanel.focusmanager.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,8 +35,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 179,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "WebView2LLMUI.vb",
+              "DocumentMoniker": "G:\\LLMs\\src\\WebView2UI\\WebView2LLMUI.vb",
+              "RelativeDocumentMoniker": "..\\..\\LLMs\\src\\WebView2UI\\WebView2LLMUI.vb",
+              "ToolTip": "G:\\LLMs\\src\\WebView2UI\\WebView2LLMUI.vb",
+              "RelativeToolTip": "..\\..\\LLMs\\src\\WebView2UI\\WebView2LLMUI.vb",
+              "ViewState": "AgIAAFcAAAAAAAAAAAAYwHEAAABSAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-29T15:21:13.211Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -22,6 +61,97 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "LLMHost.vb",
+              "DocumentMoniker": "G:\\LLMs\\src\\WebView2UI\\LLMHost.vb",
+              "RelativeDocumentMoniker": "..\\..\\LLMs\\src\\WebView2UI\\LLMHost.vb",
+              "ToolTip": "G:\\LLMs\\src\\WebView2UI\\LLMHost.vb",
+              "RelativeToolTip": "..\\..\\LLMs\\src\\WebView2UI\\LLMHost.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACcAAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-29T15:21:01.14Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ApplicationEvents.vb",
+              "DocumentMoniker": "G:\\LLMs\\src\\WebView2UI\\ApplicationEvents.vb",
+              "RelativeDocumentMoniker": "..\\..\\LLMs\\src\\WebView2UI\\ApplicationEvents.vb",
+              "ToolTip": "G:\\LLMs\\src\\WebView2UI\\ApplicationEvents.vb",
+              "RelativeToolTip": "..\\..\\LLMs\\src\\WebView2UI\\ApplicationEvents.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-29T15:20:58.952Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "RibbonMenu.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\Application\\RibbonMenu.vb",
+              "RelativeDocumentMoniker": "Vallina\\Application\\RibbonMenu.vb",
+              "ToolTip": "G:\\DevAgent\\src\\Vallina\\Application\\RibbonMenu.vb",
+              "RelativeToolTip": "Vallina\\Application\\RibbonMenu.vb",
+              "ViewState": "AgIAACoAAAAAAAAAAAAuwEwAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-29T15:19:43.537Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CommonRuntime.vb",
+              "DocumentMoniker": "G:\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
+              "RelativeDocumentMoniker": "..\\..\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
+              "ToolTip": "G:\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
+              "RelativeToolTip": "..\\..\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
+              "ViewState": "AgIAAHYAAAAAAAAAAAAowJIAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-29T15:18:09.837Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "DockContent.vb",
+              "DocumentMoniker": "G:\\galaxy\\src\\dockpanelsuite\\VSDockPanel\\DockContent.vb",
+              "RelativeDocumentMoniker": "..\\..\\galaxy\\src\\dockpanelsuite\\VSDockPanel\\DockContent.vb",
+              "ToolTip": "G:\\galaxy\\src\\dockpanelsuite\\VSDockPanel\\DockContent.vb",
+              "RelativeToolTip": "..\\..\\galaxy\\src\\dockpanelsuite\\VSDockPanel\\DockContent.vb",
+              "ViewState": "AgIAABABAAAAAAAAAAAuwDYBAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-29T15:18:07.014Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "DockContentHandler.vb",
+              "DocumentMoniker": "G:\\galaxy\\src\\dockpanelsuite\\VSDockPanel\\DockContentHandler.vb",
+              "RelativeDocumentMoniker": "..\\..\\galaxy\\src\\dockpanelsuite\\VSDockPanel\\DockContentHandler.vb",
+              "ToolTip": "G:\\galaxy\\src\\dockpanelsuite\\VSDockPanel\\DockContentHandler.vb",
+              "RelativeToolTip": "..\\..\\galaxy\\src\\dockpanelsuite\\VSDockPanel\\DockContentHandler.vb",
+              "ViewState": "AgIAAN4CAAAAAAAAAAAuwAQDAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-29T15:18:05.322Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "DockPanel.FocusManager.vb",
+              "DocumentMoniker": "G:\\galaxy\\src\\dockpanelsuite\\VSDockPanel\\DockPanel.FocusManager.vb",
+              "RelativeDocumentMoniker": "..\\..\\galaxy\\src\\dockpanelsuite\\VSDockPanel\\DockPanel.FocusManager.vb",
+              "ToolTip": "G:\\galaxy\\src\\dockpanelsuite\\VSDockPanel\\DockPanel.FocusManager.vb",
+              "RelativeToolTip": "..\\..\\galaxy\\src\\dockpanelsuite\\VSDockPanel\\DockPanel.FocusManager.vb",
+              "ViewState": "AgIAAP0AAAAAAAAAAAAkwBwBAABbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-29T15:16:04.533Z",
+              "EditorCaption": ""
             }
           ]
         },
