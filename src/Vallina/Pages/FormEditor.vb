@@ -119,7 +119,7 @@ Public Class FormEditor
         Await SaveCodeFile()
     End Sub
 
-    Private Async Function GetCodeText() As Task(Of String)
+    Public Async Function GetCodeText() As Task(Of String)
         Return (Await WebView21.ExecuteScriptAsync("codeEditor.getCodeText()")).LoadJSON(Of String)
     End Function
 

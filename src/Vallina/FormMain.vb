@@ -117,7 +117,15 @@ Public Class FormMain : Implements AppHost
 
             If Not deepseek Is Nothing Then
                 Await deepseek.ClearFileReference
-                Await deepseek.SetFileReference(filepath:=editor.codefile)
+
+                If editor.codefile.StringEmpty(, True) Then
+                    Await deepseek.SetFileReference(
+                        Function()
+                            Return editor.GetCodeText.GetAwaiter.GetResult
+                        End Function)
+                Else
+                    Await deepseek.SetFileReference(filepath:=editor.codefile)
+                End If
 
                 deepseek.TabText = $"LLMs Chat [{editor.codefile.FileName}]"
             End If
