@@ -141,7 +141,10 @@ Public Class FormEditor
     End Function
 
     Private Async Function OpenDeepSeekLLMTool() As Task
-        Await RibbonMenu.OpenLLMsChat.SetFileReference(filepath:=_codefile)
+        Dim deepseek As FormLLMsTool = RibbonMenu.OpenLLMsChat
+
+        Await deepseek.ClearFileReference
+        Await deepseek.SetFileReference(filepath:=_codefile)
 
         CommonRuntime.AppHost.SetTitle($"Vallina Basic [{_codefile.GetFullPath}]")
     End Function

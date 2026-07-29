@@ -10,4 +10,8 @@ Public Class FormLLMsTool
     Public Async Function SetFileReference(filepath As String) As Task
         Await WebView2llmui1.SetFileReference(filepath)
     End Function
+
+    Public Async Function ClearFileReference() As Task
+        Await WebView2llmui1.ClearFileReference
+    End Function
 End Class
