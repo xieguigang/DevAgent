@@ -77,7 +77,7 @@ Module RibbonMenu
     End Sub
 
     Public Sub OpenSettingsPage()
-        Call CommonRuntime.ShowSingleDocument(Of FormSettingsPage)()
+        Call DirectCast(CommonRuntime.AppHost, Form).Invoke(Sub() CommonRuntime.ShowSingleDocument(Of FormSettingsPage)())
     End Sub
 
     Public Sub OpenEditor()

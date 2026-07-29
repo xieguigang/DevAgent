@@ -316,28 +316,28 @@
             function handleAction(action) {
                 switch (action) {
                     case "newDocument":
-                        newDocument();
+                        devkit.newDocument();
                         break;
                     case "newProject":
-                        newProject();
+                        devkit.newProject();
                         break;
                     case "openDocument":
-                        hiddenFileInput.click();
+                        devkit.openDocument();
                         break;
                     case "openProject":
-                        devkit.OpenProject();
+                        devkit.openProject();
                         break;
                     case "showHistory":
                         scrollToHistory();
                         break;
                     case "openLLMAgent":
-                        openLLMAgent();
+                        devkit.openLLMAgent();
                         break;
                     case "openSettings":
-                        openSettings();
+                        devkit.openSettings();
                         break;
                     case "openEditor":
-                        window.location.href = "index.html";
+                        devkit.newDocument();
                         break;
                 }
             }

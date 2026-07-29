@@ -5,7 +5,7 @@ Namespace Javascript
     <ComVisible(True)>
     Public Class StartupPage : Inherits BasePage
 
-        Public Async Function OpenProject() As Task
+        Public Async Function openProject() As Task
             Using file As New OpenFileDialog With {
                .Filter = "VisualBasic Project(*.vbproj)|*.vbproj"
            }
@@ -15,5 +15,24 @@ Namespace Javascript
             End Using
         End Function
 
+        Public Async Function openSettings() As Task
+            Await Task.Run(Sub() Call RibbonMenu.OpenSettingsPage())
+        End Function
+
+        Public Async Function openLLMAgent() As Task
+
+        End Function
+
+        Public Async Function newDocument() As Task
+
+        End Function
+
+        Public Async Function openDocument() As Task
+
+        End Function
+
+        Public Async Function newProject() As Task
+
+        End Function
     End Class
 End Namespace
