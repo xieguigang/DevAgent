@@ -274,3 +274,6 @@ storage.ide-wal
 *.wsuo
 /src/.vs/DevAgent/CopilotIndices/18.8.1083.22234
 /src/.vs/DevAgent/CopilotIndices/18.8.1083.22234
+*.db
+*.db-shm
+*.db-wal
