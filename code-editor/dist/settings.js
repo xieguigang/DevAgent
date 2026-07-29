@@ -431,6 +431,9 @@ var importsConfigJSON = null;
     try {
       var parsed = JSON.parse(json);
       settings = deepMerge(defaultSettings(), parsed);
+      
+      console.log(settings);
+
       applySettingsToForm(settings);
       saveToStorage();
       showToast("Settings imported successfully.", "success");
