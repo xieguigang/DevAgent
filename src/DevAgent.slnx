@@ -81,6 +81,9 @@
       <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>
+  <Project Path="../../LLMs/src/WebView2UI/WebView2UI.vbproj">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
   <Project Path="DevAgent/DevAgent.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>

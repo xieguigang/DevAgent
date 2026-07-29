@@ -25,36 +25,30 @@ Partial Class FormLLMsTool
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         components = New ComponentModel.Container()
-        WebView21 = New Microsoft.Web.WebView2.WinForms.WebView2()
-        CType(WebView21, ComponentModel.ISupportInitialize).BeginInit()
+        WebView2llmui1 = New WebView2UI.WebView2LLMUI()
         SuspendLayout()
         ' 
-        ' WebView21
+        ' WebView2llmui1
         ' 
-        WebView21.AllowExternalDrop = True
-        WebView21.CreationProperties = Nothing
-        WebView21.DefaultBackgroundColor = Color.White
-        WebView21.Dock = DockStyle.Fill
-        WebView21.Location = New Point(0, 0)
-        WebView21.Name = "WebView21"
-        WebView21.Size = New Size(490, 775)
-        WebView21.TabIndex = 0
-        WebView21.ZoomFactor = 1R
+        WebView2llmui1.Dock = DockStyle.Fill
+        WebView2llmui1.Location = New Point(0, 0)
+        WebView2llmui1.Name = "WebView2llmui1"
+        WebView2llmui1.Size = New Size(490, 775)
+        WebView2llmui1.TabIndex = 0
         ' 
         ' FormLLMsTool
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(490, 775)
-        Controls.Add(WebView21)
+        Controls.Add(WebView2llmui1)
         DockAreas = Microsoft.VisualStudio.WinForms.Docking.DockAreas.Float Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockLeft Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockRight Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockTop Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockBottom Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.Document
         DoubleBuffered = True
         Name = "FormLLMsTool"
         ShowHint = Microsoft.VisualStudio.WinForms.Docking.DockState.Unknown
         Text = "LLMs Chat"
-        CType(WebView21, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub
 
-    Friend WithEvents WebView21 As Microsoft.Web.WebView2.WinForms.WebView2
+    Friend WithEvents WebView2llmui1 As WebView2UI.WebView2LLMUI
 End Class
