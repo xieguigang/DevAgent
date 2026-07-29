@@ -143,7 +143,7 @@ Public Class FormEditor
     Private Async Function OpenDeepSeekLLMTool() As Task
         Await RibbonMenu.OpenLLMsChat.SetFileReference(filepath:=_codefile)
 
-        CommonRuntime.AppHost.SetTitle($"Vallina Basic Development [{_codefile.GetFullPath}]")
+        CommonRuntime.AppHost.SetTitle($"Vallina Basic [{_codefile.GetFullPath}]")
     End Function
 
     Private Async Function ActivateRibbon() As Task
