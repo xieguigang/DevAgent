@@ -27,13 +27,13 @@ Partial Class FormSolutionExplorer
         components = New ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormSolutionExplorer))
         TreeView1 = New TreeView()
+        ContextMenuStrip1 = New ContextMenuStrip(components)
+        OpenToolStripMenuItem = New ToolStripMenuItem()
         ImageList1 = New ImageList(components)
         ToolStrip1 = New ToolStrip()
         ToolStripButton1 = New ToolStripButton()
-        ContextMenuStrip1 = New ContextMenuStrip(components)
-        OpenToolStripMenuItem = New ToolStripMenuItem()
-        ToolStrip1.SuspendLayout()
         ContextMenuStrip1.SuspendLayout()
+        ToolStrip1.SuspendLayout()
         SuspendLayout()
         ' 
         ' TreeView1
@@ -47,6 +47,19 @@ Partial Class FormSolutionExplorer
         TreeView1.SelectedImageIndex = 0
         TreeView1.Size = New Size(403, 600)
         TreeView1.TabIndex = 0
+        ' 
+        ' ContextMenuStrip1
+        ' 
+        ContextMenuStrip1.Items.AddRange(New ToolStripItem() {OpenToolStripMenuItem})
+        ContextMenuStrip1.Name = "ContextMenuStrip1"
+        ContextMenuStrip1.Size = New Size(104, 26)
+        ' 
+        ' OpenToolStripMenuItem
+        ' 
+        OpenToolStripMenuItem.Image = CType(resources.GetObject("OpenToolStripMenuItem.Image"), Image)
+        OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
+        OpenToolStripMenuItem.Size = New Size(103, 22)
+        OpenToolStripMenuItem.Text = "Open"
         ' 
         ' ImageList1
         ' 
@@ -73,20 +86,7 @@ Partial Class FormSolutionExplorer
         ToolStripButton1.ImageTransparentColor = Color.Magenta
         ToolStripButton1.Name = "ToolStripButton1"
         ToolStripButton1.Size = New Size(23, 22)
-        ToolStripButton1.Text = "ToolStripButton1"
-        ' 
-        ' ContextMenuStrip1
-        ' 
-        ContextMenuStrip1.Items.AddRange(New ToolStripItem() {OpenToolStripMenuItem})
-        ContextMenuStrip1.Name = "ContextMenuStrip1"
-        ContextMenuStrip1.Size = New Size(181, 48)
-        ' 
-        ' OpenToolStripMenuItem
-        ' 
-        OpenToolStripMenuItem.Image = CType(resources.GetObject("OpenToolStripMenuItem.Image"), Image)
-        OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        OpenToolStripMenuItem.Size = New Size(180, 22)
-        OpenToolStripMenuItem.Text = "Open"
+        ToolStripButton1.Text = "LLM Analysis"
         ' 
         ' FormSolutionExplorer
         ' 
@@ -101,9 +101,9 @@ Partial Class FormSolutionExplorer
         Name = "FormSolutionExplorer"
         ShowHint = Microsoft.VisualStudio.WinForms.Docking.DockState.Unknown
         Text = "Solution Explorer"
+        ContextMenuStrip1.ResumeLayout(False)
         ToolStrip1.ResumeLayout(False)
         ToolStrip1.PerformLayout()
-        ContextMenuStrip1.ResumeLayout(False)
         ResumeLayout(False)
         PerformLayout()
     End Sub

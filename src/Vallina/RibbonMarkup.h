@@ -95,4 +95,8 @@
 #define cmdButtonConsole_LabelTitle_RESID 60061
 #define cmdButtonConsole_SmallImages_192__RESID 60062
 #define cmdButtonConsole_LargeImages_192__RESID 60063
-#define InternalCmd2_LabelTitle_RESID 60064
+#define cmdButtonDeepSeekLLM 29 
+#define cmdButtonDeepSeekLLM_LabelTitle_RESID 60064
+#define cmdButtonDeepSeekLLM_SmallImages_192__RESID 60065
+#define cmdButtonDeepSeekLLM_LargeImages_192__RESID 60066
+#define InternalCmd2_LabelTitle_RESID 60067

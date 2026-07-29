@@ -16,6 +16,7 @@ Public Class FormEditor
 
     Shared ReadOnly btnTheme As RibbonEventBinding
     Shared ReadOnly btnMinimap As RibbonEventBinding
+    Shared ReadOnly btnDeepSeek As RibbonEventBinding
 
     Public ReadOnly Property codefile As String
 
@@ -29,6 +30,7 @@ Public Class FormEditor
 
         btnMinimap = New RibbonEventBinding(Ribbon.ButtonEditorMiniMap)
         btnTheme = New RibbonEventBinding(Ribbon.ButtonEditorTheme)
+        btnDeepSeek = New RibbonEventBinding(Ribbon.ButtonDeepSeekLLM)
     End Sub
 
     Private Async Sub FormEditor_Load(sender As Object, e As EventArgs) Handles Me.Load
@@ -138,6 +140,10 @@ Public Class FormEditor
         End Using
     End Function
 
+    Private Async Function OpenDeepSeekLLMTool() As Task
+        Await RibbonMenu.OpenLLMsChat.SetFileReference(filepath:=_codefile)
+    End Function
+
     Private Sub ActivateRibbon()
         Ribbon.RibbonEditor.ContextAvailable = ContextAvailability.Active
 
@@ -150,15 +156,18 @@ Public Class FormEditor
 
         Call btnMinimap.Addhandler(Async Sub() Await ToggleMinimap())
         Call btnTheme.Addhandler(Async Sub() Await ToggleTheme())
+        Call btnDeepSeek.Addhandler(Async Sub() Await OpenDeepSeekLLMTool())
     End Sub
 
     Private Sub UnloadRibbonHook()
         Dim otherEditor As FormEditor = CommonRuntime.AppHost.GetDocuments.OfType(Of FormEditor).Where(Function(e) e IsNot Me).FirstOrDefault
 
-        If otherEditor Is Nothing Then
-            Ribbon.RibbonEditor.ContextAvailable = ContextAvailability.NotAvailable
-        Else
-            Ribbon.RibbonEditor.ContextAvailable = ContextAvailability.Available
+        If Not TypeOf CommonRuntime.AppHost.ActiveDocument Is FormEditor Then
+            If otherEditor Is Nothing Then
+                Ribbon.RibbonEditor.ContextAvailable = ContextAvailability.NotAvailable
+            Else
+                Ribbon.RibbonEditor.ContextAvailable = ContextAvailability.Available
+            End If
         End If
 
         DirectCast(CommonRuntime.AppHost, FormMain).ResetEditorStatus()

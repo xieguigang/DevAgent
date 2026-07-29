@@ -34,6 +34,7 @@ Namespace RibbonLib.Controls
             Public Const cmdButtonEditorSymbols As UInteger = 16
             Public Const cmdButtonEditorMiniMap As UInteger = 26
             Public Const cmdGroupEditorMics As UInteger = 19
+            Public Const cmdButtonDeepSeekLLM As UInteger = 29
             Public Const cmdButtonEditorTheme As UInteger = 15
             Public Const cmdMenuEdit As UInteger = 14
             Public Const cmdGroupFile As UInteger = 12
@@ -166,6 +167,12 @@ Namespace RibbonLib.Controls
                 Return _GroupEditorMics
             End Get
         End Property
+        Private _ButtonDeepSeekLLM As RibbonButton
+        Public ReadOnly Property ButtonDeepSeekLLM As RibbonButton
+            Get
+                Return _ButtonDeepSeekLLM
+            End Get
+        End Property
         Private _ButtonEditorTheme As RibbonButton
         Public ReadOnly Property ButtonEditorTheme As RibbonButton
             Get
@@ -239,6 +246,7 @@ Namespace RibbonLib.Controls
             _ButtonEditorSymbols = New RibbonButton(_ribbon, Cmd.cmdButtonEditorSymbols)
             _ButtonEditorMiniMap = New RibbonButton(_ribbon, Cmd.cmdButtonEditorMiniMap)
             _GroupEditorMics = New RibbonGroup(_ribbon, Cmd.cmdGroupEditorMics)
+            _ButtonDeepSeekLLM = New RibbonButton(_ribbon, Cmd.cmdButtonDeepSeekLLM)
             _ButtonEditorTheme = New RibbonButton(_ribbon, Cmd.cmdButtonEditorTheme)
             _MenuEdit = New RibbonTab(_ribbon, Cmd.cmdMenuEdit)
             _GroupFile = New RibbonGroup(_ribbon, Cmd.cmdGroupFile)

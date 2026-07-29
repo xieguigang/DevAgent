@@ -37,6 +37,7 @@ namespace RibbonLib.Controls
             public const uint cmdButtonEditorSymbols = 16;
             public const uint cmdButtonEditorMiniMap = 26;
             public const uint cmdGroupEditorMics = 19;
+            public const uint cmdButtonDeepSeekLLM = 29;
             public const uint cmdButtonEditorTheme = 15;
             public const uint cmdMenuEdit = 14;
             public const uint cmdGroupFile = 12;
@@ -69,6 +70,7 @@ namespace RibbonLib.Controls
         public RibbonButton ButtonEditorSymbols { get; private set; }
         public RibbonButton ButtonEditorMiniMap { get; private set; }
         public RibbonGroup GroupEditorMics { get; private set; }
+        public RibbonButton ButtonDeepSeekLLM { get; private set; }
         public RibbonButton ButtonEditorTheme { get; private set; }
         public RibbonTab MenuEdit { get; private set; }
         public RibbonGroup GroupFile { get; private set; }
@@ -102,6 +104,7 @@ namespace RibbonLib.Controls
             ButtonEditorSymbols = new RibbonButton(ribbon, Cmd.cmdButtonEditorSymbols);
             ButtonEditorMiniMap = new RibbonButton(ribbon, Cmd.cmdButtonEditorMiniMap);
             GroupEditorMics = new RibbonGroup(ribbon, Cmd.cmdGroupEditorMics);
+            ButtonDeepSeekLLM = new RibbonButton(ribbon, Cmd.cmdButtonDeepSeekLLM);
             ButtonEditorTheme = new RibbonButton(ribbon, Cmd.cmdButtonEditorTheme);
             MenuEdit = new RibbonTab(ribbon, Cmd.cmdMenuEdit);
             GroupFile = new RibbonGroup(ribbon, Cmd.cmdGroupFile);
