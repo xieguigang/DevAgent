@@ -30,6 +30,7 @@ Public Class FormMain : Implements AppHost
             StatusStrip1.BackColor = DockPanel1.Theme.ColorPalette.MainWindowStatusBarDefault.Background
         End If
 
+        Call Workbench.LoadConfig()
         Call Workbench.StartHttp()
         Call RibbonMenu.Hook(New RibbonItems(Ribbon1), Me)
         Call CommonRuntime.Hook(Me)

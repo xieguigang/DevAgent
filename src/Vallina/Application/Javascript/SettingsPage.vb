@@ -14,11 +14,21 @@ Namespace Javascript
             Me.page = page
         End Sub
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="json">config object json</param>
+        ''' <returns></returns>
         Public Async Function SaveAndClose(json As String) As Task
             Await Save(json)
             Await page.InvokeAsync(Sub() page.Close())
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="json">config object json</param>
+        ''' <returns></returns>
         Public Async Function Save(json As String) As Task(Of Boolean)
             Dim flag As Boolean = Await Task.Run(Function() json.LoadJSON(Of ConfigJSON).Save())
             Call Workbench.LoadConfig()
