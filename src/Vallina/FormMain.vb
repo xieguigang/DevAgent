@@ -1,4 +1,5 @@
-﻿Imports Galaxy.Workbench
+﻿Imports DevAgent
+Imports Galaxy.Workbench
 Imports Microsoft.VisualStudio.WinForms.Docking
 Imports VallinaDevelopment.RibbonLib.Controls
 
@@ -109,13 +110,16 @@ Public Class FormMain : Implements AppHost
         RaiseEvent ResizeForm(Location, Size)
     End Sub
 
-    Private Sub DockPanel1_ActiveDocumentChanged(sender As Object, e As EventArgs) Handles DockPanel1.ActiveDocumentChanged
+    Private Async Sub DockPanel1_ActiveDocumentChanged(sender As Object, e As EventArgs) Handles DockPanel1.ActiveDocumentChanged
         If TypeOf DockPanel1.ActiveDocument Is FormEditor Then
-            Dim chatbox As FormLLMsTool = CommonRuntime.TryGetToolWindow("llms")
+            Dim deepseek As FormLLMsTool = CommonRuntime.TryGetToolWindow("llms")
             Dim editor As FormEditor = DirectCast(DockPanel1.ActiveDocument, FormEditor)
 
-            If Not chatbox Is Nothing Then
-                chatbox.TabText = $"LLMs Chat [{editor.codefile.FileName}]"
+            If Not deepseek Is Nothing Then
+                Await deepseek.ClearFileReference
+                Await deepseek.SetFileReference(filepath:=editor.codefile)
+
+                deepseek.TabText = $"LLMs Chat [{editor.codefile.FileName}]"
             End If
         End If
     End Sub

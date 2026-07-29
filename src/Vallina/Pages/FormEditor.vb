@@ -140,16 +140,15 @@ Public Class FormEditor
         End Using
     End Function
 
-    Private Async Function OpenDeepSeekLLMTool() As Task
+    Private Sub OpenDeepSeekLLMTool()
         Dim deepseek As FormLLMsTool = RibbonMenu.OpenLLMsChat
 
-        Await deepseek.ClearFileReference
-        Await deepseek.SetFileReference(filepath:=_codefile)
+        If Not _codefile Is Nothing Then
+            CommonRuntime.AppHost.SetTitle($"Vallina Basic [{_codefile.GetFullPath}]")
+        End If
+    End Sub
 
-        CommonRuntime.AppHost.SetTitle($"Vallina Basic [{_codefile.GetFullPath}]")
-    End Function
-
-    Private Async Function ActivateRibbon() As Task
+    Private Sub ActivateRibbon()
         Ribbon.RibbonEditor.ContextAvailable = ContextAvailability.Active
 
         Call btnSave.Addhandler(Async Sub() Await SaveCodeFile())
@@ -161,10 +160,10 @@ Public Class FormEditor
 
         Call btnMinimap.Addhandler(Async Sub() Await ToggleMinimap())
         Call btnTheme.Addhandler(Async Sub() Await ToggleTheme())
-        Call btnDeepSeek.Addhandler(Async Sub() Await OpenDeepSeekLLMTool())
+        Call btnDeepSeek.Addhandler(AddressOf OpenDeepSeekLLMTool)
 
-        Await OpenDeepSeekLLMTool()
-    End Function
+        Call OpenDeepSeekLLMTool()
+    End Sub
 
     Private Sub UnloadRibbonHook()
         Dim otherEditor As FormEditor = CommonRuntime.AppHost _
@@ -184,16 +183,16 @@ Public Class FormEditor
         DirectCast(CommonRuntime.AppHost, FormMain).ResetEditorStatus()
     End Sub
 
-    Private Async Sub FormEditor_Activated(sender As Object, e As EventArgs) Handles Me.Activated
-        Await ActivateRibbon()
+    Private Sub FormEditor_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+        ActivateRibbon()
     End Sub
 
-    Private Async Sub FormEditor_GotFocus(sender As Object, e As EventArgs) Handles Me.GotFocus
-        Await ActivateRibbon()
+    Private Sub FormEditor_GotFocus(sender As Object, e As EventArgs) Handles Me.GotFocus
+        ActivateRibbon()
     End Sub
 
-    Private Async Sub FormEditor_Shown(sender As Object, e As EventArgs) Handles Me.Shown
-        Await ActivateRibbon()
+    Private Sub FormEditor_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+        ActivateRibbon()
     End Sub
 
     Private Sub FormEditor_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
@@ -204,13 +203,5 @@ Public Class FormEditor
         Else
             Call CommonRuntime.GetOutputWindow.AddLog("close editor", "close editor for code file: " & codefile)
         End If
-    End Sub
-
-    Private Sub FormEditor_LostFocus(sender As Object, e As EventArgs) Handles Me.LostFocus
-        Call UnloadRibbonHook()
-    End Sub
-
-    Private Sub FormEditor_Deactivate(sender As Object, e As EventArgs) Handles Me.Deactivate
-        Call UnloadRibbonHook()
     End Sub
 End Class
