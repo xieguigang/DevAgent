@@ -16,7 +16,7 @@ Public Class FormSettingsPage
         Call WebView21.CoreWebView2.Navigate($"http://127.0.0.1:{Workbench.port}/settings.html")
     End Sub
 
-    Private Sub WebView21_NavigationCompleted(sender As Object, e As CoreWebView2NavigationCompletedEventArgs) Handles WebView21.NavigationCompleted
+    Private Async Sub WebView21_NavigationCompleted(sender As Object, e As CoreWebView2NavigationCompletedEventArgs) Handles WebView21.NavigationCompleted
         Dim payload = New With {
             .type = "loadConfig",
             .text = Workbench.config.GetJson,
@@ -24,6 +24,8 @@ Public Class FormSettingsPage
         }
         ' 2. 序列化为 JSON 字符串
         Dim jsonPayload As String = JsonSerializer.Serialize(payload)
+
+        Await WebView21.ExecuteScriptAsync("$('topbar').style.display = 'none';")
 
         ' 3. 通过消息通道发送（不会作为脚本执行，性能极高且安全）
         Call WebView21.CoreWebView2.PostWebMessageAsJson(jsonPayload)
