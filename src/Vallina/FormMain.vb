@@ -121,7 +121,7 @@ Public Class FormMain : Implements AppHost
                 If editor.codefile.StringEmpty(, True) Then
                     Await deepseek.SetFileReference(
                         Function()
-                            Return editor.GetCodeText.GetAwaiter.GetResult
+                            Return editor.GetCodeText
                         End Function)
                 Else
                     Await deepseek.SetFileReference(filepath:=editor.codefile)
