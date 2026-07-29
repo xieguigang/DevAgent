@@ -1,7 +1,15 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\DevAgent\\src\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{CEB7782E-585A-48F5-95B9-4C01CEAD6B0C}|..\\..\\galaxy\\src\\WebViewHelper\\WebViewHelper.shproj|g:\\galaxy\\src\\webviewhelper\\webviewloader.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\pages\\formeditor.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|solutionrelative:vallina\\pages\\formeditor.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +17,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 179,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -22,6 +30,32 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "WebViewLoader.vb",
+              "DocumentMoniker": "G:\\galaxy\\src\\WebViewHelper\\WebViewLoader.vb",
+              "RelativeDocumentMoniker": "..\\..\\galaxy\\src\\WebViewHelper\\WebViewLoader.vb",
+              "ToolTip": "G:\\galaxy\\src\\WebViewHelper\\WebViewLoader.vb",
+              "RelativeToolTip": "..\\..\\galaxy\\src\\WebViewHelper\\WebViewLoader.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-29T08:18:44.493Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FormEditor.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\Pages\\FormEditor.vb",
+              "RelativeDocumentMoniker": "Vallina\\Pages\\FormEditor.vb",
+              "ToolTip": "G:\\DevAgent\\src\\Vallina\\Pages\\FormEditor.vb",
+              "RelativeToolTip": "Vallina\\Pages\\FormEditor.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-29T08:10:04.098Z",
+              "EditorCaption": ""
             }
           ]
         },
