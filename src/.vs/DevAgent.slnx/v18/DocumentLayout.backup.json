@@ -3,6 +3,9 @@
   "WorkspaceRootPath": "G:\\DevAgent\\src\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{B1B7577A-107B-4BD8-34C1-FE08B201F2F3}|..\\..\\LLMs\\src\\WebView2UI\\WebView2UI.vbproj|g:\\llms\\src\\webview2ui\\webview2llmui.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\pages\\formeditor.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|solutionrelative:vallina\\pages\\formeditor.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
@@ -14,8 +17,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 179,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "WebView2LLMUI.vb",
+              "DocumentMoniker": "G:\\LLMs\\src\\WebView2UI\\WebView2LLMUI.vb",
+              "RelativeDocumentMoniker": "..\\..\\LLMs\\src\\WebView2UI\\WebView2LLMUI.vb",
+              "ToolTip": "G:\\LLMs\\src\\WebView2UI\\WebView2LLMUI.vb",
+              "RelativeToolTip": "..\\..\\LLMs\\src\\WebView2UI\\WebView2LLMUI.vb",
+              "ViewState": "AgIAAH4AAAAAAAAAAADwv50AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-29T12:35:18.148Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -30,13 +46,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "FormEditor.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\Pages\\FormEditor.vb",
               "RelativeDocumentMoniker": "Vallina\\Pages\\FormEditor.vb",
               "ToolTip": "G:\\DevAgent\\src\\Vallina\\Pages\\FormEditor.vb",
               "RelativeToolTip": "Vallina\\Pages\\FormEditor.vb",
-              "ViewState": "AgIAAHUAAAAAAAAAAAA3wJEAAAA3AAAAAAAAAA==",
+              "ViewState": "AgIAAHUAAAAAAAAAAAA3wI8AAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-07-29T12:21:55.114Z",
               "EditorCaption": ""
