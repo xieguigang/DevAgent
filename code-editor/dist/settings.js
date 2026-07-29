@@ -425,6 +425,9 @@ var importsConfigJSON = null;
   }
 
   function importFromJSONString(json, filename) {
+    console.log("load config from a given json string:");
+    console.log(json);
+
     try {
       var parsed = JSON.parse(json);
       settings = deepMerge(defaultSettings(), parsed);
