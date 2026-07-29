@@ -3,6 +3,9 @@
   "WorkspaceRootPath": "G:\\DevAgent\\src\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{7270DC93-2AC0-7EE4-CDAB-C7AFFC938E58}|..\\..\\galaxy\\src\\GalaxyWorkbench\\GalaxyWorkbench.vbproj|g:\\galaxy\\src\\galaxyworkbench\\commonruntime.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{CEB7782E-585A-48F5-95B9-4C01CEAD6B0C}|..\\..\\galaxy\\src\\WebViewHelper\\WebViewHelper.shproj|g:\\galaxy\\src\\webviewhelper\\webviewloader.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -34,19 +37,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "CommonRuntime.vb",
+              "DocumentMoniker": "G:\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
+              "RelativeDocumentMoniker": "..\\..\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
+              "ToolTip": "G:\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
+              "RelativeToolTip": "..\\..\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-29T08:26:00.119Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "WebViewLoader.vb",
               "DocumentMoniker": "G:\\galaxy\\src\\WebViewHelper\\WebViewLoader.vb",
               "RelativeDocumentMoniker": "..\\..\\galaxy\\src\\WebViewHelper\\WebViewLoader.vb",
               "ToolTip": "G:\\galaxy\\src\\WebViewHelper\\WebViewLoader.vb",
               "RelativeToolTip": "..\\..\\galaxy\\src\\WebViewHelper\\WebViewLoader.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEQAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-07-29T08:18:44.493Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "FormEditor.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\Pages\\FormEditor.vb",
               "RelativeDocumentMoniker": "Vallina\\Pages\\FormEditor.vb",
@@ -54,8 +70,7 @@
               "RelativeToolTip": "Vallina\\Pages\\FormEditor.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-29T08:10:04.098Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-29T08:10:04.098Z"
             }
           ]
         },
