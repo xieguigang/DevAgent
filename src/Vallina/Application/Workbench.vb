@@ -1,4 +1,5 @@
 ﻿Imports Fluteway
+Imports Ollama
 Imports VallinaDevelopment.Settings
 
 Module Workbench
@@ -21,6 +22,16 @@ Module Workbench
     Public Sub LoadConfig()
         _config = ConfigJSON.Load
     End Sub
+
+    Public Function CreateLLM() As LLMClient
+        Dim config As llm = _config.llm
+        Dim provider As ILLMProvider = LLMUrl.Create(config.endpoint, config.apiKey)
+
+        Return New LLMClient(provider, config.model) With {
+            .max_context_tokens = config.maxTokens,
+            .temperature = config.temperature
+        }
+    End Function
 
     Public Sub SaveConfig()
         _config.Save()
