@@ -12,4 +12,10 @@ Public Class FormStartPage
         Call WebView21.CoreWebView2.AddHostObjectToScript(BasePage.HostObject, New StartupPage)
         Call WebView21.CoreWebView2.Navigate($"http://127.0.0.1:{Workbench.port}/startpage.html")
     End Sub
+
+    Private Async Sub WebView21_NavigationCompleted(sender As Object, e As CoreWebView2NavigationCompletedEventArgs) Handles WebView21.NavigationCompleted
+        Await WebView21.ExecuteScriptAsync("$('footer').style.display = 'none';")
+        Await WebView21.ExecuteScriptAsync("$('statusbar').style.display = 'none';")
+        Await WebView21.ExecuteScriptAsync("$('topbar').style.display = 'none';")
+    End Sub
 End Class
