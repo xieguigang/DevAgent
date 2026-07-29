@@ -58,7 +58,7 @@
               "RelativeDocumentMoniker": "..\\..\\LLMs\\src\\WebView2UI\\LLMHost.vb",
               "ToolTip": "G:\\LLMs\\src\\WebView2UI\\LLMHost.vb",
               "RelativeToolTip": "..\\..\\LLMs\\src\\WebView2UI\\LLMHost.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAACYAAAAAAAAAAAAowCsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-07-29T13:04:01.334Z",
               "EditorCaption": ""
@@ -73,8 +73,7 @@
               "RelativeToolTip": "Vallina\\FormMain.vb",
               "ViewState": "AgIAAFAAAAAAAAAAAAAcwFYAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-29T12:57:54.531Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-29T12:57:54.531Z"
             },
             {
               "$type": "Document",
@@ -86,8 +85,7 @@
               "RelativeToolTip": "Vallina\\ApplicationEvents.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-29T12:57:50.403Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-29T12:57:50.403Z"
             },
             {
               "$type": "Document",
@@ -99,8 +97,7 @@
               "RelativeToolTip": "Vallina\\ToolWindow\\FormSolutionExplorer.vb",
               "ViewState": "AgIAAAkAAAAAAAAAAAAiwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-29T12:57:36.548Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-29T12:57:36.548Z"
             },
             {
               "$type": "Document",
@@ -112,8 +109,7 @@
               "RelativeToolTip": "Vallina\\ToolWindow\\FormLLMsTool.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-29T12:42:35.55Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-29T12:42:35.55Z"
             },
             {
               "$type": "Document",
@@ -125,8 +121,7 @@
               "RelativeToolTip": "..\\..\\LLMs\\src\\WebView2UI\\WebView2LLMUI.vb",
               "ViewState": "AgIAAIQAAAAAAAAAAAAYwI0AAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-29T12:35:18.148Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-29T12:35:18.148Z"
             },
             {
               "$type": "Document",
@@ -138,8 +133,7 @@
               "RelativeToolTip": "Vallina\\Pages\\FormEditor.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwAcAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-29T12:21:55.114Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-07-29T12:21:55.114Z"
             }
           ]
         },
