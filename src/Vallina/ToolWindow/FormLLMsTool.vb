@@ -3,7 +3,12 @@
 Public Class FormLLMsTool
 
     Private Sub FormLLMsTool_Load(sender As Object, e As EventArgs) Handles Me.Load
-        WebView2llmui1.SetHost(Workbench.CreateLLM)
+        WebView2llmui1.SetHost(Workbench.CreateLLM,
+            callback:=Sub(res)
+                          CommonRuntime.GetOutputWindow.AppendLine($"<think>{res.think}</think>" & vbCrLf & vbCrLf)
+                          CommonRuntime.GetOutputWindow.AppendLine(res.output)
+                      End Sub)
+
         CommonRuntime.GetOutputWindow.AddLog("open llm", "load llm model: " & WebView2llmui1.llm)
     End Sub
 
