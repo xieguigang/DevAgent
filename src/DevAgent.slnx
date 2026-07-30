@@ -93,9 +93,6 @@
   <Project Path="LanguageServer/LanguageServer.vbproj" Id="9cdfc7c0-db7a-49be-8c6a-52bfbfb38a16">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
-  <Project Path="LanguageServer/test/test.vbproj" Id="49dd1f9c-ae3a-45fe-a4d4-43d8bcbb7f97">
-    <Platform Solution="Release|x64" Project="x64" />
-  </Project>
   <Project Path="Vallina/Vallina.vbproj" Id="0e76aaa3-11dc-4e81-b752-0345354da17c">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
