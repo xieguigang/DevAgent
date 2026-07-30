@@ -24,6 +24,7 @@ Public Class FormSolutionExplorer
         TabText = $"Project Explorer [{ProjectFile.FileName}]"
         proj = VBProject.Load(ProjectFile)
 
+        Call RibbonMenu.OpenLLMsChat.Clear()
         Call LoadProjectFileTree()
     End Sub
 

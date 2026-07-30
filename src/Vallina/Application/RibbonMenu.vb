@@ -47,6 +47,10 @@ Module RibbonMenu
         Call DirectCast(CommonRuntime.AppHost, Form).Invoke(Sub() CommonRuntime.ShowDocument(Of FormEditor)(title:=filepath.FileName).SetCodeFile(filepath))
     End Sub
 
+    ''' <summary>
+    ''' request open the llm chatbox
+    ''' </summary>
+    ''' <returns></returns>
     Public Function OpenLLMsChat() As FormLLMsTool
         Dim chatbox As FormLLMsTool = CommonRuntime.TryGetToolWindow("llms")
 

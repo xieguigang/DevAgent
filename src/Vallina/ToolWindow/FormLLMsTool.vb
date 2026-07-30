@@ -25,7 +25,14 @@ Public Class FormLLMsTool
                           CommonRuntime.GetOutputWindow.AppendLine(res.output)
                       End Sub)
 
-        CommonRuntime.GetOutputWindow.AddLog("open llm", "load llm model: " & WebView2llmui1.llm)
+        CommonRuntime.GetOutputWindow.AddLog("open llm", "load llm model: " & WebView2llmui1.modelId)
+    End Sub
+
+    ''' <summary>
+    ''' Clear the LLM memory context
+    ''' </summary>
+    Public Sub Clear()
+        Call WebView2llmui1.llm.Clear()
     End Sub
 
     Public Async Function SetFileReference(filepath As String) As Task
