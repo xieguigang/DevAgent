@@ -55,20 +55,34 @@ Public Class FormSolutionExplorer
         Call RibbonMenu.OpenFileEdit($"{Workspace}/{node.FullName}".GetFullPath)
     End Sub
 
+    ''' <summary>
+    ''' open source file
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
     Private Sub OpenToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenToolStripMenuItem.Click
-        Dim node = TreeView1.SelectedNode
+        Dim sourceFile As String = GetRequestSourceFile()
+
+        If Not sourceFile.StringEmpty(, True) Then
+            Call RibbonMenu.OpenFileEdit(sourceFile)
+        End If
+    End Sub
+
+    Public Function GetRequestSourceFile() As String
+        Dim node As TreeNode = TreeView1.SelectedNode
 
         If node Is Nothing Then
-            Return
+            Return Nothing
         End If
 
         Dim file As FileSystemTree = node.Tag
 
         If file.IsDirectory Then
+            Return Nothing
         Else
-            Call RibbonMenu.OpenFileEdit($"{Workspace}/{ file.FullName}".GetFullPath)
+            Return $"{Workspace}/{ file.FullName}".GetFullPath
         End If
-    End Sub
+    End Function
 
     ''' <summary>
     ''' open llm agent
@@ -103,6 +117,18 @@ Public Class FormSolutionExplorer
 
         If gitdiff IsNot Nothing Then
             Call InputDialog.ShowDialog(viewer)
+        End If
+    End Sub
+
+    Private Async Sub LLMExplainToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LLMExplainToolStripMenuItem.Click
+        Dim sourceFile As String = GetRequestSourceFile()
+
+        If Not sourceFile.StringEmpty(, True) Then
+            Dim llmbox = RibbonMenu.OpenLLMsChat
+
+            Await llmbox.ClearFileReference()
+            Await llmbox.SetFileReference(sourceFile)
+            Await llmbox.SendMessage(promptText:="请帮助我理解当前的这个源代码：解释代码所实现的功能，以及该功能是如何实现的？")
         End If
     End Sub
 End Class

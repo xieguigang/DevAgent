@@ -35,6 +35,10 @@ Public Class FormLLMsTool
         Call WebView2llmui1.llm.Clear()
     End Sub
 
+    Public Async Function SendMessage(promptText As String) As Task(Of LLMsResponse)
+        Return Await WebView2llmui1.SendMessage(promptText)
+    End Function
+
     Public Async Function SetFileReference(filepath As String) As Task
         tools.SetWorkspace(filepath.ParentPath.GetDirectoryFullPath)
         Await WebView2llmui1.SetFileReference(filepath)
