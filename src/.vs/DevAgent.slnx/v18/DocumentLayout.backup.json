@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "G:\\DevAgent\\src\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\application\\workbench.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|solutionrelative:vallina\\application\\workbench.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{9CDFC7C0-DB7A-49BE-8C6A-52BFBFB38A16}|LanguageServer\\LanguageServer.vbproj|g:\\devagent\\src\\languageserver\\httpservices.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{9CDFC7C0-DB7A-49BE-8C6A-52BFBFB38A16}|LanguageServer\\LanguageServer.vbproj|solutionrelative:languageserver\\httpservices.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
@@ -36,7 +40,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 123,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -52,7 +56,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
+              "Title": "Workbench.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\Application\\Workbench.vb",
+              "RelativeDocumentMoniker": "Vallina\\Application\\Workbench.vb",
+              "ToolTip": "G:\\DevAgent\\src\\Vallina\\Application\\Workbench.vb",
+              "RelativeToolTip": "Vallina\\Application\\Workbench.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-30T15:49:55.952Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "Interop.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\Interop.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\Interop.vb",
@@ -65,20 +82,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "HttpServices.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\LanguageServer\\HttpServices.vb",
               "RelativeDocumentMoniker": "LanguageServer\\HttpServices.vb",
               "ToolTip": "G:\\DevAgent\\src\\LanguageServer\\HttpServices.vb",
               "RelativeToolTip": "LanguageServer\\HttpServices.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAwAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-07-30T15:48:05.957Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "HttpServices.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\HttpServices.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\src\\runtime\\httpd\\src\\HTTP_SERVER\\HttpServices.vb",
@@ -91,7 +108,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "LanguageServer.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\LanguageServer\\LanguageServer.vb",
               "RelativeDocumentMoniker": "LanguageServer\\LanguageServer.vb",
@@ -104,7 +121,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Interop.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\LanguageServer\\Interop.vb",
               "RelativeDocumentMoniker": "LanguageServer\\Interop.vb",
@@ -117,7 +134,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "Program.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\LanguageServer\\Program.vb",
               "RelativeDocumentMoniker": "LanguageServer\\Program.vb",
@@ -130,7 +147,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "Services.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\LanguageServer\\Services.vb",
               "RelativeDocumentMoniker": "LanguageServer\\Services.vb",
