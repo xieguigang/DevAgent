@@ -72,4 +72,22 @@ Public Class FormSolutionExplorer
     Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
         Call RibbonMenu.LaunchLLMAgent(Workspace)
     End Sub
+
+    Private Sub CopyFilePathToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CopyFilePathToolStripMenuItem.Click
+        Dim node = TreeView1.SelectedNode
+
+        If node Is Nothing Then
+            Return
+        End If
+
+        Dim file As FileSystemTree = node.Tag
+        Dim fullname As String = Workspace & "/" & file.FullName
+
+        Call Clipboard.SetText(fullname.GetFullPath)
+    End Sub
+
+    Private Sub ToolStripButton3_Click(sender As Object, e As EventArgs) Handles ToolStripButton3.Click
+        proj = VBProject.Load(ProjectFile)
+        LoadProjectFileTree()
+    End Sub
 End Class
