@@ -50,7 +50,7 @@ Module Program
         ' --- REPL 模式：无参数或 --repl ---
         Dim isRepl As Boolean = args.Length = 0 OrElse opt.repl
         If isRepl Then
-            Return Await RunRepl(config)
+            Return Await RunRepl(config, opt)
         End If
 
         ' --- 验证 CLI 参数 ---
@@ -113,7 +113,7 @@ Module Program
     ''' <summary>
     ''' 启动 REPL 交互模式。工作区为当前工作目录。
     ''' </summary>
-    Private Async Function RunRepl(config As AppConfig) As Task(Of Integer)
+    Private Async Function RunRepl(config As AppConfig, opt As Opts) As Task(Of Integer)
         Console.WriteLine("=== DevAgent REPL Configuration ===")
         Console.WriteLine($"  INI:          {config.IniPath} ({If(config.IniExists, "loaded", "not found")})")
         Console.WriteLine(config.SourceBanner)
@@ -129,7 +129,7 @@ Module Program
         End Try
 
         Dim logger As Action(Of String) = AddressOf Console.WriteLine
-        Dim workspace As String = Environment.CurrentDirectory
+        Dim workspace As String = If(opt.projectPath, App.CurrentDirectory)
 
         Using ollama
             Dim session As New ReplSession(ollama, workspace, logger)

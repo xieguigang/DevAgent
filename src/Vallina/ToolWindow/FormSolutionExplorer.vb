@@ -64,7 +64,12 @@ Public Class FormSolutionExplorer
         End If
     End Sub
 
+    ''' <summary>
+    ''' open llm agent
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
     Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
-
+        Call RibbonMenu.LaunchLLMAgent(Workspace)
     End Sub
 End Class
