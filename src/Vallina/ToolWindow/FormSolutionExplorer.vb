@@ -1,6 +1,8 @@
 ﻿Imports Galaxy.Workbench
+Imports Galaxy.Workbench.CommonDialogs
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj
+Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VersionControl.Git
 
 Public Class FormSolutionExplorer
 
@@ -89,5 +91,11 @@ Public Class FormSolutionExplorer
     Private Sub ToolStripButton3_Click(sender As Object, e As EventArgs) Handles ToolStripButton3.Click
         proj = VBProject.Load(ProjectFile)
         LoadProjectFileTree()
+    End Sub
+
+    Private Sub ToolStripButton4_Click(sender As Object, e As EventArgs) Handles ToolStripButton4.Click
+        ' Dim gitdiff As DiffResult = diff.GetDiff(Workspace)
+
+        Call InputDialog.Input(Of FormGitDiff)()
     End Sub
 End Class
