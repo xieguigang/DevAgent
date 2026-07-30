@@ -13,7 +13,7 @@ Public Module SyntaxFormater
         Dim root = Await syntaxTree.GetRootAsync()
         Dim formattedRoot = Formatter.Format(root, workspace)
 
-        sourceCode = formattedRoot.ToString
+        sourceCode = formattedRoot.ToFullString
 
         Return sourceCode
     End Function
