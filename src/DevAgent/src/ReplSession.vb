@@ -156,6 +156,7 @@ Public Class ReplSession
         Console.WriteLine("  /clear, /reset Clear conversation context")
         Console.WriteLine("  /cwd           Show current workspace path")
         Console.WriteLine("  /tree [/]      Show workspace file tree, default list the file tree of the workspace root.")
+        Console.WriteLine("  /summary [/]   Show summary of the workspace file edit result.")
         Console.WriteLine("  /help, /?      Show this help")
         Console.WriteLine()
         Console.WriteLine("Otherwise: type a natural-language request and press Enter.")
