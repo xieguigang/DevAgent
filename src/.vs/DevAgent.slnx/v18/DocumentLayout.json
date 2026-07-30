@@ -3,35 +3,8 @@
   "WorkspaceRootPath": "G:\\DevAgent\\src\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7270DC93-2AC0-7EE4-CDAB-C7AFFC938E58}|..\\..\\galaxy\\src\\GalaxyWorkbench\\GalaxyWorkbench.vbproj|g:\\galaxy\\src\\galaxyworkbench\\utils\\tools.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\formmain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|solutionrelative:vallina\\formmain.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7270DC93-2AC0-7EE4-CDAB-C7AFFC938E58}|..\\..\\galaxy\\src\\GalaxyWorkbench\\GalaxyWorkbench.vbproj|g:\\galaxy\\src\\galaxyworkbench\\utils\\treeviewhelper.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7270DC93-2AC0-7EE4-CDAB-C7AFFC938E58}|..\\..\\galaxy\\src\\GalaxyWorkbench\\GalaxyWorkbench.vbproj|g:\\galaxy\\src\\galaxyworkbench\\utils\\tablevaluecopy.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7270DC93-2AC0-7EE4-CDAB-C7AFFC938E58}|..\\..\\galaxy\\src\\GalaxyWorkbench\\GalaxyWorkbench.vbproj|g:\\galaxy\\src\\galaxyworkbench\\idatatableviewer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7270DC93-2AC0-7EE4-CDAB-C7AFFC938E58}|..\\..\\galaxy\\src\\GalaxyWorkbench\\GalaxyWorkbench.vbproj|g:\\galaxy\\src\\galaxyworkbench\\languages.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7270DC93-2AC0-7EE4-CDAB-C7AFFC938E58}|..\\..\\galaxy\\src\\GalaxyWorkbench\\GalaxyWorkbench.vbproj|g:\\galaxy\\src\\galaxyworkbench\\commonruntime.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7270DC93-2AC0-7EE4-CDAB-C7AFFC938E58}|..\\..\\galaxy\\src\\GalaxyWorkbench\\GalaxyWorkbench.vbproj|g:\\galaxy\\src\\galaxyworkbench\\workstudio.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7270DC93-2AC0-7EE4-CDAB-C7AFFC938E58}|..\\..\\galaxy\\src\\GalaxyWorkbench\\GalaxyWorkbench.vbproj|g:\\galaxy\\src\\galaxyworkbench\\apphost.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7270DC93-2AC0-7EE4-CDAB-C7AFFC938E58}|..\\..\\galaxy\\src\\GalaxyWorkbench\\GalaxyWorkbench.vbproj|g:\\galaxy\\src\\galaxyworkbench\\applicationevents.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|g:\\devagent\\src\\devagent\\devagent.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|solutionrelative:devagent\\devagent.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -41,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 123,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -57,132 +30,14 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "FormMain.vb",
-              "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\FormMain.vb",
-              "RelativeDocumentMoniker": "Vallina\\FormMain.vb",
-              "ToolTip": "G:\\DevAgent\\src\\Vallina\\FormMain.vb",
-              "RelativeToolTip": "Vallina\\FormMain.vb",
-              "ViewState": "AgIAAEQAAAAAAAAAAAAQwGcAAAAvAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T15:32:54.973Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "TreeViewHelper.vb",
-              "DocumentMoniker": "G:\\galaxy\\src\\GalaxyWorkbench\\Utils\\TreeViewHelper.vb",
-              "RelativeDocumentMoniker": "..\\..\\galaxy\\src\\GalaxyWorkbench\\Utils\\TreeViewHelper.vb",
-              "ToolTip": "G:\\galaxy\\src\\GalaxyWorkbench\\Utils\\TreeViewHelper.vb",
-              "RelativeToolTip": "..\\..\\galaxy\\src\\GalaxyWorkbench\\Utils\\TreeViewHelper.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADMAAAA1AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T15:31:51.117Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "IDataTableViewer.vb",
-              "DocumentMoniker": "G:\\galaxy\\src\\GalaxyWorkbench\\IDataTableViewer.vb",
-              "RelativeDocumentMoniker": "..\\..\\galaxy\\src\\GalaxyWorkbench\\IDataTableViewer.vb",
-              "ToolTip": "G:\\galaxy\\src\\GalaxyWorkbench\\IDataTableViewer.vb",
-              "RelativeToolTip": "..\\..\\galaxy\\src\\GalaxyWorkbench\\IDataTableViewer.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T15:31:38.212Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Languages.vb",
-              "DocumentMoniker": "G:\\galaxy\\src\\GalaxyWorkbench\\Languages.vb",
-              "RelativeDocumentMoniker": "..\\..\\galaxy\\src\\GalaxyWorkbench\\Languages.vb",
-              "ToolTip": "G:\\galaxy\\src\\GalaxyWorkbench\\Languages.vb",
-              "RelativeToolTip": "..\\..\\galaxy\\src\\GalaxyWorkbench\\Languages.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T15:31:35.485Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "TableValueCopy.vb",
-              "DocumentMoniker": "G:\\galaxy\\src\\GalaxyWorkbench\\Utils\\TableValueCopy.vb",
-              "RelativeDocumentMoniker": "..\\..\\galaxy\\src\\GalaxyWorkbench\\Utils\\TableValueCopy.vb",
-              "ToolTip": "G:\\galaxy\\src\\GalaxyWorkbench\\Utils\\TableValueCopy.vb",
-              "RelativeToolTip": "..\\..\\galaxy\\src\\GalaxyWorkbench\\Utils\\TableValueCopy.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T15:31:18.791Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "CommonRuntime.vb",
-              "DocumentMoniker": "G:\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
-              "RelativeDocumentMoniker": "..\\..\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
-              "ToolTip": "G:\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
-              "RelativeToolTip": "..\\..\\galaxy\\src\\GalaxyWorkbench\\CommonRuntime.vb",
-              "ViewState": "AgIAACcBAAAAAAAAAAA1wAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T15:29:53.575Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Tools.vb",
-              "DocumentMoniker": "G:\\galaxy\\src\\GalaxyWorkbench\\Utils\\Tools.vb",
-              "RelativeDocumentMoniker": "..\\..\\galaxy\\src\\GalaxyWorkbench\\Utils\\Tools.vb",
-              "ToolTip": "G:\\galaxy\\src\\GalaxyWorkbench\\Utils\\Tools.vb",
-              "RelativeToolTip": "..\\..\\galaxy\\src\\GalaxyWorkbench\\Utils\\Tools.vb",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAiwDIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T15:29:42.432Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "WorkStudio.vb",
-              "DocumentMoniker": "G:\\galaxy\\src\\GalaxyWorkbench\\WorkStudio.vb",
-              "RelativeDocumentMoniker": "..\\..\\galaxy\\src\\GalaxyWorkbench\\WorkStudio.vb",
-              "ToolTip": "G:\\galaxy\\src\\GalaxyWorkbench\\WorkStudio.vb",
-              "RelativeToolTip": "..\\..\\galaxy\\src\\GalaxyWorkbench\\WorkStudio.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T15:29:36.766Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "AppHost.vb",
-              "DocumentMoniker": "G:\\galaxy\\src\\GalaxyWorkbench\\AppHost.vb",
-              "RelativeDocumentMoniker": "..\\..\\galaxy\\src\\GalaxyWorkbench\\AppHost.vb",
-              "ToolTip": "G:\\galaxy\\src\\GalaxyWorkbench\\AppHost.vb",
-              "RelativeToolTip": "..\\..\\galaxy\\src\\GalaxyWorkbench\\AppHost.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T15:29:34.574Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "ApplicationEvents.vb",
-              "DocumentMoniker": "G:\\galaxy\\src\\GalaxyWorkbench\\ApplicationEvents.vb",
-              "RelativeDocumentMoniker": "..\\..\\galaxy\\src\\GalaxyWorkbench\\ApplicationEvents.vb",
-              "ToolTip": "G:\\galaxy\\src\\GalaxyWorkbench\\ApplicationEvents.vb",
-              "RelativeToolTip": "..\\..\\galaxy\\src\\GalaxyWorkbench\\ApplicationEvents.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T15:29:32.388Z",
+              "Title": "DevAgent",
+              "DocumentMoniker": "G:\\DevAgent\\src\\DevAgent\\DevAgent.vbproj",
+              "RelativeDocumentMoniker": "DevAgent\\DevAgent.vbproj",
+              "ToolTip": "G:\\DevAgent\\src\\DevAgent\\DevAgent.vbproj",
+              "RelativeToolTip": "DevAgent\\DevAgent.vbproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2026-07-30T15:37:55.942Z",
               "EditorCaption": ""
             }
           ]
