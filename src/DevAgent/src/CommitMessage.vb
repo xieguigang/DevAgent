@@ -2,6 +2,7 @@ Imports System
 Imports System.Linq
 Imports System.Text
 Imports System.Threading.Tasks
+Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VersionControl.Git
 Imports Microsoft.VisualBasic.Language
 Imports Ollama
 Imports VersionControl.Git
@@ -107,10 +108,10 @@ Namespace DevAgent
                         For Each line As DiffLine In hunk.Lines
                             Call sb.AppendLine(line.ToString())
                         Next
-                    Next
-            Next
+                    End If
+                Next
 
-            Call sb.AppendLine()
+                Call sb.AppendLine()
             Next
 
             Dim text As String = sb.ToString().Trim()
