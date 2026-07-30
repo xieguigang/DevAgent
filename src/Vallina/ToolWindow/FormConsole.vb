@@ -5,6 +5,6 @@
     End Sub
 
     Private Sub ConsoleControl1_ProcessExisted() Handles ConsoleControl1.ProcessExisted
-        Me.Close()
+        Call Invoke(Sub() Me.Close())
     End Sub
 End Class
