@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.InteropServices
+Imports Galaxy.Workbench
 
 Namespace Javascript
 
@@ -20,15 +21,26 @@ Namespace Javascript
         End Function
 
         Public Async Function openLLMAgent() As Task
-            Await Task.Run(Sub() Call RibbonMenu.LaunchLLMAgent())
+            Using wd As New FolderBrowserDialog With {.ShowNewFolderButton = True}
+                If wd.ShowDialog = DialogResult.OK Then
+                    Await Task.Run(Sub() Call RibbonMenu.LaunchLLMAgent(wd.SelectedPath))
+                End If
+            End Using
         End Function
 
         Public Async Function newDocument() As Task
-
+            Await Task.Run(
+                Sub()
+                    Call DirectCast(CommonRuntime.AppHost, Form).Invoke(Sub() Call RibbonMenu.OpenEditor())
+                End Sub)
         End Function
 
         Public Async Function openDocument() As Task
-
+            Using file As New OpenFileDialog With {.Filter = "VisualBasic(*.vb);Rscript(*.r)|*.vb;*.r"}
+                If file.ShowDialog = DialogResult.OK Then
+                    Await Task.Run(Sub() Call RibbonMenu.OpenFileEdit(file.FileName))
+                End If
+            End Using
         End Function
 
         Public Async Function newProject() As Task

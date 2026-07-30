@@ -44,7 +44,7 @@ Module RibbonMenu
     End Sub
 
     Public Sub OpenFileEdit(filepath As String)
-        Call CommonRuntime.ShowDocument(Of FormEditor)(title:=filepath.FileName).SetCodeFile(filepath)
+        Call DirectCast(CommonRuntime.AppHost, Form).Invoke(Sub() CommonRuntime.ShowDocument(Of FormEditor)(title:=filepath.FileName).SetCodeFile(filepath))
     End Sub
 
     Public Function OpenLLMsChat() As FormLLMsTool
@@ -85,8 +85,13 @@ Module RibbonMenu
         Call OpenLLMsChat()
     End Sub
 
-    Public Sub LaunchLLMAgent()
-        Call DirectCast(CommonRuntime.AppHost, Form).Invoke(Sub() CommonRuntime.ShowDocument(Of FormLLMsAgent)(title:="LLM DevAgent"))
+    Public Sub LaunchLLMAgent(wd As String)
+        Dim agent As New FormLLMsAgent With {.Workspace = wd}
+        Dim host As Form = DirectCast(CommonRuntime.AppHost, Form)
+        Dim panel As DockPanel = DirectCast(CommonRuntime.AppHost.GetDockPanel, DockPanel)
+
+        agent.Show(panel, DockState.Document)
+        agent.TabText = $"LLM DevAgent [{wd}]"
     End Sub
 
     Public Sub OpenAboutPage()

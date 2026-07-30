@@ -2,6 +2,8 @@
 
 Public Class FormLLMsAgent
 
+    Public Property Workspace As String
+
     Private Sub FormLLMsAgent_Load(sender As Object, e As EventArgs) Handles Me.Load
         Dim llmconfig = Workbench.config.llm
         Dim config As New DevAgent.AppConfig With {
