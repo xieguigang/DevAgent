@@ -2,6 +2,8 @@ Imports System.IO
 Imports System.Text
 Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.MIME.application.json
 
 ' 注意: ArgumentAttribute 来自你的 Ollama 模块，请根据实际命名空间添加 Imports
 
@@ -121,7 +123,9 @@ Public Class AgentTools
 
             For Each file As String In files
                 ' Skip bin/obj/.git directories
-                If ContainsExcludedPath(file) Then Continue For
+                If ContainsExcludedPath(file) Then
+                    Continue For
+                End If
 
                 Dim lines() As String = file.ReadAllLines
                 For i As Integer = 0 To lines.Length - 1
@@ -144,9 +148,8 @@ Public Class AgentTools
     <Description("Get a tree view of all source files in the project, excluding bin/obj/.git/test directories. Returns the project structure as an indented tree.")>
     Public Function get_project_tree() As String
         Try
-            Dim sb As New StringBuilder()
-            BuildTree(_basePath, "", sb)
-            Return If(sb.Length > 0, sb.ToString().TrimEnd(), "(empty project)")
+            Dim json As String = BuildTree(_basePath, indent:=True)
+            Return If(json.Length > 0, json, "(empty project)")
         Catch ex As Exception
             Return $"Error getting project tree: {ex.Message}"
         End Try
@@ -186,27 +189,25 @@ Public Class AgentTools
     ' 私有辅助方法
     ' -------------------------------------------------------------------
 
-    Private Sub BuildTree(dir As String, indent As String, sb As StringBuilder)
-        Dim dirs() As String = Directory.GetDirectories(dir)
-        Dim files() As String = Directory.GetFiles(dir)
+    Private Function BuildTree(dir As String, indent As Boolean) As String
+        Dim dirpath As String = dir.GetDirectoryFullPath
+        Dim files As String() = dir.ListFiles() _
+            .Select(Function(file) "/" & file.GetFullPath.Replace(dirpath, "")) _
+            .Where(Function(path) Not ShouldSkip(path)) _
+            .ToArray
 
-        For Each d As String In dirs
-            Dim name As String = Path.GetFileName(d)
-            If ShouldSkip(name) Then Continue For
+        If files.IsNullOrEmpty Then
+            Return ""
+        End If
 
-            sb.AppendLine(indent & "[DIR]  " & name & "/")
-            BuildTree(d, indent & "  ", sb)
-        Next
+        Dim fs As FileSystemTree = FileSystemTree.BuildTree(files)
+        Dim json As VirtualFile = fs.ToJSONModel
 
-        For Each f As String In files
-            Dim name As String = Path.GetFileName(f)
-            If name.StartsWith(".") Then Continue For
-            sb.AppendLine(indent & "[FILE] " & name)
-        Next
-    End Sub
+        Return json.CreateJSONElement().BuildJsonString(indent:=indent)
+    End Function
 
-    Private Function ShouldSkip(name As String) As Boolean
-        Return name.StartsWith(".") OrElse name = "bin" OrElse name = "obj" OrElse name = "test"
+    Private Function ShouldSkip(path As String) As Boolean
+        Return path.Replace("\", "/").Split("/"c).Any(Function(name) name.StartsWith(".") OrElse name = "bin" OrElse name = "obj" OrElse name = "test")
     End Function
 
     Private Function ContainsExcludedPath(fullPath As String) As Boolean
