@@ -1,4 +1,5 @@
 Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VersionControl.Git
 Imports Ollama
 
 ''' <summary>
@@ -57,7 +58,7 @@ Public Module CommitMessageGenerator
             Throw New ArgumentException("工作区路径不能为空", NameOf(workspace))
         End If
 
-        Dim diffResult As VersionControl.Git.DiffResult = VersionControl.Git.diff.GetDiff(workspace, cached)
+        Dim diffResult As DiffResult = diff.GetDiff(workspace, cached)
 
         If diffResult Is Nothing OrElse diffResult.Files.IsNullOrEmpty Then
             Throw New InvalidOperationException("工作区无尚未提交的改动，无法生成 commit 信息")
@@ -82,10 +83,10 @@ Public Module CommitMessageGenerator
     ''' <summary>
     ''' 将结构化的 <see cref="DiffResult"/> 渲染为可读的文本差异（含文件变更类型与各 hunk 的增删内容）。
     ''' </summary>
-    Private Function RenderDiff(result As VersionControl.Git.DiffResult) As String
+    Private Function RenderDiff(result As DiffResult) As String
         Dim sb As New StringBuilder
 
-        For Each file As VersionControl.Git.FileChange In result.Files
+        For Each file As FileChange In result.Files
             Call sb.AppendLine($"{file.ChangeKind}: {file.FilePath}")
 
             If file.Hunks Is Nothing Then
@@ -93,11 +94,11 @@ Public Module CommitMessageGenerator
                 Continue For
             End If
 
-            For Each hunk As VersionControl.Git.DiffHunk In file.Hunks
+            For Each hunk As DiffHunk In file.Hunks
                 Call sb.AppendLine($"@@ -{hunk.OldStart},{hunk.OldCount} +{hunk.NewStart},{hunk.NewCount} @@")
 
                 If hunk.Lines IsNot Nothing Then
-                    For Each line As VersionControl.Git.DiffLine In hunk.Lines
+                    For Each line As DiffLine In hunk.Lines
                         Call sb.AppendLine(line.ToString())
                     Next
                 End If
