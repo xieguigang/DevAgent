@@ -11,7 +11,7 @@ Public Module SyntaxFormater
         Dim syntaxTree = VisualBasicSyntaxTree.ParseText(sourceCode)
         ' 获取格式化后的语法树根节点
         Dim root = Await syntaxTree.GetRootAsync()
-        Dim formattedRoot = Formatter.Format(root, workspace)
+        Dim formattedRoot = Formatter.Format(root, workspace).NormalizeWhitespace("    ", Environment.NewLine)
 
         sourceCode = formattedRoot.ToFullString
 

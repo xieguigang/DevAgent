@@ -18,21 +18,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 123,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "SyntaxFormater.vb",
-              "DocumentMoniker": "G:\\DevAgent\\src\\DevAgent\\src\\SyntaxFormater.vb",
-              "RelativeDocumentMoniker": "DevAgent\\src\\SyntaxFormater.vb",
-              "ToolTip": "G:\\DevAgent\\src\\DevAgent\\src\\SyntaxFormater.vb",
-              "RelativeToolTip": "DevAgent\\src\\SyntaxFormater.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T17:25:12.196Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -47,13 +34,26 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SyntaxFormater.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\DevAgent\\src\\SyntaxFormater.vb",
+              "RelativeDocumentMoniker": "DevAgent\\src\\SyntaxFormater.vb",
+              "ToolTip": "G:\\DevAgent\\src\\DevAgent\\src\\SyntaxFormater.vb",
+              "RelativeToolTip": "DevAgent\\src\\SyntaxFormater.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-30T17:25:12.196Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
               "Title": "FormEditor.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\Pages\\FormEditor.vb",
               "RelativeDocumentMoniker": "Vallina\\Pages\\FormEditor.vb",
               "ToolTip": "G:\\DevAgent\\src\\Vallina\\Pages\\FormEditor.vb",
               "RelativeToolTip": "Vallina\\Pages\\FormEditor.vb",
-              "ViewState": "AgIAAKkAAAAAAAAAAADgv8cAAAAkAAAAAAAAAA==",
+              "ViewState": "AgIAAKkAAAAAAAAAAADgv8YAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-07-30T16:59:22.697Z",
               "EditorCaption": ""
