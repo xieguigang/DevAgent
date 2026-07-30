@@ -17,10 +17,13 @@ Public Class FormSolutionExplorer
     Dim proj As VBProject
 
     Private Sub FormSolutionExplorer_Load(sender As Object, e As EventArgs) Handles Me.Load
+        Call ApplyVsTheme(ToolStrip1, ContextMenuStrip1)
+    End Sub
+
+    Public Sub Reload()
         TabText = $"Project Explorer [{ProjectFile.FileName}]"
         proj = VBProject.Load(ProjectFile)
 
-        Call ApplyVsTheme(ToolStrip1, ContextMenuStrip1)
         Call LoadProjectFileTree()
     End Sub
 
@@ -94,9 +97,11 @@ Public Class FormSolutionExplorer
     End Sub
 
     Private Sub ToolStripButton4_Click(sender As Object, e As EventArgs) Handles ToolStripButton4.Click
-        Dim gitdiff As DiffResult = diff.GetDiff(Workspace)
+        Dim gitdiff As DiffResult = TaskProgress.LoadData(Function(p As ITaskProgress) diff.GetDiff(Workspace), title:="Git diff", info:="Run git diff for get code edit different details.", canbeCancel:=True, host:=Me)
         Dim viewer As New FormGitDiff With {.GitDiff = gitdiff}
 
-        Call InputDialog.ShowDialog(viewer)
+        If gitdiff IsNot Nothing Then
+            Call InputDialog.ShowDialog(viewer)
+        End If
     End Sub
 End Class

@@ -67,9 +67,12 @@ Module RibbonMenu
                 .Name = "solution_explorer",
                 .ProjectFile = proj
             }
+        Else
+            explorer.ProjectFile = proj
         End If
 
         Call DirectCast(CommonRuntime.AppHost, Form).Invoke(Sub() CommonRuntime.RegisterToolWindow(explorer, DockState.DockRightAutoHide))
+        Call explorer.Reload()
     End Sub
 
     Public Sub OpenLicenseDialog()

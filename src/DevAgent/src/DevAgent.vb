@@ -35,6 +35,9 @@ Public Class DevAgent
     ' --- 字段 ---
 
     Private ReadOnly _ollama As LLMClient
+    ''' <summary>
+    ''' the project workspace folder path
+    ''' </summary>
     Private ReadOnly _projectPath As String
     Private ReadOnly _requirements As String
     Private ReadOnly _options As DevAgentOptions

@@ -22,6 +22,8 @@ Public Class ReplSession
     Private ReadOnly _workspace As String
     Private ReadOnly _tools As AgentTools
 
+    Dim git_diff As CommitSummary
+
     ''' <param name="ollama">已配置的 LLMClient（preserveMemory 默认开启）。</param>
     ''' <param name="workspace">工作区绝对路径（当前工作目录）。</param>
     ''' <param name="logger">可选日志回调，用于工具动作反馈。</param>
@@ -119,11 +121,17 @@ Public Class ReplSession
                 Dim dirname As String = parts.Skip(1).JoinBy("/")
                 dirname = If(dirname = "", "/", dirname)
                 dirname = _workspace & "/" & dirname
-                Dim msg = CommitMessageGenerator.GenerateCommitMessage(_ollama, dirname).GetAwaiter.GetResult
+                git_diff = CommitMessageGenerator.GenerateCommitMessage(_ollama, dirname).GetAwaiter.GetResult
 
-                Call Console.WriteLine(msg.Summary)
-                Call Console.WriteLine(New String("-"c, Strings.Len(msg.Summary)))
-                Call Console.WriteLine(msg.Description)
+            Case "/commit"
+
+                If git_diff Is Nothing Then
+                    Console.Error.WriteLine("no git commit message information, run '/summary' command at first!")
+                    Console.Error.Flush()
+                Else
+
+                    git_diff = Nothing
+                End If
 
             Case "/help", "/?"
                 PrintHelp()

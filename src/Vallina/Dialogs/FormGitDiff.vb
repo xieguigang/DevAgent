@@ -14,7 +14,7 @@ Public Class FormGitDiff
     End Sub
 
     Private Sub WebView21_CoreWebView2InitializationCompleted(sender As Object, e As CoreWebView2InitializationCompletedEventArgs) Handles WebView21.CoreWebView2InitializationCompleted
-        Call WebViewLoader.DeveloperOptions(WebView21, enable:=True, TabText:="Git Diff")
+        Call WebViewLoader.DeveloperOptions(WebView21, enable:=False, TabText:="Git Diff")
 
         Call WebView21.CoreWebView2.AddHostObjectToScript(BasePage.HostObject, New GitDiffPage)
         Call WebView21.CoreWebView2.Navigate($"http://localhost:{Workbench.port}/git.html")
