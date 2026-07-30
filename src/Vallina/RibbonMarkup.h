@@ -103,4 +103,8 @@
 #define cmdButtonCodeFormatted_LabelTitle_RESID 60067
 #define cmdButtonCodeFormatted_SmallImages_192__RESID 60068
 #define cmdButtonCodeFormatted_LargeImages_192__RESID 60069
-#define InternalCmd2_LabelTitle_RESID 60070
+#define cmdButtonEditorReload 31 
+#define cmdButtonEditorReload_LabelTitle_RESID 60070
+#define cmdButtonEditorReload_SmallImages_192__RESID 60071
+#define cmdButtonEditorReload_LargeImages_192__RESID 60072
+#define InternalCmd2_LabelTitle_RESID 60073

@@ -170,6 +170,14 @@
         <Image MinDPI="192">Icons8/icons8-source-code-96.png</Image>
       </Command.LargeImages>
     </Command>
+    <Command Name="cmdButtonEditorReload" Id="31" LabelTitle="Reload">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-refresh-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-refresh-96.png</Image>
+      </Command.LargeImages>
+    </Command>
   </Application.Commands>
   <Application.Views>
     <Ribbon>
@@ -201,8 +209,9 @@
       <Ribbon.ContextualTabs>
         <TabGroup CommandName="cmdRibbonEditor">
           <Tab CommandName="cmdMenuEditor">
-            <Group CommandName="cmdGroupCodeFile" SizeDefinition="ThreeButtons">
+            <Group CommandName="cmdGroupCodeFile" SizeDefinition="FourButtons">
               <Button CommandName="cmdButtonCodeFormatted" />
+              <Button CommandName="cmdButtonEditorReload" />
               <Button CommandName="cmdButtonSaveCodeFile" />
               <Button CommandName="cmdButtonSaveAsCodeFile" />
             </Group>

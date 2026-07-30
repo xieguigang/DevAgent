@@ -8,6 +8,7 @@ Imports VallinaDevelopment.Javascript
 
 Public Class FormEditor
 
+    Shared ReadOnly btnReload As RibbonEventBinding
     Shared ReadOnly btnFormatted As RibbonEventBinding
     Shared ReadOnly btnSave As RibbonEventBinding
     Shared ReadOnly btnSaveAs As RibbonEventBinding
@@ -23,6 +24,7 @@ Public Class FormEditor
     Public ReadOnly Property codefile As String
 
     Shared Sub New()
+        btnReload = New RibbonEventBinding(Ribbon.ButtonEditorReload)
         btnFormatted = New RibbonEventBinding(Ribbon.ButtonCodeFormatted)
         btnSave = New RibbonEventBinding(Ribbon.ButtonSaveCodeFile)
         btnSaveAs = New RibbonEventBinding(Ribbon.ButtonSaveAsCodeFile)
@@ -112,11 +114,7 @@ Public Class FormEditor
     Private Async Sub WebView21_NavigationCompleted(sender As Object, e As CoreWebView2NavigationCompletedEventArgs) Handles WebView21.NavigationCompleted
         Await WebView21.ExecuteScriptAsync("$('statusbar').style.display='none';")
         Await WebView21.ExecuteScriptAsync("$('toolbar').style.display='none';")
-
-        If codefile.FileExists Then
-            Await SetCodeText(codefile.ReadAllText)
-            Call CommonRuntime.GetOutputWindow.AddLog("open file", "editor open code file: " & codefile)
-        End If
+        Await ReloadCodeText()
     End Sub
 
     Private Async Function SetCodeText(codetext As String) As Task
@@ -132,6 +130,13 @@ Public Class FormEditor
 
         ' 3. 通过消息通道发送（不会作为脚本执行，性能极高且安全）
         WebView21.CoreWebView2.PostWebMessageAsJson(jsonPayload)
+    End Function
+
+    Private Async Function ReloadCodeText() As Task
+        If codefile.FileExists Then
+            Await SetCodeText(codefile.ReadAllText)
+            Call CommonRuntime.GetOutputWindow.AddLog("open file", "editor open code file: " & codefile)
+        End If
     End Function
 
     Private Async Function GotoLine() As Task
@@ -227,6 +232,7 @@ Public Class FormEditor
     Private Sub ActivateRibbon()
         Ribbon.RibbonEditor.ContextAvailable = ContextAvailability.Active
 
+        Call btnReload.Addhandler(Async Sub() Await ReloadCodeText())
         Call btnFormatted.Addhandler(Async Sub() Await FormatCode())
         Call btnSave.Addhandler(Async Sub() Await SaveCodeFile())
         Call btnSaveAs.Addhandler(Async Sub() Await SaveAsCodeFile())

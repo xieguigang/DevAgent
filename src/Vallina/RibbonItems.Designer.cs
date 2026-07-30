@@ -30,6 +30,7 @@ namespace RibbonLib.Controls
             public const uint cmdMenuEditor = 8;
             public const uint cmdGroupCodeFile = 23;
             public const uint cmdButtonCodeFormatted = 30;
+            public const uint cmdButtonEditorReload = 31;
             public const uint cmdButtonSaveCodeFile = 22;
             public const uint cmdButtonSaveAsCodeFile = 24;
             public const uint cmdGroupEditor = 9;
@@ -64,6 +65,7 @@ namespace RibbonLib.Controls
         public RibbonTab MenuEditor { get; private set; }
         public RibbonGroup GroupCodeFile { get; private set; }
         public RibbonButton ButtonCodeFormatted { get; private set; }
+        public RibbonButton ButtonEditorReload { get; private set; }
         public RibbonButton ButtonSaveCodeFile { get; private set; }
         public RibbonButton ButtonSaveAsCodeFile { get; private set; }
         public RibbonGroup GroupEditor { get; private set; }
@@ -99,6 +101,7 @@ namespace RibbonLib.Controls
             MenuEditor = new RibbonTab(ribbon, Cmd.cmdMenuEditor);
             GroupCodeFile = new RibbonGroup(ribbon, Cmd.cmdGroupCodeFile);
             ButtonCodeFormatted = new RibbonButton(ribbon, Cmd.cmdButtonCodeFormatted);
+            ButtonEditorReload = new RibbonButton(ribbon, Cmd.cmdButtonEditorReload);
             ButtonSaveCodeFile = new RibbonButton(ribbon, Cmd.cmdButtonSaveCodeFile);
             ButtonSaveAsCodeFile = new RibbonButton(ribbon, Cmd.cmdButtonSaveAsCodeFile);
             GroupEditor = new RibbonGroup(ribbon, Cmd.cmdGroupEditor);
