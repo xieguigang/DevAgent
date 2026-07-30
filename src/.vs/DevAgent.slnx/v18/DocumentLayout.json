@@ -3,32 +3,16 @@
   "WorkspaceRootPath": "G:\\DevAgent\\src\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\application\\ribbonmenu.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|solutionrelative:vallina\\application\\ribbonmenu.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\application\\javascript\\startuppage.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|solutionrelative:vallina\\application\\javascript\\startuppage.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\pages\\formllmsagent.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|solutionrelative:vallina\\pages\\formllmsagent.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\pages\\formllmsagent.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
-      "RelativeMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|solutionrelative:vallina\\pages\\formllmsagent.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
+      "AbsoluteMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|g:\\devagent\\src\\devagent\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|solutionrelative:devagent\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\toolwindow\\formconsole.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|solutionrelative:vallina\\toolwindow\\formconsole.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\toolwindow\\formconsole.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
-      "RelativeMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|solutionrelative:vallina\\toolwindow\\formconsole.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\toolwindow\\formllmstool.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|solutionrelative:vallina\\toolwindow\\formllmstool.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|g:\\devagent\\src\\devagent\\opts.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|solutionrelative:devagent\\opts.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 179,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -54,58 +38,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "StartupPage.vb",
-              "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\Application\\Javascript\\StartupPage.vb",
-              "RelativeDocumentMoniker": "Vallina\\Application\\Javascript\\StartupPage.vb",
-              "ToolTip": "G:\\DevAgent\\src\\Vallina\\Application\\Javascript\\StartupPage.vb \u2B24",
-              "RelativeToolTip": "Vallina\\Application\\Javascript\\StartupPage.vb \u2B24",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAA8AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T12:42:27.324Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "RibbonMenu.vb",
-              "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\Application\\RibbonMenu.vb",
-              "RelativeDocumentMoniker": "Vallina\\Application\\RibbonMenu.vb",
-              "ToolTip": "G:\\DevAgent\\src\\Vallina\\Application\\RibbonMenu.vb",
-              "RelativeToolTip": "Vallina\\Application\\RibbonMenu.vb",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAAAFQAAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T12:41:32.257Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "FormConsole.vb",
-              "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\ToolWindow\\FormConsole.vb",
-              "RelativeDocumentMoniker": "Vallina\\ToolWindow\\FormConsole.vb",
-              "ToolTip": "G:\\DevAgent\\src\\Vallina\\ToolWindow\\FormConsole.vb",
-              "RelativeToolTip": "Vallina\\ToolWindow\\FormConsole.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAA0AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T12:40:49.466Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "FormConsole.vb [Design]",
-              "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\ToolWindow\\FormConsole.vb",
-              "RelativeDocumentMoniker": "Vallina\\ToolWindow\\FormConsole.vb",
-              "ToolTip": "G:\\DevAgent\\src\\Vallina\\ToolWindow\\FormConsole.vb [Design]",
-              "RelativeToolTip": "Vallina\\ToolWindow\\FormConsole.vb [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T12:40:42.871Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
               "Title": "FormLLMsAgent.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\Pages\\FormLLMsAgent.vb",
               "RelativeDocumentMoniker": "Vallina\\Pages\\FormLLMsAgent.vb",
@@ -113,32 +46,33 @@
               "RelativeToolTip": "Vallina\\Pages\\FormLLMsAgent.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T12:40:28.686Z",
+              "WhenOpened": "2026-07-30T13:28:32.924Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "FormLLMsAgent.vb [Design]",
-              "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\Pages\\FormLLMsAgent.vb",
-              "RelativeDocumentMoniker": "Vallina\\Pages\\FormLLMsAgent.vb",
-              "ToolTip": "G:\\DevAgent\\src\\Vallina\\Pages\\FormLLMsAgent.vb [Design]",
-              "RelativeToolTip": "Vallina\\Pages\\FormLLMsAgent.vb [Design]",
+              "DocumentIndex": 1,
+              "Title": "Program.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\DevAgent\\Program.vb",
+              "RelativeDocumentMoniker": "DevAgent\\Program.vb",
+              "ToolTip": "G:\\DevAgent\\src\\DevAgent\\Program.vb",
+              "RelativeToolTip": "DevAgent\\Program.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T12:40:26.724Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2026-07-30T13:27:38.191Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "FormLLMsTool.vb",
-              "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\ToolWindow\\FormLLMsTool.vb",
-              "RelativeDocumentMoniker": "Vallina\\ToolWindow\\FormLLMsTool.vb",
-              "ToolTip": "G:\\DevAgent\\src\\Vallina\\ToolWindow\\FormLLMsTool.vb",
-              "RelativeToolTip": "Vallina\\ToolWindow\\FormLLMsTool.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAnAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "Opts.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\DevAgent\\Opts.vb",
+              "RelativeDocumentMoniker": "DevAgent\\Opts.vb",
+              "ToolTip": "G:\\DevAgent\\src\\DevAgent\\Opts.vb",
+              "RelativeToolTip": "DevAgent\\Opts.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T12:40:04.504Z",
+              "WhenOpened": "2026-07-30T13:27:35.086Z",
               "EditorCaption": ""
             }
           ]
