@@ -31,6 +31,10 @@ Public Class FormLLMsTool
     Public Async Function HandleCurrentCodeDocument() As Task
         Dim editor As FormEditor = TryCast(DirectCast(CommonRuntime.AppHost.GetDockPanel, DockPanel).ActiveDocument, FormEditor)
 
+        If editor Is Nothing Then
+            Return
+        End If
+
         Await ClearFileReference()
 
         If editor.codefile.StringEmpty(, True) Then
