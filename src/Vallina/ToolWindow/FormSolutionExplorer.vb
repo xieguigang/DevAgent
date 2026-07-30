@@ -94,8 +94,9 @@ Public Class FormSolutionExplorer
     End Sub
 
     Private Sub ToolStripButton4_Click(sender As Object, e As EventArgs) Handles ToolStripButton4.Click
-        ' Dim gitdiff As DiffResult = diff.GetDiff(Workspace)
+        Dim gitdiff As DiffResult = diff.GetDiff(Workspace)
+        Dim viewer As New FormGitDiff With {.GitDiff = gitdiff}
 
-        Call InputDialog.Input(Of FormGitDiff)()
+        Call InputDialog.ShowDialog(viewer)
     End Sub
 End Class

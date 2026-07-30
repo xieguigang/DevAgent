@@ -1,5 +1,10 @@
+const webview2 = chrome.webview;
 const $ = function (id) {
   return document.getElementById(id);
 };
 
-const devkit = chrome.webview.hostObjects.devkit;
+if (!webview2) {
+  throw "web application is not running on webview2 host environment!";
+}
+
+const devkit = webview2.hostObjects.devkit;

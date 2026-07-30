@@ -73,6 +73,14 @@
     <Project Path="../../galaxy/src/RibbonEventBinding/RibbonEventBinding.shproj" Id="72a4c1ee-5cbf-4f72-9b71-c997d7e33c18" />
     <Project Path="../../galaxy/src/WebViewHelper/WebViewHelper.shproj" Id="ceb7782e-585a-48f5-95b9-4c01cead6b0c" />
   </Folder>
+  <Folder Name="/modules/">
+    <Project Path="../../LLMs/src/WebView2UI/WebView2UI.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="Languages/RLang/RLang.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
   <Folder Name="/renv/">
     <Project Path="../../GCModeller/src/R-sharp/R#/Rsharp-netcore5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
@@ -81,13 +89,7 @@
       <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>
-  <Project Path="../../LLMs/src/WebView2UI/WebView2UI.vbproj">
-    <Platform Solution="*|x64" Project="x64" />
-  </Project>
   <Project Path="DevAgent/DevAgent.vbproj">
-    <Platform Solution="*|x64" Project="x64" />
-  </Project>
-  <Project Path="Languages/RLang/RLang.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
   <Project Path="LanguageServer/LanguageServer.vbproj" Id="9cdfc7c0-db7a-49be-8c6a-52bfbfb38a16">

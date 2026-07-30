@@ -24,6 +24,7 @@ Partial Class FormGitDiff
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormGitDiff))
         WebView21 = New Microsoft.Web.WebView2.WinForms.WebView2()
         CType(WebView21, ComponentModel.ISupportInitialize).BeginInit()
         SuspendLayout()
@@ -36,7 +37,7 @@ Partial Class FormGitDiff
         WebView21.Dock = DockStyle.Fill
         WebView21.Location = New Point(0, 0)
         WebView21.Name = "WebView21"
-        WebView21.Size = New Size(956, 713)
+        WebView21.Size = New Size(1458, 824)
         WebView21.TabIndex = 0
         WebView21.ZoomFactor = 1R
         ' 
@@ -44,11 +45,12 @@ Partial Class FormGitDiff
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(956, 713)
+        ClientSize = New Size(1458, 824)
         Controls.Add(WebView21)
         FormBorderStyle = FormBorderStyle.Sizable
+        Icon = CType(resources.GetObject("$this.Icon"), Icon)
         Name = "FormGitDiff"
-        Text = "Git Diff"
+        Text = "Git Diff Viewer"
         CType(WebView21, ComponentModel.ISupportInitialize).EndInit()
         ResumeLayout(False)
     End Sub

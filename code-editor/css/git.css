@@ -1,0 +1,630 @@
+/* ============================================================
+   Git Diff Viewer — light theme.
+   Reuses the design tokens defined in css/startpage.css so this
+   page feels like one product with the Start / Editor / About pages.
+   Tokens not provided by startpage.css are defined here.
+   ============================================================ */
+:root {
+  --ui-foreground-subtle: #8a8a8a;
+  --ui-background-hover: #f0f7ff;
+  --ui-border-strong: #c8c8c8;
+  --accent-soft: #e5f3ff;
+  --accent-soft-border: #cfe5fb;
+  --card-green: #107c10;
+  --card-green-soft: #e6f4e6;
+  --card-purple: #8e44ad;
+  --card-purple-soft: #f3e8fa;
+  --card-gray: #6a6a6a;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+/* Make the whole page behave like an application shell that fills
+   the viewport: top bar + app + status bar + footer. */
+body {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ---- App shell ---- */
+.git-app {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* ---- Toolbar (title + actions) ---- */
+.git-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 28px 16px;
+  border-bottom: 1px solid var(--ui-border);
+  background: var(--ui-background);
+  flex-wrap: wrap;
+}
+
+.git-toolbar .toolbar-title {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.git-toolbar .toolbar-title h1 {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--ui-foreground);
+  letter-spacing: -0.3px;
+}
+
+.git-toolbar .toolbar-title p {
+  font-size: 13px;
+  color: var(--ui-foreground-muted);
+}
+
+.git-toolbar .toolbar-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ---- Generic controls (buttons, inputs, selects) ---- */
+.git-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  font-size: 13px;
+  font-family: var(--font-ui);
+  color: var(--ui-foreground);
+  background: var(--ui-background);
+  border: 1px solid var(--ui-border-strong);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.git-btn:hover {
+  border-color: var(--accent);
+  background: var(--ui-background-hover);
+  color: var(--accent);
+}
+
+.git-btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.git-btn.primary:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: #fff;
+}
+
+.git-btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.git-input,
+.git-select {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--ui-foreground);
+  background: var(--ui-background);
+  border: 1px solid var(--ui-border-strong);
+  border-radius: 5px;
+  padding: 7px 10px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.git-input:focus,
+.git-select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.git-input.search {
+  width: 220px;
+  padding-left: 30px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236a6a6a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='8'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>");
+  background-repeat: no-repeat;
+  background-position: 9px center;
+}
+
+.git-search-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* toggle switch */
+.git-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--ui-foreground-muted);
+  cursor: pointer;
+  user-select: none;
+}
+
+.git-toggle input {
+  display: none;
+}
+
+.git-toggle .track {
+  width: 36px;
+  height: 20px;
+  border-radius: 11px;
+  background: var(--ui-border-strong);
+  position: relative;
+  transition: background 0.18s;
+  flex-shrink: 0;
+}
+
+.git-toggle .track::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.18s;
+}
+
+.git-toggle input:checked + .track {
+  background: var(--accent);
+}
+
+.git-toggle input:checked + .track::after {
+  transform: translateX(16px);
+}
+
+/* ---- Body: two columns ---- */
+.git-body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  min-height: 0;
+}
+
+/* ---- File list (left) ---- */
+.file-list {
+  border-right: 1px solid var(--ui-border);
+  background: var(--ui-background-alt);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.file-list-header {
+  padding: 12px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--ui-foreground-subtle);
+  border-bottom: 1px solid var(--ui-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.file-list-header .count-pill {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 10px;
+  padding: 1px 9px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.file-list-scroll {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.file-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--ui-border);
+  cursor: pointer;
+  transition: background 0.1s;
+  position: relative;
+}
+
+.file-item:hover {
+  background: var(--ui-background-hover);
+}
+
+.file-item.active {
+  background: var(--accent-soft);
+}
+
+.file-item.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent);
+}
+
+.file-item .ext-badge {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: var(--font-code);
+  color: #fff;
+  text-transform: uppercase;
+  background: var(--card-gray);
+}
+
+.file-item .file-meta {
+  flex: 1;
+  min-width: 0;
+}
+
+.file-item .file-name {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--ui-foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-item .file-path {
+  font-size: 11px;
+  color: var(--ui-foreground-subtle);
+  font-family: var(--font-code);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+
+.file-item .file-stats {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+.file-item .stat-add {
+  color: var(--card-green);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font-code);
+}
+
+.file-item .stat-del {
+  color: #cb2431;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font-code);
+}
+
+/* change-kind badge */
+.kind-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.kind-badge.added {
+  background: var(--card-green-soft);
+  color: var(--card-green);
+}
+
+.kind-badge.modified {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.kind-badge.deleted {
+  background: #ffeef0;
+  color: #cb2431;
+}
+
+.kind-badge.renamed {
+  background: var(--card-purple-soft);
+  color: var(--card-purple);
+}
+
+.file-list-empty {
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--ui-foreground-muted);
+  font-size: 13px;
+}
+
+/* ---- Diff view (right) ---- */
+.diff-view {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--ui-background);
+}
+
+.diff-file-header {
+  padding: 14px 22px;
+  border-bottom: 1px solid var(--ui-border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--ui-background);
+}
+
+.diff-file-header .df-path {
+  font-family: var(--font-code);
+  font-size: 13.5px;
+  color: var(--ui-foreground);
+  word-break: break-all;
+}
+
+.diff-file-header .df-stats {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.diff-file-header .df-add {
+  color: var(--card-green);
+  font-weight: 600;
+  font-family: var(--font-code);
+}
+
+.diff-file-header .df-del {
+  color: #cb2431;
+  font-weight: 600;
+  font-family: var(--font-code);
+}
+
+.diff-scroll {
+  overflow: auto;
+  flex: 1;
+  font-family: var(--font-code);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* hunk */
+.hunk {
+  border-bottom: 1px solid var(--ui-border);
+}
+
+.hunk-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 22px;
+  background: #eaf2fb;
+  border-bottom: 1px solid var(--accent-soft-border);
+  color: var(--accent-hover);
+  cursor: pointer;
+  user-select: none;
+  font-size: 12.5px;
+}
+
+.hunk-header:hover {
+  background: var(--accent-soft);
+}
+
+.hunk-header .hunk-toggle {
+  transition: transform 0.15s;
+  font-size: 10px;
+}
+
+.hunk.collapsed .hunk-toggle {
+  transform: rotate(-90deg);
+}
+
+.hunk-header .hunk-range {
+  font-family: var(--font-code);
+  letter-spacing: 0.2px;
+}
+
+.hunk-header .hunk-meta {
+  margin-left: auto;
+  color: var(--ui-foreground-subtle);
+  font-size: 11.5px;
+}
+
+.hunk-lines {
+  display: block;
+}
+
+.hunk.collapsed .hunk-lines {
+  display: none;
+}
+
+/* diff line: three columns (old no / new no / content) */
+.diff-line {
+  display: grid;
+  grid-template-columns: 56px 56px 1fr;
+  white-space: pre;
+  border-left: 3px solid transparent;
+}
+
+.diff-line .lno {
+  text-align: right;
+  padding: 0 10px;
+  color: var(--ui-foreground-subtle);
+  user-select: none;
+  border-right: 1px solid var(--ui-border);
+  background: var(--ui-background-alt);
+}
+
+.diff-line .lno.new {
+  border-right: none;
+  border-left: 1px solid var(--ui-border);
+}
+
+.diff-line .lcontent {
+  padding: 0 12px;
+  overflow: visible;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.diff-line.added {
+  background: var(--card-green-soft);
+  border-left-color: var(--card-green);
+}
+
+.diff-line.added .lno {
+  color: var(--card-green);
+  background: #d8efd8;
+}
+
+.diff-line.deleted {
+  background: #ffeef0;
+  border-left-color: #cb2431;
+}
+
+.diff-line.deleted .lno {
+  color: #cb2431;
+  background: #fbdde0;
+}
+
+.diff-line.context .lcontent {
+  color: var(--ui-foreground);
+}
+
+.diff-line .sign {
+  display: inline-block;
+  width: 1ch;
+  font-weight: 700;
+}
+
+.diff-line.added .sign {
+  color: var(--card-green);
+}
+
+.diff-line.deleted .sign {
+  color: #cb2431;
+}
+
+/* empty drop state */
+.diff-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: var(--ui-foreground-muted);
+  text-align: center;
+  padding: 40px;
+}
+
+.diff-empty .empty-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.diff-empty .empty-icon svg {
+  width: 38px;
+  height: 38px;
+}
+
+.diff-empty h2 {
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--ui-foreground);
+}
+
+.diff-empty p {
+  font-size: 13.5px;
+  max-width: 420px;
+  line-height: 1.6;
+}
+
+.diff-empty.dragover .empty-icon,
+.file-list.dragover,
+.diff-view.dragover {
+  outline: 2px dashed var(--accent);
+  outline-offset: -6px;
+}
+
+/* Active nav link (Git) — highlight current page */
+.topbar nav a.active {
+  color: var(--accent);
+  background: var(--accent-soft);
+  font-weight: 600;
+}
+
+/* Toast error variant */
+.toast.error {
+  background: #cb2431;
+  color: #fff;
+}
+
+/* ---- Toast (reuse startpage look, add show helper) ---- */
+
+/* ---- Status bar tweaks ---- */
+.statusbar .status-item.status-add {
+  color: #e6ffed;
+}
+
+.statusbar .status-add b {
+  color: #b6f0c0;
+}
+
+.statusbar .status-del b {
+  color: #ffc9ce;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 760px) {
+  .git-body {
+    grid-template-columns: 1fr;
+  }
+
+  .file-list {
+    display: none;
+  }
+
+  .git-input.search {
+    width: 140px;
+  }
+}
