@@ -114,6 +114,17 @@ Public Class ReplSession
                 dirname = If(dirname = "", "/", dirname)
                 Console.WriteLine(_tools.fs_tree(dirname))
 
+            Case "/summary"
+
+                Dim dirname As String = parts.Skip(1).JoinBy("/")
+                dirname = If(dirname = "", "/", dirname)
+                dirname = _workspace & "/" & dirname
+                Dim msg = CommitMessageGenerator.GenerateCommitMessage(_ollama, dirname).GetAwaiter.GetResult
+
+                Call Console.WriteLine(msg.Summary)
+                Call Console.WriteLine(New String("-"c, Strings.Len(msg.Summary)))
+                Call Console.WriteLine(msg.Description)
+
             Case "/help", "/?"
                 PrintHelp()
 
