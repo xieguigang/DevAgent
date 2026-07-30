@@ -166,6 +166,18 @@ Public Class FormEditor
         Return (Await WebView21.ExecuteScriptAsync("codeEditor.getCodeText()")).LoadJSON(Of String)
     End Function
 
+    Public Async Function GetLanguageFileSuffix() As Task(Of String)
+        Dim lang As String = (Await WebView21.ExecuteScriptAsync("codeEditor.getCodeLanguage()")).LoadJSON(Of String)
+
+        lang = Strings.Trim(lang).ToLower
+
+        Select Case lang
+            Case "vbnet" : Return "vb"
+            Case Else
+                Return lang
+        End Select
+    End Function
+
     Private Async Function FormatVBCode() As Task
         Try
             Dim code As String = Await GetCodeText()
@@ -178,7 +190,7 @@ Public Class FormEditor
     End Function
 
     Private Async Function FormatCode() As Task
-        Select Case codefile.ExtensionSuffix
+        Select Case Await GetLanguageFileSuffix()
             Case "vb" : Await FormatVBCode()
             Case "r"
         End Select
