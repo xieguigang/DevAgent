@@ -1,5 +1,4 @@
 Imports System.IO
-Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Settings.Inf
 
 ' ============================================================================
@@ -34,13 +33,13 @@ Imports Microsoft.VisualBasic.ComponentModel.Settings.Inf
 Public Class AppConfig
 
     ' --- LLM 配置 ---
-    Public Property Model As String
-    Public Property Url As String
+    Public Property Model As String = "llama3.2"
+    Public Property Url As String = "http://localhost:11434"
     Public Property ApiKey As String
 
     ' --- Agent 配置 ---
-    Public Property MaxBuildFix As Integer
-    Public Property MaxRunFix As Integer
+    Public Property MaxBuildFix As Integer = 8
+    Public Property MaxRunFix As Integer = 5
 
     ' --- 元信息 ---
     Public Property IniPath As String
@@ -48,6 +47,24 @@ Public Class AppConfig
 
     ''' <summary>启动横幅用的各值来源描述。</summary>
     Public Property SourceBanner As String
+
+    Public Sub Save(inifile As String)
+        Using inf As New IniFile(inifile)
+            Dim devagent As Section = inf.OpenSection("devagent")
+
+            Call inf.comments.Add("DevAgent configuration file")
+            Call inf.comments.Add("Priority: command-line args > INI here > built-in defaults")
+            Call inf.comments.Add("Edit values below and restart. Keys match the long CLI flags.")
+
+            Call devagent.SetValue("model", Model, "Ollama/LLM model name (CLI --model / -m overrides)")
+            Call devagent.SetValue("url", Url, "LLM API URL (CLI --url / -u overrides)")
+            Call devagent.SetValue("apikey", ApiKey, "API key: a key string or path to a key file (CLI --key / -k overrides). Leave empty to use <MyDocuments>/.openai.key")
+            Call devagent.SetValue("max-build-fix", MaxBuildFix, "Max build fix attempts (CLI --max-build-fix overrides)")
+            Call devagent.SetValue("max-run-fix", MaxRunFix, "Max runtime fix attempts (CLI --max-run-fix overrides)")
+
+            Call inf.Flush()
+        End Using
+    End Sub
 
     ' ========================================================================
     ' 加载入口
@@ -59,7 +76,6 @@ Public Class AppConfig
     ''' <param name="args">原始命令行参数数组，用于判断某 flag 是否被显式提供。</param>
     ''' <param name="opt">已由 CommandLine 解析并 ResolveFile 后的 Opts 实例。</param>
     Public Shared Function Load(args As String(), opt As Opts) As AppConfig
-
         ' 1. 定位 INI 路径
         Dim iniPath As String
         If Not String.IsNullOrEmpty(opt.configFile) Then
@@ -208,30 +224,7 @@ Public Class AppConfig
     ''' 生成带注释的默认 INI 模板。
     ''' </summary>
     Public Shared Sub WriteTemplate(iniPath As String)
-        Dim dir As String = System.IO.Path.GetDirectoryName(iniPath)
-        If Not String.IsNullOrEmpty(dir) AndAlso Not Directory.Exists(dir) Then
-            Directory.CreateDirectory(dir)
-        End If
-
-        Dim sb As New StringBuilder()
-        sb.AppendLine("; DevAgent configuration file")
-        sb.AppendLine("; Priority: command-line args > INI here > built-in defaults")
-        sb.AppendLine("; Edit values below and restart. Keys match the long CLI flags.")
-        sb.AppendLine()
-        sb.AppendLine("[devagent]")
-        sb.AppendLine("; Ollama/LLM model name (CLI --model / -m overrides)")
-        sb.AppendLine("model=llama3.2")
-        sb.AppendLine("; LLM API URL (CLI --url / -u overrides)")
-        sb.AppendLine("url=http://localhost:11434")
-        sb.AppendLine("; API key: a key string or path to a key file (CLI --key / -k overrides)")
-        sb.AppendLine("; Leave empty to use <MyDocuments>/.openai.key")
-        sb.AppendLine("apikey=")
-        sb.AppendLine("; Max build fix attempts (CLI --max-build-fix overrides)")
-        sb.AppendLine("max-build-fix=8")
-        sb.AppendLine("; Max runtime fix attempts (CLI --max-run-fix overrides)")
-        sb.AppendLine("max-run-fix=5")
-
-        File.WriteAllText(iniPath, sb.ToString())
+        Call New AppConfig().Save(iniPath)
     End Sub
 
 End Class
