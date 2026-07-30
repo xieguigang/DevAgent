@@ -277,3 +277,4 @@ storage.ide-wal
 *.db
 *.db-shm
 *.db-wal
+src/.vs/DevAgent.slnx/v18/DocumentLayout.json
