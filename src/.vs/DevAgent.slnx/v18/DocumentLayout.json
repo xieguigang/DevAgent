@@ -21,19 +21,6 @@
           "SelectedChildIndex": 4,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AgentTools.vb",
-              "DocumentMoniker": "G:\\DevAgent\\src\\DevAgent\\src\\AgentTools.vb",
-              "RelativeDocumentMoniker": "DevAgent\\src\\AgentTools.vb",
-              "ToolTip": "G:\\DevAgent\\src\\DevAgent\\src\\AgentTools.vb",
-              "RelativeToolTip": "DevAgent\\src\\AgentTools.vb",
-              "ViewState": "AgIAAHMAAAAAAAAAAADwv5cAAAATAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T15:57:16.404Z",
-              "EditorCaption": ""
-            },
-            {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
             },
@@ -47,13 +34,26 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AgentTools.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\DevAgent\\src\\AgentTools.vb",
+              "RelativeDocumentMoniker": "DevAgent\\src\\AgentTools.vb",
+              "ToolTip": "G:\\DevAgent\\src\\DevAgent\\src\\AgentTools.vb",
+              "RelativeToolTip": "DevAgent\\src\\AgentTools.vb",
+              "ViewState": "AgIAAHMAAAAAAAAAAADwv5cAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-30T15:57:16.404Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "ReplSession.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\DevAgent\\src\\ReplSession.vb",
               "RelativeDocumentMoniker": "DevAgent\\src\\ReplSession.vb",
               "ToolTip": "G:\\DevAgent\\src\\DevAgent\\src\\ReplSession.vb",
               "RelativeToolTip": "DevAgent\\src\\ReplSession.vb",
-              "ViewState": "AgIAAGkAAAAAAAAAAAAuwIEAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAHgAAAAAAAAAAAAuwKEAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-07-30T15:55:44.782Z",
               "EditorCaption": ""
