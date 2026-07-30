@@ -20,7 +20,7 @@ Namespace Javascript
         End Function
 
         Public Async Function openLLMAgent() As Task
-
+            Await Task.Run(Sub() Call RibbonMenu.LaunchLLMAgent())
         End Function
 
         Public Async Function newDocument() As Task

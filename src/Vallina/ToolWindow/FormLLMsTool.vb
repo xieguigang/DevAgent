@@ -1,5 +1,8 @@
 ﻿Imports Galaxy.Workbench
 
+''' <summary>
+''' LLM chatbox for project source file
+''' </summary>
 Public Class FormLLMsTool
 
     Private Sub FormLLMsTool_Load(sender As Object, e As EventArgs) Handles Me.Load

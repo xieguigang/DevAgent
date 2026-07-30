@@ -85,8 +85,12 @@ Module RibbonMenu
         Call OpenLLMsChat()
     End Sub
 
+    Public Sub LaunchLLMAgent()
+        Call DirectCast(CommonRuntime.AppHost, Form).Invoke(Sub() CommonRuntime.ShowDocument(Of FormLLMsAgent)(title:="LLM DevAgent"))
+    End Sub
+
     Public Sub OpenAboutPage()
-        Call CommonRuntime.ShowDocument(Of FormHtmlViewer)(title:="About").SetUrl($"http://127.0.0.1:{Workbench.port}/about.html", New AboutPage)
+        Call DirectCast(CommonRuntime.AppHost, Form).Invoke(Sub() CommonRuntime.ShowDocument(Of FormHtmlViewer)(title:="About").SetUrl($"http://127.0.0.1:{Workbench.port}/about.html", New AboutPage))
     End Sub
 
     Public Sub OpenStartupPage()
