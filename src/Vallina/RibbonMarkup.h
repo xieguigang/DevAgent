@@ -99,4 +99,8 @@
 #define cmdButtonDeepSeekLLM_LabelTitle_RESID 60064
 #define cmdButtonDeepSeekLLM_SmallImages_192__RESID 60065
 #define cmdButtonDeepSeekLLM_LargeImages_192__RESID 60066
-#define InternalCmd2_LabelTitle_RESID 60067
+#define cmdButtonCodeFormatted 30 
+#define cmdButtonCodeFormatted_LabelTitle_RESID 60067
+#define cmdButtonCodeFormatted_SmallImages_192__RESID 60068
+#define cmdButtonCodeFormatted_LargeImages_192__RESID 60069
+#define InternalCmd2_LabelTitle_RESID 60070

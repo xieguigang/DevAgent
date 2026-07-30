@@ -3,36 +3,8 @@
   "WorkspaceRootPath": "G:\\DevAgent\\src\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|g:\\devagent\\src\\devagent\\src\\agenttools.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|solutionrelative:devagent\\src\\agenttools.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|g:\\devagent\\src\\devagent\\src\\syntaxformater.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|solutionrelative:devagent\\src\\syntaxformater.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D98C3F2E-4A2C-F032-CECB-51BCFCC6A97C}|..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\versioncontrol\\git\\diff.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{396CCD83-4B4E-84CB-6056-022317FD64BE}|..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\commandline\\cli\\pipelineprocess.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D98C3F2E-4A2C-F032-CECB-51BCFCC6A97C}|..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\versioncontrol\\git\\log.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D98C3F2E-4A2C-F032-CECB-51BCFCC6A97C}|..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VisualStudio.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\vs_solutions\\dev\\visualstudio\\versioncontrol\\svn.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\toolwindow\\formsolutionexplorer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|solutionrelative:vallina\\toolwindow\\formsolutionexplorer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\toolwindow\\formsolutionexplorer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form",
-      "RelativeMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|solutionrelative:vallina\\toolwindow\\formsolutionexplorer.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|g:\\devagent\\src\\devagent\\src\\replsession.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|solutionrelative:devagent\\src\\replsession.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\pages\\formeditor.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|solutionrelative:vallina\\pages\\formeditor.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 123,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -58,118 +30,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SyntaxFormater.vb",
-              "DocumentMoniker": "G:\\DevAgent\\src\\DevAgent\\src\\SyntaxFormater.vb",
-              "RelativeDocumentMoniker": "DevAgent\\src\\SyntaxFormater.vb",
-              "ToolTip": "G:\\DevAgent\\src\\DevAgent\\src\\SyntaxFormater.vb",
-              "RelativeToolTip": "DevAgent\\src\\SyntaxFormater.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T16:50:53.301Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "PipelineProcess.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\CommandLine\\CLI\\PipelineProcess.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\CommandLine\\CLI\\PipelineProcess.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\CommandLine\\CLI\\PipelineProcess.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\CommandLine\\CLI\\PipelineProcess.vb",
-              "ViewState": "AgIAADgBAAAAAAAAAAAiwGIBAABBAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T16:42:13.797Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "log.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VersionControl\\git\\log.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VersionControl\\git\\log.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VersionControl\\git\\log.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VersionControl\\git\\log.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T16:40:23.051Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "svn.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VersionControl\\svn.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VersionControl\\svn.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VersionControl\\svn.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VersionControl\\svn.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T16:40:13.399Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "diff.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VersionControl\\git\\diff.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VersionControl\\git\\diff.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VersionControl\\git\\diff.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\vs_solutions\\dev\\VisualStudio\\VersionControl\\git\\diff.vb",
-              "ViewState": "AgIAAAcBAAAAAAAAAAAUwBMBAACGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T16:38:22.359Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "FormSolutionExplorer.vb",
-              "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\ToolWindow\\FormSolutionExplorer.vb",
-              "RelativeDocumentMoniker": "Vallina\\ToolWindow\\FormSolutionExplorer.vb",
-              "ToolTip": "G:\\DevAgent\\src\\Vallina\\ToolWindow\\FormSolutionExplorer.vb",
-              "RelativeToolTip": "Vallina\\ToolWindow\\FormSolutionExplorer.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwCMAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T16:26:53.085Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "FormSolutionExplorer.vb [Design]",
-              "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\ToolWindow\\FormSolutionExplorer.vb",
-              "RelativeDocumentMoniker": "Vallina\\ToolWindow\\FormSolutionExplorer.vb",
-              "ToolTip": "G:\\DevAgent\\src\\Vallina\\ToolWindow\\FormSolutionExplorer.vb [Design]",
-              "RelativeToolTip": "Vallina\\ToolWindow\\FormSolutionExplorer.vb [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T16:26:13.451Z",
-              "EditorCaption": " [Design]"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "AgentTools.vb",
-              "DocumentMoniker": "G:\\DevAgent\\src\\DevAgent\\src\\AgentTools.vb",
-              "RelativeDocumentMoniker": "DevAgent\\src\\AgentTools.vb",
-              "ToolTip": "G:\\DevAgent\\src\\DevAgent\\src\\AgentTools.vb",
-              "RelativeToolTip": "DevAgent\\src\\AgentTools.vb",
-              "ViewState": "AgIAAIoAAAAAAAAAAAAQwLsAAAAPAAAAAAAAAA==",
+              "Title": "FormEditor.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\Pages\\FormEditor.vb",
+              "RelativeDocumentMoniker": "Vallina\\Pages\\FormEditor.vb",
+              "ToolTip": "G:\\DevAgent\\src\\Vallina\\Pages\\FormEditor.vb",
+              "RelativeToolTip": "Vallina\\Pages\\FormEditor.vb",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAmwEkAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T15:57:16.404Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "ReplSession.vb",
-              "DocumentMoniker": "G:\\DevAgent\\src\\DevAgent\\src\\ReplSession.vb",
-              "RelativeDocumentMoniker": "DevAgent\\src\\ReplSession.vb",
-              "ToolTip": "G:\\DevAgent\\src\\DevAgent\\src\\ReplSession.vb",
-              "RelativeToolTip": "DevAgent\\src\\ReplSession.vb",
-              "ViewState": "AgIAADEAAAAAAAAAAAAowDwAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T15:55:44.782Z",
+              "WhenOpened": "2026-07-30T16:59:22.697Z",
               "EditorCaption": ""
             }
           ]

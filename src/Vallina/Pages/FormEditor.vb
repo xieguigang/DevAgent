@@ -1,4 +1,5 @@
 ﻿Imports System.Text.Json
+Imports DevAgent
 Imports Galaxy.Workbench
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.Web.WebView2.Core
@@ -7,6 +8,7 @@ Imports VallinaDevelopment.Javascript
 
 Public Class FormEditor
 
+    Shared ReadOnly btnFormatted As RibbonEventBinding
     Shared ReadOnly btnSave As RibbonEventBinding
     Shared ReadOnly btnSaveAs As RibbonEventBinding
 
@@ -21,6 +23,7 @@ Public Class FormEditor
     Public ReadOnly Property codefile As String
 
     Shared Sub New()
+        btnFormatted = New RibbonEventBinding(Ribbon.ButtonCodeFormatted)
         btnSave = New RibbonEventBinding(Ribbon.ButtonSaveCodeFile)
         btnSaveAs = New RibbonEventBinding(Ribbon.ButtonSaveAsCodeFile)
 
@@ -42,7 +45,10 @@ Public Class FormEditor
         Return Me
     End Function
 
-    Private Sub WebView21_KeyDown(sender As Object, e As KeyEventArgs) Handles WebView21.KeyDown
+    ' 在类级别（或者窗体顶部）声明一个变量，用于记录 Ctrl+K 是否已被按下
+    Private isCtrlKPressed As Boolean = False
+
+    Private Async Sub WebView21_KeyDown(sender As Object, e As KeyEventArgs) Handles WebView21.KeyDown
         ' 将 VirtualKey 转换为 WinForms 的 Keys 枚举方便判断
         Dim key As Keys = e.KeyCode
 
@@ -63,6 +69,36 @@ Public Class FormEditor
                 If (Control.ModifierKeys And Keys.Control) = Keys.Control Then
                     e.Handled = True
                 End If
+
+                ' --- 新增：捕捉 Ctrl+K ---
+            Case Keys.K
+                ' 检查是否按下了 Ctrl 键
+                If e.Control Then
+                    ' 记录 Ctrl+K 已按下，并拦截该按键，防止 WebView2 处理
+                    isCtrlKPressed = True
+                    e.Handled = True
+                Else
+                    isCtrlKPressed = False
+                End If
+
+                 ' --- 新增：捕捉 Ctrl+D (在 Ctrl+K 之后) ---
+            Case Keys.D
+                ' 如果之前按下了 Ctrl+K，并且现在按下了 Ctrl+D
+                If e.Control AndAlso isCtrlKPressed Then
+                    ' 成功捕捉到 Ctrl+K+D ！
+                    e.Handled = True
+
+                    ' 在这里添加你想要执行的代码，例如：
+                    Await FormatCode()
+
+                    ' 执行完毕后，重置状态
+                    isCtrlKPressed = False
+                End If
+
+                ' --- 其他按键处理 ---
+            Case Else
+                ' 如果按下了其他键（且不是组合键的一部分），重置 Ctrl+K 的状态
+                isCtrlKPressed = False
         End Select
     End Sub
 
@@ -78,21 +114,24 @@ Public Class FormEditor
         Await WebView21.ExecuteScriptAsync("$('toolbar').style.display='none';")
 
         If codefile.FileExists Then
-            Dim filename As String = JsonSerializer.Serialize(codefile.FileName)
-            Dim codetext As String = JsonSerializer.Serialize(codefile.ReadAllText)
-            ' 1. 构造一个匿名对象，包含需要传递的数据
-            Dim payload = New With {
-                .type = "loadFile",
-                .text = codetext,
-                .filename = filename
-            }
-            ' 2. 序列化为 JSON 字符串
-            Dim jsonPayload As String = JsonSerializer.Serialize(payload)
-
-            ' 3. 通过消息通道发送（不会作为脚本执行，性能极高且安全）
-            WebView21.CoreWebView2.PostWebMessageAsJson(jsonPayload)
-            CommonRuntime.GetOutputWindow.AddLog("open file", "editor open code file: " & codefile)
+            Call SetCodeText(codefile.ReadAllText)
+            Call CommonRuntime.GetOutputWindow.AddLog("open file", "editor open code file: " & codefile)
         End If
+    End Sub
+
+    Private Sub SetCodeText(codetext As String)
+        Dim filename As String = JsonSerializer.Serialize(If(codefile.StringEmpty, App.NextTempName & ".vb", codefile.FileName))
+        ' 1. 构造一个匿名对象，包含需要传递的数据
+        Dim payload = New With {
+            .type = "loadFile",
+            .text = JsonSerializer.Serialize(codetext),
+            .filename = filename
+        }
+        ' 2. 序列化为 JSON 字符串
+        Dim jsonPayload As String = JsonSerializer.Serialize(payload)
+
+        ' 3. 通过消息通道发送（不会作为脚本执行，性能极高且安全）
+        WebView21.CoreWebView2.PostWebMessageAsJson(jsonPayload)
     End Sub
 
     Private Async Function GotoLine() As Task
@@ -119,8 +158,30 @@ Public Class FormEditor
         Await SaveCodeFile()
     End Sub
 
+    ''' <summary>
+    ''' get source code text from the editor ui
+    ''' </summary>
+    ''' <returns></returns>
     Public Async Function GetCodeText() As Task(Of String)
         Return (Await WebView21.ExecuteScriptAsync("codeEditor.getCodeText()")).LoadJSON(Of String)
+    End Function
+
+    Private Async Function FormatVBCode() As Task
+        Try
+            Dim code As String = Await GetCodeText()
+            code = Await SyntaxFormater.FormatVBCode(code)
+            SetCodeText(code)
+            CommonRuntime.GetOutputWindow.AddLog("format vb code", "formatted current visualbasic.net source code: " & codefile.FileName)
+        Catch ex As Exception
+            Call App.LogException(ex)
+        End Try
+    End Function
+
+    Private Async Function FormatCode() As Task
+        Select Case codefile.ExtensionSuffix
+            Case "vb" : Await FormatVBCode()
+            Case "r"
+        End Select
     End Function
 
     Private Async Function SaveCodeFile() As Task
@@ -154,6 +215,7 @@ Public Class FormEditor
     Private Sub ActivateRibbon()
         Ribbon.RibbonEditor.ContextAvailable = ContextAvailability.Active
 
+        Call btnFormatted.Addhandler(Async Sub() Await FormatCode())
         Call btnSave.Addhandler(Async Sub() Await SaveCodeFile())
         Call btnSaveAs.Addhandler(Async Sub() Await SaveAsCodeFile())
 
