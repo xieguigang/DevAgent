@@ -129,7 +129,11 @@ Public Class ReplSession
                     Console.Error.WriteLine("no git commit message information, run '/summary' command at first!")
                     Console.Error.Flush()
                 Else
-
+                    Dim err As String = Nothing
+                    If Not Commit.CommitFolderChanges(_workspace, _workspace, git_diff, outputMessage:=err) Then
+                        Call Console.Error.WriteLine(err)
+                        Call Console.Error.Flush()
+                    End If
                     git_diff = Nothing
                 End If
 
