@@ -5,6 +5,7 @@ Imports VallinaDevelopment.Settings
 Module Workbench
 
     Public ReadOnly Property wwwroot As String
+
     Public ReadOnly Property port As Integer
         Get
             If Not http Is Nothing Then
@@ -15,7 +16,19 @@ Module Workbench
         End Get
     End Property
 
+    Public ReadOnly Property langPort As Integer
+        Get
+            If langSvr Is Nothing Then
+                Return -1
+            Else
+                Return langSvr.port
+            End If
+        End Get
+    End Property
+
+
     Dim WithEvents http As HttpServices
+    Dim WithEvents langSvr As LanguageServer.HttpServices
 
     Public ReadOnly Property config As ConfigJSON
 
@@ -39,12 +52,17 @@ Module Workbench
 
     Public Sub StartHttp()
         http = New HttpServices(GetWebRoot)
+        langSvr = New LanguageServer.HttpServices
         http.StartHttp()
+        langSvr.StartHttp()
     End Sub
 
     Public Sub KillHttp()
         If Not http Is Nothing Then
             Call http.Dispose()
+        End If
+        If Not langSvr Is Nothing Then
+            Call langSvr.Dispose()
         End If
     End Sub
 
