@@ -20,4 +20,5 @@ Public Class CommitSummary
         Me.Summary = summary
         Me.Description = description
     End Sub
+
 End Class

@@ -925,30 +925,8 @@ Public Class DevAgent
         File.WriteAllText(Path.Combine(testDir, "Program.vb"), programContent)
     End Sub
 
-    ' ========================================================================
-    ' Git 操作
-    ' ========================================================================
-
     Private Sub GitCommit(message As String)
-        ' 检查是否有变更
-        Dim status As ProcessResult = ProcessHelper.Git(_projectPath, "status --porcelain")
-        If status.CombinedOutput.Trim().Length = 0 Then
-            Log("  No changes to commit, skipping.")
-            Return
-        End If
-
-        ' 暂存所有变更
-        ProcessHelper.Git(_projectPath, "add -A")
-
-        ' 提交
-        Dim escapedMsg As String = message.Replace("""", "\""")
-        Dim result As ProcessResult = ProcessHelper.Git(_projectPath, $"commit -m ""{escapedMsg}""")
-
-        If result.Success Then
-            Log($"  Committed: {message}")
-        Else
-            Log($"  [WARN] Commit failed: {result.StdErr.Trim()}")
-        End If
+        Call Commit.GitCommit(message, _projectPath, AddressOf Log)
     End Sub
 
     ' ========================================================================
