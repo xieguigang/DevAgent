@@ -1,13 +1,25 @@
-﻿Imports Galaxy.Workbench
+﻿Imports DevAgent
+Imports Galaxy.Workbench
 Imports Microsoft.VisualStudio.WinForms.Docking
+Imports Ollama
 
 ''' <summary>
 ''' LLM chatbox for project source file
 ''' </summary>
 Public Class FormLLMsTool
 
+    Public Property tools As AgentTools
+
     Private Sub FormLLMsTool_Load(sender As Object, e As EventArgs) Handles Me.Load
-        WebView2llmui1.SetHost(Workbench.CreateLLM,
+        Dim llm As LLMClient = Workbench.CreateLLM
+
+        tools = New AgentTools(App.CurrentDirectory)
+
+        ' 注册 LLM 函数工具（含新增的 write_file）
+        llm.HookReadOnlyFileSystem(_tools)
+        llm.AddFunction(_tools, "write_file")
+
+        WebView2llmui1.SetHost(llm,
             callback:=Sub(res)
                           CommonRuntime.GetOutputWindow.AppendLine($"<think>{res.think}</think>" & vbCrLf & vbCrLf)
                           CommonRuntime.GetOutputWindow.AppendLine(res.output)
@@ -17,6 +29,7 @@ Public Class FormLLMsTool
     End Sub
 
     Public Async Function SetFileReference(filepath As String) As Task
+        tools.SetWorkspace(filepath.ParentPath.GetDirectoryFullPath)
         Await WebView2llmui1.SetFileReference(filepath)
     End Function
 

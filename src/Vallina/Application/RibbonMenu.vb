@@ -72,7 +72,7 @@ Module RibbonMenu
         End If
 
         Call DirectCast(CommonRuntime.AppHost, Form).Invoke(Sub() CommonRuntime.RegisterToolWindow(explorer, DockState.DockRightAutoHide))
-        Call explorer.Reload()
+        Call explorer.Invoke(Sub() explorer.Reload())
     End Sub
 
     Public Sub OpenLicenseDialog()
