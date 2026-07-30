@@ -3784,6 +3784,9 @@ End Namespace
         getCodeText() {
             return this.editor.getText();
         }
+        getCodeLanguage() {
+            return this.editor.getLanguage();
+        }
         refreshSymbols() {
             const tree = this.editor.getSymbolTree();
             if (tree.length === 0) {

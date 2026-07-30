@@ -724,6 +724,7 @@ declare namespace CodeEditor {
          * export code text to webview2 host
         */
         getCodeText(): string;
+        getCodeLanguage(): string;
         private refreshSymbols;
         /**
          * Recursively renders the symbol tree as nested, collapsible rows.

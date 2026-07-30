@@ -316,6 +316,10 @@ End Namespace
             return this.editor.getText();
         }
 
+        public getCodeLanguage(): string {
+            return this.editor.getLanguage();
+        }
+
         private refreshSymbols(): void {
             const tree = this.editor.getSymbolTree();
             if (tree.length === 0) {
