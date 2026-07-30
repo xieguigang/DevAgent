@@ -66,6 +66,7 @@ Public Class AgentTools
     ) As String
         Try
             Dim fullPath As String = ResolveSafePath(path)
+
             If Not Directory.Exists(fullPath) Then
                 Return $"Error: Directory not found: {path}"
             End If
