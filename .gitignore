@@ -278,3 +278,4 @@ storage.ide-wal
 *.db-shm
 *.db-wal
 src/.vs/DevAgent.slnx/v18/DocumentLayout.json
+src/.vs/DevAgent.slnx/v18/DocumentLayout.backup.json
