@@ -174,14 +174,12 @@ Public Class AgentTools
         End If
         Try
             Dim fullPath As String = ResolveSafePath(path)
-            Dim dir As String = System.IO.Path.GetDirectoryName(fullPath)
-            If Not String.IsNullOrEmpty(dir) AndAlso Not Directory.Exists(dir) Then
-                Directory.CreateDirectory(dir)
-            End If
-            File.WriteAllText(fullPath, If(content, ""))
             Dim rel As String = fullPath.Substring(_basePath.Length).TrimStart(System.IO.Path.DirectorySeparatorChar, "/"c)
             Dim len As Integer = If(content?.Length, 0)
-            Log($"[write_file] wrote {rel} ({len} chars)")
+
+            Call If(content, "").SaveTo(fullPath)
+            Call Log($"[write_file] wrote {rel} ({len} chars)")
+
             Return $"OK: wrote {len} chars to {path}"
         Catch ex As System.Security.SecurityException
             Return $"Error: path '{path}' is outside the project workspace."
