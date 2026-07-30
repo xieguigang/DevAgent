@@ -21,7 +21,6 @@ Public Class ReplSession
     Private ReadOnly _ollama As LLMClient
     Private ReadOnly _workspace As String
     Private ReadOnly _tools As AgentTools
-    Private ReadOnly _log As Action(Of String)
 
     ''' <param name="ollama">已配置的 LLMClient（preserveMemory 默认开启）。</param>
     ''' <param name="workspace">工作区绝对路径（当前工作目录）。</param>
@@ -29,7 +28,6 @@ Public Class ReplSession
     Public Sub New(ollama As LLMClient, workspace As String, Optional logger As Action(Of String) = Nothing)
         _ollama = ollama
         _workspace = Path.GetFullPath(workspace)
-        _log = logger
         _tools = New AgentTools(_workspace, logger)
 
         ' 注册 LLM 函数工具（含新增的 write_file）
@@ -59,14 +57,20 @@ Public Class ReplSession
             If input Is Nothing Then
                 Console.WriteLine()
                 Exit Do
+            Else
+                input = input.Trim()
             End If
 
-            input = input.Trim()
-            If input.Length = 0 Then Continue Do
+            If input.Length = 0 Then
+                Continue Do
+            End If
 
             ' 斜杠命令
             If input.StartsWith("/"c) Then
-                If Await HandleSlashCommand(input) Then Exit Do
+                If Await HandleSlashCommand(input) Then
+                    Exit Do
+                End If
+
                 Continue Do
             End If
 
@@ -74,12 +78,14 @@ Public Class ReplSession
             Try
                 Await _ollama.Chat(input)
             Catch ex As Exception
+                Call App.LogException(ex)
+
                 Console.WriteLine()
                 Console.WriteLine("[ERROR] " & ex.Message)
             End Try
         Loop
 
-        Console.WriteLine("Bye.")
+        Console.WriteLine("Bye Bye!")
     End Function
 
     ' ========================================================================
@@ -125,7 +131,8 @@ Public Class ReplSession
         Console.WriteLine("  DevAgent REPL - Interactive Dev Mode")
         Console.WriteLine("========================================")
         Console.WriteLine($"  Workspace: {_workspace}")
-        Console.WriteLine("  Type your request and press Enter.")
+        Console.WriteLine()
+        Console.WriteLine("  Type your development request in natural-language and press Enter.")
         Console.WriteLine("  /help for commands, /exit to quit.")
         Console.WriteLine("----------------------------------------")
     End Sub
@@ -140,10 +147,6 @@ Public Class ReplSession
         Console.WriteLine()
         Console.WriteLine("Otherwise: type a natural-language request and press Enter.")
         Console.WriteLine("The agent can read, search and write files in the workspace via tools.")
-    End Sub
-
-    Private Sub Log(message As String)
-        If _log IsNot Nothing Then _log(message)
     End Sub
 
     ' ========================================================================

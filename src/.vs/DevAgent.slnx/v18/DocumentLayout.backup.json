@@ -3,8 +3,12 @@
   "WorkspaceRootPath": "G:\\DevAgent\\src\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|g:\\devagent\\src\\vallina\\pages\\formllmsagent.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{0E76AAA3-11DC-4E81-B752-0345354DA17C}|Vallina\\Vallina.vbproj|solutionrelative:vallina\\pages\\formllmsagent.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|g:\\devagent\\src\\devagent\\src\\agenttools.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|solutionrelative:devagent\\src\\agenttools.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|g:\\devagent\\src\\devagent\\src\\replsession.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|solutionrelative:devagent\\src\\replsession.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{22341F82-5463-3385-DC69-DB9943FF0FC5}|DevAgent\\DevAgent.vbproj|g:\\devagent\\src\\devagent\\opts.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -36,8 +40,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 123,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AgentTools.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\DevAgent\\src\\AgentTools.vb",
+              "RelativeDocumentMoniker": "DevAgent\\src\\AgentTools.vb",
+              "ToolTip": "G:\\DevAgent\\src\\DevAgent\\src\\AgentTools.vb",
+              "RelativeToolTip": "DevAgent\\src\\AgentTools.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-30T13:58:39.108Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -52,7 +69,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
+              "Title": "ReplSession.vb",
+              "DocumentMoniker": "G:\\DevAgent\\src\\DevAgent\\src\\ReplSession.vb",
+              "RelativeDocumentMoniker": "DevAgent\\src\\ReplSession.vb",
+              "ToolTip": "G:\\DevAgent\\src\\DevAgent\\src\\ReplSession.vb",
+              "RelativeToolTip": "DevAgent\\src\\ReplSession.vb",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAAB4AAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-07-30T13:55:23.951Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "IniFile.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\Settings\\Inf\\IniFile.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\Settings\\Inf\\IniFile.vb",
@@ -65,7 +95,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "INIProfile.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\Settings\\Inf\\INIProfile.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ComponentModel\\Settings\\Inf\\INIProfile.vb",
@@ -78,7 +108,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "AppConfig.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\DevAgent\\src\\AppConfig.vb",
               "RelativeDocumentMoniker": "DevAgent\\src\\AppConfig.vb",
@@ -91,7 +121,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Program.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\DevAgent\\Program.vb",
               "RelativeDocumentMoniker": "DevAgent\\Program.vb",
@@ -104,20 +134,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Opts.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\DevAgent\\Opts.vb",
               "RelativeDocumentMoniker": "DevAgent\\Opts.vb",
               "ToolTip": "G:\\DevAgent\\src\\DevAgent\\Opts.vb",
               "RelativeToolTip": "DevAgent\\Opts.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwA0AAAARAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-07-30T13:27:35.086Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "FormConsole.vb",
               "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\ToolWindow\\FormConsole.vb",
               "RelativeDocumentMoniker": "Vallina\\ToolWindow\\FormConsole.vb",
@@ -126,25 +156,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-07-30T13:30:17.199Z",
-              "EditorCaption": ""
-            }
-          ]
-        },
-        {
-          "DockedWidth": 235,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "FormLLMsAgent.vb",
-              "DocumentMoniker": "G:\\DevAgent\\src\\Vallina\\Pages\\FormLLMsAgent.vb",
-              "RelativeDocumentMoniker": "Vallina\\Pages\\FormLLMsAgent.vb",
-              "ToolTip": "G:\\DevAgent\\src\\Vallina\\Pages\\FormLLMsAgent.vb",
-              "RelativeToolTip": "Vallina\\Pages\\FormLLMsAgent.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-07-30T13:28:32.924Z",
               "EditorCaption": ""
             }
           ]

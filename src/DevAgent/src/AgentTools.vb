@@ -2,6 +2,7 @@ Imports System.IO
 Imports System.Text
 Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+
 ' 注意: ArgumentAttribute 来自你的 Ollama 模块，请根据实际命名空间添加 Imports
 
 ' ============================================================================
@@ -31,7 +32,9 @@ Public Class AgentTools
     End Sub
 
     Private Sub Log(message As String)
-        If _log IsNot Nothing Then _log(message)
+        If _log IsNot Nothing Then
+            _log(message)
+        End If
     End Sub
 
     ''' <summary>
