@@ -1,5 +1,4 @@
-﻿Imports DevAgent
-Imports Galaxy.Workbench
+﻿Imports Galaxy.Workbench
 Imports Microsoft.VisualStudio.WinForms.Docking
 Imports VallinaDevelopment.RibbonLib.Controls
 
@@ -102,6 +101,7 @@ Public Class FormMain : Implements AppHost
     Private Sub FormMain_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
         Call Workbench.KillHttp()
         Call CommonRuntime.SaveUISettings()
+        Call Tools.KillAllChildrenOfCurrentProcess()
 
         RaiseEvent CloseWorkbench(e)
     End Sub
