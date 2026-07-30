@@ -144,7 +144,7 @@ Public Class FormEditor
         Dim deepseek As FormLLMsTool = RibbonMenu.OpenLLMsChat
 
         If Not deepseek Is Nothing Then
-            Call deepseek.HandleCurrentCodeDocument().GetAwaiter.GetResult()
+            Call deepseek.HandleCurrentCodeDocument()
         End If
         If Not _codefile Is Nothing Then
             CommonRuntime.AppHost.SetTitle($"Vallina Basic [{_codefile.GetFullPath}]")
