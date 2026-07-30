@@ -1,4 +1,5 @@
 ﻿Imports Galaxy.Workbench
+Imports Microsoft.VisualStudio.WinForms.Docking
 
 ''' <summary>
 ''' LLM chatbox for project source file
@@ -25,5 +26,21 @@ Public Class FormLLMsTool
 
     Public Async Function ClearFileReference() As Task
         Await WebView2llmui1.ClearFileReference
+    End Function
+
+    Public Async Function HandleCurrentCodeDocument() As Task
+        Dim editor As FormEditor = TryCast(DirectCast(CommonRuntime.AppHost.GetDockPanel, DockPanel).ActiveDocument, FormEditor)
+
+        Await ClearFileReference()
+
+        If editor.codefile.StringEmpty(, True) Then
+            Await SetFileReference(Function()
+                                       Return editor.GetCodeText
+                                   End Function)
+        Else
+            Await SetFileReference(filepath:=editor.codefile)
+        End If
+
+        TabText = $"LLMs Chat [{editor.codefile.FileName}]"
     End Function
 End Class

@@ -113,21 +113,9 @@ Public Class FormMain : Implements AppHost
     Private Async Sub DockPanel1_ActiveDocumentChanged(sender As Object, e As EventArgs) Handles DockPanel1.ActiveDocumentChanged
         If TypeOf DockPanel1.ActiveDocument Is FormEditor Then
             Dim deepseek As FormLLMsTool = CommonRuntime.TryGetToolWindow("llms")
-            Dim editor As FormEditor = DirectCast(DockPanel1.ActiveDocument, FormEditor)
 
             If Not deepseek Is Nothing Then
-                Await deepseek.ClearFileReference
-
-                If editor.codefile.StringEmpty(, True) Then
-                    Await deepseek.SetFileReference(
-                        Function()
-                            Return editor.GetCodeText
-                        End Function)
-                Else
-                    Await deepseek.SetFileReference(filepath:=editor.codefile)
-                End If
-
-                deepseek.TabText = $"LLMs Chat [{editor.codefile.FileName}]"
+                Await deepseek.HandleCurrentCodeDocument
             End If
         End If
     End Sub

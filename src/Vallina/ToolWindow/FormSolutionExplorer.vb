@@ -33,13 +33,16 @@ Public Class FormSolutionExplorer
             .ToArray
         Dim tree = FileSystemTree.BuildTree(files)
 
-        Call TreeView1.LoadFileSystemTree(tree)
+        TreeView1.LoadFileSystemTree(tree)
+        TreeView1.Nodes(0).Text = proj.AssemblyName
     End Sub
 
     Private Sub TreeView1_NodeMouseDoubleClick(sender As Object, e As TreeNodeMouseClickEventArgs) Handles TreeView1.NodeMouseDoubleClick
         Dim node As FileSystemTree = e.Node.Tag
 
         If node.IsDirectory Then
+            Return
+        ElseIf node.FullName = "/" Then
             Return
         End If
 
