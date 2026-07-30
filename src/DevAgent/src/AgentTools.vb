@@ -204,7 +204,7 @@ Public Class AgentTools
         Dim fs As FileSystemTree = FileSystemTree.BuildTree(files)
         Dim json As VirtualFile = fs.ToJSONModel
 
-        Return json.CreateJSONElement().BuildJsonString(indent:=indent)
+        Return json.CreateJSONElement(maskNull:=True).BuildJsonString(indent:=indent)
     End Function
 
     Private Function ShouldSkip(path As String) As Boolean
