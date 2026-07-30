@@ -29,12 +29,12 @@ Public Class AgentTools
     ''' <param name="basePath">项目根目录的绝对路径。</param>
     ''' <param name="logger">可选日志回调，工具执行动作（如写入文件）时反馈给上层。</param>
     Public Sub New(basePath As String, Optional logger As Action(Of String) = Nothing)
-        _basePath = Path.GetFullPath(basePath)
+        _basePath = basePath.GetDirectoryFullPath
         _log = logger
     End Sub
 
     Public Function SetWorkspace(ws As String) As AgentTools
-        _basePath = ws
+        _basePath = ws.GetDirectoryFullPath
         Return Me
     End Function
 
@@ -243,9 +243,9 @@ Public Class AgentTools
 
         Dim fullPath As String
         If Path.IsPathRooted(relativePath) Then
-            fullPath = Path.GetFullPath(relativePath)
+            fullPath = relativePath.GetFullPath
         Else
-            fullPath = Path.GetFullPath(Path.Combine(_basePath, relativePath))
+            fullPath = Path.Combine(_basePath, relativePath).GetFullPath
         End If
 
         ' Security: ensure the path is within the project directory
