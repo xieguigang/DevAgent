@@ -114,13 +114,13 @@ Public Class FormEditor
         Await WebView21.ExecuteScriptAsync("$('toolbar').style.display='none';")
 
         If codefile.FileExists Then
-            Call SetCodeText(codefile.ReadAllText)
+            Await SetCodeText(codefile.ReadAllText)
             Call CommonRuntime.GetOutputWindow.AddLog("open file", "editor open code file: " & codefile)
         End If
     End Sub
 
-    Private Sub SetCodeText(codetext As String)
-        Dim filename As String = JsonSerializer.Serialize(If(codefile.StringEmpty, App.NextTempName & ".vb", codefile.FileName))
+    Private Async Function SetCodeText(codetext As String) As Task
+        Dim filename As String = JsonSerializer.Serialize(If(codefile.StringEmpty, App.NextTempName & "." & Await GetLanguageFileSuffix(), codefile.FileName))
         ' 1. 构造一个匿名对象，包含需要传递的数据
         Dim payload = New With {
             .type = "loadFile",
@@ -132,7 +132,7 @@ Public Class FormEditor
 
         ' 3. 通过消息通道发送（不会作为脚本执行，性能极高且安全）
         WebView21.CoreWebView2.PostWebMessageAsJson(jsonPayload)
-    End Sub
+    End Function
 
     Private Async Function GotoLine() As Task
         Await WebView21.ExecuteScriptAsync("$('btn-goto-line').click();")
@@ -182,7 +182,7 @@ Public Class FormEditor
         Try
             Dim code As String = Await GetCodeText()
             code = Await SyntaxFormater.FormatVBCode(code)
-            SetCodeText(code)
+            Await SetCodeText(code)
             CommonRuntime.GetOutputWindow.AddLog("format vb code", "formatted current visualbasic.net source code: " & codefile.FileName)
         Catch ex As Exception
             Call App.LogException(ex)
