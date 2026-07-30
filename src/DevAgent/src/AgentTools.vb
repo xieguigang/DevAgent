@@ -149,11 +149,15 @@ Public Class AgentTools
     <Description("Get a tree view of all source files in the project, excluding bin/obj/.git/test directories. Returns the project structure as an indented tree.")>
     Public Function get_project_tree() As String
         Try
-            Dim json As String = BuildTree(_basePath, indent:=True)
-            Return If(json.Length > 0, json, "(empty project)")
+            Return fs_tree("/")
         Catch ex As Exception
             Return $"Error getting project tree: {ex.Message}"
         End Try
+    End Function
+
+    Public Function fs_tree(dirname As String)
+        Dim json As String = BuildTree(_basePath & "/" & dirname, indent:=True)
+        Return If(json.Length > 0, json, "(empty project)")
     End Function
 
     ''' <summary>

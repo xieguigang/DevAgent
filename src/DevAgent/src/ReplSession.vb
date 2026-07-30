@@ -110,7 +110,9 @@ Public Class ReplSession
                 Console.WriteLine(_workspace)
 
             Case "/tree"
-                Console.WriteLine(_tools.get_project_tree())
+                Dim dirname As String = parts.Skip(1).JoinBy("/")
+                dirname = If(dirname = "", "/", dirname)
+                Console.WriteLine(_tools.fs_tree(dirname))
 
             Case "/help", "/?"
                 PrintHelp()
@@ -142,7 +144,7 @@ Public Class ReplSession
         Console.WriteLine("  /exit, /quit   Exit the REPL")
         Console.WriteLine("  /clear, /reset Clear conversation context")
         Console.WriteLine("  /cwd           Show current workspace path")
-        Console.WriteLine("  /tree          Show workspace file tree")
+        Console.WriteLine("  /tree [/]      Show workspace file tree, default list the file tree of the workspace root.")
         Console.WriteLine("  /help, /?      Show this help")
         Console.WriteLine()
         Console.WriteLine("Otherwise: type a natural-language request and press Enter.")
