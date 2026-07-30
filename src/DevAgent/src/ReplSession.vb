@@ -33,11 +33,7 @@ Public Class ReplSession
         _tools = New AgentTools(_workspace, logger)
 
         ' 注册 LLM 函数工具（含新增的 write_file）
-        _ollama.AddFunction(_tools, "read_file")
-        _ollama.AddFunction(_tools, "list_files")
-        _ollama.AddFunction(_tools, "file_exists")
-        _ollama.AddFunction(_tools, "search_files")
-        _ollama.AddFunction(_tools, "get_project_tree")
+        _ollama.HookReadOnlyFileSystem(_tools)
         _ollama.AddFunction(_tools, "write_file")
 
         ' 设置系统提示

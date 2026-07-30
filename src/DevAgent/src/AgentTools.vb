@@ -23,8 +23,8 @@ Imports Microsoft.VisualBasic.MIME.application.json
 ''' </summary>
 Public Class AgentTools
 
-    Private ReadOnly _basePath As String
-    Private ReadOnly _log As Action(Of String)
+    Private _basePath As String
+    Private _log As Action(Of String)
 
     ''' <param name="basePath">项目根目录的绝对路径。</param>
     ''' <param name="logger">可选日志回调，工具执行动作（如写入文件）时反馈给上层。</param>
@@ -32,6 +32,11 @@ Public Class AgentTools
         _basePath = Path.GetFullPath(basePath)
         _log = logger
     End Sub
+
+    Public Function SetWorkspace(ws As String) As AgentTools
+        _basePath = ws
+        Return Me
+    End Function
 
     Private Sub Log(message As String)
         If _log IsNot Nothing Then

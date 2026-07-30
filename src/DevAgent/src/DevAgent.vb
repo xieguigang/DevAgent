@@ -103,12 +103,7 @@ Public Class DevAgent
         _projectName = SanitizeProjectName(New DirectoryInfo(_projectPath).Name)
 
         ' 注册 LLM 函数工具
-        Dim tools As New AgentTools(_projectPath)
-        _ollama.AddFunction(tools, "read_file")
-        _ollama.AddFunction(tools, "list_files")
-        _ollama.AddFunction(tools, "file_exists")
-        _ollama.AddFunction(tools, "search_files")
-        _ollama.AddFunction(tools, "get_project_tree")
+        Call ToolCalls.HookReadOnlyFileSystem(_ollama, New AgentTools(_projectPath))
     End Sub
 
     ' ========================================================================
