@@ -52,9 +52,11 @@ Public Class FormSolutionExplorer
     End Sub
 
     Private Sub LoadFolderProjectTree()
+        Dim ws As String = If(Workspace, "").Replace("\", "/").Replace("//", "/")
+
         Call LoadFolderFileTree(files:=DirectCast(proj, FolderWorkspace).GetCompileFiles _
             .Select(Function(file)
-                        Return file.GetFullPath _
+                        Return file _
                             .Replace(Workspace, "/") _
                             .Replace("//", "/")
                     End Function))
