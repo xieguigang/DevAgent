@@ -178,6 +178,16 @@
         <Image MinDPI="192">Icons8/icons8-refresh-96.png</Image>
       </Command.LargeImages>
     </Command>
+    <Command Name="cmdButtonOutputTool" Id="32" LabelTitle="Output Window">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-run-command-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-run-command-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdTabInformation" Id="33" LabelTitle="Information" />
+    <Command Name="cmdGroupInformation" Id="34" LabelTitle="Information" />
   </Application.Commands>
   <Application.Views>
     <Ribbon>
@@ -240,10 +250,15 @@
             <Button CommandName="cmdButtonSaveAs" />
             <Button CommandName="cmdButtonSaveAll" />
           </Group>
-          <Group CommandName="cmdGroupWorkbench" SizeDefinition="ThreeButtons">
+          <Group CommandName="cmdGroupWorkbench" SizeDefinition="TwoButtons">
             <Button CommandName="cmdButtonStartPage" />
-            <Button CommandName="cmdButtonLicense" />
+            <Button CommandName="cmdButtonOutputTool" />
+          </Group>
+        </Tab>
+        <Tab CommandName="cmdTabInformation">
+          <Group CommandName="cmdGroupInformation" SizeDefinition="TwoButtons">
             <Button CommandName="cmdButtonAbout" />
+            <Button CommandName="cmdButtonLicense" />
           </Group>
         </Tab>
       </Ribbon.Tabs>

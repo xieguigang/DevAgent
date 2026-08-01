@@ -45,6 +45,9 @@ Namespace RibbonLib.Controls
             Public Const cmdButtonSaveAs As UInteger = 10
             Public Const cmdButtonSaveAll As UInteger = 6
             Public Const cmdGroupWorkbench As UInteger = 21
+            Public Const cmdButtonOutputTool As UInteger = 32
+            Public Const cmdTabInformation As UInteger = 33
+            Public Const cmdGroupInformation As UInteger = 34
         End Class
 
         ' ContextPopup CommandName
@@ -235,6 +238,24 @@ Namespace RibbonLib.Controls
                 Return _GroupWorkbench
             End Get
         End Property
+        Private _ButtonOutputTool As RibbonButton
+        Public ReadOnly Property ButtonOutputTool As RibbonButton
+            Get
+                Return _ButtonOutputTool
+            End Get
+        End Property
+        Private _TabInformation As RibbonTab
+        Public ReadOnly Property TabInformation As RibbonTab
+            Get
+                Return _TabInformation
+            End Get
+        End Property
+        Private _GroupInformation As RibbonGroup
+        Public ReadOnly Property GroupInformation As RibbonGroup
+            Get
+                Return _GroupInformation
+            End Get
+        End Property
 
         Public Sub New(ByVal ribbon As Ribbon)
             If ribbon Is Nothing Then
@@ -271,6 +292,9 @@ Namespace RibbonLib.Controls
             _ButtonSaveAs = New RibbonButton(_ribbon, Cmd.cmdButtonSaveAs)
             _ButtonSaveAll = New RibbonButton(_ribbon, Cmd.cmdButtonSaveAll)
             _GroupWorkbench = New RibbonGroup(_ribbon, Cmd.cmdGroupWorkbench)
+            _ButtonOutputTool = New RibbonButton(_ribbon, Cmd.cmdButtonOutputTool)
+            _TabInformation = New RibbonTab(_ribbon, Cmd.cmdTabInformation)
+            _GroupInformation = New RibbonGroup(_ribbon, Cmd.cmdGroupInformation)
         End Sub
 
     End Class

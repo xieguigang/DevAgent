@@ -19,6 +19,11 @@ Module RibbonMenu
         AddHandler ribbon.ButtonSettings.ExecuteEvent, Sub() Call OpenSettingsPage()
         AddHandler ribbon.ButtonLicense.ExecuteEvent, Sub() Call OpenLicenseDialog()
         AddHandler ribbon.ButtonConsole.ExecuteEvent, Sub() Call OpenConsole()
+        AddHandler ribbon.ButtonOutputTool.ExecuteEvent, Sub() Call OpenOutputWindows()
+    End Sub
+
+    Public Sub OpenOutputWindows()
+        Call CommonRuntime.GetOutputWindow.Show(CommonRuntime.AppHost.GetDockPanel, DockState.DockBottom)
     End Sub
 
     Public Sub OpenConsole()

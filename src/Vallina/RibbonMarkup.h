@@ -107,4 +107,12 @@
 #define cmdButtonEditorReload_LabelTitle_RESID 60070
 #define cmdButtonEditorReload_SmallImages_192__RESID 60071
 #define cmdButtonEditorReload_LargeImages_192__RESID 60072
-#define InternalCmd2_LabelTitle_RESID 60073
+#define cmdButtonOutputTool 32 
+#define cmdButtonOutputTool_LabelTitle_RESID 60073
+#define cmdButtonOutputTool_SmallImages_192__RESID 60074
+#define cmdButtonOutputTool_LargeImages_192__RESID 60075
+#define cmdTabInformation 33 
+#define cmdTabInformation_LabelTitle_RESID 60076
+#define cmdGroupInformation 34 
+#define cmdGroupInformation_LabelTitle_RESID 60077
+#define InternalCmd2_LabelTitle_RESID 60078
