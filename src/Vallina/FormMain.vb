@@ -34,7 +34,7 @@ Public Class FormMain : Implements AppHost
         Call Workbench.StartHttp()
         Call RibbonMenu.Hook(New RibbonItems(Ribbon1), Me)
         Call CommonRuntime.Hook(Me)
-        Call StatusMessage("Ready", Icons8.Information)
+        Call StatusMessage("Ready!", Icons8.Information)
         Call RibbonMenu.OpenStartupPage()
         Call CommonRuntime.GetOutputWindow.AddLog("startup", "code editor is ready")
     End Sub

@@ -119,6 +119,10 @@ Public Class ReplSession
                 dirname = _workspace & "/" & dirname
                 git_diff = CommitMessageGenerator.GenerateCommitMessage(_ollama, dirname).GetAwaiter.GetResult
 
+                If git_diff.Summary.StringEmpty(, True) Then
+                    git_diff = Nothing
+                End If
+
             Case "/commit"
 
                 If git_diff Is Nothing Then

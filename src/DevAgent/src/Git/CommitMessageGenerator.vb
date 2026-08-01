@@ -37,7 +37,12 @@ Public Module CommitMessageGenerator
         Dim diffResult As DiffResult = diff.GetDiff(workspace, cached)
 
         If diffResult Is Nothing OrElse diffResult.Files.IsNullOrEmpty Then
-            Throw New InvalidOperationException("工作区无尚未提交的改动，无法生成 commit 信息")
+            Call "工作区无尚未提交的改动，无法生成 commit 信息".warning
+
+            Return New CommitSummary With {
+               .Summary = String.Empty,
+               .Description = String.Empty
+           }
         End If
 
         Dim diffText As String = RenderDiff(diffResult)
