@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SshClient": {
+      "commandName": "Project",
+      "commandLineArgs": "-h 192.168.3.14 -u xieguigang -P 1"
+    }
+  }
+}

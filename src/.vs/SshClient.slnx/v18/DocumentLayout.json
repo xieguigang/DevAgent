@@ -1,0 +1,59 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Administrator\\Downloads\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{586F30AC-D83F-A6D7-8D18-F38147DB23E0}|SshClient\\SshClient.vbproj|c:\\users\\administrator\\downloads\\sshclient\\sshshellsession.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{586F30AC-D83F-A6D7-8D18-F38147DB23E0}|SshClient\\SshClient.vbproj|solutionrelative:sshclient\\sshshellsession.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SshShellSession.vb",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Downloads\\SshClient\\SshShellSession.vb",
+              "RelativeDocumentMoniker": "SshClient\\SshShellSession.vb",
+              "ToolTip": "C:\\Users\\Administrator\\Downloads\\SshClient\\SshShellSession.vb",
+              "RelativeToolTip": "SshClient\\SshShellSession.vb",
+              "ViewState": "AgIAABcAAAAAAAAAAAAIwCAAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-08-01T16:56:18.539Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 1858,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

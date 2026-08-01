@@ -46,5 +46,13 @@ Namespace Javascript
         Public Async Function newProject() As Task
 
         End Function
+
+        Public Async Function openFolder() As Task
+            Using folder As New FolderBrowserDialog With {.ShowNewFolderButton = True}
+                If folder.ShowDialog = DialogResult.OK Then
+
+                End If
+            End Using
+        End Function
     End Class
 End Namespace
