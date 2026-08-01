@@ -1,6 +1,7 @@
 ﻿Imports Galaxy.Workbench
 Imports Galaxy.Workbench.CommonDialogs
 Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.sln
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VersionControl.Git
 
@@ -10,37 +11,73 @@ Public Class FormSolutionExplorer
 
     Public ReadOnly Property Workspace As String
         Get
-            Return ProjectFile.ParentPath.GetDirectoryFullPath
+            If proj Is Nothing Then
+                Return Nothing
+            End If
+
+            If TypeOf proj Is VBProject Then
+                Return ProjectFile.ParentPath.GetDirectoryFullPath
+            ElseIf TypeOf proj Is FolderWorkspace Then
+                Return ProjectFile
+            Else
+                Throw New NotImplementedException(proj.GetType.FullName)
+            End If
         End Get
     End Property
 
-    Dim proj As VBProject
+    Dim proj As IProjectWorkspace
 
     Private Sub FormSolutionExplorer_Load(sender As Object, e As EventArgs) Handles Me.Load
         Call ApplyVsTheme(ToolStrip1, ContextMenuStrip1)
     End Sub
 
-    Public Sub Reload()
-        TabText = $"Project Explorer [{ProjectFile.FileName}]"
-        proj = VBProject.Load(ProjectFile)
+    Public Sub Reload() Handles ToolStripButton3.Click
+        Dim oldName As String = If(proj Is Nothing, "", proj.Name)
 
-        Call RibbonMenu.OpenLLMsChat.Clear()
-        Call LoadProjectFileTree()
+        TabText = $"Project Explorer [{ProjectFile.FileName}]"
+
+        Select Case ProjectFile.ExtensionSuffix
+            Case "vbproj"
+                proj = VBProject.Load(ProjectFile)
+                Call LoadVBProjectFileTree()
+            Case Else
+                proj = New FolderWorkspace(ProjectFile)
+                Call LoadFolderProjectTree()
+        End Select
+
+        ' switch to new workspace context for LLM
+        If proj.Name <> oldName Then
+            RibbonMenu.OpenLLMsChat.Clear()
+        End If
     End Sub
 
-    Private Sub LoadProjectFileTree()
+    Private Sub LoadFolderProjectTree()
+        Call LoadFolderFileTree(files:=DirectCast(proj, FolderWorkspace).GetCompileFiles _
+            .Select(Function(file)
+                        Return file.GetFullPath _
+                            .Replace(Workspace, "/") _
+                            .Replace("//", "/")
+                    End Function))
+    End Sub
+
+    Private Sub LoadFolderFileTree(files As IEnumerable(Of String))
+        Dim tree = FileSystemTree.BuildTree(files)
+
+        TreeView1.LoadFileSystemTree(tree)
+        TreeView1.Nodes(0).Text = proj.Name
+    End Sub
+
+    Private Sub LoadVBProjectFileTree()
         Dim ws As String = Workspace
-        Dim files As String() = proj.EnumerateSourceFiles(skipAssmInfo:=False, fullName:=True) _
+        Dim files As String() = DirectCast(proj, VBProject).EnumerateSourceFiles(skipAssmInfo:=False, fullName:=True) _
             .Select(Function(file)
                         Return file.GetFullPath _
                             .Replace(ws, "/") _
                             .Replace("//", "/")
                     End Function) _
             .ToArray
-        Dim tree = FileSystemTree.BuildTree(files)
 
-        TreeView1.LoadFileSystemTree(tree)
-        TreeView1.Nodes(0).Text = proj.AssemblyName
+        Call LoadFolderFileTree(files)
     End Sub
 
     Private Sub TreeView1_NodeMouseDoubleClick(sender As Object, e As TreeNodeMouseClickEventArgs) Handles TreeView1.NodeMouseDoubleClick
@@ -104,11 +141,6 @@ Public Class FormSolutionExplorer
         Dim fullname As String = Workspace & "/" & file.FullName
 
         Call Clipboard.SetText(fullname.GetFullPath)
-    End Sub
-
-    Private Sub ToolStripButton3_Click(sender As Object, e As EventArgs) Handles ToolStripButton3.Click
-        proj = VBProject.Load(ProjectFile)
-        LoadProjectFileTree()
     End Sub
 
     Private Sub ToolStripButton4_Click(sender As Object, e As EventArgs) Handles ToolStripButton4.Click

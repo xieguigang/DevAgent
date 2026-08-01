@@ -50,7 +50,7 @@ Namespace Javascript
         Public Async Function openFolder() As Task
             Using folder As New FolderBrowserDialog With {.ShowNewFolderButton = True}
                 If folder.ShowDialog = DialogResult.OK Then
-
+                    Await Task.Run(Sub() Call RibbonMenu.OpenSolutionExplorer(folder.SelectedPath))
                 End If
             End Using
         End Function
