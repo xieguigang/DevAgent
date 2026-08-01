@@ -25,6 +25,7 @@ Partial Class FormLLMsTool
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         components = New ComponentModel.Container()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormLLMsTool))
         WebView2llmui1 = New WebView2UI.WebView2LLMUI()
         SuspendLayout()
         ' 
@@ -44,6 +45,7 @@ Partial Class FormLLMsTool
         Controls.Add(WebView2llmui1)
         DockAreas = Microsoft.VisualStudio.WinForms.Docking.DockAreas.Float Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockLeft Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockRight Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockTop Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockBottom Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.Document
         DoubleBuffered = True
+        Icon = CType(resources.GetObject("$this.Icon"), Icon)
         Name = "FormLLMsTool"
         ShowHint = Microsoft.VisualStudio.WinForms.Docking.DockState.Unknown
         Text = "LLMs Chat"

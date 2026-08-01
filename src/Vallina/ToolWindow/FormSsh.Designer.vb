@@ -26,6 +26,7 @@ Partial Class FormSsh
     Private Sub InitializeComponent()
         components = New ComponentModel.Container()
         Dim SshConnectionOptions1 As Microsoft.VisualBasic.Windows.Forms.SshClient.SshConnectionOptions = New Microsoft.VisualBasic.Windows.Forms.SshClient.SshConnectionOptions()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormSsh))
         SshWinFormConsole1 = New Microsoft.VisualBasic.Windows.Forms.SshClient.SshWinFormConsole()
         SuspendLayout()
         ' 
@@ -53,6 +54,7 @@ Partial Class FormSsh
         Controls.Add(SshWinFormConsole1)
         DockAreas = Microsoft.VisualStudio.WinForms.Docking.DockAreas.Float Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockLeft Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockRight Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockTop Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockBottom Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.Document
         DoubleBuffered = True
+        Icon = CType(resources.GetObject("$this.Icon"), Icon)
         Name = "FormSsh"
         ShowHint = Microsoft.VisualStudio.WinForms.Docking.DockState.Unknown
         Text = "/bin/bash/"
