@@ -86,8 +86,10 @@
     <ProjectReference Include="..\..\..\LLMs\src\Ollama\Ollama.vbproj" />
     <ProjectReference Include="..\..\..\LLMs\src\WebView2UI\WebView2UI.vbproj" />
     <ProjectReference Include="..\..\..\mini-R\src\console\console\console.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\mini-R\src\console\SShClient\SShClient.vbproj" />
     <ProjectReference Include="..\DevAgent\DevAgent.vbproj" />
     <ProjectReference Include="..\LanguageServer\LanguageServer.vbproj" />
+    <ProjectReference Include="..\SshClient\SshClient.vbproj" />
   </ItemGroup>
 
   <ItemGroup>

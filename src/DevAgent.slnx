@@ -22,7 +22,12 @@
     <Project Path="../../LLMs/src/Ollama/Ollama.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+  </Folder>
+  <Folder Name="/framework/console/">
     <Project Path="../../mini-R/src/console/console/console.NET5.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../mini-R/src/console/SShClient/SShClient.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>
@@ -93,6 +98,9 @@
     <Platform Solution="*|x64" Project="x64" />
   </Project>
   <Project Path="LanguageServer/LanguageServer.vbproj" Id="9cdfc7c0-db7a-49be-8c6a-52bfbfb38a16">
+    <Platform Solution="*|x64" Project="x64" />
+  </Project>
+  <Project Path="SshClient/SshClient.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
   <Project Path="Vallina/Vallina.vbproj" Id="0e76aaa3-11dc-4e81-b752-0345354da17c">
