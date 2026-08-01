@@ -40,12 +40,17 @@ Namespace RibbonLib.Controls
             Public Const cmdButtonEditorTheme As UInteger = 15
             Public Const cmdMenuEdit As UInteger = 14
             Public Const cmdGroupFile As UInteger = 12
-            Public Const cmdButtonConsole As UInteger = 28
             Public Const cmdGroupSave As UInteger = 13
             Public Const cmdButtonSaveAs As UInteger = 10
             Public Const cmdButtonSaveAll As UInteger = 6
             Public Const cmdGroupWorkbench As UInteger = 21
             Public Const cmdButtonOutputTool As UInteger = 32
+            Public Const cmdTabConsole As UInteger = 37
+            Public Const cmdGroupConsole As UInteger = 36
+            Public Const cmdButtonConsole As UInteger = 28
+            Public Const cmdButtonSsh As UInteger = 35
+            Public Const cmdGroupSshSessions As UInteger = 38
+            Public Const cmdButtonRemoteSessions As UInteger = 39
             Public Const cmdTabInformation As UInteger = 33
             Public Const cmdGroupInformation As UInteger = 34
         End Class
@@ -208,12 +213,6 @@ Namespace RibbonLib.Controls
                 Return _GroupFile
             End Get
         End Property
-        Private _ButtonConsole As RibbonButton
-        Public ReadOnly Property ButtonConsole As RibbonButton
-            Get
-                Return _ButtonConsole
-            End Get
-        End Property
         Private _GroupSave As RibbonGroup
         Public ReadOnly Property GroupSave As RibbonGroup
             Get
@@ -242,6 +241,42 @@ Namespace RibbonLib.Controls
         Public ReadOnly Property ButtonOutputTool As RibbonButton
             Get
                 Return _ButtonOutputTool
+            End Get
+        End Property
+        Private _TabConsole As RibbonTab
+        Public ReadOnly Property TabConsole As RibbonTab
+            Get
+                Return _TabConsole
+            End Get
+        End Property
+        Private _GroupConsole As RibbonGroup
+        Public ReadOnly Property GroupConsole As RibbonGroup
+            Get
+                Return _GroupConsole
+            End Get
+        End Property
+        Private _ButtonConsole As RibbonButton
+        Public ReadOnly Property ButtonConsole As RibbonButton
+            Get
+                Return _ButtonConsole
+            End Get
+        End Property
+        Private _ButtonSsh As RibbonButton
+        Public ReadOnly Property ButtonSsh As RibbonButton
+            Get
+                Return _ButtonSsh
+            End Get
+        End Property
+        Private _GroupSshSessions As RibbonGroup
+        Public ReadOnly Property GroupSshSessions As RibbonGroup
+            Get
+                Return _GroupSshSessions
+            End Get
+        End Property
+        Private _ButtonRemoteSessions As RibbonButton
+        Public ReadOnly Property ButtonRemoteSessions As RibbonButton
+            Get
+                Return _ButtonRemoteSessions
             End Get
         End Property
         Private _TabInformation As RibbonTab
@@ -287,12 +322,17 @@ Namespace RibbonLib.Controls
             _ButtonEditorTheme = New RibbonButton(_ribbon, Cmd.cmdButtonEditorTheme)
             _MenuEdit = New RibbonTab(_ribbon, Cmd.cmdMenuEdit)
             _GroupFile = New RibbonGroup(_ribbon, Cmd.cmdGroupFile)
-            _ButtonConsole = New RibbonButton(_ribbon, Cmd.cmdButtonConsole)
             _GroupSave = New RibbonGroup(_ribbon, Cmd.cmdGroupSave)
             _ButtonSaveAs = New RibbonButton(_ribbon, Cmd.cmdButtonSaveAs)
             _ButtonSaveAll = New RibbonButton(_ribbon, Cmd.cmdButtonSaveAll)
             _GroupWorkbench = New RibbonGroup(_ribbon, Cmd.cmdGroupWorkbench)
             _ButtonOutputTool = New RibbonButton(_ribbon, Cmd.cmdButtonOutputTool)
+            _TabConsole = New RibbonTab(_ribbon, Cmd.cmdTabConsole)
+            _GroupConsole = New RibbonGroup(_ribbon, Cmd.cmdGroupConsole)
+            _ButtonConsole = New RibbonButton(_ribbon, Cmd.cmdButtonConsole)
+            _ButtonSsh = New RibbonButton(_ribbon, Cmd.cmdButtonSsh)
+            _GroupSshSessions = New RibbonGroup(_ribbon, Cmd.cmdGroupSshSessions)
+            _ButtonRemoteSessions = New RibbonButton(_ribbon, Cmd.cmdButtonRemoteSessions)
             _TabInformation = New RibbonTab(_ribbon, Cmd.cmdTabInformation)
             _GroupInformation = New RibbonGroup(_ribbon, Cmd.cmdGroupInformation)
         End Sub

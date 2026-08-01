@@ -188,6 +188,25 @@
     </Command>
     <Command Name="cmdTabInformation" Id="33" LabelTitle="Information" />
     <Command Name="cmdGroupInformation" Id="34" LabelTitle="Information" />
+    <Command Name="cmdButtonSsh" Id="35" LabelTitle="Remote SSH">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-bash-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-bash-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdGroupConsole" Id="36" LabelTitle="Console" />
+    <Command Name="cmdTabConsole" Id="37" LabelTitle="Console" />
+    <Command Name="cmdGroupSshSessions" Id="38" LabelTitle="Remote Sessions" />
+    <Command Name="cmdButtonRemoteSessions" Id="39" LabelTitle="Linux Servers">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-debian-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-debian-96.png</Image>
+      </Command.LargeImages>
+    </Command>
   </Application.Commands>
   <Application.Views>
     <Ribbon>
@@ -240,10 +259,9 @@
       </Ribbon.ContextualTabs>
       <Ribbon.Tabs>
         <Tab CommandName="cmdMenuEdit">
-          <Group CommandName="cmdGroupFile" SizeDefinition="ThreeButtons">
+          <Group CommandName="cmdGroupFile" SizeDefinition="TwoButtons">
             <Button CommandName="cmdButtonNew" />
             <Button CommandName="cmdButtonOpen" />
-            <Button CommandName="cmdButtonConsole" />
           </Group>
           <Group CommandName="cmdGroupSave" SizeDefinition="ThreeButtons-OneBigAndTwoSmall">
             <Button CommandName="cmdButtonSave" />
@@ -253,6 +271,15 @@
           <Group CommandName="cmdGroupWorkbench" SizeDefinition="TwoButtons">
             <Button CommandName="cmdButtonStartPage" />
             <Button CommandName="cmdButtonOutputTool" />
+          </Group>
+        </Tab>
+        <Tab CommandName="cmdTabConsole">
+          <Group CommandName="cmdGroupConsole" SizeDefinition="TwoButtons">
+            <Button CommandName="cmdButtonConsole" />
+            <Button CommandName="cmdButtonSsh" />
+          </Group>
+          <Group CommandName="cmdGroupSshSessions">
+            <Button CommandName="cmdButtonRemoteSessions" />
           </Group>
         </Tab>
         <Tab CommandName="cmdTabInformation">
