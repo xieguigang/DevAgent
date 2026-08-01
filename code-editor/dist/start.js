@@ -1,0 +1,538 @@
+/* ============================================================
+           Start page logic.
+           - Renders the action cards.
+           - Manages the recent-files history in localStorage.
+           - Wires up file/project open dialogs.
+           All inline — no external dependencies.
+           ============================================================ */
+"use strict";
+
+var STORAGE_KEY = "codeEditor.recentFiles";
+var MAX_HISTORY = 10;
+
+/* ---- Action card definitions ---- */
+var ACTIONS = [
+  {
+    title: "New Document",
+    desc: "Create a new empty code document in the editor.",
+    shortcut: "Ctrl+N",
+    accent: "var(--card-blue)",
+    accentSoft: "var(--card-blue-soft)",
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>',
+    action: "newDocument",
+  },
+  {
+    title: "New Project",
+    desc: "Start a new project workspace with multiple files.",
+    shortcut: "Ctrl+Shift+N",
+    accent: "var(--card-green)",
+    accentSoft: "var(--card-green-soft)",
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path><line x1="12" y1="11" x2="12" y2="17"></line><line x1="9" y1="14" x2="15" y2="14"></line></svg>',
+    action: "newProject",
+  },
+  {
+    title: "Open Document",
+    desc: "Open an existing code file from your computer.",
+    shortcut: "Ctrl+O",
+    accent: "var(--card-purple)",
+    accentSoft: "var(--card-purple-soft)",
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>',
+    action: "openDocument",
+  },
+  {
+    title: "Open Project",
+    desc: "Open a folder of target project file as a project workspace.",
+    shortcut: "Ctrl+Shift+O",
+    accent: "var(--card-orange)",
+    accentSoft: "var(--card-orange-soft)",
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path><polyline points="9 13 11 15 15 11"></polyline></svg>',
+    action: "openProject",
+  },
+  {
+    title: "File History",
+    desc: "View and reopen recently edited documents.",
+    shortcut: "Ctrl+H",
+    accent: "var(--card-teal)",
+    accentSoft: "var(--card-teal-soft)",
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>',
+    action: "showHistory",
+  },
+  {
+    title: "LLM Agent",
+    desc: "Open the AI assistant for code generation and help.",
+    shortcut: "Ctrl+I",
+    accent: "var(--card-pink)",
+    accentSoft: "var(--card-pink-soft)",
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path><line x1="8" y1="16" x2="8" y2="16"></line><line x1="16" y1="16" x2="16" y2="16"></line></svg>',
+    action: "openLLMAgent",
+  },
+  {
+    title: "Settings",
+    desc: "Configure editor preferences, themes, and endpoints.",
+    shortcut: "Ctrl+,",
+    accent: "var(--card-gray)",
+    accentSoft: "var(--card-gray-soft)",
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>',
+    action: "openSettings",
+  },
+  {
+    title: "Open Folder",
+    desc: "Open a local folder in the code editor workspace.",
+    shortcut: "Ctrl+E",
+    accent: "var(--card-blue)",
+    accentSoft: "var(--card-blue-soft)",
+    icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>',
+    action: "openFolder",
+  },
+];
+
+/* ---- Language colors for history icons ---- */
+var LANG_COLORS = {
+  vbnet: "#00539b",
+  r: "#1f64c4",
+  json: "#a0a0a0",
+  xml: "#d4661a",
+  markdown: "#555555",
+  yaml: "#cb171e",
+  plain: "#5a5a5a",
+};
+
+var LANG_LABELS = {
+  vbnet: "VB",
+  r: "R",
+  json: "{}",
+  xml: "<>",
+  markdown: "MD",
+  yaml: "Y",
+  plain: "TXT",
+};
+
+/* ---- DOM refs ---- */
+var actionsGrid = document.getElementById("actions-grid");
+var historySection = document.getElementById("history-section");
+var historyHint = document.getElementById("history-hint");
+var hiddenFileInput = document.getElementById("hidden-file-input");
+var hiddenProjectInput = document.getElementById("hidden-project-input");
+var toast = document.getElementById("toast");
+
+/* ---- Toast helper ---- */
+var toastTimer = null;
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.add("show");
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(function () {
+    toast.classList.remove("show");
+  }, 2500);
+}
+
+/* ---- Render action cards ---- */
+function renderActions() {
+  var html = "";
+  for (var i = 0; i < ACTIONS.length; i++) {
+    var a = ACTIONS[i];
+    html +=
+      '<div class="action-card" data-action="' +
+      a.action +
+      '" ' +
+      'style="--card-accent:' +
+      a.accent +
+      ";--card-accent-soft:" +
+      a.accentSoft +
+      ';" ' +
+      'tabindex="0" role="button">' +
+      '<div class="card-icon">' +
+      a.icon +
+      "</div>" +
+      '<div class="card-title">' +
+      a.title +
+      "</div>" +
+      '<div class="card-desc">' +
+      a.desc +
+      "</div>" +
+      '<div class="card-shortcut">' +
+      a.shortcut +
+      "</div>" +
+      "</div>";
+  }
+  actionsGrid.innerHTML = html;
+
+  var cards = actionsGrid.querySelectorAll(".action-card");
+  cards.forEach(function (card) {
+    card.addEventListener("click", function () {
+      handleAction(card.getAttribute("data-action"));
+    });
+    card.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleAction(card.getAttribute("data-action"));
+      }
+    });
+  });
+}
+
+/* ---- Action handler ---- */
+function handleAction(action) {
+  switch (action) {
+    case "newDocument":
+      devkit.newDocument();
+      break;
+    case "newProject":
+      devkit.newProject();
+      break;
+    case "openDocument":
+      devkit.openDocument();
+      break;
+    case "openProject":
+      devkit.openProject();
+      break;
+    case "showHistory":
+      scrollToHistory();
+      break;
+    case "openLLMAgent":
+      devkit.openLLMAgent();
+      break;
+    case "openSettings":
+      devkit.openSettings();
+      break;
+    case "openEditor":
+      devkit.newDocument();
+      break;
+    case "openFolder":
+      devkit.openFolder();
+      break;
+  }
+}
+
+/* ---- New document ---- */
+function newDocument() {
+  var stamp = new Date().toISOString().slice(0, 10);
+  var name = "untitled-" + stamp + ".vb";
+  addRecentFile({
+    name: name,
+    path: "(new document)",
+    language: "vbnet",
+    size: 0,
+    openedAt: Date.now(),
+  });
+  try {
+    sessionStorage.setItem(
+      "codeEditor.pendingFile",
+      JSON.stringify({
+        name: name,
+        content: "",
+        language: "vbnet",
+      }),
+    );
+  } catch (e) {}
+  window.location.href = "index.html?new=1";
+}
+
+/* ---- New project ---- */
+function newProject() {
+  var name = "NewProject";
+  addRecentFile({
+    name: name,
+    path: "(new project)",
+    language: "plain",
+    size: 0,
+    isProject: true,
+    openedAt: Date.now(),
+  });
+  showToast("New project created — opening editor...");
+  setTimeout(function () {
+    window.location.href = "index.html?newProject=1";
+  }, 600);
+}
+
+/* ---- LLM Agent ---- */
+function openLLMAgent() {
+  showToast("LLM Agent tool is coming soon...");
+}
+
+/* ---- Settings ---- */
+function openSettings() {
+  showToast("Settings page is coming soon...");
+}
+
+/* ---- Scroll to history ---- */
+function scrollToHistory() {
+  historySection.scrollIntoView({ behavior: "smooth", block: "center" });
+  historySection.style.transition = "box-shadow 0.3s";
+  historySection.style.boxShadow = "0 0 0 3px var(--accent)";
+  setTimeout(function () {
+    historySection.style.boxShadow = "";
+  }, 1200);
+}
+
+/* ---- Language detection ---- */
+function detectLanguage(filename) {
+  var dot = filename.lastIndexOf(".");
+  if (dot < 0) return "plain";
+  var ext = filename.substring(dot + 1).toLowerCase();
+  var map = {
+    vb: "vbnet",
+    vbnet: "vbnet",
+    r: "r",
+    rmd: "r",
+    json: "json",
+    jsonc: "json",
+    xml: "xml",
+    xsd: "xml",
+    xsl: "xml",
+    xslt: "xml",
+    csproj: "xml",
+    vbproj: "xml",
+    props: "xml",
+    targets: "xml",
+    config: "xml",
+    md: "markdown",
+    markdown: "markdown",
+    yaml: "yaml",
+    yml: "yaml",
+  };
+  return map[ext] || "plain";
+}
+
+/* ---- Recent files storage ---- */
+function getRecentFiles() {
+  try {
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    var parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveRecentFiles(files) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(files));
+  } catch (e) {}
+}
+
+function addRecentFile(entry) {
+  var files = getRecentFiles();
+  // De-dupe by name+path.
+  files = files.filter(function (f) {
+    return !(f.name === entry.name && f.path === entry.path);
+  });
+  files.unshift(entry);
+  if (files.length > MAX_HISTORY) {
+    files = files.slice(0, MAX_HISTORY);
+  }
+  saveRecentFiles(files);
+  renderHistory();
+}
+
+function removeRecentFile(index) {
+  var files = getRecentFiles();
+  if (index < 0 || index >= files.length) return;
+  files.splice(index, 1);
+  saveRecentFiles(files);
+  renderHistory();
+}
+
+function clearHistory() {
+  if (!confirm("Clear all recent file history? This cannot be undone.")) return;
+  saveRecentFiles([]);
+  renderHistory();
+  showToast("History cleared.");
+}
+
+/* ---- Render history ---- */
+function renderHistory() {
+  var files = getRecentFiles();
+  if (files.length === 0) {
+    historyHint.textContent = "No files opened yet";
+    historySection.innerHTML =
+      '<div class="history-empty">' +
+      '<div class="empty-icon">' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">' +
+      '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>' +
+      '<polyline points="14 2 14 8 20 8"></polyline>' +
+      "</svg>" +
+      "</div>" +
+      "<h3>No recent files</h3>" +
+      "<p>Open or create a document to see it listed here.</p>" +
+      "</div>";
+    return;
+  }
+
+  historyHint.textContent =
+    files.length + " file" + (files.length === 1 ? "" : "s") + " in history";
+
+  var html = '<ul class="history-list">';
+  for (var i = 0; i < files.length; i++) {
+    var f = files[i];
+    var color = LANG_COLORS[f.language] || LANG_COLORS.plain;
+    var label = LANG_LABELS[f.language] || LANG_LABELS.plain;
+    var date = new Date(f.openedAt);
+    var dateStr = formatDate(date);
+    var sizeStr = f.isProject
+      ? f.fileCount
+        ? f.fileCount + " files"
+        : "project"
+      : formatSize(f.size);
+
+    html +=
+      '<li class="history-item" data-index="' +
+      i +
+      '">' +
+      '<div class="file-icon" style="background:' +
+      color +
+      '">' +
+      label +
+      "</div>" +
+      '<div class="file-info">' +
+      '<div class="file-name">' +
+      escapeHtml(f.name) +
+      "</div>" +
+      '<div class="file-meta">' +
+      dateStr +
+      " · " +
+      sizeStr +
+      "</div>" +
+      "</div>" +
+      '<div class="file-path" title="' +
+      escapeHtml(f.path) +
+      '">' +
+      escapeHtml(f.path) +
+      "</div>" +
+      '<span class="open-action">Open</span>' +
+      '<button class="remove-btn" data-remove="' +
+      i +
+      '" title="Remove from history" aria-label="Remove">' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+      '<line x1="18" y1="6" x2="6" y2="18"></line>' +
+      '<line x1="6" y1="6" x2="18" y2="18"></line>' +
+      "</svg>" +
+      "</button>" +
+      "</li>";
+  }
+  html += "</ul>";
+  html +=
+    '<div class="history-footer">' +
+    "<span>" +
+    files.length +
+    " of " +
+    MAX_HISTORY +
+    " recent files</span>" +
+    '<button id="clear-history-btn">Clear All</button>' +
+    "</div>";
+
+  historySection.innerHTML = html;
+
+  // Attach click handlers.
+  var items = historySection.querySelectorAll(".history-item");
+  items.forEach(function (item) {
+    item.addEventListener("click", function (e) {
+      if (e.target.closest(".remove-btn")) return;
+      var idx = parseInt(item.getAttribute("data-index"), 10);
+      openFromHistory(idx);
+    });
+  });
+
+  var removeBtns = historySection.querySelectorAll(".remove-btn");
+  removeBtns.forEach(function (btn) {
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var idx = parseInt(btn.getAttribute("data-remove"), 10);
+      removeRecentFile(idx);
+    });
+  });
+
+  var clearBtn = document.getElementById("clear-history-btn");
+  if (clearBtn) {
+    clearBtn.addEventListener("click", clearHistory);
+  }
+}
+
+/* ---- Open from history ---- */
+function openFromHistory(index) {
+  var files = getRecentFiles();
+  if (index < 0 || index >= files.length) return;
+  var f = files[index];
+  // Move to top.
+  files.splice(index, 1);
+  f.openedAt = Date.now();
+  files.unshift(f);
+  saveRecentFiles(files);
+  renderHistory();
+
+  if (f.isProject) {
+    showToast("Opening project: " + f.name + "...");
+    setTimeout(function () {
+      window.location.href = "index.html?project=" + encodeURIComponent(f.name);
+    }, 500);
+  } else {
+    showToast("Opening " + f.name + "...");
+    setTimeout(function () {
+      window.location.href = "index.html?file=" + encodeURIComponent(f.name);
+    }, 500);
+  }
+}
+
+/* ---- Formatting helpers ---- */
+function formatSize(bytes) {
+  if (!bytes || bytes === 0) return "—";
+  if (bytes < 1024) return bytes + " B";
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+  return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+}
+
+function formatDate(date) {
+  var now = new Date();
+  var diff = now - date;
+  if (diff < 60000) return "just now";
+  if (diff < 3600000) return Math.floor(diff / 60000) + " min ago";
+  if (diff < 86400000) return Math.floor(diff / 3600000) + " hr ago";
+  if (diff < 7 * 86400000) return Math.floor(diff / 86400000) + " days ago";
+  return date.toLocaleDateString();
+}
+
+function escapeHtml(text) {
+  if (text == null) return "";
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/* ---- Keyboard shortcuts ---- */
+document.addEventListener("keydown", function (e) {
+  if (e.ctrlKey || e.metaKey) {
+    var key = e.key.toLowerCase();
+    if (key === "n" && e.shiftKey) {
+      e.preventDefault();
+      newProject();
+    } else if (key === "n") {
+      e.preventDefault();
+      newDocument();
+    } else if (key === "o" && e.shiftKey) {
+      e.preventDefault();
+      hiddenProjectInput.click();
+    } else if (key === "o") {
+      e.preventDefault();
+      hiddenFileInput.click();
+    } else if (key === "h") {
+      e.preventDefault();
+      scrollToHistory();
+    } else if (key === "i") {
+      e.preventDefault();
+      openLLMAgent();
+    } else if (key === ",") {
+      e.preventDefault();
+      openSettings();
+    } else if (key === "e") {
+      e.preventDefault();
+      window.location.href = "index.html";
+    }
+  }
+});
+
+/* ---- Init ---- */
+renderActions();
+renderHistory();
