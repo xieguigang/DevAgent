@@ -11,9 +11,9 @@
 '   - 异步读写避免阻塞
 ' ============================================================================
 
-Imports System.IO
 Imports System.Text
 Imports System.Threading
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal
 Imports Renci.SshNet
 
 ''' <summary>
@@ -88,12 +88,7 @@ Public Class SshShellSession
         }
         outputThread.Start()
 
-        ' 启动窗口尺寸监视线程（实时感知本地 console 窗口大小变化）
-        Dim resizeThread As New Thread(AddressOf WatchResize) With {
-            .IsBackground = True,
-            .Name = "ssh-resize-watcher"
-        }
-        resizeThread.Start()
+        AddHandler TerminalEvents.Resize, AddressOf WatchResize
 
         ' 主线程负责读取本地输入并转发到远程
         ForwardLocalInput()
@@ -102,8 +97,6 @@ Public Class SshShellSession
 
         ' 等待输出线程结束
         outputThread.Join(TimeSpan.FromMilliseconds(500))
-        ' 等待窗口监视线程结束
-        resizeThread.Join(TimeSpan.FromMilliseconds(500))
     End Sub
 
     ''' <summary>
@@ -229,24 +222,21 @@ Public Class SshShellSession
     ''' 运行在后台线程上，周期性轮询 _running 控制生命周期。
     ''' </summary>
     Private Sub WatchResize()
-        While _running
-            Try
-                Dim curCols As Integer = Console.WindowWidth
-                Dim curRows As Integer = Console.WindowHeight
-                If curCols > 0 AndAlso curRows > 0 AndAlso
+        Try
+            Dim curCols As Integer = Console.WindowWidth
+            Dim curRows As Integer = Console.WindowHeight
+            If curCols > 0 AndAlso curRows > 0 AndAlso
                    (curCols <> _lastCols OrElse curRows <> _lastRows) Then
-                    _lastCols = curCols
-                    _lastRows = curRows
-                    SendWindowResize(curCols, curRows)
-                    If _verbose Then
-                        Console.Error.WriteLine($"[调试] 窗口大小已调整 ({curCols}x{curRows})")
-                    End If
+                _lastCols = curCols
+                _lastRows = curRows
+                SendWindowResize(curCols, curRows)
+                If _verbose Then
+                    Console.Error.WriteLine($"[调试] 窗口大小已调整 ({curCols}x{curRows})")
                 End If
-            Catch ex As Exception
-                ' 非交互式终端或临时读取失败，忽略并继续轮询
-            End Try
-            Thread.Sleep(500)
-        End While
+            End If
+        Catch ex As Exception
+            ' 非交互式终端或临时读取失败，忽略并继续轮询
+        End Try
     End Sub
 
 #Region "IDisposable"
