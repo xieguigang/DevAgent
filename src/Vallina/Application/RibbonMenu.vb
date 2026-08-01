@@ -20,6 +20,25 @@ Module RibbonMenu
         AddHandler ribbon.ButtonLicense.ExecuteEvent, Sub() Call OpenLicenseDialog()
         AddHandler ribbon.ButtonConsole.ExecuteEvent, Sub() Call OpenConsole()
         AddHandler ribbon.ButtonOutputTool.ExecuteEvent, Sub() Call OpenOutputWindows()
+        AddHandler ribbon.ButtonRemoteSessions.ExecuteEvent, Sub() Call OpenLinuxSessions()
+        AddHandler ribbon.ButtonSsh.ExecuteEvent, Sub() Call OpenBash()
+    End Sub
+
+    Public Sub OpenBash()
+        Dim bash As New FormSsh
+
+        bash.Show(CommonRuntime.AppHost.GetDockPanel)
+        bash.DockState = DockState.DockBottom
+    End Sub
+
+    Public Sub OpenLinuxSessions()
+        Dim servers = CommonRuntime.TryGetToolWindow("linux_servers")
+
+        If servers Is Nothing Then
+            servers = New FormLinuxServers With {.Name = "linux_servers"}
+        End If
+
+        Call CommonRuntime.RegisterToolWindow(servers, DockState.DockLeft)
     End Sub
 
     Public Sub OpenOutputWindows()
