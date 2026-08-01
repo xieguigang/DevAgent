@@ -33,6 +33,10 @@ Public Class SshShellSession
     Private Const DefaultCols As Integer = 120
     Private Const DefaultRows As Integer = 40
 
+    ' 窗口尺寸监视
+    Private _lastCols As Integer = DefaultCols
+    Private _lastRows As Integer = DefaultRows
+
     ''' <summary>
     ''' 创建交互式 Shell 会话。
     ''' </summary>
@@ -60,6 +64,10 @@ Public Class SshShellSession
             ' 非交互式终端（如管道重定向），使用默认值
         End Try
 
+        ' 记录初始窗口尺寸，避免启动后立即误触发一次 resize
+        _lastCols = cols
+        _lastRows = rows
+
         ' 创建 Shell 流
         _stream = _client.CreateShellStream(
             TerminalName,
@@ -80,6 +88,13 @@ Public Class SshShellSession
         }
         outputThread.Start()
 
+        ' 启动窗口尺寸监视线程（实时感知本地 console 窗口大小变化）
+        Dim resizeThread As New Thread(AddressOf WatchResize) With {
+            .IsBackground = True,
+            .Name = "ssh-resize-watcher"
+        }
+        resizeThread.Start()
+
         ' 主线程负责读取本地输入并转发到远程
         ForwardLocalInput()
 
@@ -87,6 +102,8 @@ Public Class SshShellSession
 
         ' 等待输出线程结束
         outputThread.Join(TimeSpan.FromMilliseconds(500))
+        ' 等待窗口监视线程结束
+        resizeThread.Join(TimeSpan.FromMilliseconds(500))
     End Sub
 
     ''' <summary>
@@ -205,6 +222,31 @@ Public Class SshShellSession
                 End If
             End Try
         End If
+    End Sub
+
+    ''' <summary>
+    ''' 监视本地控制台窗口大小变化并通知远程伪终端。
+    ''' 运行在后台线程上，周期性轮询 _running 控制生命周期。
+    ''' </summary>
+    Private Sub WatchResize()
+        While _running
+            Try
+                Dim curCols As Integer = Console.WindowWidth
+                Dim curRows As Integer = Console.WindowHeight
+                If curCols > 0 AndAlso curRows > 0 AndAlso
+                   (curCols <> _lastCols OrElse curRows <> _lastRows) Then
+                    _lastCols = curCols
+                    _lastRows = curRows
+                    SendWindowResize(curCols, curRows)
+                    If _verbose Then
+                        Console.Error.WriteLine($"[调试] 窗口大小已调整 ({curCols}x{curRows})")
+                    End If
+                End If
+            Catch ex As Exception
+                ' 非交互式终端或临时读取失败，忽略并继续轮询
+            End Try
+            Thread.Sleep(500)
+        End While
     End Sub
 
 #Region "IDisposable"
