@@ -28,8 +28,8 @@ Partial Class FormLinuxServers
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormLinuxServers))
         ToolStrip1 = New ToolStrip()
         ToolStripButton1 = New ToolStripButton()
-        TreeView1 = New TreeView()
         ToolStripButton2 = New ToolStripButton()
+        TreeView1 = New TreeView()
         ToolStrip1.SuspendLayout()
         SuspendLayout()
         ' 
@@ -38,7 +38,7 @@ Partial Class FormLinuxServers
         ToolStrip1.Items.AddRange(New ToolStripItem() {ToolStripButton1, ToolStripButton2})
         ToolStrip1.Location = New Point(0, 0)
         ToolStrip1.Name = "ToolStrip1"
-        ToolStrip1.Size = New Size(583, 25)
+        ToolStrip1.Size = New Size(438, 25)
         ToolStrip1.TabIndex = 0
         ToolStrip1.Text = "ToolStrip1"
         ' 
@@ -51,14 +51,6 @@ Partial Class FormLinuxServers
         ToolStripButton1.Size = New Size(23, 22)
         ToolStripButton1.Text = "Add"
         ' 
-        ' TreeView1
-        ' 
-        TreeView1.Dock = DockStyle.Fill
-        TreeView1.Location = New Point(0, 25)
-        TreeView1.Name = "TreeView1"
-        TreeView1.Size = New Size(583, 779)
-        TreeView1.TabIndex = 1
-        ' 
         ' ToolStripButton2
         ' 
         ToolStripButton2.DisplayStyle = ToolStripItemDisplayStyle.Image
@@ -68,11 +60,19 @@ Partial Class FormLinuxServers
         ToolStripButton2.Size = New Size(23, 22)
         ToolStripButton2.Text = "Delete"
         ' 
+        ' TreeView1
+        ' 
+        TreeView1.Dock = DockStyle.Fill
+        TreeView1.Location = New Point(0, 25)
+        TreeView1.Name = "TreeView1"
+        TreeView1.Size = New Size(438, 779)
+        TreeView1.TabIndex = 1
+        ' 
         ' FormLinuxServers
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(583, 804)
+        ClientSize = New Size(438, 804)
         Controls.Add(TreeView1)
         Controls.Add(ToolStrip1)
         DockAreas = Microsoft.VisualStudio.WinForms.Docking.DockAreas.Float Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockLeft Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockRight Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockTop Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockBottom Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.Document
