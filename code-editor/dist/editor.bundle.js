@@ -38,6 +38,7 @@ var CodeEditor;
             TokenType[TokenType["Annotation"] = 27] = "Annotation";
             TokenType[TokenType["DocComment"] = 28] = "DocComment";
             TokenType[TokenType["Error"] = 29] = "Error";
+            TokenType[TokenType["PrimitiveFunction"] = 30] = "PrimitiveFunction";
         })(TokenType = Utils.TokenType || (Utils.TokenType = {}));
         /**
          * Helper for building token lists without manually tracking offsets.
@@ -843,7 +844,8 @@ var CodeEditor;
                             j++;
                         if (j < n)
                             j++;
-                        b.push(TokenType.Operator, line.substring(i, j));
+                        const op = line.substring(i, j);
+                        b.push(RHighlighter.PRIMITIVE_OPS.has(op) ? TokenType.PrimitiveFunction : TokenType.Operator, op);
                         i = j;
                         continue;
                     }
@@ -858,15 +860,35 @@ var CodeEditor;
                             j += 3;
                         else
                             j += 2;
-                        b.push(TokenType.Operator, line.substring(i, j));
+                        const asg = line.substring(i, j);
+                        b.push(RHighlighter.PRIMITIVE_OPS.has(asg) ? TokenType.PrimitiveFunction : TokenType.Operator, asg);
                         i = j;
+                        continue;
+                    }
+                    // Bracket-index operators [[ ]] (R primitives). Single [ ] are
+                    // handled as punctuation below.
+                    if (ch === "[" || ch === "]") {
+                        if (line[i + 1] === ch) {
+                            b.push(TokenType.PrimitiveFunction, line.substring(i, i + 2));
+                            i += 2;
+                        }
+                        else {
+                            b.push(TokenType.Punctuation, ch);
+                            i++;
+                        }
                         continue;
                     }
                     if (/[+\-*/^<>=!&|~$@?:]/.test(ch)) {
                         let j = i;
                         while (j < n && /[+\-*/^<>=!&|~$@?:]/.test(line[j]))
                             j++;
-                        b.push(TokenType.Operator, line.substring(i, j));
+                        const op = line.substring(i, j);
+                        if (RHighlighter.PRIMITIVE_OPS.has(op)) {
+                            b.push(TokenType.PrimitiveFunction, op);
+                        }
+                        else {
+                            b.push(TokenType.Operator, op);
+                        }
                         i = j;
                         continue;
                     }
@@ -884,6 +906,18 @@ var CodeEditor;
                         }
                         else if (RHighlighter.CONSTANTS.has(word)) {
                             b.push(TokenType.Constant, word);
+                        }
+                        else if (RHighlighter.PRIMITIVES.has(word)) {
+                            // Primitive function call detection.
+                            let k = j;
+                            while (k < n && /\s/.test(line[k]))
+                                k++;
+                            if (line[k] === "(") {
+                                b.push(TokenType.PrimitiveFunction, word);
+                            }
+                            else {
+                                b.push(TokenType.Identifier, word);
+                            }
                         }
                         else {
                             // Function call detection.
@@ -929,6 +963,112 @@ var CodeEditor;
             "TRUE", "FALSE", "NULL", "NA", "NA_integer_", "NA_real_", "NA_complex_",
             "NA_character_", "Inf", "-Inf", "NaN", "T", "F", "pi", "LETTERS", "letters",
             "month.abb", "month.name"
+        ]);
+        /**
+         * R's internal primitive functions (prefix form), sourced from
+         * base:::primaries / get("__Primitives__", baseenv()). These are
+         * highlighted distinctly from user-defined (third-party) functions.
+         * Control-flow keywords and constants are intentionally excluded here
+         * so they keep their existing keyword/constant styling.
+         */
+        RHighlighter.PRIMITIVES = new Set([
+            ".subset", ".subset2", ".External", ".Call", ".Fortran", ".C",
+            "c", "list", "vector", "numeric", "character", "logical", "integer",
+            "double", "complex", "raw", "structure", "attributes", "attr",
+            "class", "unclass", "names", "dim", "dimnames", "length", "levels",
+            "typeof", "storage.mode", "mode", "oldClass", "comment",
+            "as.character", "as.numeric", "as.integer", "as.logical",
+            "as.complex", "as.double", "as.raw", "as.vector", "as.list",
+            "is.null", "is.na", "is.nan", "is.finite", "is.infinite",
+            "is.numeric", "is.character", "is.logical", "is.complex",
+            "is.raw", "is.list", "is.function", "is.expression", "is.object",
+            "is.single", "is.environment", "is.pairlist", "is.language",
+            "is.symbol", "is.matrix", "is.array", "is.atomic", "is.recursive",
+            "is.call", "is.expression", "is.primitive", "is.s4",
+            "substitute", "quote", "enquote", "eval", "evalq", "call",
+            "expression", "force", "on.exit", "environment", "globalenv",
+            "baseenv", "emptyenv", "new.env", "parent.env", "parent.frame",
+            "sys.frame", "sys.function", "sys.call", "sys.parent", "sys.nframe",
+            "sys.calls", "sys.frames", "sys.parents", "sys.body", "sys.function",
+            "missing", "nargs", "Recall", "UseMethod", "NextMethod",
+            "standardGeneric", "body", "formals", "args", "invisible",
+            "withVisible", "delayedAssign", "bindenv", "lockBinding",
+            "unlockBinding", "lockEnvironment", "makelazy", "pos.to.env",
+            "proc.time", "gc", "gc.time", "memory.profile", "tracemem",
+            "retracemem", "untracemem", "gctorture", "gctorture2",
+            "file", "textConnection", "gzfile", "bzfile", "xzfile", "unz",
+            "pipe", "socketConnection", "url", "stdin", "stdout", "stderr",
+            "readLines", "writeLines", "cat", "print", "format", "format.info",
+            "paste", "paste0", "sprintf", "strsplit", "sub", "gsub", "match",
+            "pmatch", "charmatch", "startsWith", "endsWith", "grep", "grepl",
+            "regexpr", "gregexpr", "agrep", "tolower", "toupper", "chartr",
+            "abbreviate", "nchar", "nzchar", "substr", "substring", "strtrim",
+            "make.names", "make.unique", "all", "any", "sum", "prod", "min",
+            "max", "range", "mean", "median", "var", "sd", "cov", "cor",
+            "diff", "cumsum", "cumprod", "cummax", "cummin", "round", "signif",
+            "trunc", "floor", "ceiling", "abs", "sign", "sqrt", "exp", "log",
+            "expm1", "log1p", "cos", "sin", "tan", "acos", "asin", "atan",
+            "cosh", "sinh", "tanh", "acos", "acosh", "asinh", "atanh",
+            "gamma", "lgamma", "digamma", "trigamma", "choose", "factorial",
+            "beta", "lbeta", "rowSums", "colSums", "rowMeans", "colMeans",
+            "apply", "lapply", "sapply", "vapply", "tapply", "mapply", "Map",
+            "Reduce", "Filter", "Find", "Position", "Negate", "eapply",
+            "rapply", "outer", "kronecker", "sweep", "scale", "rowsum",
+            "aggregate", "by", "split", "unsplit", "rbind", "cbind",
+            "data.frame", "as.data.frame", "expand.grid", "order", "sort",
+            "sort.list", "rank", "unique", "duplicated", "union", "intersect",
+            "setdiff", "setequal", "is.element", "which", "which.min",
+            "which.max", "array", "matrix", "diag", "upper.tri", "lower.tri",
+            "t", "crossprod", "tcrossprod", "solve", "eigen", "svd", "qr",
+            "det", "determinant", "fft", "nextn", "convolve", "filter", "poly",
+            "sample", "rnorm", "runif", "rpois", "rexp", "rbinom", "rbeta",
+            "rgamma", "rchisq", "rt", "rf", "rgeom", "rhyper", "rnbinom",
+            "rweibull", "rwilcox", "rsignrank", "set.seed", "date", "Sys.time",
+            "Sys.Date", "as.POSIXct", "as.Date", "difftime", "julian",
+            "months", "quarters", "weekdays", "try", "tryCatch",
+            "withCallingHandlers", "stop", "warning", "message", "gettext",
+            "gettextf", "ngettext", "options", "getOption", "par", "dev.off",
+            "plot", "hist", "boxplot", "points", "lines", "abline", "title",
+            "axis", "legend", "text", "arrows", "segments", "polygon", "curve",
+            "pairs", "coplot", "image", "contour", "persp", "barplot",
+            "dotchart", "identify", "locator", "stem", "qqnorm", "qqline",
+            "rep", "seq", "seq.int", "seq_len", "seq_along", "rev", "rep.int",
+            "rep_len", "table", "xtabs", "prop.table", "margin.table",
+            "ftable", "as.table", "aperm", "trace", "untrace", "browser",
+            "recover", "capabilities", "machine", "commandArgs", "getwd",
+            "setwd", "getenv", "setenv", "unsetenv", "Sys.getenv",
+            "Sys.setenv", "Sys.unsetenv", "list.files", "dir", "file.path",
+            "normalizePath", "basename", "dirname", "file.exists",
+            "file.choose", "file.copy", "file.create", "file.remove",
+            "file.rename", "file.append", "file.symlink", "dir.create",
+            "tempfile", "tempdir", "R.home", "system", "system2", "shell",
+            "shell.exec", "Sys.which", "Sys.info", "load", "save", "saveRDS",
+            "readRDS", "serialize", "unserialize", "serializeToConn",
+            "assign", "get", "exists", "remove", "rm", "ls", "objects",
+            "laply", "mget", "eapply", "attach", "detach", "with", "within",
+            "local", "do.call", "do.call", "browser", "interactive",
+            "is.loaded", "dyn.load", "dyn.unload", "getLoadedDLLs",
+            "noquote", "dQuote", "sQuote", "encodeString", "iconv",
+            "iconvlist", "utf8ToInt", "intToUtf8", "charToRaw", "rawToChar",
+            "rawShift", "intToBits", "rawConnection", "rawConnectionValue",
+            "seek", "truncate", "flush", "close", "open", "isOpen",
+            "readChar", "writeChar", "readBin", "writeBin", "readLines",
+            "pushBack", "clearPushBack", "getConnection", "summary",
+            "print", "cat", "format", "str", "ls", "dump", "dput", "dget",
+            "withRestarts", "signalCondition", "simpleCondition",
+            "errorCondition", "warningCondition", "restart", "invokeRestart",
+            "computeRestarts", "findRestart", "conditionCall",
+            "conditionMessage", "geterrmessage", "gregexpr", "sub", "gsub"
+        ]);
+        /**
+         * R's internal primitive operators (infix/symbol form). When a run of
+         * operator characters or an identifier-style operator matches one of
+         * these, it is highlighted as a primitive.
+         */
+        RHighlighter.PRIMITIVE_OPS = new Set([
+            "+", "-", "*", "/", "^", "%%", "%/%", "%*%", "%o%", "%x%", "%in%",
+            ":", ">", "<", ">=", "<=", "==", "!=", "!", "&", "&&", "|", "||",
+            "~", "<-", "<<-", "->", "->>", "$", "@", "[[", "]]", "[", "]", "="
         ]);
         Highlighters.RHighlighter = RHighlighter;
     })(Highlighters = CodeEditor.Highlighters || (CodeEditor.Highlighters = {}));
@@ -3498,6 +3638,7 @@ var CodeEditor;
                     case TokenType.Function: return "tok-function";
                     case TokenType.Constant: return "tok-constant";
                     case TokenType.Annotation: return "tok-annotation";
+                    case TokenType.PrimitiveFunction: return "tok-primitive";
                     case TokenType.Error: return "tok-error";
                     default: return "";
                 }

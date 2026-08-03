@@ -32,7 +32,8 @@ namespace CodeEditor.Utils {
         Constant,
         Annotation,
         DocComment,
-        Error
+        Error,
+        PrimitiveFunction
     }
 
     /**

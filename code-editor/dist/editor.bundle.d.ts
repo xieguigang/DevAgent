@@ -32,7 +32,8 @@ declare namespace CodeEditor.Utils {
         Constant = 26,
         Annotation = 27,
         DocComment = 28,
-        Error = 29
+        Error = 29,
+        PrimitiveFunction = 30
     }
     /**
      * A single token produced by a highlighter.
@@ -270,6 +271,20 @@ declare namespace CodeEditor.Highlighters {
         private static CONTROL_KEYWORDS;
         private static KEYWORDS;
         private static CONSTANTS;
+        /**
+         * R's internal primitive functions (prefix form), sourced from
+         * base:::primaries / get("__Primitives__", baseenv()). These are
+         * highlighted distinctly from user-defined (third-party) functions.
+         * Control-flow keywords and constants are intentionally excluded here
+         * so they keep their existing keyword/constant styling.
+         */
+        private static PRIMITIVES;
+        /**
+         * R's internal primitive operators (infix/symbol form). When a run of
+         * operator characters or an identifier-style operator matches one of
+         * these, it is highlighted as a primitive.
+         */
+        private static PRIMITIVE_OPS;
         initialState(): any;
         tokenizeLine(line: string, state: any): TokenizeResult;
     }

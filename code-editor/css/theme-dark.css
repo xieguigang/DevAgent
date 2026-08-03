@@ -170,6 +170,8 @@ body[data-theme="dark"] {
   --tok-annotation: #4ec9b0;
   /* Errors - red */
   --tok-error: #f48771;
+  /* R primitive functions/operators - purple (distinct from yellow functions) */
+  --tok-primitive: #c586c0;
 }
 
 body[data-theme="dark"] .tok-keyword {
@@ -269,4 +271,8 @@ body[data-theme="dark"] .tok-annotation {
 body[data-theme="dark"] .tok-error {
   color: var(--tok-error);
   text-decoration: underline wavy;
+}
+body[data-theme="dark"] .tok-primitive {
+  color: var(--tok-primitive);
+  font-weight: bold;
 }
