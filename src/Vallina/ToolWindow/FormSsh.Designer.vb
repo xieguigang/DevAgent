@@ -39,8 +39,8 @@ Partial Class FormSsh
         SshWinFormConsole1.Location = New Point(0, 0)
         SshWinFormConsole1.Name = "SshWinFormConsole1"
         SshWinFormConsole1.Password = ""
-        SshWinFormConsole1.ReadOnly = True
-        SshWinFormConsole1.SendKeyboardCommandsToProcess = True
+        SshWinFormConsole1.ReadOnly = False
+        SshWinFormConsole1.SendKeyboardCommandsToProcess = False
         SshWinFormConsole1.ShowDiagnostics = False
         SshWinFormConsole1.Size = New Size(800, 450)
         SshWinFormConsole1.TabIndex = 0

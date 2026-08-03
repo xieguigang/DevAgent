@@ -1,11 +1,12 @@
 ﻿Imports Galaxy.Workbench.DockDocument
+Imports Microsoft.VisualBasic.Windows.Forms
 
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class FormConsole
     Inherits ToolWindow
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -22,25 +23,20 @@ Partial Class FormConsole
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         components = New ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormConsole))
-        ConsoleControl1 = New Microsoft.VisualBasic.Windows.Forms.ConsoleControl()
+        ConsoleControl1 = New WebViewConsole()
         SuspendLayout()
         ' 
         ' ConsoleControl1
         ' 
         ConsoleControl1.BackColor = Color.DimGray
         ConsoleControl1.Dock = DockStyle.Fill
-        ConsoleControl1.ForeColor = Color.White
-        ConsoleControl1.IsInputEnabled = True
         ConsoleControl1.Location = New Point(0, 0)
-        ConsoleControl1.Margin = New Padding(4, 4, 4, 4)
+        ConsoleControl1.Margin = New Padding(4)
         ConsoleControl1.Name = "ConsoleControl1"
-        ConsoleControl1.ReadOnly = True
-        ConsoleControl1.SendKeyboardCommandsToProcess = False
-        ConsoleControl1.ShowDiagnostics = False
         ConsoleControl1.Size = New Size(1106, 706)
         ConsoleControl1.TabIndex = 0
         ' 
@@ -59,5 +55,5 @@ Partial Class FormConsole
         ResumeLayout(False)
     End Sub
 
-    Friend WithEvents ConsoleControl1 As Microsoft.VisualBasic.Windows.Forms.ConsoleControl
+    Friend WithEvents ConsoleControl1 As WebViewConsole
 End Class
