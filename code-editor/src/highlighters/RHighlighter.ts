@@ -18,6 +18,7 @@ namespace CodeEditor.Highlighters {
      *   - Function call detection (identifier followed by '(')
      *   - Infix operators (%>%, %in%, etc.)
      *   - Assignment operators (<-, ->, <<-, ->>, =)
+     *   - Statement terminators (; highlighted distinctly in sky blue)
      */
     export class RHighlighter implements ILanguageHighlighter {
         readonly language = "r";
@@ -133,7 +134,8 @@ namespace CodeEditor.Highlighters {
             "errorCondition", "warningCondition", "restart", "invokeRestart",
             "computeRestarts", "findRestart", "conditionCall",
             "conditionMessage", "geterrmessage", "gregexpr", "sub", "gsub",
-            "nrow", "ncol", "isTRUE", "isFALSE"
+            "nrow", "ncol", "isTRUE", "isFALSE", "suppressPackageStartupMessages",
+            "dir.exists"
         ]);
 
         /**
@@ -349,8 +351,15 @@ namespace CodeEditor.Highlighters {
                     continue;
                 }
 
+                // Statement terminator: semicolon (highlights statement ends).
+                if (ch === ";") {
+                    b.push(TokenType.StatementTerminator, ch);
+                    i++;
+                    continue;
+                }
+
                 // Punctuation.
-                if (/[(){}\[\],;]/.test(ch)) {
+                if (/[(){}\[\],]/.test(ch)) {
                     b.push(TokenType.Punctuation, ch);
                     i++;
                     continue;

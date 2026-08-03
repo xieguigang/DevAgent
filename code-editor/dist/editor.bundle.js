@@ -39,6 +39,7 @@ var CodeEditor;
             TokenType[TokenType["DocComment"] = 28] = "DocComment";
             TokenType[TokenType["Error"] = 29] = "Error";
             TokenType[TokenType["PrimitiveFunction"] = 30] = "PrimitiveFunction";
+            TokenType[TokenType["StatementTerminator"] = 31] = "StatementTerminator";
         })(TokenType = Utils.TokenType || (Utils.TokenType = {}));
         /**
          * Helper for building token lists without manually tracking offsets.
@@ -721,6 +722,7 @@ var CodeEditor;
          *   - Function call detection (identifier followed by '(')
          *   - Infix operators (%>%, %in%, etc.)
          *   - Assignment operators (<-, ->, <<-, ->>, =)
+         *   - Statement terminators (; highlighted distinctly in sky blue)
          */
         class RHighlighter {
             constructor() {
@@ -939,8 +941,14 @@ var CodeEditor;
                         i = j;
                         continue;
                     }
+                    // Statement terminator: semicolon (highlights statement ends).
+                    if (ch === ";") {
+                        b.push(TokenType.StatementTerminator, ch);
+                        i++;
+                        continue;
+                    }
                     // Punctuation.
-                    if (/[(){}\[\],;]/.test(ch)) {
+                    if (/[(){}\[\],]/.test(ch)) {
                         b.push(TokenType.Punctuation, ch);
                         i++;
                         continue;
@@ -1059,7 +1067,8 @@ var CodeEditor;
             "errorCondition", "warningCondition", "restart", "invokeRestart",
             "computeRestarts", "findRestart", "conditionCall",
             "conditionMessage", "geterrmessage", "gregexpr", "sub", "gsub",
-            "nrow", "ncol", "isTRUE", "isFALSE"
+            "nrow", "ncol", "isTRUE", "isFALSE", "suppressPackageStartupMessages",
+            "dir.exists"
         ]);
         /**
          * R's internal primitive operators (infix/symbol form). When a run of
@@ -3644,6 +3653,7 @@ var CodeEditor;
                     case TokenType.Constant: return "tok-constant";
                     case TokenType.Annotation: return "tok-annotation";
                     case TokenType.PrimitiveFunction: return "tok-primitive";
+                    case TokenType.StatementTerminator: return "tok-stmtterminator";
                     case TokenType.Error: return "tok-error";
                     default: return "";
                 }

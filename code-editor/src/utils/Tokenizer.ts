@@ -33,7 +33,8 @@ namespace CodeEditor.Utils {
         Annotation,
         DocComment,
         Error,
-        PrimitiveFunction
+        PrimitiveFunction,
+        StatementTerminator
     }
 
     /**

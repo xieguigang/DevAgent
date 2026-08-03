@@ -33,7 +33,8 @@ declare namespace CodeEditor.Utils {
         Annotation = 27,
         DocComment = 28,
         Error = 29,
-        PrimitiveFunction = 30
+        PrimitiveFunction = 30,
+        StatementTerminator = 31
     }
     /**
      * A single token produced by a highlighter.
@@ -265,6 +266,7 @@ declare namespace CodeEditor.Highlighters {
      *   - Function call detection (identifier followed by '(')
      *   - Infix operators (%>%, %in%, etc.)
      *   - Assignment operators (<-, ->, <<-, ->>, =)
+     *   - Statement terminators (; highlighted distinctly in sky blue)
      */
     class RHighlighter implements ILanguageHighlighter {
         readonly language = "r";

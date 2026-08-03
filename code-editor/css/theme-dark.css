@@ -172,6 +172,8 @@ body[data-theme="dark"] {
   --tok-error: #f48771;
   /* R primitive functions/operators - purple (distinct from yellow functions) */
   --tok-primitive: #c586c0;
+  /* Statement terminators (R semicolons) - sky blue */
+  --tok-stmtterminator: #6cc1ff;
 }
 
 body[data-theme="dark"] .tok-keyword {
@@ -274,5 +276,9 @@ body[data-theme="dark"] .tok-error {
 }
 body[data-theme="dark"] .tok-primitive {
   color: var(--tok-primitive);
+  font-weight: bold;
+}
+body[data-theme="dark"] .tok-stmtterminator {
+  color: var(--tok-stmtterminator);
   font-weight: bold;
 }

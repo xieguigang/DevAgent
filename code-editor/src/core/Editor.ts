@@ -917,6 +917,7 @@ namespace CodeEditor.Core {
                 case TokenType.Constant: return "tok-constant";
                 case TokenType.Annotation: return "tok-annotation";
                 case TokenType.PrimitiveFunction: return "tok-primitive";
+                case TokenType.StatementTerminator: return "tok-stmtterminator";
                 case TokenType.Error: return "tok-error";
                 default: return "";
             }
