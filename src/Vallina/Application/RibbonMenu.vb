@@ -22,6 +22,15 @@ Module RibbonMenu
         AddHandler ribbon.ButtonOutputTool.ExecuteEvent, Sub() Call OpenOutputWindows()
         AddHandler ribbon.ButtonRemoteSessions.ExecuteEvent, Sub() Call OpenLinuxSessions()
         AddHandler ribbon.ButtonSsh.ExecuteEvent, Sub() Call OpenBash()
+        AddHandler ribbon.ButtonOpenFolder.ExecuteEvent, Sub() Call OpenFolder()
+    End Sub
+
+    Public Sub OpenFolder()
+        Using folder As New FolderBrowserDialog With {.ShowNewFolderButton = True}
+            If folder.ShowDialog = DialogResult.OK Then
+                Call RibbonMenu.OpenSolutionExplorer(folder.SelectedPath)
+            End If
+        End Using
     End Sub
 
     Public Sub OpenBash()

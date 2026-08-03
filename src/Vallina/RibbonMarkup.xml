@@ -1,22 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Application xmlns="http://schemas.microsoft.com/windows/2009/Ribbon">
   <Application.Commands>
-    <Command Name="cmdButtonNew" Id="2" LabelTitle="New">
-      <Command.SmallImages>
-        <Image MinDPI="192">Icons8/icons8-create-order-96.png</Image>
-      </Command.SmallImages>
-      <Command.LargeImages>
-        <Image MinDPI="192">Icons8/icons8-create-order-96.png</Image>
-      </Command.LargeImages>
-    </Command>
-    <Command Name="cmdButtonExit" Id="3" LabelTitle="Exit">
-      <Command.SmallImages>
-        <Image MinDPI="192">Icons8/icons8-exit-96.png</Image>
-      </Command.SmallImages>
-      <Command.LargeImages>
-        <Image MinDPI="192">Icons8/icons8-exit-96.png</Image>
-      </Command.LargeImages>
-    </Command>
     <Command Name="cmdButtonAbout" Id="4" LabelTitle="About">
       <Command.SmallImages>
         <Image MinDPI="192">Icons8/icons8-information-96.png</Image>
@@ -25,125 +9,12 @@
         <Image MinDPI="192">Icons8/icons8-information-96.png</Image>
       </Command.LargeImages>
     </Command>
-    <Command Name="cmdButtonSave" Id="5" LabelTitle="Save">
-      <Command.SmallImages>
-        <Image MinDPI="192">Icons8/icons8-save-96.png</Image>
-      </Command.SmallImages>
-      <Command.LargeImages>
-        <Image MinDPI="192">Icons8/icons8-save-96.png</Image>
-      </Command.LargeImages>
-    </Command>
-    <Command Name="cmdButtonSaveAll" Id="6" LabelTitle="Save All">
-      <Command.SmallImages>
-        <Image MinDPI="192">Icons8/icons8-save-all-96.png</Image>
-      </Command.SmallImages>
-      <Command.LargeImages>
-        <Image MinDPI="192">Icons8/icons8-save-all-96.png</Image>
-      </Command.LargeImages>
-    </Command>
-    <Command Name="cmdRibbonEditor" Id="7" LabelTitle="Code Editor" />
-    <Command Name="cmdMenuEditor" Id="8" LabelTitle="Code Editor" />
-    <Command Name="cmdGroupEditor" Id="9" LabelTitle="Code Editor" />
-    <Command Name="cmdButtonSaveAs" Id="10" LabelTitle="Save As">
-      <Command.SmallImages>
-        <Image MinDPI="192">Icons8/icons8-save-as-96.png</Image>
-      </Command.SmallImages>
-      <Command.LargeImages>
-        <Image MinDPI="192">Icons8/icons8-save-as-96.png</Image>
-      </Command.LargeImages>
-    </Command>
-    <Command Name="cmdButtonOpen" Id="11" LabelTitle="Open">
-      <Command.SmallImages>
-        <Image MinDPI="192">Icons8/icons8-file-explorer-new-96.png</Image>
-      </Command.SmallImages>
-      <Command.LargeImages>
-        <Image MinDPI="192">Icons8/icons8-file-explorer-new-96.png</Image>
-      </Command.LargeImages>
-    </Command>
-    <Command Name="cmdGroupFile" Id="12" LabelTitle="File" />
-    <Command Name="cmdGroupSave" Id="13" LabelTitle="Save File" />
-    <Command Name="cmdMenuEdit" Id="14" LabelTitle="Developing" />
-    <Command Name="cmdButtonEditorTheme" Id="15" LabelTitle="Light/Dark Theme">
-      <Command.SmallImages>
-        <Image MinDPI="192">Icons8/icons8-visual-studio-code-insides-96.png</Image>
-      </Command.SmallImages>
-      <Command.LargeImages>
-        <Image MinDPI="192">Icons8/icons8-visual-studio-code-insides-96.png</Image>
-      </Command.LargeImages>
-    </Command>
-    <Command Name="cmdButtonEditorSymbols" Id="16" LabelTitle="Symbols">
+    <Command Name="cmdButtonCodeFormatted" Id="30" LabelTitle="Format Code">
       <Command.SmallImages>
         <Image MinDPI="192">Icons8/icons8-source-code-96.png</Image>
       </Command.SmallImages>
       <Command.LargeImages>
         <Image MinDPI="192">Icons8/icons8-source-code-96.png</Image>
-      </Command.LargeImages>
-    </Command>
-    <Command Name="cmdButtonEditorDiff" Id="17" LabelTitle="Edit Diff">
-      <Command.SmallImages>
-        <Image MinDPI="192">Icons8/icons8-edit-pencil-96.png</Image>
-      </Command.SmallImages>
-      <Command.LargeImages>
-        <Image MinDPI="192">Icons8/icons8-edit-pencil-96.png</Image>
-      </Command.LargeImages>
-    </Command>
-    <Command Name="cmdButtonGotoLine" Id="18" LabelTitle="Goto Line">
-      <Command.SmallImages>
-        <Image MinDPI="192">Icons8/icons8-goto-96.png</Image>
-      </Command.SmallImages>
-      <Command.LargeImages>
-        <Image MinDPI="192">Icons8/icons8-goto-96.png</Image>
-      </Command.LargeImages>
-    </Command>
-    <Command Name="cmdGroupEditorMics" Id="19" LabelTitle="Mics" />
-    <Command Name="cmdButtonStartPage" Id="20" LabelTitle="Start Page">
-      <Command.SmallImages>
-        <Image MinDPI="192">Icons8/icons8-start-menu-96.png</Image>
-      </Command.SmallImages>
-      <Command.LargeImages>
-        <Image MinDPI="192">Icons8/icons8-start-menu-96.png</Image>
-      </Command.LargeImages>
-    </Command>
-    <Command Name="cmdGroupWorkbench" Id="21" LabelTitle="Developer Workbench" />
-    <Command Name="cmdButtonSaveCodeFile" Id="22" LabelTitle="Save">
-      <Command.SmallImages>
-        <Image MinDPI="192">Icons8/icons8-save-96.png</Image>
-      </Command.SmallImages>
-      <Command.LargeImages>
-        <Image MinDPI="192">Icons8/icons8-save-96.png</Image>
-      </Command.LargeImages>
-    </Command>
-    <Command Name="cmdGroupCodeFile" Id="23" LabelTitle="Code" />
-    <Command Name="cmdButtonSaveAsCodeFile" Id="24" LabelTitle="Save As">
-      <Command.SmallImages>
-        <Image MinDPI="192">Icons8/icons8-save-as-96.png</Image>
-      </Command.SmallImages>
-      <Command.LargeImages>
-        <Image MinDPI="192">Icons8/icons8-save-as-96.png</Image>
-      </Command.LargeImages>
-    </Command>
-    <Command Name="cmdButtonSettings" Id="25" LabelTitle="Settings">
-      <Command.SmallImages>
-        <Image MinDPI="192">Icons8/icons8-settings-96.png</Image>
-      </Command.SmallImages>
-      <Command.LargeImages>
-        <Image MinDPI="192">Icons8/icons8-settings-96.png</Image>
-      </Command.LargeImages>
-    </Command>
-    <Command Name="cmdButtonEditorMiniMap" Id="26" LabelTitle="Minimap">
-      <Command.SmallImages>
-        <Image MinDPI="192">Icons8/icons8-code-file-96.png</Image>
-      </Command.SmallImages>
-      <Command.LargeImages>
-        <Image MinDPI="192">Icons8/icons8-code-file-96.png</Image>
-      </Command.LargeImages>
-    </Command>
-    <Command Name="cmdButtonLicense" Id="27" LabelTitle="License">
-      <Command.SmallImages>
-        <Image MinDPI="192">Icons8/icons8-user-manual-96.png</Image>
-      </Command.SmallImages>
-      <Command.LargeImages>
-        <Image MinDPI="192">Icons8/icons8-user-manual-96.png</Image>
       </Command.LargeImages>
     </Command>
     <Command Name="cmdButtonConsole" Id="28" LabelTitle="Console">
@@ -162,12 +33,20 @@
         <Image MinDPI="192">Icons8/icons8-deepseek-96.png</Image>
       </Command.LargeImages>
     </Command>
-    <Command Name="cmdButtonCodeFormatted" Id="30" LabelTitle="Format Code">
+    <Command Name="cmdButtonEditorDiff" Id="17" LabelTitle="Edit Diff">
       <Command.SmallImages>
-        <Image MinDPI="192">Icons8/icons8-source-code-96.png</Image>
+        <Image MinDPI="192">Icons8/icons8-edit-pencil-96.png</Image>
       </Command.SmallImages>
       <Command.LargeImages>
-        <Image MinDPI="192">Icons8/icons8-source-code-96.png</Image>
+        <Image MinDPI="192">Icons8/icons8-edit-pencil-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdButtonEditorMiniMap" Id="26" LabelTitle="Minimap">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-code-file-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-code-file-96.png</Image>
       </Command.LargeImages>
     </Command>
     <Command Name="cmdButtonEditorReload" Id="31" LabelTitle="Reload">
@@ -178,6 +57,62 @@
         <Image MinDPI="192">Icons8/icons8-refresh-96.png</Image>
       </Command.LargeImages>
     </Command>
+    <Command Name="cmdButtonEditorSymbols" Id="16" LabelTitle="Symbols">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-source-code-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-source-code-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdButtonEditorTheme" Id="15" LabelTitle="Light/Dark Theme">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-visual-studio-code-insides-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-visual-studio-code-insides-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdButtonExit" Id="3" LabelTitle="Exit">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-exit-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-exit-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdButtonGotoLine" Id="18" LabelTitle="Goto Line">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-goto-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-goto-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdButtonLicense" Id="27" LabelTitle="License">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-user-manual-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-user-manual-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdButtonNew" Id="2" LabelTitle="New">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-create-order-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-create-order-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdButtonOpen" Id="11" LabelTitle="Open">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-file-explorer-new-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-file-explorer-new-96.png</Image>
+      </Command.LargeImages>
+    </Command>
     <Command Name="cmdButtonOutputTool" Id="32" LabelTitle="Output Window">
       <Command.SmallImages>
         <Image MinDPI="192">Icons8/icons8-run-command-96.png</Image>
@@ -186,8 +121,62 @@
         <Image MinDPI="192">Icons8/icons8-run-command-96.png</Image>
       </Command.LargeImages>
     </Command>
-    <Command Name="cmdTabInformation" Id="33" LabelTitle="Information" />
-    <Command Name="cmdGroupInformation" Id="34" LabelTitle="Information" />
+    <Command Name="cmdButtonRemoteSessions" Id="39" LabelTitle="Linux Servers">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-debian-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-debian-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdButtonSave" Id="5" LabelTitle="Save">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-save-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-save-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdButtonSaveAll" Id="6" LabelTitle="Save All">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-save-all-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-save-all-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdButtonSaveAs" Id="10" LabelTitle="Save As">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-save-as-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-save-as-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdButtonSaveAsCodeFile" Id="24" LabelTitle="Save As">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-save-as-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-save-as-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdButtonSaveCodeFile" Id="22" LabelTitle="Save">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-save-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-save-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdButtonSettings" Id="25" LabelTitle="Settings">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-settings-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-settings-96.png</Image>
+      </Command.LargeImages>
+    </Command>
     <Command Name="cmdButtonSsh" Id="35" LabelTitle="Remote SSH">
       <Command.SmallImages>
         <Image MinDPI="192">Icons8/icons8-bash-96.png</Image>
@@ -196,15 +185,34 @@
         <Image MinDPI="192">Icons8/icons8-bash-96.png</Image>
       </Command.LargeImages>
     </Command>
-    <Command Name="cmdGroupConsole" Id="36" LabelTitle="Console" />
-    <Command Name="cmdTabConsole" Id="37" LabelTitle="Console" />
-    <Command Name="cmdGroupSshSessions" Id="38" LabelTitle="Remote Sessions" />
-    <Command Name="cmdButtonRemoteSessions" Id="39" LabelTitle="Linux Servers">
+    <Command Name="cmdButtonStartPage" Id="20" LabelTitle="Start Page">
       <Command.SmallImages>
-        <Image MinDPI="192">Icons8/icons8-debian-96.png</Image>
+        <Image MinDPI="192">Icons8/icons8-start-menu-96.png</Image>
       </Command.SmallImages>
       <Command.LargeImages>
-        <Image MinDPI="192">Icons8/icons8-debian-96.png</Image>
+        <Image MinDPI="192">Icons8/icons8-start-menu-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdGroupCodeFile" Id="23" LabelTitle="Code" />
+    <Command Name="cmdGroupConsole" Id="36" LabelTitle="Console" />
+    <Command Name="cmdGroupEditor" Id="9" LabelTitle="Code Editor" />
+    <Command Name="cmdGroupEditorMics" Id="19" LabelTitle="Mics" />
+    <Command Name="cmdGroupFile" Id="12" LabelTitle="File" />
+    <Command Name="cmdGroupInformation" Id="34" LabelTitle="Information" />
+    <Command Name="cmdGroupSave" Id="13" LabelTitle="Save File" />
+    <Command Name="cmdGroupSshSessions" Id="38" LabelTitle="Remote Sessions" />
+    <Command Name="cmdGroupWorkbench" Id="21" LabelTitle="Developer Workbench" />
+    <Command Name="cmdMenuEdit" Id="14" LabelTitle="Developing" />
+    <Command Name="cmdMenuEditor" Id="8" LabelTitle="Code Editor" />
+    <Command Name="cmdRibbonEditor" Id="7" LabelTitle="Code Editor" />
+    <Command Name="cmdTabConsole" Id="37" LabelTitle="Console" />
+    <Command Name="cmdTabInformation" Id="33" LabelTitle="Information" />
+    <Command Name="cmdButtonOpenFolder" Id="40" LabelTitle="Open Folder">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-folder-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-folder-96.png</Image>
       </Command.LargeImages>
     </Command>
   </Application.Commands>
@@ -259,9 +267,10 @@
       </Ribbon.ContextualTabs>
       <Ribbon.Tabs>
         <Tab CommandName="cmdMenuEdit">
-          <Group CommandName="cmdGroupFile" SizeDefinition="TwoButtons">
+          <Group CommandName="cmdGroupFile" SizeDefinition="ThreeButtons">
             <Button CommandName="cmdButtonNew" />
             <Button CommandName="cmdButtonOpen" />
+            <Button CommandName="cmdButtonOpenFolder" />
           </Group>
           <Group CommandName="cmdGroupSave" SizeDefinition="ThreeButtons-OneBigAndTwoSmall">
             <Button CommandName="cmdButtonSave" />
