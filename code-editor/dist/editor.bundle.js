@@ -1058,7 +1058,8 @@ var CodeEditor;
             "withRestarts", "signalCondition", "simpleCondition",
             "errorCondition", "warningCondition", "restart", "invokeRestart",
             "computeRestarts", "findRestart", "conditionCall",
-            "conditionMessage", "geterrmessage", "gregexpr", "sub", "gsub"
+            "conditionMessage", "geterrmessage", "gregexpr", "sub", "gsub",
+            "nrow", "ncol", "isTRUE", "isFALSE"
         ]);
         /**
          * R's internal primitive operators (infix/symbol form). When a run of
@@ -3304,8 +3305,11 @@ var CodeEditor;
             goToSymbol(symbol) {
                 this.cursor.setPosition({ line: symbol.line, column: symbol.column });
                 const pos = this.bufferToTextareaPos(symbol.line, symbol.column);
-                this.setTextareaSelection(pos);
+                // Scroll first so that setTextareaSelection() captures the already
+                // scrolled position. Otherwise its async scroll-restore (rAF)
+                // would undo the jump and revert to the previous viewport.
                 this.scrollToLine(symbol.line);
+                this.setTextareaSelection(pos);
                 this.render();
                 this.fireCursorChange();
             }
@@ -3450,8 +3454,9 @@ var CodeEditor;
                 const zeroBased = Math.max(0, Math.min(line - 1, this.buffer.lineCount - 1));
                 this.cursor.setPosition({ line: zeroBased, column: 0 });
                 const pos = this.bufferToTextareaPos(zeroBased, 0);
-                this.setTextareaSelection(pos);
+                // Scroll first (see goToSymbol for the reason).
                 this.scrollToLine(zeroBased);
+                this.setTextareaSelection(pos);
                 this.render();
                 this.fireCursorChange();
             }

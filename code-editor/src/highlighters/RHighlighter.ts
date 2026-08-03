@@ -132,7 +132,8 @@ namespace CodeEditor.Highlighters {
             "withRestarts", "signalCondition", "simpleCondition",
             "errorCondition", "warningCondition", "restart", "invokeRestart",
             "computeRestarts", "findRestart", "conditionCall",
-            "conditionMessage", "geterrmessage", "gregexpr", "sub", "gsub"
+            "conditionMessage", "geterrmessage", "gregexpr", "sub", "gsub",
+            "nrow", "ncol", "isTRUE", "isFALSE"
         ]);
 
         /**

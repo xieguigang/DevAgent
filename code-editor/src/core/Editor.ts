@@ -541,8 +541,11 @@ namespace CodeEditor.Core {
         goToSymbol(symbol: Symbol): void {
             this.cursor.setPosition({ line: symbol.line, column: symbol.column });
             const pos = this.bufferToTextareaPos(symbol.line, symbol.column);
-            this.setTextareaSelection(pos);
+            // Scroll first so that setTextareaSelection() captures the already
+            // scrolled position. Otherwise its async scroll-restore (rAF)
+            // would undo the jump and revert to the previous viewport.
             this.scrollToLine(symbol.line);
+            this.setTextareaSelection(pos);
             this.render();
             this.fireCursorChange();
         }
@@ -706,8 +709,9 @@ namespace CodeEditor.Core {
             const zeroBased = Math.max(0, Math.min(line - 1, this.buffer.lineCount - 1));
             this.cursor.setPosition({ line: zeroBased, column: 0 });
             const pos = this.bufferToTextareaPos(zeroBased, 0);
-            this.setTextareaSelection(pos);
+            // Scroll first (see goToSymbol for the reason).
             this.scrollToLine(zeroBased);
+            this.setTextareaSelection(pos);
             this.render();
             this.fireCursorChange();
         }
