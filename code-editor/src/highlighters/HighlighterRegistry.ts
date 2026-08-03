@@ -32,7 +32,13 @@ namespace CodeEditor.Highlighters {
 
         static detectFromFilename(filename: string): ILanguageHighlighter | null {
             const dotIdx = filename.lastIndexOf(".");
-            if (dotIdx < 0) return null;
+
+            if (dotIdx < 0) {
+                return null;
+            } else {
+                console.log(`[debug] load source file: ${filename}`);
+            }
+
             const ext = filename.substring(dotIdx + 1);
             return this.getByExtension(ext);
         }

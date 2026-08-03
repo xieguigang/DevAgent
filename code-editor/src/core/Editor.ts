@@ -424,6 +424,13 @@ namespace CodeEditor.Core {
         setText(text: string, filename?: string): void {
             this.buffer.setText(text);
             if (filename) {
+                try {
+                    let decode_name = <string>JSON.parse(filename);
+                    filename = decode_name;
+                } catch (ex) {
+                    // just do nothing
+                }
+
                 this.setFilename(filename);
             }
             this.diffViewer.setOriginal(text);

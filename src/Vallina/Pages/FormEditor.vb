@@ -105,7 +105,7 @@ Public Class FormEditor
     End Sub
 
     Private Sub WebView21_CoreWebView2InitializationCompleted(sender As Object, e As CoreWebView2InitializationCompletedEventArgs) Handles WebView21.CoreWebView2InitializationCompleted
-        Call WebViewLoader.DeveloperOptions(WebView21, enable:=False, TabText:="Code Edit")
+        Call WebViewLoader.DeveloperOptions(WebView21, enable:=True, TabText:="Code Edit")
 
         Call WebView21.CoreWebView2.AddHostObjectToScript(BasePage.HostObject, New CodeEditorPage)
         Call WebView21.CoreWebView2.Navigate($"http://localhost:{Workbench.port}/index.html")

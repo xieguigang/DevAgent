@@ -1730,8 +1730,12 @@ var CodeEditor;
             }
             static detectFromFilename(filename) {
                 const dotIdx = filename.lastIndexOf(".");
-                if (dotIdx < 0)
+                if (dotIdx < 0) {
                     return null;
+                }
+                else {
+                    console.log(`[debug] load source file: ${filename}`);
+                }
                 const ext = filename.substring(dotIdx + 1);
                 return this.getByExtension(ext);
             }
@@ -3060,6 +3064,13 @@ var CodeEditor;
             setText(text, filename) {
                 this.buffer.setText(text);
                 if (filename) {
+                    try {
+                        let decode_name = JSON.parse(filename);
+                        filename = decode_name;
+                    }
+                    catch (ex) {
+                        // just do nothing
+                    }
                     this.setFilename(filename);
                 }
                 this.diffViewer.setOriginal(text);
