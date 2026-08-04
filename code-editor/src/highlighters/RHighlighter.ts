@@ -150,13 +150,55 @@ namespace CodeEditor.Highlighters {
         ]);
 
         initialState(): any {
-            return {};
+            return { inString: false, stringChar: "", rawClose: "" };
         }
 
         tokenizeLine(line: string, state: any): TokenizeResult {
             const b = new TokenBuilder();
             let i = 0;
             const n = line.length;
+
+            // Continue a multi-line string opened on a previous line.
+            if (state && state.inString) {
+                const rawClose: string = state.rawClose || "";
+                const closeCh: string = state.stringChar || '"';
+                // For raw strings the terminator is `rawClose + '"'`; for plain
+                // strings the terminator is a single (non-escaped) quote.
+                let j = 0;
+                if (rawClose) {
+                    while (j < n) {
+                        if (line[j] === rawClose && line[j + 1] === '"') {
+                            j += 2;
+                            break;
+                        }
+                        j++;
+                    }
+                } else {
+                    while (j < n) {
+                        if (line[j] === "\\" && j + 1 < n) {
+                            j += 2;
+                            continue;
+                        }
+                        if (line[j] === closeCh) {
+                            j++;
+                            break;
+                        }
+                        j++;
+                    }
+                }
+                // Tolerate a trailing '\r' at end-of-line inside the string body.
+                let end = j;
+                while (end > i && line[end - 1] === "\r") end--;
+                b.push(TokenType.String, line.substring(i, j));
+                i = j;
+                if (j < n) {
+                    // String closed on this line; clear continuation state.
+                    state = { inString: false, stringChar: "", rawClose: "" };
+                } else {
+                    // Still inside the string; carry state to next line.
+                    return { tokens: b.result, state };
+                }
+            }
 
             while (i < n) {
                 const ch = line[i];
@@ -175,7 +217,7 @@ namespace CodeEditor.Highlighters {
                     break;
                 }
 
-                // Raw string: r"(...)", r"[...]", r"{...}".
+                // Raw string: r"(...)", r"[...]", r"{...}". May span multiple lines.
                 if ((ch === "r" || ch === "R") && line[i + 1] === '"') {
                     const open = line[i + 2];
                     if (open === "(" || open === "[" || open === "{") {
@@ -190,11 +232,15 @@ namespace CodeEditor.Highlighters {
                         }
                         b.push(TokenType.String, line.substring(i, j));
                         i = j;
+                        if (j >= n) {
+                            // Unclosed raw string: carry state across lines.
+                            return { tokens: b.result, state: { inString: true, stringChar: '"', rawClose: close } };
+                        }
                         continue;
                     }
                 }
 
-                // Double-quoted string.
+                // Double-quoted string. May span multiple lines.
                 if (ch === '"') {
                     let j = i + 1;
                     while (j < n) {
@@ -210,10 +256,14 @@ namespace CodeEditor.Highlighters {
                     }
                     b.push(TokenType.String, line.substring(i, j));
                     i = j;
+                    if (j >= n) {
+                        // Unclosed at end of line: carry state across lines.
+                        return { tokens: b.result, state: { inString: true, stringChar: '"', rawClose: "" } };
+                    }
                     continue;
                 }
 
-                // Single-quoted string.
+                // Single-quoted string. May span multiple lines.
                 if (ch === "'") {
                     let j = i + 1;
                     while (j < n) {
@@ -229,6 +279,10 @@ namespace CodeEditor.Highlighters {
                     }
                     b.push(TokenType.String, line.substring(i, j));
                     i = j;
+                    if (j >= n) {
+                        // Unclosed at end of line: carry state across lines.
+                        return { tokens: b.result, state: { inString: true, stringChar: "'", rawClose: "" } };
+                    }
                     continue;
                 }
 

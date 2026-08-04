@@ -1,0 +1,4 @@
+
+  dist\verify.bundle.js  37.5kb
+
+Done in 2ms

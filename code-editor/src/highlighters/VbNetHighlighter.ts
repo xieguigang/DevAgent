@@ -60,7 +60,7 @@ namespace CodeEditor.Highlighters {
         ]);
 
         initialState(): any {
-            return { inBlockComment: false, inXmlLiteral: false, inString: false, stringDepth: 0 };
+            return { inBlockComment: false, inXmlLiteral: false, inString: false, stringDepth: 0, stringChar: "", interp: false };
         }
 
         tokenizeLine(line: string, state: any): TokenizeResult {
@@ -68,8 +68,33 @@ namespace CodeEditor.Highlighters {
             let i = 0;
             const n = line.length;
 
-            // Handle multi-line block comment continuation (rare in VB but supported via XML doc).
-            // VB.NET does not have block comments, but we keep state for future use.
+            // Continue a multi-line string opened on a previous line.
+            // VB.NET escapes a quote by doubling it (""), so a string closes only on a
+            // single non-escaped quote. Scan until an odd (non-doubled) '"' is found.
+            if (state && state.inString) {
+                let j = i;
+                let closed = false;
+                while (j < n) {
+                    if (line[j] === '"') {
+                        if (line[j + 1] === '"') {
+                            j += 2; // escaped quote, skip both
+                            continue;
+                        }
+                        j++; // closing quote
+                        closed = true;
+                        break;
+                    }
+                    j++;
+                }
+                // Trailing '\r' at end-of-line inside a string body is tolerated.
+                b.push(TokenType.String, line.substring(i, j));
+                i = j;
+                if (closed) {
+                    state = { inBlockComment: false, inXmlLiteral: false, inString: false, stringDepth: 0, stringChar: "", interp: false };
+                } else {
+                    return { tokens: b.result, state };
+                }
+            }
 
             while (i < n) {
                 const ch = line[i];
@@ -107,7 +132,7 @@ namespace CodeEditor.Highlighters {
                     }
                 }
 
-                // String literal.
+                // String literal (may span multiple lines). VB.NET escapes a quote by doubling it.
                 if (ch === '"') {
                     let j = i + 1;
                     while (j < n) {
@@ -121,17 +146,32 @@ namespace CodeEditor.Highlighters {
                         }
                         j++;
                     }
-                    // Check for char literal: "a"c
-                    if (j < n && line[j] === "c" || (j === n && line[n - 1] === '"')) {
-                        // Check if next non-space char is 'c'
+                    // Char literal: a single character between quotes followed by 'c', e.g. "a"c.
+                    // Must be closed on this line and the char type suffix 'c' present.
+                    let isCharLiteral = false;
+                    if (j < n && line[j] === "c") {
+                        const inner = line.substring(i + 1, j - 1);
+                        // A char literal is a single code point (or escaped "") followed by c.
+                        if (inner.length === 1 || (inner.length === 2 && inner[0] === '"' && inner[1] === '"')) {
+                            isCharLiteral = true;
+                        }
                     }
-                    const str = line.substring(i, j);
-                    b.push(TokenType.String, str);
+                    if (isCharLiteral) {
+                        const str = line.substring(i, j + 1);
+                        b.push(TokenType.String, str);
+                        i = j + 1;
+                        continue;
+                    }
+                    // Plain string: emit what we have; if unclosed carry state across lines.
+                    b.push(TokenType.String, line.substring(i, j));
                     i = j;
+                    if (j >= n) {
+                        return { tokens: b.result, state: { inBlockComment: false, inXmlLiteral: false, inString: true, stringDepth: 0, stringChar: '"', interp: false } };
+                    }
                     continue;
                 }
 
-                // Interpolated string: $"..." (basic, single-line).
+                // Interpolated string: $"..." or $@"..." (supports multiple lines).
                 if ((ch === "$" && line[i + 1] === '"') || (ch === "$" && line[i + 1] === "@" && line[i + 2] === '"')) {
                     const startChar = line[i + 1] === "@" ? 2 : 1;
                     let j = i + 1 + startChar;
@@ -146,9 +186,11 @@ namespace CodeEditor.Highlighters {
                         }
                         j++;
                     }
-                    const str = line.substring(i, j);
-                    b.push(TokenType.String, str);
+                    b.push(TokenType.String, line.substring(i, j));
                     i = j;
+                    if (j >= n) {
+                        return { tokens: b.result, state: { inBlockComment: false, inXmlLiteral: false, inString: true, stringDepth: 0, stringChar: '"', interp: true } };
+                    }
                     continue;
                 }
 

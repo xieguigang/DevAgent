@@ -1,0 +1,4 @@
+src/devkit.ts(10,20): error TS2304: Cannot find name 'chrome'.
+src/main.ts(481,12): error TS2551: Property 'codeEditor' does not exist on type 'Window & typeof globalThis'. Did you mean 'CodeEditor'?
+src/main.ts(482,12): error TS2339: Property 'chrome' does not exist on type 'Window & typeof globalThis'.
+src/main.ts(482,65): error TS7006: Parameter 'event' implicitly has an 'any' type.

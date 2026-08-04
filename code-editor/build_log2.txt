@@ -1,0 +1,4 @@
+
+  dist\editor.bundle.js  15.2kb
+
+Done in 51ms
