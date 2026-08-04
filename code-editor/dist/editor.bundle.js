@@ -498,23 +498,9 @@ var CodeEditor;
                 let i = 0;
                 const n = line.length;
                 // Continue a multi-line string opened on a previous line.
-                // VB.NET escapes a quote by doubling it (""), so a string closes only on a
-                // single non-escaped quote. Scan until an odd (non-doubled) '"' is found.
                 if (state && state.inString) {
-                    let j = i;
-                    let closed = false;
-                    while (j < n) {
-                        if (line[j] === '"') {
-                            if (line[j + 1] === '"') {
-                                j += 2; // escaped quote, skip both
-                                continue;
-                            }
-                            j++; // closing quote
-                            closed = true;
-                            break;
-                        }
-                        j++;
-                    }
+                    const interp = !!(state.interp);
+                    const [j, closed] = VbNetHighlighter.scanStringBody(line, i, interp);
                     // Trailing '\r' at end-of-line inside a string body is tolerated.
                     b.push(TokenType.String, line.substring(i, j));
                     i = j;
@@ -559,22 +545,13 @@ var CodeEditor;
                     }
                     // String literal (may span multiple lines). VB.NET escapes a quote by doubling it.
                     if (ch === '"') {
-                        let j = i + 1;
-                        while (j < n) {
-                            if (line[j] === '"') {
-                                if (line[j + 1] === '"') {
-                                    j += 2;
-                                    continue;
-                                }
-                                j++;
-                                break;
-                            }
-                            j++;
-                        }
+                        let j;
+                        let closed;
                         // Char literal: a single character between quotes followed by 'c', e.g. "a"c.
                         // Must be closed on this line and the char type suffix 'c' present.
                         let isCharLiteral = false;
-                        if (j < n && line[j] === "c") {
+                        [j, closed] = VbNetHighlighter.scanStringBody(line, i + 1, false);
+                        if (closed && j < n && line[j] === "c") {
                             const inner = line.substring(i + 1, j - 1);
                             // A char literal is a single code point (or escaped "") followed by c.
                             if (inner.length === 1 || (inner.length === 2 && inner[0] === '"' && inner[1] === '"')) {
@@ -590,7 +567,7 @@ var CodeEditor;
                         // Plain string: emit what we have; if unclosed carry state across lines.
                         b.push(TokenType.String, line.substring(i, j));
                         i = j;
-                        if (j >= n) {
+                        if (!closed) {
                             return { tokens: b.result, state: { inBlockComment: false, inXmlLiteral: false, inString: true, stringDepth: 0, stringChar: '"', interp: false } };
                         }
                         continue;
@@ -598,21 +575,10 @@ var CodeEditor;
                     // Interpolated string: $"..." or $@"..." (supports multiple lines).
                     if ((ch === "$" && line[i + 1] === '"') || (ch === "$" && line[i + 1] === "@" && line[i + 2] === '"')) {
                         const startChar = line[i + 1] === "@" ? 2 : 1;
-                        let j = i + 1 + startChar;
-                        while (j < n) {
-                            if (line[j] === '"') {
-                                if (line[j + 1] === '"') {
-                                    j += 2;
-                                    continue;
-                                }
-                                j++;
-                                break;
-                            }
-                            j++;
-                        }
+                        const [j, closed] = VbNetHighlighter.scanStringBody(line, i + 1 + startChar, true);
                         b.push(TokenType.String, line.substring(i, j));
                         i = j;
-                        if (j >= n) {
+                        if (!closed) {
                             return { tokens: b.result, state: { inBlockComment: false, inXmlLiteral: false, inString: true, stringDepth: 0, stringChar: '"', interp: true } };
                         }
                         continue;
@@ -707,6 +673,65 @@ var CodeEditor;
                     i++;
                 }
                 return { tokens: b.result, state };
+            }
+            // Scan the body of a string starting at `start`, returning the index just past
+            // the closing quote (or n when unclosed) and whether it closed on this line.
+            // For interpolated strings (interp=true) we track brace depth so that quotes
+            // inside an {expression} do not close the string; literal braces are written {{ / }}.
+            // VB.NET escapes a quote by doubling it (""), which is skipped in both modes.
+            static scanStringBody(line, start, interp) {
+                const n = line.length;
+                let j = start;
+                let depth = 0;
+                while (j < n) {
+                    const c = line[j];
+                    if (interp) {
+                        if (c === "{" && line[j + 1] === "{") {
+                            j += 2;
+                            continue;
+                        } // literal {{
+                        if (c === "}" && line[j + 1] === "}") {
+                            j += 2;
+                            continue;
+                        } // literal }}
+                        if (c === "{") {
+                            depth++;
+                            j++;
+                            continue;
+                        }
+                        if (c === "}") {
+                            if (depth > 0)
+                                depth--;
+                            j++;
+                            continue;
+                        }
+                        if (c === '"') {
+                            if (line[j + 1] === '"') {
+                                j += 2;
+                                continue;
+                            } // escaped quote
+                            if (depth === 0) {
+                                j++;
+                                return [j, true];
+                            }
+                            // quote inside an expression: not a string terminator
+                            j++;
+                            continue;
+                        }
+                    }
+                    else {
+                        if (c === '"') {
+                            if (line[j + 1] === '"') {
+                                j += 2;
+                                continue;
+                            } // escaped quote
+                            j++;
+                            return [j, true];
+                        }
+                    }
+                    j++;
+                }
+                return [j, false];
             }
         }
         // Keywords that begin/control statements.

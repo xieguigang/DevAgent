@@ -248,6 +248,7 @@ declare namespace CodeEditor.Highlighters {
         private static TYPES;
         initialState(): any;
         tokenizeLine(line: string, state: any): TokenizeResult;
+        private static scanStringBody;
     }
 }
 declare namespace CodeEditor.Highlighters {
