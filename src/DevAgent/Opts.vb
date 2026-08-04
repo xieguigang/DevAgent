@@ -38,6 +38,9 @@ Public Class Opts
     <Opt("--config", "-c")>
     Public Property configFile As String
 
+    <Opt("--weekly-log")>
+    Public Property weeklyLog As Boolean
+
     Public Function ResolveFile() As Opts
         If Not requirementFile.StringEmpty Then
             requirements = requirementFile.ReadAllText

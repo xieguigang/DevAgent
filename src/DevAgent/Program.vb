@@ -47,6 +47,12 @@ Module Program
         ' --- 加载配置（CLI > INI > 内置默认）---
         Dim config As AppConfig = AppConfig.Load(args, opt)
 
+        If opt.weeklyLog Then
+            Dim log As String = Await GitWeeklyLog.GenerateWeeklyLog(config, opt.projectPath)
+            Call Console.WriteLine(log)
+            Return 0
+        End If
+
         ' --- REPL 模式：无参数或 --repl ---
         Dim isRepl As Boolean = args.Length = 0 OrElse opt.repl
         If isRepl Then
