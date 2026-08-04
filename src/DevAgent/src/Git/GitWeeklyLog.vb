@@ -16,7 +16,7 @@ Module GitWeeklyLog
     ''' <returns>the weekly log result text</returns>
     Public Async Function GenerateWeeklyLog(config As AppConfig, ws As String) As Task(Of String)
         ' 解析过去一周内的全部提交记录
-        Dim teamjobs = weeklyLog.GetWeeklyLog(directory:=ws, since:="1 week ago").ToArray
+        Dim teamjobs As commitEntry() = weeklyLog.GetWeeklyLog(directory:=ws, since:="1 week ago").ToArray
 
         If teamjobs.IsNullOrEmpty Then
             Return $"该工作区（{ws}）在过去一周内没有检测到任何 git 提交记录，无法生成工作周报。"
@@ -50,7 +50,7 @@ Module GitWeeklyLog
 
             For Each kvp In authors
                 Dim author As String = kvp.Key
-                Dim commits = kvp.Value
+                Dim commits As commitEntry() = kvp.Value
 
                 Dim ctx As String = RenderMemberContext(author, commits)
                 Dim prompt As String = BuildMemberPrompt(author, commits.Length, ctx)
@@ -96,7 +96,7 @@ Module GitWeeklyLog
         Dim sb As New StringBuilder()
         Dim diffBudget As Integer = MaxDiffChars
 
-        For Each c In commits
+        For Each c As commitEntry In commits
             sb.AppendLine($"提交 {c.meta.commit}")
             sb.AppendLine($"时间：{c.meta.date:yyyy-MM-dd HH:mm}")
             sb.AppendLine($"说明：{c.meta.message}")
@@ -112,7 +112,12 @@ Module GitWeeklyLog
                 If diffBudget > 0 Then
                     sb.AppendLine("关键代码差异：")
                     For Each file In c.changes.Files
-                        If file.Hunks Is Nothing Then Continue For
+                        If file.Hunks Is Nothing Then
+                            Continue For
+                        ElseIf Not file.FilePath.ExtensionSuffix("vb", "vbproj") Then
+                            Continue For
+                        End If
+
                         For Each hunk In file.Hunks
                             If hunk.Lines Is Nothing Then Continue For
                             For Each line In hunk.Lines
