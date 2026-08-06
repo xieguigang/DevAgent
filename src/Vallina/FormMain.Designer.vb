@@ -30,10 +30,10 @@ Partial Class FormMain
         DockPanel1 = New Microsoft.VisualStudio.WinForms.Docking.DockPanel()
         StatusStrip1 = New StatusStrip()
         ToolStripStatusLabel1 = New ToolStripStatusLabel()
-        VisualStudioToolStripExtender1 = New Microsoft.VisualStudio.WinForms.Docking.VisualStudioToolStripExtender(components)
-        VS2015LightTheme1 = New ThemeVS2015.VS2015LightTheme()
         ToolStripStatusLabel2 = New ToolStripStatusLabel()
         ToolStripStatusLabel3 = New ToolStripStatusLabel()
+        VisualStudioToolStripExtender1 = New Microsoft.VisualStudio.WinForms.Docking.VisualStudioToolStripExtender(components)
+        VS2015LightTheme1 = New ThemeVS2015.VS2015LightTheme()
         StatusStrip1.SuspendLayout()
         SuspendLayout()
         ' 
@@ -70,10 +70,6 @@ Partial Class FormMain
         ToolStripStatusLabel1.Size = New Size(39, 17)
         ToolStripStatusLabel1.Text = "Ready"
         ' 
-        ' VisualStudioToolStripExtender1
-        ' 
-        VisualStudioToolStripExtender1.DefaultRenderer = Nothing
-        ' 
         ' ToolStripStatusLabel2
         ' 
         ToolStripStatusLabel2.Name = "ToolStripStatusLabel2"
@@ -85,6 +81,10 @@ Partial Class FormMain
         ToolStripStatusLabel3.Name = "ToolStripStatusLabel3"
         ToolStripStatusLabel3.Size = New Size(15, 17)
         ToolStripStatusLabel3.Text = "{}"
+        ' 
+        ' VisualStudioToolStripExtender1
+        ' 
+        VisualStudioToolStripExtender1.DefaultRenderer = Nothing
         ' 
         ' FormMain
         ' 

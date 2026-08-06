@@ -215,6 +215,14 @@
         <Image MinDPI="192">Icons8/icons8-folder-96.png</Image>
       </Command.LargeImages>
     </Command>
+    <Command Name="cmdButtonDevAgent" Id="41" LabelTitle="DevAgent">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-run-command-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-run-command-96.png</Image>
+      </Command.LargeImages>
+    </Command>
   </Application.Commands>
   <Application.Views>
     <Ribbon>
@@ -283,7 +291,8 @@
           </Group>
         </Tab>
         <Tab CommandName="cmdTabConsole">
-          <Group CommandName="cmdGroupConsole" SizeDefinition="TwoButtons">
+          <Group CommandName="cmdGroupConsole" SizeDefinition="ThreeButtons">
+            <Button CommandName="cmdButtonDevAgent" />
             <Button CommandName="cmdButtonConsole" />
             <Button CommandName="cmdButtonSsh" />
           </Group>

@@ -133,4 +133,8 @@
 #define cmdButtonOpenFolder_LabelTitle_RESID 60087
 #define cmdButtonOpenFolder_SmallImages_192__RESID 60088
 #define cmdButtonOpenFolder_LargeImages_192__RESID 60089
-#define InternalCmd2_LabelTitle_RESID 60090
+#define cmdButtonDevAgent 41 
+#define cmdButtonDevAgent_LabelTitle_RESID 60090
+#define cmdButtonDevAgent_SmallImages_192__RESID 60091
+#define cmdButtonDevAgent_LargeImages_192__RESID 60092
+#define InternalCmd2_LabelTitle_RESID 60093

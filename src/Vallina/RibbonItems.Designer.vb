@@ -48,6 +48,7 @@ Namespace RibbonLib.Controls
             Public Const cmdButtonOutputTool As UInteger = 32
             Public Const cmdTabConsole As UInteger = 37
             Public Const cmdGroupConsole As UInteger = 36
+            Public Const cmdButtonDevAgent As UInteger = 41
             Public Const cmdButtonConsole As UInteger = 28
             Public Const cmdButtonSsh As UInteger = 35
             Public Const cmdGroupSshSessions As UInteger = 38
@@ -262,6 +263,12 @@ Namespace RibbonLib.Controls
                 Return _GroupConsole
             End Get
         End Property
+        Private _ButtonDevAgent As RibbonButton
+        Public ReadOnly Property ButtonDevAgent As RibbonButton
+            Get
+                Return _ButtonDevAgent
+            End Get
+        End Property
         Private _ButtonConsole As RibbonButton
         Public ReadOnly Property ButtonConsole As RibbonButton
             Get
@@ -337,6 +344,7 @@ Namespace RibbonLib.Controls
             _ButtonOutputTool = New RibbonButton(_ribbon, Cmd.cmdButtonOutputTool)
             _TabConsole = New RibbonTab(_ribbon, Cmd.cmdTabConsole)
             _GroupConsole = New RibbonGroup(_ribbon, Cmd.cmdGroupConsole)
+            _ButtonDevAgent = New RibbonButton(_ribbon, Cmd.cmdButtonDevAgent)
             _ButtonConsole = New RibbonButton(_ribbon, Cmd.cmdButtonConsole)
             _ButtonSsh = New RibbonButton(_ribbon, Cmd.cmdButtonSsh)
             _GroupSshSessions = New RibbonGroup(_ribbon, Cmd.cmdGroupSshSessions)

@@ -23,6 +23,15 @@ Module RibbonMenu
         AddHandler ribbon.ButtonRemoteSessions.ExecuteEvent, Sub() Call OpenLinuxSessions()
         AddHandler ribbon.ButtonSsh.ExecuteEvent, Sub() Call OpenBash()
         AddHandler ribbon.ButtonOpenFolder.ExecuteEvent, Sub() Call OpenFolder()
+        AddHandler ribbon.ButtonDevAgent.ExecuteEvent, Sub() Call OpenDevAgent()
+    End Sub
+
+    Public Sub OpenDevAgent()
+        Using folder As New FolderBrowserDialog
+            If folder.ShowDialog = DialogResult.OK Then
+                Call LaunchLLMAgent(folder.SelectedPath)
+            End If
+        End Using
     End Sub
 
     Public Sub OpenFolder()
@@ -131,7 +140,7 @@ Module RibbonMenu
         Dim panel As DockPanel = DirectCast(CommonRuntime.AppHost.GetDockPanel, DockPanel)
 
         agent.Show(panel, DockState.Document)
-        agent.TabText = $"LLM DevAgent [{wd}]"
+        agent.TabText = $"LLM DevAgent [{wd.BaseName} - {wd.ParentPath}]"
     End Sub
 
     Public Sub OpenAboutPage()

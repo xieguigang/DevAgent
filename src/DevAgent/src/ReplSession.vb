@@ -114,27 +114,18 @@ Public Class ReplSession
 
             Case "/summary"
 
-                Dim dirname As String = parts.Skip(1).JoinBy("/")
-                dirname = If(dirname = "", "/", dirname)
-                dirname = _workspace & "/" & dirname
-                git_diff = CommitMessageGenerator.GenerateCommitMessage(_ollama, dirname).GetAwaiter.GetResult
-
-                If git_diff.Summary.StringEmpty(, True) Then
-                    git_diff = Nothing
-                End If
+                Call MakeCommitSummary(parts)
 
             Case "/commit"
 
-                If git_diff Is Nothing Then
-                    Console.Error.WriteLine("no git commit message information, run '/summary' command at first!")
-                    Console.Error.Flush()
-                Else
-                    Dim err As String = Nothing
-                    If Not Commit.CommitFolderChanges(_workspace, _workspace, git_diff, outputMessage:=err) Then
-                        Call Console.Error.WriteLine(err)
-                        Call Console.Error.Flush()
-                    End If
-                    git_diff = Nothing
+                Call MakeCommit()
+
+            Case "/auto-commit"
+
+                Call MakeCommitSummary(parts)
+
+                If Not git_diff Is Nothing Then
+                    Call MakeCommit()
                 End If
 
             Case "/help", "/?"
@@ -146,6 +137,31 @@ Public Class ReplSession
 
         Return Task.FromResult(False)
     End Function
+
+    Private Sub MakeCommit()
+        If git_diff Is Nothing Then
+            Console.Error.WriteLine("no git commit message information, run '/summary' command at first!")
+            Console.Error.Flush()
+        Else
+            Dim err As String = Nothing
+            If Not Commit.CommitFolderChanges(_workspace, _workspace, git_diff, outputMessage:=err) Then
+                Call Console.Error.WriteLine(err)
+                Call Console.Error.Flush()
+            End If
+            git_diff = Nothing
+        End If
+    End Sub
+
+    Private Sub MakeCommitSummary(parts() As String)
+        Dim dirname As String = parts.Skip(1).JoinBy("/")
+        dirname = If(dirname = "", "/", dirname)
+        dirname = _workspace & "/" & dirname
+        git_diff = CommitMessageGenerator.GenerateCommitMessage(_ollama, dirname).GetAwaiter.GetResult
+
+        If git_diff.Summary.StringEmpty(, True) Then
+            git_diff = Nothing
+        End If
+    End Sub
 
     ' ========================================================================
     ' 输出
@@ -170,6 +186,7 @@ Public Class ReplSession
         Console.WriteLine("  /tree [/]      Show workspace file tree, default list the file tree of the workspace root.")
         Console.WriteLine("  /summary [/]   Show summary of the workspace file edit result.")
         Console.WriteLine("  /commit        make git commit of the current changes.")
+        Console.WriteLine("  /auto-commit   make git summary and then run git commit.")
         Console.WriteLine("  /help, /?      Show this help")
         Console.WriteLine()
         Console.WriteLine("Otherwise: type a natural-language request and press Enter.")

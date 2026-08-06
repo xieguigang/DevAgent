@@ -51,6 +51,7 @@ namespace RibbonLib.Controls
             public const uint cmdButtonOutputTool = 32;
             public const uint cmdTabConsole = 37;
             public const uint cmdGroupConsole = 36;
+            public const uint cmdButtonDevAgent = 41;
             public const uint cmdButtonConsole = 28;
             public const uint cmdButtonSsh = 35;
             public const uint cmdGroupSshSessions = 38;
@@ -95,6 +96,7 @@ namespace RibbonLib.Controls
         public RibbonButton ButtonOutputTool { get; private set; }
         public RibbonTab TabConsole { get; private set; }
         public RibbonGroup GroupConsole { get; private set; }
+        public RibbonButton ButtonDevAgent { get; private set; }
         public RibbonButton ButtonConsole { get; private set; }
         public RibbonButton ButtonSsh { get; private set; }
         public RibbonGroup GroupSshSessions { get; private set; }
@@ -140,6 +142,7 @@ namespace RibbonLib.Controls
             ButtonOutputTool = new RibbonButton(ribbon, Cmd.cmdButtonOutputTool);
             TabConsole = new RibbonTab(ribbon, Cmd.cmdTabConsole);
             GroupConsole = new RibbonGroup(ribbon, Cmd.cmdGroupConsole);
+            ButtonDevAgent = new RibbonButton(ribbon, Cmd.cmdButtonDevAgent);
             ButtonConsole = new RibbonButton(ribbon, Cmd.cmdButtonConsole);
             ButtonSsh = new RibbonButton(ribbon, Cmd.cmdButtonSsh);
             GroupSshSessions = new RibbonGroup(ribbon, Cmd.cmdGroupSshSessions);
