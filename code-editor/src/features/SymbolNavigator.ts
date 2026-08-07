@@ -52,11 +52,18 @@ namespace CodeEditor.Features {
                 case "json":
                     return this.extractJson(lines);
                 case "xml":
+                case "html":
                     return this.extractXml(lines);
                 case "markdown":
                     return this.extractMarkdown(lines);
                 case "yaml":
                     return this.extractYaml(lines);
+                case "javascript":
+                    return this.extractJsTs(lines, false);
+                case "typescript":
+                    return this.extractJsTs(lines, true);
+                case "css":
+                    return this.extractCss(lines);
                 default:
                     return [];
             }
@@ -99,8 +106,23 @@ namespace CodeEditor.Features {
                 case "yaml":
                 case "json":
                 case "xml":
+                case "html":
+                case "css":
                     // Indentation-based nesting: deeper keys sit further right.
                     return sym.column;
+                case "javascript":
+                case "typescript":
+                    switch (sym.kind) {
+                        case SymbolKind.Namespace:
+                            return 1;
+                        case SymbolKind.Class:
+                        case SymbolKind.Interface:
+                        case SymbolKind.Enum:
+                        case SymbolKind.Module:
+                            return 2;
+                        default:
+                            return 3;
+                    }
                 case "vbnet":
                 case "r":
                 default:

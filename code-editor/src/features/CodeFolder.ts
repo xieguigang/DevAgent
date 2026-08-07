@@ -308,6 +308,75 @@ namespace CodeEditor.Features {
             return this.dedupeRanges(ranges);
         }
 
+        /**
+         * Brace-based folding for C-style languages (JS/TS/CSS).
+         * Handles // and /* *‌/ comments, strings, and template literals.
+         * Unlike computeBraceBased, does NOT treat # as a comment start.
+         */
+        private computeCStyleBraces(lines: string[]): FoldRange[] {
+            const ranges: FoldRange[] = [];
+            const stack: { line: number; col: number }[] = [];
+            let inBlockComment = false;
+
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                let inString: string | null = null;
+                let inLineComment = false;
+                for (let j = 0; j < line.length; j++) {
+                    const c = line[j];
+
+                    // Inside block comment — look for */.
+                    if (inBlockComment) {
+                        if (c === "*" && line[j + 1] === "/") {
+                            inBlockComment = false;
+                            j++;
+                        }
+                        continue;
+                    }
+                    if (inLineComment) continue;
+                    if (inString) {
+                        if (c === "\\") { j++; continue; }
+                        if (c === inString) inString = null;
+                        continue;
+                    }
+
+                    // Line comment //.
+                    if (c === "/" && line[j + 1] === "/") {
+                        inLineComment = true;
+                        continue;
+                    }
+                    // Block comment /*.
+                    if (c === "/" && line[j + 1] === "*") {
+                        inBlockComment = true;
+                        j++;
+                        continue;
+                    }
+                    // Strings.
+                    if (c === '"' || c === "'" || c === "`") {
+                        inString = c;
+                        continue;
+                    }
+                    // Braces.
+                    if (c === "{" || c === "(" || c === "[") {
+                        stack.push({ line: i, col: j });
+                    } else if (c === "}" || c === ")" || c === "]") {
+                        const top = stack.pop();
+                        if (top && top.line < i) {
+                            ranges.push({
+                                startLine: top.line,
+                                endLine: i,
+                                collapsedText: "...",
+                                kind: "block"
+                            });
+                        }
+                    }
+                }
+                // Line comment and string state reset at end of line.
+                // Block comment state persists across lines.
+            }
+
+            return this.dedupeRanges(ranges);
+        }
         private computeXml(lines: string[]): FoldRange[] {
             const ranges: FoldRange[] = [];
             const stack: { line: number; tag: string }[] = [];
