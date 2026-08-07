@@ -36,12 +36,12 @@ Partial Class FormSolutionExplorer
         ToolStrip1 = New ToolStrip()
         ToolStripButton1 = New ToolStripButton()
         ToolStripSeparator1 = New ToolStripSeparator()
+        ToolStripButton5 = New ToolStripButton()
         ToolStripButton4 = New ToolStripButton()
-        ToolStripButton3 = New ToolStripButton()
         ToolStripSeparator2 = New ToolStripSeparator()
         ToolStripButton2 = New ToolStripButton()
-        ToolStripButton5 = New ToolStripButton()
         ToolStripSeparator3 = New ToolStripSeparator()
+        ToolStripButton3 = New ToolStripButton()
         ContextMenuStrip1.SuspendLayout()
         ToolStrip1.SuspendLayout()
         SuspendLayout()
@@ -121,6 +121,15 @@ Partial Class FormSolutionExplorer
         ToolStripSeparator1.Name = "ToolStripSeparator1"
         ToolStripSeparator1.Size = New Size(6, 25)
         ' 
+        ' ToolStripButton5
+        ' 
+        ToolStripButton5.DisplayStyle = ToolStripItemDisplayStyle.Image
+        ToolStripButton5.Image = CType(resources.GetObject("ToolStripButton5.Image"), Image)
+        ToolStripButton5.ImageTransparentColor = Color.Magenta
+        ToolStripButton5.Name = "ToolStripButton5"
+        ToolStripButton5.Size = New Size(23, 22)
+        ToolStripButton5.Text = "Auto Commit"
+        ' 
         ' ToolStripButton4
         ' 
         ToolStripButton4.DisplayStyle = ToolStripItemDisplayStyle.Image
@@ -129,15 +138,6 @@ Partial Class FormSolutionExplorer
         ToolStripButton4.Name = "ToolStripButton4"
         ToolStripButton4.Size = New Size(23, 22)
         ToolStripButton4.Text = "Git Diff"
-        ' 
-        ' ToolStripButton3
-        ' 
-        ToolStripButton3.DisplayStyle = ToolStripItemDisplayStyle.Image
-        ToolStripButton3.Image = CType(resources.GetObject("ToolStripButton3.Image"), Image)
-        ToolStripButton3.ImageTransparentColor = Color.Magenta
-        ToolStripButton3.Name = "ToolStripButton3"
-        ToolStripButton3.Size = New Size(23, 22)
-        ToolStripButton3.Text = "Refresh"
         ' 
         ' ToolStripSeparator2
         ' 
@@ -153,19 +153,19 @@ Partial Class FormSolutionExplorer
         ToolStripButton2.Size = New Size(23, 22)
         ToolStripButton2.Text = "Build"
         ' 
-        ' ToolStripButton5
-        ' 
-        ToolStripButton5.DisplayStyle = ToolStripItemDisplayStyle.Image
-        ToolStripButton5.Image = CType(resources.GetObject("ToolStripButton5.Image"), Image)
-        ToolStripButton5.ImageTransparentColor = Color.Magenta
-        ToolStripButton5.Name = "ToolStripButton5"
-        ToolStripButton5.Size = New Size(23, 22)
-        ToolStripButton5.Text = "Auto Commit"
-        ' 
         ' ToolStripSeparator3
         ' 
         ToolStripSeparator3.Name = "ToolStripSeparator3"
         ToolStripSeparator3.Size = New Size(6, 25)
+        ' 
+        ' ToolStripButton3
+        ' 
+        ToolStripButton3.DisplayStyle = ToolStripItemDisplayStyle.Image
+        ToolStripButton3.Image = CType(resources.GetObject("ToolStripButton3.Image"), Image)
+        ToolStripButton3.ImageTransparentColor = Color.Magenta
+        ToolStripButton3.Name = "ToolStripButton3"
+        ToolStripButton3.Size = New Size(23, 22)
+        ToolStripButton3.Text = "Refresh"
         ' 
         ' FormSolutionExplorer
         ' 

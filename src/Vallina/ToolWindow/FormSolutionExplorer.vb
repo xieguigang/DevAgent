@@ -1,9 +1,12 @@
-﻿Imports Galaxy.Workbench
+﻿Imports DevAgent
+Imports Galaxy.Workbench
 Imports Galaxy.Workbench.CommonDialogs
 Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.sln
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VersionControl.Git
+Imports Ollama
 
 Public Class FormSolutionExplorer
 
@@ -164,5 +167,36 @@ Public Class FormSolutionExplorer
             Await llmbox.SetFileReference(sourceFile)
             Await llmbox.SendMessage(promptText:="请帮助我理解当前的这个源代码：解释代码所实现的功能，以及该功能是如何实现的？")
         End If
+    End Sub
+
+    ''' <summary>
+    ''' auto commit
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Async Sub ToolStripButton5_Click(sender As Object, e As EventArgs) Handles ToolStripButton5.Click
+        Dim llmbox As FormLLMsTool = RibbonMenu.OpenLLMsChat
+        Dim ollama As LLMClient = llmbox.llm
+
+        Call llmbox.WebView2llmui1.PushStart()
+
+        Dim git_diff = Await CommitMessageGenerator.GenerateCommitMessage(ollama, Workspace)
+
+        If git_diff Is Nothing OrElse git_diff.Summary.StringEmpty(, True) Then
+            git_diff = Nothing
+        End If
+        If Not git_diff Is Nothing Then
+            Dim err As String = Nothing
+
+            If Not Commit.CommitFolderChanges(Workspace, Workspace, git_diff, outputMessage:=err) Then
+                Call CommonRuntime.Warning(err)
+            Else
+                Call CommonRuntime.Success("Git Commit Success: " & git_diff.Summary)
+            End If
+
+            Call CommonRuntime.GetOutputWindow.AddLog("git commit", git_diff.Summary, level:=If(Not err.StringEmpty, MSG_TYPES.INF, MSG_TYPES.ERR))
+        End If
+
+        Call llmbox.WebView2llmui1.PushEnd("", "")
     End Sub
 End Class

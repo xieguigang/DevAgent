@@ -10,6 +10,12 @@ Public Class FormLLMsTool
 
     Public Property tools As AgentTools
 
+    Public ReadOnly Property llm As LLMClient
+        Get
+            Return WebView2llmui1.llm
+        End Get
+    End Property
+
     Private Sub FormLLMsTool_Load(sender As Object, e As EventArgs) Handles Me.Load
         Dim llm As LLMClient = Workbench.CreateLLM
 
