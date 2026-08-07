@@ -199,4 +199,43 @@ Public Class FormSolutionExplorer
 
         Call llmbox.WebView2llmui1.PushEnd("", "")
     End Sub
+
+    ''' <summary>
+    ''' open console at workspace
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub ToolStripButton6_Click(sender As Object, e As EventArgs) Handles ToolStripButton6.Click
+        Call RibbonMenu.OpenConsole(folder:=Workspace)
+    End Sub
+
+    ''' <summary>
+    ''' run msbuild
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub ToolStripButton2_Click(sender As Object, e As EventArgs) Handles ToolStripButton2.Click
+        If TypeOf proj Is VBProject Then
+
+        Else
+            Call CommonRuntime.Warning("Can not run msbuild on a folder object. Please on an valid vbproj or vs solution file.")
+        End If
+    End Sub
+
+    Private Sub OpenConsoleAtHereToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenConsoleAtHereToolStripMenuItem.Click
+        Dim node = TreeView1.SelectedNode
+
+        If node Is Nothing Then
+            Return
+        End If
+
+        If node.Parent Is Nothing Then
+            ' is root
+            Call RibbonMenu.OpenConsole(folder:=Workspace)
+        ElseIf DirectCast(node.Tag, FileSystemTree).IsDirectory Then
+            Call RibbonMenu.OpenConsole(folder:=Workspace & "/" & DirectCast(node.Tag, FileSystemTree).FullName)
+        Else
+            Call RibbonMenu.OpenConsole(folder:=(Workspace & "/" & DirectCast(node.Tag, FileSystemTree).FullName).ParentPath)
+        End If
+    End Sub
 End Class

@@ -32,9 +32,11 @@ Partial Class FormSolutionExplorer
         CopyFilePathToolStripMenuItem = New ToolStripMenuItem()
         ToolStripMenuItem1 = New ToolStripSeparator()
         LLMExplainToolStripMenuItem = New ToolStripMenuItem()
+        OpenConsoleAtHereToolStripMenuItem = New ToolStripMenuItem()
         ImageList1 = New ImageList(components)
         ToolStrip1 = New ToolStrip()
         ToolStripButton1 = New ToolStripButton()
+        ToolStripButton6 = New ToolStripButton()
         ToolStripSeparator1 = New ToolStripSeparator()
         ToolStripButton5 = New ToolStripButton()
         ToolStripButton4 = New ToolStripButton()
@@ -60,34 +62,41 @@ Partial Class FormSolutionExplorer
         ' 
         ' ContextMenuStrip1
         ' 
-        ContextMenuStrip1.Items.AddRange(New ToolStripItem() {OpenToolStripMenuItem, CopyFilePathToolStripMenuItem, ToolStripMenuItem1, LLMExplainToolStripMenuItem})
+        ContextMenuStrip1.Items.AddRange(New ToolStripItem() {OpenToolStripMenuItem, CopyFilePathToolStripMenuItem, ToolStripMenuItem1, LLMExplainToolStripMenuItem, OpenConsoleAtHereToolStripMenuItem})
         ContextMenuStrip1.Name = "ContextMenuStrip1"
-        ContextMenuStrip1.Size = New Size(148, 76)
+        ContextMenuStrip1.Size = New Size(193, 120)
         ' 
         ' OpenToolStripMenuItem
         ' 
         OpenToolStripMenuItem.Image = CType(resources.GetObject("OpenToolStripMenuItem.Image"), Image)
         OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
-        OpenToolStripMenuItem.Size = New Size(147, 22)
+        OpenToolStripMenuItem.Size = New Size(192, 22)
         OpenToolStripMenuItem.Text = "Open"
         ' 
         ' CopyFilePathToolStripMenuItem
         ' 
         CopyFilePathToolStripMenuItem.Name = "CopyFilePathToolStripMenuItem"
-        CopyFilePathToolStripMenuItem.Size = New Size(147, 22)
+        CopyFilePathToolStripMenuItem.Size = New Size(192, 22)
         CopyFilePathToolStripMenuItem.Text = "Copy FilePath"
         ' 
         ' ToolStripMenuItem1
         ' 
         ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        ToolStripMenuItem1.Size = New Size(144, 6)
+        ToolStripMenuItem1.Size = New Size(189, 6)
         ' 
         ' LLMExplainToolStripMenuItem
         ' 
         LLMExplainToolStripMenuItem.Image = CType(resources.GetObject("LLMExplainToolStripMenuItem.Image"), Image)
         LLMExplainToolStripMenuItem.Name = "LLMExplainToolStripMenuItem"
-        LLMExplainToolStripMenuItem.Size = New Size(147, 22)
+        LLMExplainToolStripMenuItem.Size = New Size(192, 22)
         LLMExplainToolStripMenuItem.Text = "LLM Explain"
+        ' 
+        ' OpenConsoleAtHereToolStripMenuItem
+        ' 
+        OpenConsoleAtHereToolStripMenuItem.Image = CType(resources.GetObject("OpenConsoleAtHereToolStripMenuItem.Image"), Image)
+        OpenConsoleAtHereToolStripMenuItem.Name = "OpenConsoleAtHereToolStripMenuItem"
+        OpenConsoleAtHereToolStripMenuItem.Size = New Size(192, 22)
+        OpenConsoleAtHereToolStripMenuItem.Text = "Open Console At Here"
         ' 
         ' ImageList1
         ' 
@@ -100,7 +109,7 @@ Partial Class FormSolutionExplorer
         ' 
         ' ToolStrip1
         ' 
-        ToolStrip1.Items.AddRange(New ToolStripItem() {ToolStripButton1, ToolStripSeparator1, ToolStripButton5, ToolStripButton4, ToolStripSeparator2, ToolStripButton2, ToolStripSeparator3, ToolStripButton3})
+        ToolStrip1.Items.AddRange(New ToolStripItem() {ToolStripButton1, ToolStripButton6, ToolStripSeparator1, ToolStripButton5, ToolStripButton4, ToolStripSeparator2, ToolStripButton2, ToolStripSeparator3, ToolStripButton3})
         ToolStrip1.Location = New Point(0, 0)
         ToolStrip1.Name = "ToolStrip1"
         ToolStrip1.Size = New Size(403, 25)
@@ -115,6 +124,15 @@ Partial Class FormSolutionExplorer
         ToolStripButton1.Name = "ToolStripButton1"
         ToolStripButton1.Size = New Size(23, 22)
         ToolStripButton1.Text = "Launch LLM DevAgent"
+        ' 
+        ' ToolStripButton6
+        ' 
+        ToolStripButton6.DisplayStyle = ToolStripItemDisplayStyle.Image
+        ToolStripButton6.Image = CType(resources.GetObject("ToolStripButton6.Image"), Image)
+        ToolStripButton6.ImageTransparentColor = Color.Magenta
+        ToolStripButton6.Name = "ToolStripButton6"
+        ToolStripButton6.Size = New Size(23, 22)
+        ToolStripButton6.Text = "Open Console At Workspace"
         ' 
         ' ToolStripSeparator1
         ' 
@@ -203,4 +221,6 @@ Partial Class FormSolutionExplorer
     Friend WithEvents LLMExplainToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripButton5 As ToolStripButton
     Friend WithEvents ToolStripSeparator3 As ToolStripSeparator
+    Friend WithEvents ToolStripButton6 As ToolStripButton
+    Friend WithEvents OpenConsoleAtHereToolStripMenuItem As ToolStripMenuItem
 End Class

@@ -63,8 +63,8 @@ Module RibbonMenu
         Call CommonRuntime.GetOutputWindow.Show(CommonRuntime.AppHost.GetDockPanel, DockState.DockBottom)
     End Sub
 
-    Public Sub OpenConsole()
-        Dim console As New FormConsole
+    Public Sub OpenConsole(Optional folder As String = Nothing)
+        Dim console As New FormConsole With {.workspace = folder}
 
         console.Show(CommonRuntime.AppHost.GetDockPanel)
         console.DockState = DockState.DockBottom

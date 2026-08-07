@@ -32,8 +32,9 @@ Partial Class FormConsole
         ' 
         ' ConsoleControl1
         ' 
-        ConsoleControl1.BackColor = Color.DimGray
+        ConsoleControl1.BackColor = Color.FromArgb(CByte(64), CByte(64), CByte(64))
         ConsoleControl1.Dock = DockStyle.Fill
+        ConsoleControl1.Font = New Font("Consolas", 9F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         ConsoleControl1.Location = New Point(0, 0)
         ConsoleControl1.Margin = New Padding(4)
         ConsoleControl1.Name = "ConsoleControl1"
