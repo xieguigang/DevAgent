@@ -107,6 +107,14 @@ namespace CodeEditor.Features {
                     return [{ label: "true", kind: "constant" }, { label: "false", kind: "constant" }, { label: "null", kind: "constant" }];
                 case "yaml":
                     return [{ label: "true", kind: "constant" }, { label: "false", kind: "constant" }, { label: "null", kind: "constant" }];
+                case "javascript":
+                    return this.jsCompletions();
+                case "typescript":
+                    return this.tsCompletions();
+                case "css":
+                    return this.cssCompletions();
+                case "html":
+                    return this.htmlCompletions();
                 default:
                     return [];
             }

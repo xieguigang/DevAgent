@@ -304,5 +304,137 @@ namespace CodeEditor.Features {
             }
             return symbols;
         }
+
+        /**
+         * Extract symbols from JavaScript / TypeScript source.
+         * Finds: namespace, class, interface, enum, type alias, function,
+         * and arrow-function/const declarations.
+         */
+        private extractJsTs(lines: string[], isTypeScript: boolean): Symbol[] {
+            const symbols: Symbol[] = [];
+            const indentRegex = /^(\s*)/;
+
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                // Strip line comments for cleaner matching.
+                const commentIdx = line.indexOf("//");
+                const code = commentIdx >= 0 ? line.substring(0, commentIdx) : line;
+                const indent = indentRegex.exec(line)![1].length;
+
+                // namespace Name {
+                let m = /\b(?:declare\s+)?namespace\s+([A-Za-z_$][\w$]*)/.exec(code);
+                if (m) {
+                    symbols.push({ name: m[1], kind: SymbolKind.Namespace, line: i, column: indent, detail: "namespace" });
+                    continue;
+                }
+                // class Name
+                m = /\b(?:export\s+)?(?:default\s+)?(?:abstract\s+)?class\s+([A-Za-z_$][\w$]*)/.exec(code);
+                if (m) {
+                    symbols.push({ name: m[1], kind: SymbolKind.Class, line: i, column: indent, detail: "class" });
+                    continue;
+                }
+                // interface Name (TS only)
+                if (isTypeScript) {
+                    m = /\binterface\s+([A-Za-z_$][\w$]*)/.exec(code);
+                    if (m) {
+                        symbols.push({ name: m[1], kind: SymbolKind.Interface, line: i, column: indent, detail: "interface" });
+                        continue;
+                    }
+                    // enum Name
+                    m = /\b(?:const\s+)?enum\s+([A-Za-z_$][\w$]*)/.exec(code);
+                    if (m) {
+                        symbols.push({ name: m[1], kind: SymbolKind.Enum, line: i, column: indent, detail: "enum" });
+                        continue;
+                    }
+                    // type Name =
+                    m = /\btype\s+([A-Za-z_$][\w$]*)\s*=/.exec(code);
+                    if (m) {
+                        symbols.push({ name: m[1], kind: SymbolKind.Structure, line: i, column: indent, detail: "type" });
+                        continue;
+                    }
+                }
+                // function name(
+                m = /\b(?:export\s+)?(?:async\s+)?function\s+([A-Za-z_$][\w$]*)/.exec(code);
+                if (m) {
+                    symbols.push({ name: m[1], kind: SymbolKind.Function, line: i, column: indent, detail: "function" });
+                    continue;
+                }
+                // const/let/var name = (arrow function or function expression)
+                m = /\b(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*(?:async\s+)?(?:\([^)]*\)|function|[\w$]+\s*=>)/.exec(code);
+                if (m) {
+                    symbols.push({ name: m[1], kind: SymbolKind.Variable, line: i, column: indent, detail: "variable" });
+                    continue;
+                }
+                // Method: indented name( inside a class (heuristic)
+                m = /^(\s+)([A-Za-z_$][\w$]*)\s*\(/.exec(line);
+                if (m && indent > 0) {
+                    // Skip if it's a keyword (if, for, while, switch, etc.)
+                    const controlWords = ["if", "for", "while", "switch", "catch", "return", "throw", "function"];
+                    if (controlWords.indexOf(m[2]) < 0) {
+                        symbols.push({ name: m[2], kind: SymbolKind.Function, line: i, column: indent, detail: "method" });
+                    }
+                }
+            }
+            return symbols;
+        }
+
+        /**
+         * Extract symbols from CSS source.
+         * Finds: at-rules (@media, @keyframes, etc.) and selector rules.
+         */
+        private extractCss(lines: string[]): Symbol[] {
+            const symbols: Symbol[] = [];
+            const indentRegex = /^(\s*)/;
+
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                const trimmed = line.trim();
+                if (!trimmed || trimmed.startsWith("/*") || trimmed.startsWith("*")) continue;
+
+                const indent = indentRegex.exec(line)![1].length;
+
+                // At-rule: @media, @keyframes, @supports, @font-face, @page, etc.
+                const atM = /^(@[A-Za-z\-]+)\s+([A-Za-z_][\w\-]*)/.exec(trimmed);
+                if (atM) {
+                    symbols.push({
+                        name: atM[1] + " " + atM[2],
+                        kind: SymbolKind.Namespace,
+                        line: i,
+                        column: indent,
+                        detail: "at-rule"
+                    });
+                    continue;
+                }
+
+                // Standalone at-rule without name (@font-face, @import).
+                const atOnly = /^(@[A-Za-z\-]+)/.exec(trimmed);
+                if (atOnly) {
+                    symbols.push({
+                        name: atOnly[1],
+                        kind: SymbolKind.Namespace,
+                        line: i,
+                        column: indent,
+                        detail: "at-rule"
+                    });
+                    continue;
+                }
+
+                // Selector rule: line ending with { and not starting with -- (custom property).
+                if (trimmed.endsWith("{") && !trimmed.startsWith("--")) {
+                    // Remove trailing { and whitespace.
+                    const selector = trimmed.replace(/\s*\{$/, "").trim();
+                    if (selector.length > 0) {
+                        symbols.push({
+                            name: selector,
+                            kind: SymbolKind.Tag,
+                            line: i,
+                            column: indent,
+                            detail: "selector"
+                        });
+                    }
+                }
+            }
+            return symbols;
+        }
     }
 }
