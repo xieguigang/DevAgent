@@ -1,6 +1,5 @@
 namespace CodeEditor.Highlighters {
     import ILanguageHighlighter = Utils.ILanguageHighlighter;
-    import Token = Utils.Token;
     import TokenType = Utils.TokenType;
     import TokenizeResult = Utils.TokenizeResult;
     import TokenBuilder = Utils.TokenBuilder;
@@ -120,7 +119,7 @@ namespace CodeEditor.Highlighters {
         }
 
         /** Whether the word is a built-in type (overridden by TS). */
-        protected isType(word: string): boolean {
+        protected isType(_word: string): boolean {
             return false;
         }
 

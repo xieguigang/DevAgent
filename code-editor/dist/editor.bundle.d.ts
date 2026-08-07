@@ -422,7 +422,7 @@ declare namespace CodeEditor.Highlighters {
         protected isValueKeyword(word: string): boolean;
         protected isBuiltin(word: string): boolean;
         /** Whether the word is a built-in type (overridden by TS). */
-        protected isType(word: string): boolean;
+        protected isType(_word: string): boolean;
         /** Whether decorators (@name) should be parsed (enabled in TS). */
         protected parseDecorators(): boolean;
         tokenizeLine(line: string, state: any): TokenizeResult;

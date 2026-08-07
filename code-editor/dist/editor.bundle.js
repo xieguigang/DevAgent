@@ -2043,7 +2043,7 @@ var CodeEditor;
                 return JavaScriptHighlighter.BUILTINS.has(word);
             }
             /** Whether the word is a built-in type (overridden by TS). */
-            isType(word) {
+            isType(_word) {
                 return false;
             }
             /** Whether decorators (@name) should be parsed (enabled in TS). */
