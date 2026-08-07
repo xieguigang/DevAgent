@@ -6,6 +6,7 @@ Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.sln
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VersionControl.Git
+Imports Microsoft.VisualStudio.WinForms.Docking
 Imports Ollama
 
 Public Class FormSolutionExplorer
@@ -216,7 +217,8 @@ Public Class FormSolutionExplorer
     ''' <param name="e"></param>
     Private Sub ToolStripButton2_Click(sender As Object, e As EventArgs) Handles ToolStripButton2.Click
         If TypeOf proj Is VBProject Then
-
+            Dim msbuild As New FormMsBuild With {.proj = ProjectFile}
+            Call msbuild.Show(CommonRuntime.AppHost.GetDockPanel, DockState.DockBottom)
         Else
             Call CommonRuntime.Warning("Can not run msbuild on a folder object. Please on an valid vbproj or vs solution file.")
         End If
