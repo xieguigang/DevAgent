@@ -112,6 +112,10 @@ End Namespace
                 case "xml": return "XML";
                 case "markdown": return "Markdown";
                 case "yaml": return "YAML";
+                case "javascript": return "JavaScript";
+                case "typescript": return "TypeScript";
+                case "css": return "CSS";
+                case "html": return "HTML";
                 default: return lang;
             }
         }

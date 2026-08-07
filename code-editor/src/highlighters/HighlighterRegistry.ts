@@ -55,6 +55,10 @@ namespace CodeEditor.Highlighters {
             this.register(new XmlHighlighter(), ["xml", "xsd", "xsl", "xslt", "csproj", "vbproj", "props", "targets", "config"]);
             this.register(new MarkdownHighlighter(), ["md", "markdown"]);
             this.register(new YamlHighlighter(), ["yaml", "yml"]);
+            this.register(new JavaScriptHighlighter(), ["js", "mjs", "cjs", "jsx"]);
+            this.register(new TypeScriptHighlighter(), ["ts", "tsx", "mts", "cts"]);
+            this.register(new CssHighlighter(), ["css"]);
+            this.register(new HtmlHighlighter(), ["html", "htm", "xhtml"]);
         }
     }
 }
