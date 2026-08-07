@@ -34,7 +34,20 @@ namespace CodeEditor.Utils {
         DocComment,
         Error,
         PrimitiveFunction,
-        StatementTerminator
+        StatementTerminator,
+        // --- Web language token types (appended; never reorder) ---
+        Regex,
+        TemplateString,
+        TemplateDelimiter,
+        Decorator,
+        Selector,
+        PseudoClass,
+        Unit,
+        ColorValue,
+        AtRule,
+        Variable,
+        Builtin,
+        TypeParameter
     }
 
     /**

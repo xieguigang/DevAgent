@@ -174,6 +174,30 @@ body[data-theme="dark"] {
   --tok-primitive: #c586c0;
   /* Statement terminators (R semicolons) - sky blue */
   --tok-stmtterminator: #6cc1ff;
+  /* Regex literals - orange-red */
+  --tok-regex: #d16969;
+  /* Template string backticks/delimiters - dark orange */
+  --tok-template: #ce9178;
+  /* Template ${} interpolation delimiters - yellow */
+  --tok-templatedelim: #dcdcaa;
+  /* Decorators (@Component) - yellow */
+  --tok-decorator: #dcdcaa;
+  /* CSS selectors - light purple */
+  --tok-selector: #d7ba7d;
+  /* CSS pseudo classes/elements - light blue */
+  --tok-pseudo: #9cdcfe;
+  /* CSS units - light green */
+  --tok-unit: #b5cea8;
+  /* CSS color values - hex yellow-green */
+  --tok-colorvalue: #ce9178;
+  /* CSS at-rules (@media) - purple */
+  --tok-atrule: #c586c0;
+  /* CSS/JS variables - light blue */
+  --tok-variable: #9cdcfe;
+  /* Built-in global objects (console, Math) - cyan */
+  --tok-builtin: #4ec9b0;
+  /* TypeScript type parameters (<T>) - teal */
+  --tok-typeparam: #4ec9b0;
 }
 
 body[data-theme="dark"] .tok-keyword {
@@ -281,4 +305,40 @@ body[data-theme="dark"] .tok-primitive {
 body[data-theme="dark"] .tok-stmtterminator {
   color: var(--tok-stmtterminator);
   font-weight: bold;
+}
+body[data-theme="dark"] .tok-regex {
+  color: var(--tok-regex);
+}
+body[data-theme="dark"] .tok-template {
+  color: var(--tok-template);
+}
+body[data-theme="dark"] .tok-templatedelim {
+  color: var(--tok-templatedelim);
+}
+body[data-theme="dark"] .tok-decorator {
+  color: var(--tok-decorator);
+}
+body[data-theme="dark"] .tok-selector {
+  color: var(--tok-selector);
+}
+body[data-theme="dark"] .tok-pseudo {
+  color: var(--tok-pseudo);
+}
+body[data-theme="dark"] .tok-unit {
+  color: var(--tok-unit);
+}
+body[data-theme="dark"] .tok-colorvalue {
+  color: var(--tok-colorvalue);
+}
+body[data-theme="dark"] .tok-atrule {
+  color: var(--tok-atrule);
+}
+body[data-theme="dark"] .tok-variable {
+  color: var(--tok-variable);
+}
+body[data-theme="dark"] .tok-builtin {
+  color: var(--tok-builtin);
+}
+body[data-theme="dark"] .tok-typeparam {
+  color: var(--tok-typeparam);
 }

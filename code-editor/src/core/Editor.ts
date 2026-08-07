@@ -919,6 +919,18 @@ namespace CodeEditor.Core {
                 case TokenType.PrimitiveFunction: return "tok-primitive";
                 case TokenType.StatementTerminator: return "tok-stmtterminator";
                 case TokenType.Error: return "tok-error";
+                case TokenType.Regex: return "tok-regex";
+                case TokenType.TemplateString: return "tok-template";
+                case TokenType.TemplateDelimiter: return "tok-templatedelim";
+                case TokenType.Decorator: return "tok-decorator";
+                case TokenType.Selector: return "tok-selector";
+                case TokenType.PseudoClass: return "tok-pseudo";
+                case TokenType.Unit: return "tok-unit";
+                case TokenType.ColorValue: return "tok-colorvalue";
+                case TokenType.AtRule: return "tok-atrule";
+                case TokenType.Variable: return "tok-variable";
+                case TokenType.Builtin: return "tok-builtin";
+                case TokenType.TypeParameter: return "tok-typeparam";
                 default: return "";
             }
         }
