@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.ApplicationServices
+﻿Imports Galaxy.Workbench
+Imports Microsoft.VisualBasic.ApplicationServices
 
 Public Class FormMsBuild
 
@@ -11,5 +12,6 @@ Public Class FormMsBuild
     Public Sub RunDotNETBuild()
         Call WebViewConsole1.ClearOutput()
         Call WebViewConsole1.StartProcess("dotnet", $"build {proj.CLIPath}", proj.ParentPath)
+        Call CommonRuntime.GetOutputWindow.AddLog("msbuild", "build project " & proj)
     End Sub
 End Class
