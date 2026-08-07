@@ -48,7 +48,7 @@ namespace CodeEditor.Highlighters {
      * and overrides the keyword/type sets and the language identifier.
      */
     export class JavaScriptHighlighter implements ILanguageHighlighter {
-        readonly language = "javascript";
+        readonly language: string = "javascript";
 
         protected static readonly CONTROL_KEYWORDS = new Set<string>([
             "if", "else", "for", "while", "do", "switch", "case", "break",

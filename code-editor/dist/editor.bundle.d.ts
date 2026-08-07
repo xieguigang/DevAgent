@@ -34,7 +34,19 @@ declare namespace CodeEditor.Utils {
         DocComment = 28,
         Error = 29,
         PrimitiveFunction = 30,
-        StatementTerminator = 31
+        StatementTerminator = 31,
+        Regex = 32,
+        TemplateString = 33,
+        TemplateDelimiter = 34,
+        Decorator = 35,
+        Selector = 36,
+        PseudoClass = 37,
+        Unit = 38,
+        ColorValue = 39,
+        AtRule = 40,
+        Variable = 41,
+        Builtin = 42,
+        TypeParameter = 43
     }
     /**
      * A single token produced by a highlighter.
@@ -353,6 +365,255 @@ declare namespace CodeEditor.Highlighters {
 }
 declare namespace CodeEditor.Highlighters {
     import ILanguageHighlighter = Utils.ILanguageHighlighter;
+    import TokenizeResult = Utils.TokenizeResult;
+    import TokenBuilder = Utils.TokenBuilder;
+    /**
+     * Tokenizer state carried across lines for JavaScript.
+     * All fields are plain data so the state is serialisable.
+     */
+    interface JsState {
+        /** Inside a multi-line block comment. */
+        inBlockComment: boolean;
+        /** Inside a JSDoc block comment (/** ... *‌/). */
+        inDocComment: boolean;
+        /** Inside a single/double-quoted string that spans a line via \-continuation. */
+        inString: boolean;
+        /** The quote character of the ongoing string. */
+        stringQuote: string;
+        /** Inside the text portion of a template literal (between backticks, outside ${}). */
+        inTemplate: boolean;
+        /** Brace-depth values that would close each open ${} interpolation. */
+        templateStack: number[];
+        /** Current brace depth, used to match ${ } closers. */
+        braceDepth: number;
+        /** Last significant token class for regex / division disambiguation. */
+        lastSignificant: "value" | "operator" | "none";
+    }
+    /**
+     * JavaScript syntax highlighter with multi-line state tracking.
+     *
+     * Handles:
+     *   - Block comments and JSDoc (multi-line)
+     *   - Single-line comments
+     *   - Single/double-quoted strings with escapes and \-line-continuation
+     *   - Template literals with ${} interpolation (nested, multi-line)
+     *   - Regex literals with division-ambiguity resolution
+     *   - Numbers (decimal, hex, binary, octal, scientific, BigInt)
+     *   - Keywords vs. control-flow keywords (separate colours)
+     *   - Built-in global objects
+     *   - Function call / definition name detection
+     *   - Property access after a dot
+     *   - Operators and punctuation
+     *
+     * The class is designed for inheritance: TypeScriptHighlighter extends it
+     * and overrides the keyword/type sets and the language identifier.
+     */
+    class JavaScriptHighlighter implements ILanguageHighlighter {
+        readonly language: string;
+        protected static readonly CONTROL_KEYWORDS: Set<string>;
+        protected static readonly KEYWORDS: Set<string>;
+        /** Keywords that behave syntactically like values. */
+        protected static readonly VALUE_KEYWORDS: Set<string>;
+        protected static readonly BUILTINS: Set<string>;
+        initialState(): JsState;
+        /** Sub-classes may override to extend the keyword set. */
+        protected isControlKeyword(word: string): boolean;
+        protected isKeyword(word: string): boolean;
+        protected isValueKeyword(word: string): boolean;
+        protected isBuiltin(word: string): boolean;
+        /** Whether the word is a built-in type (overridden by TS). */
+        protected isType(word: string): boolean;
+        /** Whether decorators (@name) should be parsed (enabled in TS). */
+        protected parseDecorators(): boolean;
+        tokenizeLine(line: string, state: any): TokenizeResult;
+        protected isIdentStart(ch: string): boolean;
+        protected isIdentPart(ch: string): boolean;
+        protected isOperatorChar(ch: string): boolean;
+        protected isNumberStart(line: string, i: number, n: number): boolean;
+        protected scanNumber(line: string, i: number, n: number): number;
+        /**
+         * Scan a regex literal starting at `i` (the opening `/`).
+         * Returns the index past the closing `/` (and any flags), or `i`
+         * if this doesn't look like a regex.
+         */
+        protected scanRegex(line: string, i: number, n: number): number;
+        /**
+         * Scan a single/double-quoted string starting at `i` (the quote).
+         * Pushes the string token and returns the new index. If the string
+         * is unterminated at end of line (with a trailing \), sets `continues`.
+         */
+        protected scanString(line: string, i: number, n: number, quote: string, b: TokenBuilder): {
+            i: number;
+            continues: boolean;
+        };
+        /**
+         * Scan template literal text (the portion between `${}` segments or
+         * after the opening backtick). Exits when it encounters `${` (entering
+         * an expression) or a closing backtick. Pushes template text as a
+         * single TemplateString token and delimiters as TemplateDelimiter.
+         *
+         * Returns the updated index and state.
+         */
+        protected scanTemplateText(line: string, i: number, n: number, s: JsState, b: TokenBuilder): {
+            i: number;
+            state: JsState;
+        };
+    }
+}
+declare namespace CodeEditor.Highlighters {
+    /**
+     * TypeScript syntax highlighter.
+     *
+     * Extends {@link JavaScriptHighlighter} by overriding the keyword and
+     * type sets to inject TypeScript-specific vocabulary, and enabling
+     * decorator parsing. No scan logic is duplicated.
+     *
+     * Additions over JavaScript:
+     *   - Type-system keywords (interface, type, enum, implements, declare,
+     *     namespace, readonly, abstract, public, private, protected,
+     *     satisfies, asserts, keyof, infer, is, module, override, out)
+     *   - Built-in primitive types (string, number, boolean, any, unknown,
+     *     never, void, object, symbol, bigint)
+     *   - Decorators (@Component, @Injectable, …)
+     */
+    class TypeScriptHighlighter extends JavaScriptHighlighter {
+        readonly language = "typescript";
+        private static readonly TS_EXTRA_KEYWORDS;
+        private static readonly TS_TYPES;
+        protected isKeyword(word: string): boolean;
+        protected isType(word: string): boolean;
+        protected parseDecorators(): boolean;
+    }
+}
+declare namespace CodeEditor.Highlighters {
+    import ILanguageHighlighter = Utils.ILanguageHighlighter;
+    import TokenizeResult = Utils.TokenizeResult;
+    /**
+     * Tokenizer state for CSS, carried across lines.
+     */
+    interface CssState {
+        /** Inside a multi-line block comment. */
+        inBlockComment: boolean;
+        /**
+         * Parser context:
+         *  - "selector": outside a declaration block (expecting selectors or at-rules)
+         *  - "property": inside a block, before the ':' (expecting property name)
+         *  - "value": inside a block, after the ':' (expecting property value)
+         */
+        context: "selector" | "property" | "value";
+        /** Brace nesting depth (0 = top level). */
+        depth: number;
+        /** Whether we are inside the parenthesised condition of an at-rule. */
+        inAtRuleParens: boolean;
+    }
+    /**
+     * CSS syntax highlighter with multi-line state tracking.
+     *
+     * Handles:
+     *   - Block comments (multi-line)
+     *   - At-rules (@media, @import, @keyframes, @supports, @font-face, etc.)
+     *   - Selectors: element, .class, #id, :pseudo-class, ::pseudo-element,
+     *     [attr], combinators (>, +, ~, space)
+     *   - Property names and values (context-sensitive colouring)
+     *   - Colour values (#hex, named colours)
+     *   - Numbers with units (px, em, %, etc.)
+     *   - Strings (single and double-quoted)
+     *   - CSS custom properties (--var-name)
+     *   - Functions: rgb(), var(), calc(), url(), etc.
+     *   - !important
+     */
+    class CssHighlighter implements ILanguageHighlighter {
+        readonly language = "css";
+        private static readonly AT_RULES;
+        private static readonly NAMED_COLORS;
+        private static readonly UNITS;
+        initialState(): CssState;
+        tokenizeLine(line: string, state: any): TokenizeResult;
+        private isNumberStart;
+        private scanNumber;
+    }
+}
+declare namespace CodeEditor.Highlighters {
+    import ILanguageHighlighter = Utils.ILanguageHighlighter;
+    import TokenizeResult = Utils.TokenizeResult;
+    /**
+     * Tokenizer state for HTML, carried across lines.
+     *
+     * The `mode` field determines how the current line is parsed:
+     *  - "html":   normal HTML markup
+     *  - "script": inside &lt;script&gt; — delegated to JavaScriptHighlighter
+     *  - "style":  inside &lt;style&gt; — delegated to CssHighlighter
+     *
+     * When in "script" or "style" mode, `subState` holds the sub-highlighter's
+     * state object (pure data). Token offsets returned by the sub-highlighter
+     * are relative to the fragment passed to it, so they must be offset by the
+     * fragment's start position before merging.
+     */
+    interface HtmlState {
+        mode: "html" | "script" | "style";
+        /** Inside a multi-line HTML comment. */
+        inComment: boolean;
+        /** Sub-highlighter state (for script/style delegation). */
+        subState: any;
+    }
+    /**
+     * HTML syntax highlighter with embedded-language delegation.
+     *
+     * Handles:
+     *   - DOCTYPE declaration
+     *   - HTML comments (multi-line)
+     *   - Tag names, attribute names, attribute values
+     *   - Entity references (&amp; &lt; etc.)
+     *   - Text content
+     *   - &lt;script&gt; blocks: delegated to {@link JavaScriptHighlighter}
+     *   - &lt;style&gt; blocks: delegated to {@link CssHighlighter}
+     *
+     * The sub-highlighters are instantiated once in the constructor and reused
+     * for every line. Their state is stored in `HtmlState.subState` and carried
+     * across lines, enabling multi-line constructs (block comments, template
+     * literals, etc.) inside embedded script/style to work correctly.
+     */
+    class HtmlHighlighter implements ILanguageHighlighter {
+        readonly language = "html";
+        private readonly jsHighlighter;
+        private readonly cssHighlighter;
+        constructor();
+        initialState(): HtmlState;
+        tokenizeLine(line: string, state: any): TokenizeResult;
+        private tokenizeHtml;
+        /**
+         * Parse an HTML tag starting at `i` (the '<').
+         * Pushes delimiter, tag name, attributes, and closing '>' tokens.
+         * Returns the index past the tag and the tag name (lowercased).
+         */
+        private parseTag;
+        /**
+         * Tokenize a line that is (at least partially) inside a &lt;script&gt; or
+         * &lt;style&gt; block.
+         *
+         * The closing tag (e.g. &lt;/script&gt;) is searched for case-insensitively.
+         * If found, the text before it is delegated to the sub-highlighter (with
+         * an offset if this is a continuation), and the closing tag plus any
+         * remaining text is parsed as HTML.
+         *
+         * @param line      The full line text.
+         * @param s         The current HTML state (mode = script|style).
+         * @param mode      "script" or "style".
+         * @param closeTag  The closing tag literal, e.g. "</script>".
+         * @param sub       The sub-highlighter instance.
+         * @param offset    If this call is for a substring of the original line,
+         *                  the start offset of that substring. Defaults to 0.
+         */
+        private tokenizeEmbedded;
+        /**
+         * Add `delta` to every token's start and end offsets.
+         * Used when a sub-highlighter processes a fragment of a line.
+         */
+        private offsetTokens;
+    }
+}
+declare namespace CodeEditor.Highlighters {
+    import ILanguageHighlighter = Utils.ILanguageHighlighter;
     /**
      * Registry that maps language identifiers and file extensions to
      * highlighter instances.
@@ -399,6 +660,12 @@ declare namespace CodeEditor.Features {
         computeFoldRanges(lines: string[], language: string): FoldRange[];
         private computeVbNet;
         private computeBraceBased;
+        /**
+         * Brace-based folding for C-style languages (JS/TS/CSS).
+         * Handles // and /* *‌/ comments, strings, and template literals.
+         * Unlike computeBraceBased, does NOT treat # as a comment start.
+         */
+        private computeCStyleBraces;
         private computeXml;
         private computeMarkdown;
         private computeIndentation;
@@ -463,6 +730,17 @@ declare namespace CodeEditor.Features {
         private extractXml;
         private extractMarkdown;
         private extractYaml;
+        /**
+         * Extract symbols from JavaScript / TypeScript source.
+         * Finds: namespace, class, interface, enum, type alias, function,
+         * and arrow-function/const declarations.
+         */
+        private extractJsTs;
+        /**
+         * Extract symbols from CSS source.
+         * Finds: at-rules (@media, @keyframes, etc.) and selector rules.
+         */
+        private extractCss;
     }
 }
 declare namespace CodeEditor.Features {
@@ -549,6 +827,10 @@ declare namespace CodeEditor.Features {
         private fallbackCompletions;
         private vbNetCompletions;
         private rCompletions;
+        private jsCompletions;
+        private tsCompletions;
+        private cssCompletions;
+        private htmlCompletions;
     }
 }
 declare namespace CodeEditor.Features {

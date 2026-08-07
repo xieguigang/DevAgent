@@ -40,6 +40,19 @@ var CodeEditor;
             TokenType[TokenType["Error"] = 29] = "Error";
             TokenType[TokenType["PrimitiveFunction"] = 30] = "PrimitiveFunction";
             TokenType[TokenType["StatementTerminator"] = 31] = "StatementTerminator";
+            // --- Web language token types (appended; never reorder) ---
+            TokenType[TokenType["Regex"] = 32] = "Regex";
+            TokenType[TokenType["TemplateString"] = 33] = "TemplateString";
+            TokenType[TokenType["TemplateDelimiter"] = 34] = "TemplateDelimiter";
+            TokenType[TokenType["Decorator"] = 35] = "Decorator";
+            TokenType[TokenType["Selector"] = 36] = "Selector";
+            TokenType[TokenType["PseudoClass"] = 37] = "PseudoClass";
+            TokenType[TokenType["Unit"] = 38] = "Unit";
+            TokenType[TokenType["ColorValue"] = 39] = "ColorValue";
+            TokenType[TokenType["AtRule"] = 40] = "AtRule";
+            TokenType[TokenType["Variable"] = 41] = "Variable";
+            TokenType[TokenType["Builtin"] = 42] = "Builtin";
+            TokenType[TokenType["TypeParameter"] = 43] = "TypeParameter";
         })(TokenType = Utils.TokenType || (Utils.TokenType = {}));
         /**
          * Helper for building token lists without manually tracking offsets.
@@ -1979,6 +1992,1339 @@ var CodeEditor;
 (function (CodeEditor) {
     var Highlighters;
     (function (Highlighters) {
+        var TokenType = CodeEditor.Utils.TokenType;
+        var TokenBuilder = CodeEditor.Utils.TokenBuilder;
+        /**
+         * JavaScript syntax highlighter with multi-line state tracking.
+         *
+         * Handles:
+         *   - Block comments and JSDoc (multi-line)
+         *   - Single-line comments
+         *   - Single/double-quoted strings with escapes and \-line-continuation
+         *   - Template literals with ${} interpolation (nested, multi-line)
+         *   - Regex literals with division-ambiguity resolution
+         *   - Numbers (decimal, hex, binary, octal, scientific, BigInt)
+         *   - Keywords vs. control-flow keywords (separate colours)
+         *   - Built-in global objects
+         *   - Function call / definition name detection
+         *   - Property access after a dot
+         *   - Operators and punctuation
+         *
+         * The class is designed for inheritance: TypeScriptHighlighter extends it
+         * and overrides the keyword/type sets and the language identifier.
+         */
+        class JavaScriptHighlighter {
+            constructor() {
+                this.language = "javascript";
+            }
+            initialState() {
+                return {
+                    inBlockComment: false,
+                    inDocComment: false,
+                    inString: false,
+                    stringQuote: "",
+                    inTemplate: false,
+                    templateStack: [],
+                    braceDepth: 0,
+                    lastSignificant: "none"
+                };
+            }
+            /** Sub-classes may override to extend the keyword set. */
+            isControlKeyword(word) {
+                return JavaScriptHighlighter.CONTROL_KEYWORDS.has(word);
+            }
+            isKeyword(word) {
+                return JavaScriptHighlighter.KEYWORDS.has(word);
+            }
+            isValueKeyword(word) {
+                return JavaScriptHighlighter.VALUE_KEYWORDS.has(word);
+            }
+            isBuiltin(word) {
+                return JavaScriptHighlighter.BUILTINS.has(word);
+            }
+            /** Whether the word is a built-in type (overridden by TS). */
+            isType(word) {
+                return false;
+            }
+            /** Whether decorators (@name) should be parsed (enabled in TS). */
+            parseDecorators() {
+                return false;
+            }
+            tokenizeLine(line, state) {
+                const b = new TokenBuilder();
+                let i = 0;
+                const n = line.length;
+                let s = state ? state : this.initialState();
+                // Always clone to avoid mutating the cached state object.
+                s = { ...s, templateStack: s.templateStack.slice() };
+                // ---- Continue multi-line block comment ----
+                if (s.inBlockComment || s.inDocComment) {
+                    const endIdx = line.indexOf("*/");
+                    if (endIdx < 0) {
+                        b.push(s.inDocComment ? TokenType.DocComment : TokenType.Comment, line);
+                        return { tokens: b.result, state: s };
+                    }
+                    const close = endIdx + 2;
+                    b.push(s.inDocComment ? TokenType.DocComment : TokenType.Comment, line.substring(0, close));
+                    i = close;
+                    s.inBlockComment = false;
+                    s.inDocComment = false;
+                }
+                // ---- Continue multi-line string (\-continuation) ----
+                if (s.inString) {
+                    const q = s.stringQuote;
+                    let j = 0;
+                    while (j < n) {
+                        if (line[j] === "\\" && j + 1 < n) {
+                            j += 2;
+                            continue;
+                        }
+                        if (line[j] === q) {
+                            j++;
+                            break;
+                        }
+                        j++;
+                    }
+                    b.push(TokenType.String, line.substring(0, j));
+                    i = j;
+                    if (j < n) {
+                        s.inString = false;
+                        s.stringQuote = "";
+                        s.lastSignificant = "value";
+                    }
+                    else {
+                        // Still inside string; carry state.
+                        return { tokens: b.result, state: s };
+                    }
+                }
+                // ---- Continue multi-line template literal text ----
+                if (s.inTemplate) {
+                    const res = this.scanTemplateText(line, i, n, s, b);
+                    i = res.i;
+                    s = res.state;
+                    if (s.inTemplate) {
+                        return { tokens: b.result, state: s };
+                    }
+                }
+                // ---- Main scan loop ----
+                while (i < n) {
+                    const ch = line[i];
+                    // --- Whitespace ---
+                    if (ch === " " || ch === "\t" || ch === "\r") {
+                        let j = i;
+                        while (j < n && (line[j] === " " || line[j] === "\t" || line[j] === "\r"))
+                            j++;
+                        b.push(TokenType.Plain, line.substring(i, j));
+                        i = j;
+                        continue;
+                    }
+                    // --- Line comment ---
+                    if (ch === "/" && line[i + 1] === "/") {
+                        b.push(TokenType.Comment, line.substring(i));
+                        i = n;
+                        break;
+                    }
+                    // --- Block comment / JSDoc ---
+                    if (ch === "/" && line[i + 1] === "*") {
+                        const isDoc = line[i + 2] === "*" && line[i + 3] !== "/";
+                        const endIdx = line.indexOf("*/", i + 2);
+                        if (endIdx < 0) {
+                            b.push(isDoc ? TokenType.DocComment : TokenType.Comment, line.substring(i));
+                            s.inBlockComment = !isDoc;
+                            s.inDocComment = isDoc;
+                            return { tokens: b.result, state: s };
+                        }
+                        const close = endIdx + 2;
+                        b.push(isDoc ? TokenType.DocComment : TokenType.Comment, line.substring(i, close));
+                        i = close;
+                        // Comments don't change lastSignificant.
+                        continue;
+                    }
+                    // --- Decorator (@Component) — TS only ---
+                    if (this.parseDecorators() && ch === "@") {
+                        let j = i + 1;
+                        while (j < n && /[A-Za-z0-9_]/.test(line[j]))
+                            j++;
+                        if (j > i + 1) {
+                            b.push(TokenType.Decorator, line.substring(i, j));
+                            i = j;
+                            s.lastSignificant = "none";
+                            continue;
+                        }
+                    }
+                    // --- Regex literal (division-ambiguity resolution) ---
+                    if (ch === "/" && s.lastSignificant !== "value") {
+                        const regexEnd = this.scanRegex(line, i, n);
+                        if (regexEnd > i) {
+                            b.push(TokenType.Regex, line.substring(i, regexEnd));
+                            i = regexEnd;
+                            s.lastSignificant = "value";
+                            continue;
+                        }
+                    }
+                    // --- Single/double-quoted string ---
+                    if (ch === "'" || ch === '"') {
+                        const res = this.scanString(line, i, n, ch, b);
+                        i = res.i;
+                        if (res.continues) {
+                            s.inString = true;
+                            s.stringQuote = ch;
+                            return { tokens: b.result, state: s };
+                        }
+                        s.lastSignificant = "value";
+                        continue;
+                    }
+                    // --- Template literal ---
+                    if (ch === "`") {
+                        s.inTemplate = true;
+                        i++; // consume opening backtick
+                        b.push(TokenType.TemplateDelimiter, "`");
+                        const res = this.scanTemplateText(line, i, n, s, b);
+                        i = res.i;
+                        s = res.state;
+                        if (s.inTemplate) {
+                            return { tokens: b.result, state: s };
+                        }
+                        continue;
+                    }
+                    // --- Number ---
+                    if (this.isNumberStart(line, i, n)) {
+                        const j = this.scanNumber(line, i, n);
+                        b.push(TokenType.Number, line.substring(i, j));
+                        i = j;
+                        s.lastSignificant = "value";
+                        continue;
+                    }
+                    // --- Identifier / keyword ---
+                    if (this.isIdentStart(ch)) {
+                        let j = i;
+                        while (j < n && this.isIdentPart(line[j]))
+                            j++;
+                        const word = line.substring(i, j);
+                        i = j;
+                        if (this.isControlKeyword(word)) {
+                            b.push(TokenType.ControlKeyword, word);
+                            s.lastSignificant = "operator";
+                        }
+                        else if (this.isKeyword(word)) {
+                            b.push(TokenType.Keyword, word);
+                            s.lastSignificant = "operator";
+                        }
+                        else if (this.isValueKeyword(word)) {
+                            b.push(TokenType.Constant, word);
+                            s.lastSignificant = "value";
+                        }
+                        else if (this.isType(word)) {
+                            b.push(TokenType.Type, word);
+                            s.lastSignificant = "value";
+                        }
+                        else if (this.isBuiltin(word)) {
+                            b.push(TokenType.Builtin, word);
+                            s.lastSignificant = "value";
+                        }
+                        else {
+                            // Check if this is a function call: identifier followed by (
+                            let k = i;
+                            while (k < n && (line[k] === " " || line[k] === "\t"))
+                                k++;
+                            if (line[k] === "(") {
+                                b.push(TokenType.Function, word);
+                            }
+                            else if (k < n && line[k] === ".") {
+                                // Property access — keep as identifier
+                                b.push(TokenType.Identifier, word);
+                            }
+                            else {
+                                // Capitalized identifier → heuristic type/class name
+                                if (word.length > 0 && word[0] >= "A" && word[0] <= "Z") {
+                                    b.push(TokenType.Type, word);
+                                }
+                                else {
+                                    b.push(TokenType.Identifier, word);
+                                }
+                            }
+                            s.lastSignificant = "value";
+                        }
+                        continue;
+                    }
+                    // --- Property access: .identifier ---
+                    if (ch === ".") {
+                        // Distinguish number-starting dot (handled above) from member access.
+                        b.push(TokenType.Operator, ".");
+                        i++;
+                        s.lastSignificant = "operator";
+                        continue;
+                    }
+                    // --- Brace tracking for template ${} closers ---
+                    if (ch === "{") {
+                        if (!s.inTemplate) {
+                            s.braceDepth++;
+                        }
+                        b.push(TokenType.Punctuation, ch);
+                        i++;
+                        s.lastSignificant = "operator";
+                        continue;
+                    }
+                    if (ch === "}") {
+                        if (s.templateStack.length > 0 && s.braceDepth === s.templateStack[s.templateStack.length - 1]) {
+                            // Close a ${} interpolation → back to template text.
+                            s.templateStack.pop();
+                            b.push(TokenType.TemplateDelimiter, "}");
+                            i++;
+                            s.inTemplate = true;
+                            s.lastSignificant = "none"; // template text, not a value
+                            const res = this.scanTemplateText(line, i, n, s, b);
+                            i = res.i;
+                            s = res.state;
+                            if (s.inTemplate) {
+                                return { tokens: b.result, state: s };
+                            }
+                            continue;
+                        }
+                        if (!s.inTemplate) {
+                            s.braceDepth--;
+                        }
+                        b.push(TokenType.Punctuation, ch);
+                        i++;
+                        s.lastSignificant = "value"; // } can precede division: obj.x / 2
+                        continue;
+                    }
+                    // --- Punctuation ---
+                    if (ch === "(" || ch === ")" || ch === "[" || ch === "]" || ch === "," || ch === ";") {
+                        if (ch === "(" || ch === "[") {
+                            // These don't increment braceDepth (only {} does).
+                        }
+                        b.push(TokenType.Punctuation, ch);
+                        i++;
+                        // ( and [ are operator-like (regex can follow).
+                        // ) and ] are value-like (division can follow).
+                        s.lastSignificant = (ch === ")" || ch === "]") ? "value" : "operator";
+                        continue;
+                    }
+                    if (ch === ":") {
+                        b.push(TokenType.Punctuation, ch);
+                        i++;
+                        s.lastSignificant = "operator";
+                        continue;
+                    }
+                    // --- Operators ---
+                    if (this.isOperatorChar(ch)) {
+                        let j = i;
+                        while (j < n && this.isOperatorChar(line[j]))
+                            j++;
+                        b.push(TokenType.Operator, line.substring(i, j));
+                        i = j;
+                        s.lastSignificant = "operator";
+                        continue;
+                    }
+                    // --- Fallback: unknown character ---
+                    b.push(TokenType.Plain, ch);
+                    i++;
+                }
+                return { tokens: b.result, state: s };
+            }
+            // ========== Helper methods ==========
+            isIdentStart(ch) {
+                return (ch >= "a" && ch <= "z") || (ch >= "A" && ch <= "Z") || ch === "_" || ch === "$";
+            }
+            isIdentPart(ch) {
+                return this.isIdentStart(ch) || (ch >= "0" && ch <= "9");
+            }
+            isOperatorChar(ch) {
+                return "+-*/%=<>!&|~^?".indexOf(ch) >= 0;
+            }
+            isNumberStart(line, i, n) {
+                const ch = line[i];
+                if (ch >= "0" && ch <= "9")
+                    return true;
+                if (ch === ".") {
+                    // Only if followed by a digit (otherwise it's member access).
+                    return i + 1 < n && line[i + 1] >= "0" && line[i + 1] <= "9";
+                }
+                return false;
+            }
+            scanNumber(line, i, n) {
+                let j = i;
+                // Hex / binary / octal prefix.
+                if (line[i] === "0" && i + 1 < n) {
+                    const p = line[i + 1];
+                    if (p === "x" || p === "X") {
+                        j = i + 2;
+                        while (j < n && /[0-9A-Fa-f_]/.test(line[j]))
+                            j++;
+                        if (j < n && line[j] === "n")
+                            j++; // BigInt
+                        return j;
+                    }
+                    if (p === "b" || p === "B") {
+                        j = i + 2;
+                        while (j < n && /[01_]/.test(line[j]))
+                            j++;
+                        if (j < n && line[j] === "n")
+                            j++;
+                        return j;
+                    }
+                    if (p === "o" || p === "O") {
+                        j = i + 2;
+                        while (j < n && /[0-7_]/.test(line[j]))
+                            j++;
+                        if (j < n && line[j] === "n")
+                            j++;
+                        return j;
+                    }
+                }
+                // Decimal / float.
+                while (j < n && /[0-9_]/.test(line[j]))
+                    j++;
+                if (j < n && line[j] === ".") {
+                    j++;
+                    while (j < n && /[0-9_]/.test(line[j]))
+                        j++;
+                }
+                // Exponent.
+                if (j < n && (line[j] === "e" || line[j] === "E")) {
+                    j++;
+                    if (j < n && (line[j] === "+" || line[j] === "-"))
+                        j++;
+                    while (j < n && /[0-9_]/.test(line[j]))
+                        j++;
+                }
+                // BigInt suffix.
+                if (j < n && line[j] === "n")
+                    j++;
+                return j;
+            }
+            /**
+             * Scan a regex literal starting at `i` (the opening `/`).
+             * Returns the index past the closing `/` (and any flags), or `i`
+             * if this doesn't look like a regex.
+             */
+            scanRegex(line, i, n) {
+                let j = i + 1; // skip opening /
+                let inClass = false;
+                while (j < n) {
+                    const c = line[j];
+                    if (c === "\\" && j + 1 < n) {
+                        j += 2;
+                        continue;
+                    }
+                    if (c === "[") {
+                        inClass = true;
+                        j++;
+                        continue;
+                    }
+                    if (c === "]" && inClass) {
+                        inClass = false;
+                        j++;
+                        continue;
+                    }
+                    if (c === "/" && !inClass) {
+                        j++;
+                        // Consume flags.
+                        while (j < n && /[gimsuyd]/.test(line[j]))
+                            j++;
+                        return j;
+                    }
+                    j++;
+                }
+                // Unterminated regex — consume to end of line.
+                return n;
+            }
+            /**
+             * Scan a single/double-quoted string starting at `i` (the quote).
+             * Pushes the string token and returns the new index. If the string
+             * is unterminated at end of line (with a trailing \), sets `continues`.
+             */
+            scanString(line, i, n, quote, b) {
+                let j = i + 1;
+                while (j < n) {
+                    if (line[j] === "\\" && j + 1 < n) {
+                        j += 2;
+                        continue;
+                    }
+                    if (line[j] === quote) {
+                        j++;
+                        b.push(TokenType.String, line.substring(i, j));
+                        return { i: j, continues: false };
+                    }
+                    j++;
+                }
+                // Reached end of line without closing quote.
+                // Check for \-continuation (last char is \).
+                b.push(TokenType.String, line.substring(i, j));
+                return { i: j, continues: true };
+            }
+            /**
+             * Scan template literal text (the portion between `${}` segments or
+             * after the opening backtick). Exits when it encounters `${` (entering
+             * an expression) or a closing backtick. Pushes template text as a
+             * single TemplateString token and delimiters as TemplateDelimiter.
+             *
+             * Returns the updated index and state.
+             */
+            scanTemplateText(line, i, n, s, b) {
+                let start = i;
+                while (i < n) {
+                    const ch = line[i];
+                    // Escape sequence inside template.
+                    if (ch === "\\" && i + 1 < n) {
+                        i += 2;
+                        continue;
+                    }
+                    // ${ → start interpolation expression.
+                    if (ch === "$" && line[i + 1] === "{") {
+                        // Flush accumulated template text.
+                        if (i > start) {
+                            b.push(TokenType.TemplateString, line.substring(start, i));
+                        }
+                        b.push(TokenType.TemplateDelimiter, "${");
+                        i += 2;
+                        // Enter expression mode: push current braceDepth, the }
+                        // at this depth will close the interpolation.
+                        s.templateStack.push(s.braceDepth);
+                        s.inTemplate = false;
+                        s.lastSignificant = "operator";
+                        return { i, state: s };
+                    }
+                    // Closing backtick.
+                    if (ch === "`") {
+                        if (i > start) {
+                            b.push(TokenType.TemplateString, line.substring(start, i));
+                        }
+                        b.push(TokenType.TemplateDelimiter, "`");
+                        i++;
+                        s.inTemplate = false;
+                        s.lastSignificant = "value";
+                        return { i, state: s };
+                    }
+                    i++;
+                }
+                // End of line while still in template text.
+                if (i > start) {
+                    b.push(TokenType.TemplateString, line.substring(start, i));
+                }
+                // s.inTemplate remains true → carry to next line.
+                return { i, state: s };
+            }
+        }
+        JavaScriptHighlighter.CONTROL_KEYWORDS = new Set([
+            "if", "else", "for", "while", "do", "switch", "case", "break",
+            "continue", "return", "throw", "try", "catch", "finally",
+            "yield", "await", "default"
+        ]);
+        JavaScriptHighlighter.KEYWORDS = new Set([
+            "var", "let", "const", "function", "class", "extends", "new",
+            "delete", "typeof", "instanceof", "in", "of", "void", "import",
+            "export", "from", "as", "static", "get", "set", "async", "with",
+            "debugger"
+        ]);
+        /** Keywords that behave syntactically like values. */
+        JavaScriptHighlighter.VALUE_KEYWORDS = new Set([
+            "true", "false", "null", "undefined", "this", "super", "NaN",
+            "Infinity"
+        ]);
+        JavaScriptHighlighter.BUILTINS = new Set([
+            "console", "Math", "JSON", "Object", "Array", "String", "Number",
+            "Boolean", "Symbol", "Date", "RegExp", "Error", "Promise", "Map",
+            "Set", "WeakMap", "WeakSet", "Proxy", "Reflect", "window",
+            "document", "globalThis", "parseInt", "parseFloat", "isNaN",
+            "isFinite", "setTimeout", "setInterval", "clearTimeout",
+            "clearInterval", "encodeURIComponent", "decodeURIComponent",
+            "encodeURI", "decodeURI", "Buffer", "process", "module",
+            "require", "exports", "undefined", "BigInt", "Symbol",
+            "FinalizationRegistry", "WeakRef", "AggregateError",
+            "Intl", "DataView", "Float32Array", "Float64Array", "Int8Array",
+            "Int16Array", "Int32Array", "Uint8Array", "Uint8ClampedArray",
+            "Uint16Array", "Uint32Array", "BigInt64Array", "BigUint64Array",
+            "ArrayBuffer", "SharedArrayBuffer", "Atomics", "queueMicrotask",
+            "structuredClone", "fetch", "Request", "Response", "Headers",
+            "URL", "URLSearchParams", "TextEncoder", "TextDecoder",
+            "crypto", "performance", "Event", "EventTarget", "CustomEvent",
+            "Worker", "MessageChannel", "BroadcastChannel"
+        ]);
+        Highlighters.JavaScriptHighlighter = JavaScriptHighlighter;
+    })(Highlighters = CodeEditor.Highlighters || (CodeEditor.Highlighters = {}));
+})(CodeEditor || (CodeEditor = {}));
+var CodeEditor;
+(function (CodeEditor) {
+    var Highlighters;
+    (function (Highlighters) {
+        /**
+         * TypeScript syntax highlighter.
+         *
+         * Extends {@link JavaScriptHighlighter} by overriding the keyword and
+         * type sets to inject TypeScript-specific vocabulary, and enabling
+         * decorator parsing. No scan logic is duplicated.
+         *
+         * Additions over JavaScript:
+         *   - Type-system keywords (interface, type, enum, implements, declare,
+         *     namespace, readonly, abstract, public, private, protected,
+         *     satisfies, asserts, keyof, infer, is, module, override, out)
+         *   - Built-in primitive types (string, number, boolean, any, unknown,
+         *     never, void, object, symbol, bigint)
+         *   - Decorators (@Component, @Injectable, …)
+         */
+        class TypeScriptHighlighter extends Highlighters.JavaScriptHighlighter {
+            constructor() {
+                super(...arguments);
+                this.language = "typescript";
+            }
+            isKeyword(word) {
+                return super.isKeyword(word) || TypeScriptHighlighter.TS_EXTRA_KEYWORDS.has(word);
+            }
+            isType(word) {
+                return TypeScriptHighlighter.TS_TYPES.has(word);
+            }
+            parseDecorators() {
+                return true;
+            }
+        }
+        TypeScriptHighlighter.TS_EXTRA_KEYWORDS = new Set([
+            "interface", "type", "enum", "implements", "declare", "namespace",
+            "readonly", "abstract", "public", "private", "protected",
+            "satisfies", "asserts", "keyof", "infer", "is", "module",
+            "override", "global", "unique"
+        ]);
+        TypeScriptHighlighter.TS_TYPES = new Set([
+            "string", "number", "boolean", "any", "unknown", "never", "void",
+            "object", "symbol", "bigint", "String", "Number", "Boolean",
+            "Symbol", "BigInt", "Object", "Array", "ReadonlyArray", "Map",
+            "Set", "ReadonlyMap", "ReadonlySet", "Promise", "Date", "RegExp",
+            "Error", "Record", "Partial", "Required", "Readonly", "Pick",
+            "Omit", "Exclude", "Extract", "NonNullable", "Parameters",
+            "ConstructorParameters", "ReturnType", "InstanceType",
+            "ThisType", "Awaited", "Lowercase", "Uppercase", "Capitalize",
+            "Uncapitalize", "Function", "Error"
+        ]);
+        Highlighters.TypeScriptHighlighter = TypeScriptHighlighter;
+    })(Highlighters = CodeEditor.Highlighters || (CodeEditor.Highlighters = {}));
+})(CodeEditor || (CodeEditor = {}));
+var CodeEditor;
+(function (CodeEditor) {
+    var Highlighters;
+    (function (Highlighters) {
+        var TokenType = CodeEditor.Utils.TokenType;
+        var TokenBuilder = CodeEditor.Utils.TokenBuilder;
+        /**
+         * CSS syntax highlighter with multi-line state tracking.
+         *
+         * Handles:
+         *   - Block comments (multi-line)
+         *   - At-rules (@media, @import, @keyframes, @supports, @font-face, etc.)
+         *   - Selectors: element, .class, #id, :pseudo-class, ::pseudo-element,
+         *     [attr], combinators (>, +, ~, space)
+         *   - Property names and values (context-sensitive colouring)
+         *   - Colour values (#hex, named colours)
+         *   - Numbers with units (px, em, %, etc.)
+         *   - Strings (single and double-quoted)
+         *   - CSS custom properties (--var-name)
+         *   - Functions: rgb(), var(), calc(), url(), etc.
+         *   - !important
+         */
+        class CssHighlighter {
+            constructor() {
+                this.language = "css";
+            }
+            initialState() {
+                return {
+                    inBlockComment: false,
+                    context: "selector",
+                    depth: 0,
+                    inAtRuleParens: false
+                };
+            }
+            tokenizeLine(line, state) {
+                const b = new TokenBuilder();
+                let i = 0;
+                const n = line.length;
+                let s = state ? state : this.initialState();
+                s = { ...s };
+                // ---- Continue multi-line block comment ----
+                if (s.inBlockComment) {
+                    const endIdx = line.indexOf("*/");
+                    if (endIdx < 0) {
+                        b.push(TokenType.Comment, line);
+                        return { tokens: b.result, state: s };
+                    }
+                    const close = endIdx + 2;
+                    b.push(TokenType.Comment, line.substring(0, close));
+                    i = close;
+                    s.inBlockComment = false;
+                }
+                while (i < n) {
+                    const ch = line[i];
+                    // --- Whitespace ---
+                    if (ch === " " || ch === "\t" || ch === "\r") {
+                        let j = i;
+                        while (j < n && (line[j] === " " || line[j] === "\t" || line[j] === "\r"))
+                            j++;
+                        b.push(TokenType.Plain, line.substring(i, j));
+                        i = j;
+                        continue;
+                    }
+                    // --- Block comment ---
+                    if (ch === "/" && line[i + 1] === "*") {
+                        const endIdx = line.indexOf("*/", i + 2);
+                        if (endIdx < 0) {
+                            b.push(TokenType.Comment, line.substring(i));
+                            s.inBlockComment = true;
+                            return { tokens: b.result, state: s };
+                        }
+                        const close = endIdx + 2;
+                        b.push(TokenType.Comment, line.substring(i, close));
+                        i = close;
+                        continue;
+                    }
+                    // --- !important ---
+                    if (ch === "!" && line.substr(i, 10).toLowerCase() === "!important") {
+                        b.push(TokenType.Keyword, line.substring(i, i + 10));
+                        i += 10;
+                        continue;
+                    }
+                    // --- { : enter declaration block ---
+                    if (ch === "{") {
+                        s.depth++;
+                        s.context = "property";
+                        s.inAtRuleParens = false;
+                        b.push(TokenType.Punctuation, ch);
+                        i++;
+                        continue;
+                    }
+                    // --- } : leave declaration block ---
+                    if (ch === "}") {
+                        if (s.depth > 0)
+                            s.depth--;
+                        s.context = s.depth === 0 ? "selector" : "property";
+                        b.push(TokenType.Punctuation, ch);
+                        i++;
+                        continue;
+                    }
+                    // --- ; : end declaration ---
+                    if (ch === ";") {
+                        if (!s.inAtRuleParens) {
+                            s.context = s.depth === 0 ? "selector" : "property";
+                        }
+                        b.push(TokenType.Punctuation, ch);
+                        i++;
+                        continue;
+                    }
+                    // --- : : switch from property to value context ---
+                    if (ch === ":") {
+                        if (s.context === "property" && !s.inAtRuleParens) {
+                            s.context = "value";
+                            b.push(TokenType.Punctuation, ch);
+                            i++;
+                            continue;
+                        }
+                        // In selector context: pseudo-class/element (handled below via identifier scan).
+                        // But we reach here only if the identifier scan didn't catch it.
+                        // Fall through to pseudo handling.
+                        let j = i + 1;
+                        let isPseudoElement = false;
+                        if (line[j] === ":") {
+                            isPseudoElement = true;
+                            j++;
+                        }
+                        while (j < n && /[A-Za-z0-9_-]/.test(line[j]))
+                            j++;
+                        if (j > i + 1) {
+                            b.push(TokenType.PseudoClass, line.substring(i, j));
+                            i = j;
+                            continue;
+                        }
+                        b.push(TokenType.Punctuation, ch);
+                        i++;
+                        continue;
+                    }
+                    // --- ( ) ---
+                    if (ch === "(" || ch === ")") {
+                        if (ch === "(" && s.context === "selector") {
+                            s.inAtRuleParens = true;
+                        }
+                        if (ch === ")" && s.inAtRuleParens) {
+                            s.inAtRuleParens = false;
+                        }
+                        b.push(TokenType.Punctuation, ch);
+                        i++;
+                        continue;
+                    }
+                    // --- @ at-rule ---
+                    if (ch === "@") {
+                        let j = i + 1;
+                        while (j < n && /[A-Za-z0-9_-]/.test(line[j]))
+                            j++;
+                        b.push(TokenType.AtRule, line.substring(i, j));
+                        i = j;
+                        continue;
+                    }
+                    // --- String ---
+                    if (ch === "'" || ch === '"') {
+                        const q = ch;
+                        let j = i + 1;
+                        while (j < n) {
+                            if (line[j] === "\\" && j + 1 < n) {
+                                j += 2;
+                                continue;
+                            }
+                            if (line[j] === q) {
+                                j++;
+                                break;
+                            }
+                            j++;
+                        }
+                        b.push(TokenType.String, line.substring(i, j));
+                        i = j;
+                        continue;
+                    }
+                    // --- # hex colour or ID selector ---
+                    if (ch === "#") {
+                        let j = i + 1;
+                        // Try hex colour first: # followed by hex digits (3, 4, 6, or 8)
+                        while (j < n && /[0-9A-Fa-f]/.test(line[j]))
+                            j++;
+                        if (j > i + 1 && (j - i - 1) <= 8) {
+                            // Looks like a hex colour.
+                            b.push(TokenType.ColorValue, line.substring(i, j));
+                            i = j;
+                            continue;
+                        }
+                        // ID selector: #idName
+                        j = i + 1;
+                        while (j < n && /[A-Za-z0-9_-]/.test(line[j]))
+                            j++;
+                        if (j > i + 1) {
+                            b.push(TokenType.Selector, line.substring(i, j));
+                            i = j;
+                            continue;
+                        }
+                        b.push(TokenType.Operator, "#");
+                        i++;
+                        continue;
+                    }
+                    // --- Number + unit ---
+                    if (this.isNumberStart(ch, line, i, n)) {
+                        let j = this.scanNumber(line, i, n);
+                        // Check for unit suffix.
+                        let u = j;
+                        while (u < n && /[A-Za-z%]/.test(line[u]))
+                            u++;
+                        const unit = line.substring(j, u);
+                        if (unit.length > 0 && CssHighlighter.UNITS.has(unit.toLowerCase())) {
+                            b.push(TokenType.Number, line.substring(i, j));
+                            b.push(TokenType.Unit, unit);
+                            i = u;
+                        }
+                        else if (unit.length > 0) {
+                            b.push(TokenType.Number, line.substring(i, j));
+                            b.push(TokenType.Identifier, unit);
+                            i = u;
+                        }
+                        else {
+                            b.push(TokenType.Number, line.substring(i, j));
+                            i = j;
+                        }
+                        continue;
+                    }
+                    // --- Identifier / keyword / property / function ---
+                    if (/[A-Za-z_\-]/.test(ch)) {
+                        let j = i;
+                        while (j < n && /[A-Za-z0-9_\-]/.test(line[j]))
+                            j++;
+                        const word = line.substring(i, j);
+                        const wordLower = word.toLowerCase();
+                        i = j;
+                        // Check if followed by '(' → function call.
+                        let k = i;
+                        while (k < n && (line[k] === " " || line[k] === "\t"))
+                            k++;
+                        const isFunction = line[k] === "(";
+                        if (s.context === "selector" || s.inAtRuleParens) {
+                            // Selector context: element type selector or at-rule keyword.
+                            b.push(TokenType.Selector, word);
+                        }
+                        else if (s.context === "property") {
+                            // Property name or CSS custom property.
+                            if (word.startsWith("--")) {
+                                b.push(TokenType.Variable, word);
+                            }
+                            else {
+                                b.push(TokenType.Property, word);
+                            }
+                        }
+                        else if (s.context === "value") {
+                            // Property value context.
+                            if (isFunction) {
+                                b.push(TokenType.Function, word);
+                            }
+                            else if (CssHighlighter.NAMED_COLORS.has(wordLower)) {
+                                b.push(TokenType.ColorValue, word);
+                            }
+                            else {
+                                b.push(TokenType.Identifier, word);
+                            }
+                        }
+                        else {
+                            b.push(TokenType.Identifier, word);
+                        }
+                        continue;
+                    }
+                    // --- . class selector ---
+                    if (ch === ".") {
+                        let j = i + 1;
+                        while (j < n && /[A-Za-z0-9_-]/.test(line[j]))
+                            j++;
+                        if (j > i + 1) {
+                            b.push(TokenType.Selector, line.substring(i, j));
+                            i = j;
+                        }
+                        else {
+                            b.push(TokenType.Operator, ".");
+                            i++;
+                        }
+                        continue;
+                    }
+                    // --- [ attribute selector ] ---
+                    if (ch === "[") {
+                        let j = i + 1;
+                        while (j < n && line[j] !== "]")
+                            j++;
+                        if (j < n)
+                            j++;
+                        b.push(TokenType.Selector, line.substring(i, j));
+                        i = j;
+                        continue;
+                    }
+                    // --- Combinators and operators ---
+                    if (ch === ">" || ch === "+" || ch === "~" || ch === "=" ||
+                        ch === "*" || ch === "|" || ch === "^" || ch === "$") {
+                        b.push(TokenType.Operator, ch);
+                        i++;
+                        continue;
+                    }
+                    // --- Comma ---
+                    if (ch === ",") {
+                        b.push(TokenType.Punctuation, ch);
+                        i++;
+                        continue;
+                    }
+                    // --- Fallback ---
+                    b.push(TokenType.Plain, ch);
+                    i++;
+                }
+                return { tokens: b.result, state: s };
+            }
+            // ========== Helpers ==========
+            isNumberStart(ch, line, i, n) {
+                if (ch >= "0" && ch <= "9")
+                    return true;
+                if (ch === "-" || ch === "+") {
+                    // Negative/positive number: only if followed by digit or dot.
+                    if (i + 1 < n) {
+                        const next = line[i + 1];
+                        if (next >= "0" && next <= "9")
+                            return true;
+                        if (next === "." && i + 2 < n && line[i + 2] >= "0" && line[i + 2] <= "9")
+                            return true;
+                    }
+                }
+                if (ch === ".") {
+                    return i + 1 < n && line[i + 1] >= "0" && line[i + 1] <= "9";
+                }
+                return false;
+            }
+            scanNumber(line, i, n) {
+                let j = i;
+                // Optional sign.
+                if (line[j] === "-" || line[j] === "+")
+                    j++;
+                // Integer part.
+                while (j < n && line[j] >= "0" && line[j] <= "9")
+                    j++;
+                // Fractional part.
+                if (j < n && line[j] === ".") {
+                    j++;
+                    while (j < n && line[j] >= "0" && line[j] <= "9")
+                        j++;
+                }
+                // Exponent.
+                if (j < n && (line[j] === "e" || line[j] === "E")) {
+                    j++;
+                    if (j < n && (line[j] === "+" || line[j] === "-"))
+                        j++;
+                    while (j < n && line[j] >= "0" && line[j] <= "9")
+                        j++;
+                }
+                return j;
+            }
+        }
+        CssHighlighter.AT_RULES = new Set([
+            "media", "import", "keyframes", "supports", "font-face",
+            "charset", "namespace", "page", "font-feature-values",
+            "counter-style", "property", "layer", "container", "scope",
+            "starting-style", "viewport", "document"
+        ]);
+        CssHighlighter.NAMED_COLORS = new Set([
+            "transparent", "currentcolor", "black", "white", "red", "green",
+            "blue", "yellow", "cyan", "magenta", "gray", "grey", "silver",
+            "maroon", "olive", "lime", "aqua", "teal", "navy", "purple",
+            "orange", "aliceblue", "antiquewhite", "aquamarine", "azure",
+            "beige", "bisque", "blanchedalmond", "blueviolet", "brown",
+            "burlywood", "cadetblue", "chartreuse", "chocolate", "coral",
+            "cornflowerblue", "cornsilk", "crimson", "darkblue", "darkcyan",
+            "darkgoldenrod", "darkgray", "darkgreen", "darkgrey",
+            "darkkhaki", "darkmagenta", "darkolivegreen", "darkorange",
+            "darkorchid", "darkred", "darksalmon", "darkseagreen",
+            "darkslateblue", "darkslategray", "darkslategrey",
+            "darkturquoise", "darkviolet", "deeppink", "deepskyblue",
+            "dimgray", "dimgrey", "dodgerblue", "firebrick", "floralwhite",
+            "forestgreen", "gainsboro", "ghostwhite", "gold", "goldenrod",
+            "greenyellow", "honeydew", "hotpink", "indianred", "indigo",
+            "ivory", "khaki", "lavender", "lavenderblush", "lawngreen",
+            "lemonchiffon", "lightblue", "lightcoral", "lightcyan",
+            "lightgoldenrodyellow", "lightgray", "lightgreen", "lightgrey",
+            "lightpink", "lightsalmon", "lightseagreen", "lightskyblue",
+            "lightslategray", "lightslategrey", "lightsteelblue",
+            "lightyellow", "limegreen", "linen", "mediumaquamarine",
+            "mediumblue", "mediumorchid", "mediumpurple", "mediumseagreen",
+            "mediumslateblue", "mediumspringgreen", "mediumturquoise",
+            "mediumvioletred", "midnightblue", "mintcream", "mistyrose",
+            "moccasin", "navajowhite", "oldlace", "olivedrab", "orangered",
+            "orchid", "palegoldenrod", "palegreen", "paleturquoise",
+            "palevioletred", "papayawhip", "peachpuff", "peru", "pink",
+            "plum", "powderblue", "rebeccapurple", "rosybrown", "royalblue",
+            "saddlebrown", "salmon", "sandybrown", "seagreen", "seashell",
+            "sienna", "skyblue", "slateblue", "slategray", "slategrey",
+            "snow", "springgreen", "steelblue", "tan", "thistle", "tomato",
+            "turquoise", "violet", "wheat", "whitesmoke", "yellowgreen"
+        ]);
+        CssHighlighter.UNITS = new Set([
+            "px", "em", "rem", "ex", "ch", "vw", "vh", "vmin", "vmax",
+            "%", "cm", "mm", "in", "pt", "pc", "q", "fr", "deg", "grad",
+            "rad", "turn", "s", "ms", "hz", "khz", "dpi", "dpcm", "dppx",
+            "x", "vi", "vb", "ic", "rlh", "lh", "cap", "rcap", "rch", "ric",
+            "rex", "svh", "svw", "svmin", "svmax", "lvh", "lvw", "lvmin",
+            "lvmax", "dvh", "dvw", "dvmin", "dvmax"
+        ]);
+        Highlighters.CssHighlighter = CssHighlighter;
+    })(Highlighters = CodeEditor.Highlighters || (CodeEditor.Highlighters = {}));
+})(CodeEditor || (CodeEditor = {}));
+var CodeEditor;
+(function (CodeEditor) {
+    var Highlighters;
+    (function (Highlighters) {
+        var TokenType = CodeEditor.Utils.TokenType;
+        var TokenBuilder = CodeEditor.Utils.TokenBuilder;
+        /**
+         * HTML syntax highlighter with embedded-language delegation.
+         *
+         * Handles:
+         *   - DOCTYPE declaration
+         *   - HTML comments (multi-line)
+         *   - Tag names, attribute names, attribute values
+         *   - Entity references (&amp; &lt; etc.)
+         *   - Text content
+         *   - &lt;script&gt; blocks: delegated to {@link JavaScriptHighlighter}
+         *   - &lt;style&gt; blocks: delegated to {@link CssHighlighter}
+         *
+         * The sub-highlighters are instantiated once in the constructor and reused
+         * for every line. Their state is stored in `HtmlState.subState` and carried
+         * across lines, enabling multi-line constructs (block comments, template
+         * literals, etc.) inside embedded script/style to work correctly.
+         */
+        class HtmlHighlighter {
+            constructor() {
+                this.language = "html";
+                this.jsHighlighter = new Highlighters.JavaScriptHighlighter();
+                this.cssHighlighter = new Highlighters.CssHighlighter();
+            }
+            initialState() {
+                return {
+                    mode: "html",
+                    inComment: false,
+                    subState: null
+                };
+            }
+            tokenizeLine(line, state) {
+                let s = state ? state : this.initialState();
+                s = { ...s, subState: s.subState };
+                if (s.mode === "script") {
+                    return this.tokenizeEmbedded(line, s, "script", "</script>", this.jsHighlighter);
+                }
+                if (s.mode === "style") {
+                    return this.tokenizeEmbedded(line, s, "style", "</style>", this.cssHighlighter);
+                }
+                // mode === "html"
+                return this.tokenizeHtml(line, s);
+            }
+            // ========== HTML mode ==========
+            tokenizeHtml(line, s) {
+                const b = new TokenBuilder();
+                let i = 0;
+                const n = line.length;
+                // ---- Continue multi-line comment ----
+                if (s.inComment) {
+                    const endIdx = line.indexOf("-->");
+                    if (endIdx < 0) {
+                        b.push(TokenType.Comment, line);
+                        return { tokens: b.result, state: s };
+                    }
+                    const close = endIdx + 3;
+                    b.push(TokenType.Comment, line.substring(0, close));
+                    i = close;
+                    s.inComment = false;
+                }
+                while (i < n) {
+                    const ch = line[i];
+                    // --- Comment start <!-- ---
+                    if (line.substr(i, 4) === "<!--") {
+                        const endIdx = line.indexOf("-->", i + 4);
+                        if (endIdx < 0) {
+                            b.push(TokenType.Comment, line.substring(i));
+                            s.inComment = true;
+                            return { tokens: b.result, state: s };
+                        }
+                        const close = endIdx + 3;
+                        b.push(TokenType.Comment, line.substring(i, close));
+                        i = close;
+                        continue;
+                    }
+                    // --- DOCTYPE ---
+                    if (line.substr(i, 9).toUpperCase() === "<!DOCTYPE" ||
+                        line.substr(i, 2) === "<!") {
+                        const endIdx = line.indexOf(">", i);
+                        if (endIdx < 0) {
+                            b.push(TokenType.Preprocessor, line.substring(i));
+                            i = n;
+                            break;
+                        }
+                        b.push(TokenType.Preprocessor, line.substring(i, endIdx + 1));
+                        i = endIdx + 1;
+                        continue;
+                    }
+                    // --- Tag start < ---
+                    if (ch === "<") {
+                        const tagResult = this.parseTag(line, i, n, b);
+                        i = tagResult.i;
+                        // Check if this tag switches mode to script or style.
+                        if (tagResult.tagName && tagResult.isOpening && !tagResult.selfClosed) {
+                            const tagNameLower = tagResult.tagName.toLowerCase();
+                            if (tagNameLower === "script") {
+                                s.mode = "script";
+                                s.subState = this.jsHighlighter.initialState();
+                                // Check if there's content on this line after the tag.
+                                if (i < n) {
+                                    const embedded = this.tokenizeEmbedded(line.substring(i), s, "script", "</script>", this.jsHighlighter, i);
+                                    return { tokens: b.result.concat(embedded.tokens), state: embedded.state };
+                                }
+                                return { tokens: b.result, state: s };
+                            }
+                            if (tagNameLower === "style") {
+                                s.mode = "style";
+                                s.subState = this.cssHighlighter.initialState();
+                                if (i < n) {
+                                    const embedded = this.tokenizeEmbedded(line.substring(i), s, "style", "</style>", this.cssHighlighter, i);
+                                    return { tokens: b.result.concat(embedded.tokens), state: embedded.state };
+                                }
+                                return { tokens: b.result, state: s };
+                            }
+                        }
+                        continue;
+                    }
+                    // --- Entity reference &name; ---
+                    if (ch === "&") {
+                        let j = i + 1;
+                        while (j < n && line[j] !== ";" && /[A-Za-z0-9#]/.test(line[j]))
+                            j++;
+                        if (j < n && line[j] === ";") {
+                            j++;
+                            b.push(TokenType.Constant, line.substring(i, j));
+                            i = j;
+                            continue;
+                        }
+                    }
+                    // --- Text content (read until next < or &) ---
+                    {
+                        let j = i;
+                        while (j < n && line[j] !== "<" && line[j] !== "&")
+                            j++;
+                        if (j > i) {
+                            b.push(TokenType.XmlText, line.substring(i, j));
+                            i = j;
+                            continue;
+                        }
+                        // j === i, meaning line[i] is '<' or '&' — but we already
+                        // handled those above. Fall through to avoid infinite loop.
+                        b.push(TokenType.XmlText, line[i]);
+                        i++;
+                    }
+                }
+                return { tokens: b.result, state: s };
+            }
+            /**
+             * Parse an HTML tag starting at `i` (the '<').
+             * Pushes delimiter, tag name, attributes, and closing '>' tokens.
+             * Returns the index past the tag and the tag name (lowercased).
+             */
+            parseTag(line, i, n, b) {
+                let j = i + 1;
+                let isOpening = true;
+                let selfClosed = false;
+                // </ for closing tag.
+                if (line[j] === "/") {
+                    isOpening = false;
+                    j++;
+                }
+                // Emit '<' or '</' delimiter.
+                const delimLen = isOpening ? 1 : 2;
+                b.push(TokenType.XmlDelimiter, line.substring(i, i + delimLen));
+                // Tag name.
+                let nameStart = j;
+                while (j < n && /[A-Za-z0-9_:\-.]/.test(line[j]))
+                    j++;
+                const tagName = line.substring(nameStart, j);
+                if (tagName.length > 0) {
+                    b.push(TokenType.Tag, tagName);
+                }
+                // Parse attributes until '>' or '/>'.
+                while (j < n && line[j] !== ">") {
+                    // Whitespace.
+                    if (line[j] === " " || line[j] === "\t" || line[j] === "\r" || line[j] === "\n") {
+                        let k = j;
+                        while (k < n && /\s/.test(line[k]))
+                            k++;
+                        b.push(TokenType.Plain, line.substring(j, k));
+                        j = k;
+                        continue;
+                    }
+                    // Self-close />.
+                    if (line[j] === "/" && line[j + 1] === ">") {
+                        b.push(TokenType.XmlDelimiter, "/>");
+                        selfClosed = true;
+                        j += 2;
+                        break;
+                    }
+                    // Attribute name.
+                    if (/[A-Za-z_:@\-]/.test(line[j])) {
+                        let k = j;
+                        while (k < n && /[A-Za-z0-9_:\-.]/.test(line[k]))
+                            k++;
+                        b.push(TokenType.AttrName, line.substring(j, k));
+                        j = k;
+                        continue;
+                    }
+                    // '='.
+                    if (line[j] === "=") {
+                        b.push(TokenType.Operator, "=");
+                        j++;
+                        continue;
+                    }
+                    // Attribute value (quoted).
+                    if (line[j] === '"' || line[j] === "'") {
+                        const q = line[j];
+                        let k = j + 1;
+                        while (k < n && line[k] !== q)
+                            k++;
+                        if (k < n)
+                            k++;
+                        b.push(TokenType.AttrValue, line.substring(j, k));
+                        j = k;
+                        continue;
+                    }
+                    // Unknown char inside tag.
+                    b.push(TokenType.Plain, line[j]);
+                    j++;
+                }
+                if (j < n && line[j] === ">") {
+                    b.push(TokenType.XmlDelimiter, ">");
+                    j++;
+                }
+                return { i: j, tagName, isOpening, selfClosed };
+            }
+            // ========== Embedded mode (script/style) ==========
+            /**
+             * Tokenize a line that is (at least partially) inside a &lt;script&gt; or
+             * &lt;style&gt; block.
+             *
+             * The closing tag (e.g. &lt;/script&gt;) is searched for case-insensitively.
+             * If found, the text before it is delegated to the sub-highlighter (with
+             * an offset if this is a continuation), and the closing tag plus any
+             * remaining text is parsed as HTML.
+             *
+             * @param line      The full line text.
+             * @param s         The current HTML state (mode = script|style).
+             * @param mode      "script" or "style".
+             * @param closeTag  The closing tag literal, e.g. "</script>".
+             * @param sub       The sub-highlighter instance.
+             * @param offset    If this call is for a substring of the original line,
+             *                  the start offset of that substring. Defaults to 0.
+             */
+            tokenizeEmbedded(line, s, mode, closeTag, sub, offset = 0) {
+                const b = new TokenBuilder();
+                const n = line.length;
+                const closeTagLower = closeTag.toLowerCase();
+                // Search for the closing tag (case-insensitive).
+                let closeIdx = -1;
+                for (let k = 0; k <= n - closeTag.length; k++) {
+                    if (line.substr(k, closeTag.length).toLowerCase() === closeTagLower) {
+                        closeIdx = k;
+                        break;
+                    }
+                }
+                if (closeIdx < 0) {
+                    // Entire line is embedded content.
+                    const subResult = sub.tokenizeLine(line, s.subState);
+                    // Offset all tokens.
+                    const tokens = this.offsetTokens(subResult.tokens, offset);
+                    s.subState = subResult.state;
+                    // mode stays the same.
+                    return { tokens, state: s };
+                }
+                // There's a closing tag on this line.
+                // Delegate the fragment before the closing tag.
+                const fragment = line.substring(0, closeIdx);
+                if (fragment.length > 0) {
+                    const subResult = sub.tokenizeLine(fragment, s.subState);
+                    const tokens = this.offsetTokens(subResult.tokens, offset);
+                    for (const t of tokens) {
+                        b.push(t.type, t.value);
+                    }
+                    s.subState = subResult.state;
+                }
+                // Switch back to HTML mode.
+                s.mode = "html";
+                s.subState = null;
+                // Parse the closing tag and remaining HTML.
+                const remaining = line.substring(closeIdx);
+                const htmlResult = this.tokenizeHtml(remaining, { ...s, mode: "html" });
+                // Offset the HTML tokens by closeIdx + offset.
+                const htmlTokens = this.offsetTokens(htmlResult.tokens, closeIdx + offset);
+                for (const t of htmlTokens) {
+                    b.push(t.type, t.value);
+                }
+                return { tokens: b.result, state: htmlResult.state };
+            }
+            /**
+             * Add `delta` to every token's start and end offsets.
+             * Used when a sub-highlighter processes a fragment of a line.
+             */
+            offsetTokens(tokens, delta) {
+                if (delta === 0)
+                    return tokens;
+                return tokens.map(t => ({
+                    type: t.type,
+                    value: t.value,
+                    start: t.start + delta,
+                    end: t.end + delta
+                }));
+            }
+        }
+        Highlighters.HtmlHighlighter = HtmlHighlighter;
+    })(Highlighters = CodeEditor.Highlighters || (CodeEditor.Highlighters = {}));
+})(CodeEditor || (CodeEditor = {}));
+var CodeEditor;
+(function (CodeEditor) {
+    var Highlighters;
+    (function (Highlighters) {
         /**
          * Registry that maps language identifiers and file extensions to
          * highlighter instances.
@@ -2024,6 +3370,10 @@ var CodeEditor;
                 this.register(new Highlighters.XmlHighlighter(), ["xml", "xsd", "xsl", "xslt", "csproj", "vbproj", "props", "targets", "config"]);
                 this.register(new Highlighters.MarkdownHighlighter(), ["md", "markdown"]);
                 this.register(new Highlighters.YamlHighlighter(), ["yaml", "yml"]);
+                this.register(new Highlighters.JavaScriptHighlighter(), ["js", "mjs", "cjs", "jsx"]);
+                this.register(new Highlighters.TypeScriptHighlighter(), ["ts", "tsx", "mts", "cts"]);
+                this.register(new Highlighters.CssHighlighter(), ["css"]);
+                this.register(new Highlighters.HtmlHighlighter(), ["html", "htm", "xhtml"]);
             }
         }
         HighlighterRegistry.byLanguage = new Map();
@@ -2057,7 +3407,12 @@ var CodeEditor;
                     case "json":
                     case "yaml":
                         return this.computeBraceBased(lines);
+                    case "javascript":
+                    case "typescript":
+                    case "css":
+                        return this.computeCStyleBraces(lines);
                     case "xml":
+                    case "html":
                         return this.computeXml(lines);
                     case "markdown":
                         return this.computeMarkdown(lines);
@@ -2324,6 +3679,77 @@ var CodeEditor;
                 // Merge: keep only outermost ranges per start line.
                 return this.dedupeRanges(ranges);
             }
+            /**
+             * Brace-based folding for C-style languages (JS/TS/CSS).
+             * Handles // and /* *‌/ comments, strings, and template literals.
+             * Unlike computeBraceBased, does NOT treat # as a comment start.
+             */
+            computeCStyleBraces(lines) {
+                const ranges = [];
+                const stack = [];
+                let inBlockComment = false;
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i];
+                    let inString = null;
+                    let inLineComment = false;
+                    for (let j = 0; j < line.length; j++) {
+                        const c = line[j];
+                        // Inside block comment — look for */.
+                        if (inBlockComment) {
+                            if (c === "*" && line[j + 1] === "/") {
+                                inBlockComment = false;
+                                j++;
+                            }
+                            continue;
+                        }
+                        if (inLineComment)
+                            continue;
+                        if (inString) {
+                            if (c === "\\") {
+                                j++;
+                                continue;
+                            }
+                            if (c === inString)
+                                inString = null;
+                            continue;
+                        }
+                        // Line comment //.
+                        if (c === "/" && line[j + 1] === "/") {
+                            inLineComment = true;
+                            continue;
+                        }
+                        // Block comment /*.
+                        if (c === "/" && line[j + 1] === "*") {
+                            inBlockComment = true;
+                            j++;
+                            continue;
+                        }
+                        // Strings.
+                        if (c === '"' || c === "'" || c === "`") {
+                            inString = c;
+                            continue;
+                        }
+                        // Braces.
+                        if (c === "{" || c === "(" || c === "[") {
+                            stack.push({ line: i, col: j });
+                        }
+                        else if (c === "}" || c === ")" || c === "]") {
+                            const top = stack.pop();
+                            if (top && top.line < i) {
+                                ranges.push({
+                                    startLine: top.line,
+                                    endLine: i,
+                                    collapsedText: "...",
+                                    kind: "block"
+                                });
+                            }
+                        }
+                    }
+                    // Line comment and string state reset at end of line.
+                    // Block comment state persists across lines.
+                }
+                return this.dedupeRanges(ranges);
+            }
             computeXml(lines) {
                 const ranges = [];
                 const stack = [];
@@ -2469,11 +3895,18 @@ var CodeEditor;
                     case "json":
                         return this.extractJson(lines);
                     case "xml":
+                    case "html":
                         return this.extractXml(lines);
                     case "markdown":
                         return this.extractMarkdown(lines);
                     case "yaml":
                         return this.extractYaml(lines);
+                    case "javascript":
+                        return this.extractJsTs(lines, false);
+                    case "typescript":
+                        return this.extractJsTs(lines, true);
+                    case "css":
+                        return this.extractCss(lines);
                     default:
                         return [];
                 }
@@ -2514,8 +3947,23 @@ var CodeEditor;
                     case "yaml":
                     case "json":
                     case "xml":
+                    case "html":
+                    case "css":
                         // Indentation-based nesting: deeper keys sit further right.
                         return sym.column;
+                    case "javascript":
+                    case "typescript":
+                        switch (sym.kind) {
+                            case SymbolKind.Namespace:
+                                return 1;
+                            case SymbolKind.Class:
+                            case SymbolKind.Interface:
+                            case SymbolKind.Enum:
+                            case SymbolKind.Module:
+                                return 2;
+                            default:
+                                return 3;
+                        }
                     case "vbnet":
                     case "r":
                     default:
@@ -2716,6 +4164,130 @@ var CodeEditor;
                 }
                 return symbols;
             }
+            /**
+             * Extract symbols from JavaScript / TypeScript source.
+             * Finds: namespace, class, interface, enum, type alias, function,
+             * and arrow-function/const declarations.
+             */
+            extractJsTs(lines, isTypeScript) {
+                const symbols = [];
+                const indentRegex = /^(\s*)/;
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i];
+                    // Strip line comments for cleaner matching.
+                    const commentIdx = line.indexOf("//");
+                    const code = commentIdx >= 0 ? line.substring(0, commentIdx) : line;
+                    const indent = indentRegex.exec(line)[1].length;
+                    // namespace Name {
+                    let m = /\b(?:declare\s+)?namespace\s+([A-Za-z_$][\w$]*)/.exec(code);
+                    if (m) {
+                        symbols.push({ name: m[1], kind: SymbolKind.Namespace, line: i, column: indent, detail: "namespace" });
+                        continue;
+                    }
+                    // class Name
+                    m = /\b(?:export\s+)?(?:default\s+)?(?:abstract\s+)?class\s+([A-Za-z_$][\w$]*)/.exec(code);
+                    if (m) {
+                        symbols.push({ name: m[1], kind: SymbolKind.Class, line: i, column: indent, detail: "class" });
+                        continue;
+                    }
+                    // interface Name (TS only)
+                    if (isTypeScript) {
+                        m = /\binterface\s+([A-Za-z_$][\w$]*)/.exec(code);
+                        if (m) {
+                            symbols.push({ name: m[1], kind: SymbolKind.Interface, line: i, column: indent, detail: "interface" });
+                            continue;
+                        }
+                        // enum Name
+                        m = /\b(?:const\s+)?enum\s+([A-Za-z_$][\w$]*)/.exec(code);
+                        if (m) {
+                            symbols.push({ name: m[1], kind: SymbolKind.Enum, line: i, column: indent, detail: "enum" });
+                            continue;
+                        }
+                        // type Name =
+                        m = /\btype\s+([A-Za-z_$][\w$]*)\s*=/.exec(code);
+                        if (m) {
+                            symbols.push({ name: m[1], kind: SymbolKind.Structure, line: i, column: indent, detail: "type" });
+                            continue;
+                        }
+                    }
+                    // function name(
+                    m = /\b(?:export\s+)?(?:async\s+)?function\s+([A-Za-z_$][\w$]*)/.exec(code);
+                    if (m) {
+                        symbols.push({ name: m[1], kind: SymbolKind.Function, line: i, column: indent, detail: "function" });
+                        continue;
+                    }
+                    // const/let/var name = (arrow function or function expression)
+                    m = /\b(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*(?:async\s+)?(?:\([^)]*\)|function|[\w$]+\s*=>)/.exec(code);
+                    if (m) {
+                        symbols.push({ name: m[1], kind: SymbolKind.Variable, line: i, column: indent, detail: "variable" });
+                        continue;
+                    }
+                    // Method: indented name( inside a class (heuristic)
+                    m = /^(\s+)([A-Za-z_$][\w$]*)\s*\(/.exec(line);
+                    if (m && indent > 0) {
+                        // Skip if it's a keyword (if, for, while, switch, etc.)
+                        const controlWords = ["if", "for", "while", "switch", "catch", "return", "throw", "function"];
+                        if (controlWords.indexOf(m[2]) < 0) {
+                            symbols.push({ name: m[2], kind: SymbolKind.Function, line: i, column: indent, detail: "method" });
+                        }
+                    }
+                }
+                return symbols;
+            }
+            /**
+             * Extract symbols from CSS source.
+             * Finds: at-rules (@media, @keyframes, etc.) and selector rules.
+             */
+            extractCss(lines) {
+                const symbols = [];
+                const indentRegex = /^(\s*)/;
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i];
+                    const trimmed = line.trim();
+                    if (!trimmed || trimmed.startsWith("/*") || trimmed.startsWith("*"))
+                        continue;
+                    const indent = indentRegex.exec(line)[1].length;
+                    // At-rule: @media, @keyframes, @supports, @font-face, @page, etc.
+                    const atM = /^(@[A-Za-z\-]+)\s+([A-Za-z_][\w\-]*)/.exec(trimmed);
+                    if (atM) {
+                        symbols.push({
+                            name: atM[1] + " " + atM[2],
+                            kind: SymbolKind.Namespace,
+                            line: i,
+                            column: indent,
+                            detail: "at-rule"
+                        });
+                        continue;
+                    }
+                    // Standalone at-rule without name (@font-face, @import).
+                    const atOnly = /^(@[A-Za-z\-]+)/.exec(trimmed);
+                    if (atOnly) {
+                        symbols.push({
+                            name: atOnly[1],
+                            kind: SymbolKind.Namespace,
+                            line: i,
+                            column: indent,
+                            detail: "at-rule"
+                        });
+                        continue;
+                    }
+                    // Selector rule: line ending with { and not starting with -- (custom property).
+                    if (trimmed.endsWith("{") && !trimmed.startsWith("--")) {
+                        // Remove trailing { and whitespace.
+                        const selector = trimmed.replace(/\s*\{$/, "").trim();
+                        if (selector.length > 0) {
+                            symbols.push({
+                                name: selector,
+                                kind: SymbolKind.Tag,
+                                line: i,
+                                column: indent,
+                                detail: "selector"
+                            });
+                        }
+                    }
+                }
+                return symbols;
+            }
         }
         Features.SymbolNavigator = SymbolNavigator;
     })(Features = CodeEditor.Features || (CodeEditor.Features = {}));
@@ -2870,6 +4442,14 @@ var CodeEditor;
                         return [{ label: "true", kind: "constant" }, { label: "false", kind: "constant" }, { label: "null", kind: "constant" }];
                     case "yaml":
                         return [{ label: "true", kind: "constant" }, { label: "false", kind: "constant" }, { label: "null", kind: "constant" }];
+                    case "javascript":
+                        return this.jsCompletions();
+                    case "typescript":
+                        return this.tsCompletions();
+                    case "css":
+                        return this.cssCompletions();
+                    case "html":
+                        return this.htmlCompletions();
                     default:
                         return [];
                 }
@@ -2937,6 +4517,257 @@ var CodeEditor;
                     { label: "Inf", kind: "constant" },
                     { label: "NaN", kind: "constant" },
                     { label: "pi", kind: "constant" }
+                ];
+                return items;
+            }
+            jsCompletions() {
+                const items = [
+                    // Control flow
+                    { label: "if", kind: "keyword" },
+                    { label: "else", kind: "keyword" },
+                    { label: "for", kind: "keyword" },
+                    { label: "while", kind: "keyword" },
+                    { label: "do", kind: "keyword" },
+                    { label: "switch", kind: "keyword" },
+                    { label: "case", kind: "keyword" },
+                    { label: "break", kind: "keyword" },
+                    { label: "continue", kind: "keyword" },
+                    { label: "return", kind: "keyword" },
+                    { label: "throw", kind: "keyword" },
+                    { label: "try", kind: "keyword" },
+                    { label: "catch", kind: "keyword" },
+                    { label: "finally", kind: "keyword" },
+                    // Declarations
+                    { label: "var", kind: "keyword" },
+                    { label: "let", kind: "keyword" },
+                    { label: "const", kind: "keyword" },
+                    { label: "function", kind: "keyword", insertText: "function () {\n  \n}" },
+                    { label: "class", kind: "keyword", insertText: "class  {\n  \n}" },
+                    { label: "extends", kind: "keyword" },
+                    { label: "new", kind: "keyword" },
+                    { label: "this", kind: "keyword" },
+                    { label: "super", kind: "keyword" },
+                    { label: "import", kind: "keyword" },
+                    { label: "export", kind: "keyword" },
+                    { label: "default", kind: "keyword" },
+                    { label: "from", kind: "keyword" },
+                    { label: "as", kind: "keyword" },
+                    { label: "async", kind: "keyword" },
+                    { label: "await", kind: "keyword" },
+                    { label: "typeof", kind: "keyword" },
+                    { label: "instanceof", kind: "keyword" },
+                    { label: "in", kind: "keyword" },
+                    { label: "of", kind: "keyword" },
+                    { label: "delete", kind: "keyword" },
+                    { label: "void", kind: "keyword" },
+                    // Constants
+                    { label: "true", kind: "constant" },
+                    { label: "false", kind: "constant" },
+                    { label: "null", kind: "constant" },
+                    { label: "undefined", kind: "constant" },
+                    { label: "NaN", kind: "constant" },
+                    { label: "Infinity", kind: "constant" },
+                    // Built-ins
+                    { label: "console", kind: "variable" },
+                    { label: "console.log", kind: "function", insertText: "console.log()" },
+                    { label: "console.error", kind: "function", insertText: "console.error()" },
+                    { label: "console.warn", kind: "function", insertText: "console.warn()" },
+                    { label: "Math", kind: "class" },
+                    { label: "JSON", kind: "class" },
+                    { label: "JSON.parse", kind: "function", insertText: "JSON.parse()" },
+                    { label: "JSON.stringify", kind: "function", insertText: "JSON.stringify()" },
+                    { label: "Promise", kind: "class" },
+                    { label: "Array", kind: "class" },
+                    { label: "Object", kind: "class" },
+                    { label: "String", kind: "class" },
+                    { label: "Number", kind: "class" },
+                    { label: "Boolean", kind: "class" },
+                    { label: "Date", kind: "class" },
+                    { label: "RegExp", kind: "class" },
+                    { label: "Map", kind: "class" },
+                    { label: "Set", kind: "class" },
+                    { label: "setTimeout", kind: "function", insertText: "setTimeout()" },
+                    { label: "setInterval", kind: "function", insertText: "setInterval()" },
+                    { label: "parseInt", kind: "function", insertText: "parseInt()" },
+                    { label: "parseFloat", kind: "function", insertText: "parseFloat()" }
+                ];
+                return items;
+            }
+            tsCompletions() {
+                const items = this.jsCompletions();
+                // TypeScript-specific keywords.
+                items.push({ label: "interface", kind: "keyword", insertText: "interface  {\n  \n}" }, { label: "type", kind: "keyword", insertText: "type  = " }, { label: "enum", kind: "keyword", insertText: "enum  {\n  \n}" }, { label: "implements", kind: "keyword" }, { label: "declare", kind: "keyword" }, { label: "namespace", kind: "keyword" }, { label: "readonly", kind: "keyword" }, { label: "abstract", kind: "keyword" }, { label: "public", kind: "keyword" }, { label: "private", kind: "keyword" }, { label: "protected", kind: "keyword" }, { label: "static", kind: "keyword" }, { label: "override", kind: "keyword" }, { label: "keyof", kind: "keyword" }, { label: "infer", kind: "keyword" }, { label: "is", kind: "keyword" }, { label: "as", kind: "keyword" }, { label: "satisfies", kind: "keyword" }, 
+                // Built-in types
+                { label: "string", kind: "type" }, { label: "number", kind: "type" }, { label: "boolean", kind: "type" }, { label: "any", kind: "type" }, { label: "unknown", kind: "type" }, { label: "never", kind: "type" }, { label: "void", kind: "type" }, { label: "object", kind: "type" }, { label: "symbol", kind: "type" }, { label: "bigint", kind: "type" }, { label: "Record", kind: "type", insertText: "Record<,>" }, { label: "Partial", kind: "type", insertText: "Partial<>" }, { label: "Readonly", kind: "type", insertText: "Readonly<>" }, { label: "Pick", kind: "type", insertText: "Pick<,>" }, { label: "Omit", kind: "type", insertText: "Omit<,>" }, { label: "ReturnType", kind: "type", insertText: "ReturnType<>" }, { label: "Parameters", kind: "type", insertText: "Parameters<>" });
+                return items;
+            }
+            cssCompletions() {
+                const items = [
+                    // At-rules
+                    { label: "@media", kind: "keyword", insertText: "@media () {\n  \n}" },
+                    { label: "@keyframes", kind: "keyword", insertText: "@keyframes  {\n  \n}" },
+                    { label: "@import", kind: "keyword", insertText: "@import '';" },
+                    { label: "@supports", kind: "keyword", insertText: "@supports () {\n  \n}" },
+                    { label: "@font-face", kind: "keyword", insertText: "@font-face {\n  \n}" },
+                    { label: "@charset", kind: "keyword", insertText: "@charset '';" },
+                    { label: "@page", kind: "keyword" },
+                    { label: "@layer", kind: "keyword" },
+                    { label: "@container", kind: "keyword" },
+                    // Common properties
+                    { label: "display", kind: "property" },
+                    { label: "position", kind: "property" },
+                    { label: "top", kind: "property" },
+                    { label: "right", kind: "property" },
+                    { label: "bottom", kind: "property" },
+                    { label: "left", kind: "property" },
+                    { label: "width", kind: "property" },
+                    { label: "height", kind: "property" },
+                    { label: "min-width", kind: "property" },
+                    { label: "max-width", kind: "property" },
+                    { label: "margin", kind: "property" },
+                    { label: "padding", kind: "property" },
+                    { label: "border", kind: "property" },
+                    { label: "border-radius", kind: "property" },
+                    { label: "color", kind: "property" },
+                    { label: "background", kind: "property" },
+                    { label: "background-color", kind: "property" },
+                    { label: "font-family", kind: "property" },
+                    { label: "font-size", kind: "property" },
+                    { label: "font-weight", kind: "property" },
+                    { label: "line-height", kind: "property" },
+                    { label: "text-align", kind: "property" },
+                    { label: "text-decoration", kind: "property" },
+                    { label: "flex", kind: "property" },
+                    { label: "flex-direction", kind: "property" },
+                    { label: "flex-wrap", kind: "property" },
+                    { label: "justify-content", kind: "property" },
+                    { label: "align-items", kind: "property" },
+                    { label: "grid", kind: "property" },
+                    { label: "grid-template-columns", kind: "property" },
+                    { label: "grid-template-rows", kind: "property" },
+                    { label: "gap", kind: "property" },
+                    { label: "z-index", kind: "property" },
+                    { label: "opacity", kind: "property" },
+                    { label: "overflow", kind: "property" },
+                    { label: "cursor", kind: "property" },
+                    { label: "transition", kind: "property" },
+                    { label: "transform", kind: "property" },
+                    { label: "animation", kind: "property" },
+                    { label: "box-shadow", kind: "property" },
+                    // Common values
+                    { label: "none", kind: "value" },
+                    { label: "auto", kind: "value" },
+                    { label: "inherit", kind: "value" },
+                    { label: "initial", kind: "value" },
+                    { label: "unset", kind: "value" },
+                    { label: "block", kind: "value" },
+                    { label: "inline", kind: "value" },
+                    { label: "flex", kind: "value" },
+                    { label: "grid", kind: "value" },
+                    { label: "absolute", kind: "value" },
+                    { label: "relative", kind: "value" },
+                    { label: "fixed", kind: "value" },
+                    { label: "sticky", kind: "value" },
+                    { label: "center", kind: "value" },
+                    { label: "space-between", kind: "value" },
+                    { label: "space-around", kind: "value" },
+                    { label: "wrap", kind: "value" },
+                    { label: "nowrap", kind: "value" },
+                    { label: "solid", kind: "value" },
+                    { label: "dashed", kind: "value" },
+                    { label: "dotted", kind: "value" },
+                    { label: "bold", kind: "value" },
+                    { label: "italic", kind: "value" },
+                    { label: "pointer", kind: "value" },
+                    { label: "default", kind: "value" },
+                    // Functions
+                    { label: "var()", kind: "function", insertText: "var(--)" },
+                    { label: "calc()", kind: "function", insertText: "calc()" },
+                    { label: "rgb()", kind: "function", insertText: "rgb(, , )" },
+                    { label: "rgba()", kind: "function", insertText: "rgba(, , , )" },
+                    { label: "hsl()", kind: "function", insertText: "hsl(, , )" },
+                    { label: "url()", kind: "function", insertText: "url('')" },
+                    { label: "linear-gradient()", kind: "function", insertText: "linear-gradient()" },
+                    // !important
+                    { label: "!important", kind: "keyword" }
+                ];
+                return items;
+            }
+            htmlCompletions() {
+                const items = [
+                    // Structural tags
+                    { label: "html", kind: "keyword", insertText: "<html>\n  \n</html>" },
+                    { label: "head", kind: "keyword", insertText: "<head>\n  \n</head>" },
+                    { label: "body", kind: "keyword", insertText: "<body>\n  \n</body>" },
+                    { label: "div", kind: "keyword", insertText: "<div>\n  \n</div>" },
+                    { label: "span", kind: "keyword", insertText: "<span></span>" },
+                    { label: "section", kind: "keyword", insertText: "<section>\n  \n</section>" },
+                    { label: "header", kind: "keyword", insertText: "<header>\n  \n</header>" },
+                    { label: "footer", kind: "keyword", insertText: "<footer>\n  \n</footer>" },
+                    { label: "nav", kind: "keyword", insertText: "<nav>\n  \n</nav>" },
+                    { label: "main", kind: "keyword", insertText: "<main>\n  \n</main>" },
+                    { label: "article", kind: "keyword", insertText: "<article>\n  \n</article>" },
+                    { label: "aside", kind: "keyword", insertText: "<aside>\n  \n</aside>" },
+                    // Text tags
+                    { label: "h1", kind: "keyword", insertText: "<h1></h1>" },
+                    { label: "h2", kind: "keyword", insertText: "<h2></h2>" },
+                    { label: "h3", kind: "keyword", insertText: "<h3></h3>" },
+                    { label: "p", kind: "keyword", insertText: "<p></p>" },
+                    { label: "a", kind: "keyword", insertText: "<a href=\"\"></a>" },
+                    { label: "strong", kind: "keyword", insertText: "<strong></strong>" },
+                    { label: "em", kind: "keyword", insertText: "<em></em>" },
+                    { label: "br", kind: "keyword", insertText: "<br>" },
+                    { label: "hr", kind: "keyword", insertText: "<hr>" },
+                    // Lists
+                    { label: "ul", kind: "keyword", insertText: "<ul>\n  \n</ul>" },
+                    { label: "ol", kind: "keyword", insertText: "<ol>\n  \n</ol>" },
+                    { label: "li", kind: "keyword", insertText: "<li></li>" },
+                    // Media
+                    { label: "img", kind: "keyword", insertText: "<img src=\"\" alt=\"\">" },
+                    { label: "video", kind: "keyword", insertText: "<video src=\"\"></video>" },
+                    { label: "audio", kind: "keyword", insertText: "<audio src=\"\"></audio>" },
+                    { label: "canvas", kind: "keyword", insertText: "<canvas></canvas>" },
+                    { label: "svg", kind: "keyword", insertText: "<svg></svg>" },
+                    // Forms
+                    { label: "form", kind: "keyword", insertText: "<form action=\"\"></form>" },
+                    { label: "input", kind: "keyword", insertText: "<input type=\"\">" },
+                    { label: "button", kind: "keyword", insertText: "<button></button>" },
+                    { label: "label", kind: "keyword", insertText: "<label></label>" },
+                    { label: "select", kind: "keyword", insertText: "<select>\n  \n</select>" },
+                    { label: "option", kind: "keyword", insertText: "<option value=\"\"></option>" },
+                    { label: "textarea", kind: "keyword", insertText: "<textarea></textarea>" },
+                    // Tables
+                    { label: "table", kind: "keyword", insertText: "<table>\n  \n</table>" },
+                    { label: "tr", kind: "keyword", insertText: "<tr>\n  \n</tr>" },
+                    { label: "td", kind: "keyword", insertText: "<td></td>" },
+                    { label: "th", kind: "keyword", insertText: "<th></th>" },
+                    { label: "thead", kind: "keyword", insertText: "<thead>\n  \n</thead>" },
+                    { label: "tbody", kind: "keyword", insertText: "<tbody>\n  \n</tbody>" },
+                    // Script / Style
+                    { label: "script", kind: "keyword", insertText: "<script>\n  \n</script>" },
+                    { label: "style", kind: "keyword", insertText: "<style>\n  \n</style>" },
+                    { label: "link", kind: "keyword", insertText: "<link rel=\"\" href=\"\">" },
+                    { label: "meta", kind: "keyword", insertText: "<meta >" },
+                    // Common attributes
+                    { label: "class", kind: "property" },
+                    { label: "id", kind: "property" },
+                    { label: "style", kind: "property" },
+                    { label: "href", kind: "property" },
+                    { label: "src", kind: "property" },
+                    { label: "alt", kind: "property" },
+                    { label: "title", kind: "property" },
+                    { label: "type", kind: "property" },
+                    { label: "name", kind: "property" },
+                    { label: "value", kind: "property" },
+                    { label: "placeholder", kind: "property" },
+                    { label: "onclick", kind: "property" },
+                    { label: "onload", kind: "property" },
+                    { label: "disabled", kind: "property" },
+                    { label: "readonly", kind: "property" },
+                    { label: "checked", kind: "property" },
+                    { label: "required", kind: "property" },
+                    { label: "data-", kind: "property" },
+                    { label: "aria-", kind: "property" }
                 ];
                 return items;
             }
@@ -3779,6 +5610,18 @@ var CodeEditor;
                     case TokenType.PrimitiveFunction: return "tok-primitive";
                     case TokenType.StatementTerminator: return "tok-stmtterminator";
                     case TokenType.Error: return "tok-error";
+                    case TokenType.Regex: return "tok-regex";
+                    case TokenType.TemplateString: return "tok-template";
+                    case TokenType.TemplateDelimiter: return "tok-templatedelim";
+                    case TokenType.Decorator: return "tok-decorator";
+                    case TokenType.Selector: return "tok-selector";
+                    case TokenType.PseudoClass: return "tok-pseudo";
+                    case TokenType.Unit: return "tok-unit";
+                    case TokenType.ColorValue: return "tok-colorvalue";
+                    case TokenType.AtRule: return "tok-atrule";
+                    case TokenType.Variable: return "tok-variable";
+                    case TokenType.Builtin: return "tok-builtin";
+                    case TokenType.TypeParameter: return "tok-typeparam";
                     default: return "";
                 }
             }
@@ -3892,6 +5735,10 @@ End Namespace
                 case "xml": return "XML";
                 case "markdown": return "Markdown";
                 case "yaml": return "YAML";
+                case "javascript": return "JavaScript";
+                case "typescript": return "TypeScript";
+                case "css": return "CSS";
+                case "html": return "HTML";
                 default: return lang;
             }
         }
