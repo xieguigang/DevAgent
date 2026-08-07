@@ -33,7 +33,12 @@ namespace CodeEditor.Features {
                 case "json":
                 case "yaml":
                     return this.computeBraceBased(lines);
+                case "javascript":
+                case "typescript":
+                case "css":
+                    return this.computeCStyleBraces(lines);
                 case "xml":
+                case "html":
                     return this.computeXml(lines);
                 case "markdown":
                     return this.computeMarkdown(lines);
