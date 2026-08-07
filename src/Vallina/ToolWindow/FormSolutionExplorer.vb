@@ -217,8 +217,17 @@ Public Class FormSolutionExplorer
     ''' <param name="e"></param>
     Private Sub ToolStripButton2_Click(sender As Object, e As EventArgs) Handles ToolStripButton2.Click
         If TypeOf proj Is VBProject Then
-            Dim msbuild As New FormMsBuild With {.proj = ProjectFile}
-            Call msbuild.Show(CommonRuntime.AppHost.GetDockPanel, DockState.DockBottom)
+            Dim msbuild As FormMsBuild = CommonRuntime.TryGetToolWindow("msbuild")
+
+            If msbuild Is Nothing Then
+                msbuild = New FormMsBuild With {.proj = ProjectFile, .Name = "msbuild"}
+                CommonRuntime.RegisterToolWindow(msbuild)
+            Else
+                msbuild.proj = ProjectFile
+
+                Call msbuild.Show(CommonRuntime.AppHost.GetDockPanel, DockState.DockBottom)
+                Call msbuild.RunDotNETBuild()
+            End If
         Else
             Call CommonRuntime.Warning("Can not run msbuild on a folder object. Please on an valid vbproj or vs solution file.")
         End If
