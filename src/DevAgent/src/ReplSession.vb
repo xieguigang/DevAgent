@@ -156,6 +156,8 @@ Public Class ReplSession
         Dim dirname As String = parts.Skip(1).JoinBy("/")
         dirname = If(dirname = "", "/", dirname)
         dirname = _workspace & "/" & dirname
+
+        GitAdd(_workspace, _workspace)
         git_diff = CommitMessageGenerator.GenerateCommitMessage(_ollama, dirname).GetAwaiter.GetResult
 
         If git_diff.Summary.StringEmpty(, True) Then

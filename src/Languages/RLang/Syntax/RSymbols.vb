@@ -1,4 +1,4 @@
-Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj
+Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj.CodeDOM
 
 Namespace Syntax
 

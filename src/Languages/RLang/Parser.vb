@@ -1,5 +1,6 @@
 Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj
+Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj.CodeDOM
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj.ProjectXml
 Imports RLang.Syntax
 

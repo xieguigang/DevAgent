@@ -1,5 +1,5 @@
-Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj
-Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj.Syntax
+Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj.CodeDOM
+Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj.CodeDOM.Syntax
 Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace Syntax

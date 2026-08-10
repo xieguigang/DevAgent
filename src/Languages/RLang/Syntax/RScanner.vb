@@ -1,5 +1,5 @@
 Imports System.Text
-Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj.Syntax
+Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj.CodeDOM.Syntax
 
 Namespace Syntax
 

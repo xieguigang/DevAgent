@@ -26,6 +26,19 @@
         End If
     End Sub
 
+    Public Function GitAdd(repoRootPath As String, targetFolder As String, Optional ByRef addSuccess As Boolean = False) As String
+        ' ========================================================
+        ' 1. 执行 git add 命令，暂存特定文件夹的改动
+        ' 使用 --all 参数确保删除的文件也被纳入暂存区
+        ' ========================================================
+        Dim addArgs As String = $"add --all ""{targetFolder}"""
+        Dim addOutput As String = String.Empty
+
+        addSuccess = RunGitProcess(repoRootPath, addArgs, addOutput)
+
+        Return addOutput
+    End Function
+
     ''' <summary>
     ''' 将特定文件夹中的所有改动进行 commit。
     ''' </summary>
@@ -54,13 +67,8 @@
         End If
 
         Try
-            ' ========================================================
-            ' 1. 执行 git add 命令，暂存特定文件夹的改动
-            ' 使用 --all 参数确保删除的文件也被纳入暂存区
-            ' ========================================================
-            Dim addArgs As String = $"add --all ""{targetFolder}"""
-            Dim addOutput As String = String.Empty
-            Dim addSuccess As Boolean = RunGitProcess(repoRootPath, addArgs, addOutput)
+            Dim addSuccess As Boolean = False
+            Dim addOutput As String = GitAdd(repoRootPath, targetFolder, addSuccess)
 
             outputMessage &= "[git add 输出]" & Environment.NewLine & addOutput & Environment.NewLine
 
