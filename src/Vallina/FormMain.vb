@@ -36,6 +36,7 @@ Public Class FormMain : Implements AppHost
         Call CommonRuntime.Hook(Me)
         Call StatusMessage("Ready!", Icons8.Information)
         Call RibbonMenu.OpenStartupPage()
+        Call RibbonMenu.OpenLinuxSessions()
         Call CommonRuntime.GetOutputWindow.AddLog("startup", "code editor is ready")
     End Sub
 
