@@ -41,6 +41,30 @@ Public Class FormEditSsh
     End Sub
 
     Private Sub okButton_Click(sender As Object, e As EventArgs) Handles okButton.Click
+        ' Validate the connection parameters before closing the dialog.
+        Dim hostVal As String = If(hostTextBox?.Text, "").Trim()
+        Dim userVal As String = If(userTextBox?.Text, "").Trim()
+        Dim portVal As String = If(portTextBox?.Text, "").Trim()
+        Dim portNum As Integer
+
+        If String.IsNullOrWhiteSpace(hostVal) Then
+            Call MessageBox.Show(Me, "Host address cannot be empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            hostTextBox.Focus()
+            Return
+        End If
+
+        If String.IsNullOrWhiteSpace(userVal) Then
+            Call MessageBox.Show(Me, "User account cannot be empty.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            userTextBox.Focus()
+            Return
+        End If
+
+        If Not Integer.TryParse(portVal, portNum) OrElse portNum <= 0 OrElse portNum > 65535 Then
+            Call MessageBox.Show(Me, "Port must be a valid number between 1 and 65535.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            portTextBox.Focus()
+            Return
+        End If
+
         Me.DialogResult = DialogResult.OK
     End Sub
 
