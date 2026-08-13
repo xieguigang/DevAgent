@@ -206,7 +206,7 @@ $RECYCLE.BIN/
 # Packages
 *.egg
 *.egg-info
-dist/
+dist/bin/
 build/
 eggs/
 parts/
