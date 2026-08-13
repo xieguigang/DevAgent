@@ -94,8 +94,8 @@ Namespace Settings
             End If
 
             Dim data As Byte() = Encoding.UTF8.GetBytes(plainText)
-            Dim protectedData As Byte() = ProtectedData.Protect(data, Entropy, DataProtectionScope.CurrentUser)
-            Return Convert.ToBase64String(protectedData)
+            Dim [protected] As Byte() = ProtectedData.Protect(data, Entropy, DataProtectionScope.CurrentUser)
+            Return Convert.ToBase64String([protected])
         End Function
 
         ''' <summary>
