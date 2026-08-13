@@ -2,14 +2,19 @@
 <DOCUMENT Type="Advanced Installer" CreateVersion="22.2" version="22.2" Modules="professional" RootPath="." Language="zh" Id="{61CEB174-D015-4303-A21B-386EC93F659C}">
   <COMPONENT cid="caphyon.advinst.msicomp.MsiPropsComponent">
     <ROW Property="AI_BITMAP_DISPLAY_MODE" Value="0"/>
+    <ROW Property="AI_FINDEXE_TITLE" Value="选择 [|ProductName] 安装包" ValueLocId="AI.Property.FindExeTitle"/>
     <ROW Property="ALLUSERS" Value="1"/>
     <ROW Property="ARPCOMMENTS" Value="此 Installer 数据库包含了安装 [|ProductName] 所需的逻辑和数据。" ValueLocId="*"/>
-    <ROW Property="Manufacturer" Value="您的公司"/>
+    <ROW Property="ARPNOMODIFY" MultiBuildValue="DefaultBuild:1"/>
+    <ROW Property="ARPNOREPAIR" MultiBuildValue="DefaultBuild:1"/>
+    <ROW Property="ARPPRODUCTICON" Value="installer.exe" Type="8"/>
+    <ROW Property="Manufacturer" Value="Vallina"/>
+    <ROW Property="MsiLogging" MultiBuildValue="DefaultBuild:vp"/>
     <ROW Property="ProductCode" Value="2052:{CF147B33-90A1-4978-A06C-E7CDB911E489} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
-    <ROW Property="ProductName" Value="您的应用程序"/>
+    <ROW Property="ProductName" Value="VallinaDev"/>
     <ROW Property="ProductVersion" Value="1.0.0" Options="32"/>
-    <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
+    <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{45BD3260-FD59-4145-ACEF-9A4E7224DFA8}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
     <ROW Property="WindowsType9XDisplay" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
@@ -24,25 +29,454 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiDirsComponent">
     <ROW Directory="APPDIR" Directory_Parent="TARGETDIR" DefaultDir="APPDIR:." IsPseudoRoot="1"/>
+    <ROW Directory="ProgramMenuFolder" Directory_Parent="TARGETDIR" DefaultDir="PROGRA~1|ProgramMenuFolder" IsPseudoRoot="1"/>
+    <ROW Directory="SHORTCUTDIR" Directory_Parent="TARGETDIR" DefaultDir="SHORTC~1|SHORTCUTDIR" IsPseudoRoot="1"/>
     <ROW Directory="TARGETDIR" DefaultDir="SourceDir"/>
+    <ROW Directory="__Dir" Directory_Parent="ProgramMenuFolder" DefaultDir="Vallina"/>
+    <ROW Directory="apps_Dir" Directory_Parent="APPDIR" DefaultDir="apps"/>
+    <ROW Directory="assets_Dir" Directory_Parent="apps_Dir" DefaultDir="assets"/>
+    <ROW Directory="bin_1_Dir" Directory_Parent="node_modules_Dir" DefaultDir="BIN~1|.bin"/>
+    <ROW Directory="bin_2_Dir" Directory_Parent="esbuild_1_Dir" DefaultDir="bin"/>
+    <ROW Directory="bin_Dir" Directory_Parent="APPDIR" DefaultDir="bin"/>
+    <ROW Directory="codebuddy_Dir" Directory_Parent="apps_Dir" DefaultDir="CODEBU~1|.codebuddy"/>
+    <ROW Directory="core_Dir" Directory_Parent="src_Dir" DefaultDir="core"/>
+    <ROW Directory="cs_Dir" Directory_Parent="bin_Dir" DefaultDir="cs"/>
+    <ROW Directory="css_Dir" Directory_Parent="apps_Dir" DefaultDir="css"/>
+    <ROW Directory="de_Dir" Directory_Parent="bin_Dir" DefaultDir="de"/>
+    <ROW Directory="dist_Dir" Directory_Parent="apps_Dir" DefaultDir="dist"/>
+    <ROW Directory="enUS_Dir" Directory_Parent="bin_Dir" DefaultDir="en-US"/>
+    <ROW Directory="es_Dir" Directory_Parent="bin_Dir" DefaultDir="es"/>
+    <ROW Directory="esbuild_1_Dir" Directory_Parent="node_modules_Dir" DefaultDir="esbuild"/>
+    <ROW Directory="esbuild_Dir" Directory_Parent="node_modules_Dir" DefaultDir="@esbuild"/>
+    <ROW Directory="features_Dir" Directory_Parent="src_Dir" DefaultDir="features"/>
+    <ROW Directory="fr_Dir" Directory_Parent="bin_Dir" DefaultDir="fr"/>
+    <ROW Directory="highlighters_Dir" Directory_Parent="src_Dir" DefaultDir="HIGHLI~1|highlighters"/>
+    <ROW Directory="it_Dir" Directory_Parent="bin_Dir" DefaultDir="it"/>
+    <ROW Directory="ja_Dir" Directory_Parent="bin_Dir" DefaultDir="ja"/>
+    <ROW Directory="ko_Dir" Directory_Parent="bin_Dir" DefaultDir="ko"/>
+    <ROW Directory="lib_1_Dir" Directory_Parent="esbuild_1_Dir" DefaultDir="lib"/>
+    <ROW Directory="lib_Dir" Directory_Parent="win_Dir" DefaultDir="lib"/>
+    <ROW Directory="native_1_Dir" Directory_Parent="winx64_Dir" DefaultDir="native"/>
+    <ROW Directory="native_2_Dir" Directory_Parent="winx86_Dir" DefaultDir="native"/>
+    <ROW Directory="native_Dir" Directory_Parent="winarm64_Dir" DefaultDir="native"/>
+    <ROW Directory="net10.0_Dir" Directory_Parent="lib_Dir" DefaultDir="net10.0"/>
+    <ROW Directory="node_modules_Dir" Directory_Parent="apps_Dir" DefaultDir="NODE_M~1|node_modules"/>
+    <ROW Directory="pl_Dir" Directory_Parent="bin_Dir" DefaultDir="pl"/>
+    <ROW Directory="plans_Dir" Directory_Parent="codebuddy_Dir" DefaultDir="plans"/>
+    <ROW Directory="ptBR_Dir" Directory_Parent="bin_Dir" DefaultDir="pt-BR"/>
+    <ROW Directory="ru_Dir" Directory_Parent="bin_Dir" DefaultDir="ru"/>
+    <ROW Directory="runtimes_Dir" Directory_Parent="bin_Dir" DefaultDir="runtimes"/>
+    <ROW Directory="src_Dir" Directory_Parent="apps_Dir" DefaultDir="src"/>
+    <ROW Directory="themes_Dir" Directory_Parent="src_Dir" DefaultDir="themes"/>
+    <ROW Directory="tr_Dir" Directory_Parent="bin_Dir" DefaultDir="tr"/>
+    <ROW Directory="utils_Dir" Directory_Parent="src_Dir" DefaultDir="utils"/>
+    <ROW Directory="vscode_1_Dir" Directory_Parent="src_Dir" DefaultDir="VSCODE~1|.vscode"/>
+    <ROW Directory="vscode_Dir" Directory_Parent="apps_Dir" DefaultDir="VSCODE~1|.vscode"/>
+    <ROW Directory="win32x64_Dir" Directory_Parent="esbuild_Dir" DefaultDir="WIN32-~1|win32-x64"/>
+    <ROW Directory="win_Dir" Directory_Parent="runtimes_Dir" DefaultDir="win"/>
+    <ROW Directory="winarm64_Dir" Directory_Parent="runtimes_Dir" DefaultDir="WIN-AR~1|win-arm64"/>
+    <ROW Directory="winx64_Dir" Directory_Parent="runtimes_Dir" DefaultDir="win-x64"/>
+    <ROW Directory="winx86_Dir" Directory_Parent="runtimes_Dir" DefaultDir="win-x86"/>
+    <ROW Directory="zhCN_Dir" Directory_Parent="bin_Dir" DefaultDir="zh-CN"/>
+    <ROW Directory="zhHK_Dir" Directory_Parent="bin_Dir" DefaultDir="zh-HK"/>
+    <ROW Directory="zhHans_Dir" Directory_Parent="bin_Dir" DefaultDir="zh-Hans"/>
+    <ROW Directory="zhHant_Dir" Directory_Parent="bin_Dir" DefaultDir="zh-Hant"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.SideBySideGuidComponent">
     <ROW Component="APPDIR" Value="{0C7E2B95-5239-421B-A720-8046ACDA840F}"/>
     <ROW Component="ProductInformation" Value="{BD951730-A676-4828-A1DE-22024A531D66}"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
+    <ROW Component="AI_ExePath" ComponentId="{FCF0FFCE-FFAB-4BC3-A3E4-464F6B732DA9}" Directory_="APPDIR" Attributes="260" KeyPath="AI_ExePath"/>
     <ROW Component="APPDIR" ComponentId="{0C7E2B95-5239-421B-A720-8046ACDA840F}" Directory_="APPDIR" Attributes="0"/>
-    <ROW Component="ProductInformation" ComponentId="{BD951730-A676-4828-A1DE-22024A531D66}" Directory_="APPDIR" Attributes="4" KeyPath="Version"/>
+    <ROW Component="BouncyCastle.Cryptography.dll" ComponentId="{467920F0-EC13-4892-9139-A53BD73DFFA5}" Directory_="bin_Dir" Attributes="0" KeyPath="BouncyCastle.Cryptography.dll"/>
+    <ROW Component="CodeFolder.ts" ComponentId="{A30F071F-3A69-4837-893C-ED5EC94A854E}" Directory_="features_Dir" Attributes="0" KeyPath="CodeFolder.ts" Type="0"/>
+    <ROW Component="CssHighlighter.ts" ComponentId="{75120CF5-3B14-42AA-BDD1-A270DD57C0B7}" Directory_="highlighters_Dir" Attributes="0" KeyPath="CssHighlighter.ts" Type="0"/>
+    <ROW Component="Cursor.ts" ComponentId="{CE5051BD-4DD6-4AB6-A4C0-B94EF4932607}" Directory_="core_Dir" Attributes="0" KeyPath="Cursor.ts" Type="0"/>
+    <ROW Component="DevAgent.deps.json" ComponentId="{6276DCE0-37BF-47EC-8FF6-1962E6CDED03}" Directory_="bin_Dir" Attributes="0" KeyPath="DevAgent.deps.json" Type="0"/>
+    <ROW Component="DevAgent.dll" ComponentId="{F26DB1B3-B45D-4CB5-8656-6494683D638F}" Directory_="bin_Dir" Attributes="256" KeyPath="DevAgent.dll"/>
+    <ROW Component="DevAgent.exe" ComponentId="{370EF6C1-0792-4C5B-92F5-3C715D1BA9BB}" Directory_="bin_Dir" Attributes="256" KeyPath="DevAgent.exe"/>
+    <ROW Component="Diff.ts" ComponentId="{33B8B7C1-38C1-4893-B15A-30468A3D1C6F}" Directory_="utils_Dir" Attributes="0" KeyPath="Diff.ts" Type="0"/>
+    <ROW Component="Flute.Http.dll" ComponentId="{0373A4D0-3737-4F6F-A686-42C64BFAD342}" Directory_="bin_Dir" Attributes="256" KeyPath="Flute.Http.dll"/>
+    <ROW Component="Fluteway.dll" ComponentId="{8019C1A2-4BD9-4AE3-9FD0-E47E124B88AC}" Directory_="bin_Dir" Attributes="256" KeyPath="Fluteway.dll"/>
+    <ROW Component="Fluteway.exe" ComponentId="{E25FA8AA-7E69-4F1C-BD12-8DD857CDEF07}" Directory_="bin_Dir" Attributes="256" KeyPath="Fluteway.exe"/>
+    <ROW Component="Galaxy.Data.dll" ComponentId="{96EC5235-96E4-4169-BF46-72E2FD343C57}" Directory_="bin_Dir" Attributes="256" KeyPath="Galaxy.Data.dll"/>
+    <ROW Component="Galaxy.Data.resources.dll" ComponentId="{756C893D-92A6-40DA-8F99-68F05294CBD1}" Directory_="zhCN_Dir" Attributes="256" KeyPath="Galaxy.Data.resources.dll"/>
+    <ROW Component="Galaxy.Data.resources.dll_1" ComponentId="{6FDEDA79-984E-457E-AA94-F2F1B63AB185}" Directory_="zhHK_Dir" Attributes="256" KeyPath="Galaxy.Data.resources.dll_1"/>
+    <ROW Component="Galaxy.Workbench.dll" ComponentId="{F494BEE4-5596-4AF6-8D5A-3D5E05D6CAF7}" Directory_="bin_Dir" Attributes="256" KeyPath="Galaxy.Workbench.dll"/>
+    <ROW Component="Galaxy.Workbench.resources.dll" ComponentId="{9EB34D21-9BFF-42A3-8F26-1A80C824BA4D}" Directory_="enUS_Dir" Attributes="256" KeyPath="Galaxy.Workbench.resources.dll"/>
+    <ROW Component="Galaxy.Workbench.resources.dll_1" ComponentId="{5AF5DBB3-167C-4AF6-A99B-06376C14150D}" Directory_="zhHans_Dir" Attributes="256" KeyPath="Galaxy.Workbench.resources.dll_1"/>
+    <ROW Component="Galaxy.Workbench.resources.dll_2" ComponentId="{00048C09-A636-43E8-8218-FC04C2123E3E}" Directory_="zhHK_Dir" Attributes="256" KeyPath="Galaxy.Workbench.resources.dll_2"/>
+    <ROW Component="Humanizer.dll" ComponentId="{7BDFA865-B0A8-48A7-9F5E-688129C14F7D}" Directory_="bin_Dir" Attributes="0" KeyPath="Humanizer.dll"/>
+    <ROW Component="LanguageServer.dll" ComponentId="{3940AF28-7158-4909-8D55-67336825D223}" Directory_="bin_Dir" Attributes="256" KeyPath="LanguageServer.dll"/>
+    <ROW Component="LanguageServer.exe" ComponentId="{2A5CD830-F4B3-4592-8D25-2A0B8AFB1DC0}" Directory_="bin_Dir" Attributes="256" KeyPath="LanguageServer.exe"/>
+    <ROW Component="Microsoft.CodeAnalysis.VisualBasic.dll" ComponentId="{8B2F4B8D-27BB-420C-9C45-602C87846162}" Directory_="bin_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.VisualBasic.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.VisualBasic.resources.dll" ComponentId="{898485AA-E4D7-48F9-A65E-34CA3472012F}" Directory_="cs_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.VisualBasic.resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.VisualBasic_10_.resources.dll" ComponentId="{6FF622B0-D296-40A8-B5E1-91E10749FBE7}" Directory_="tr_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.VisualBasic_10_.resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.VisualBasic_11_.resources.dll" ComponentId="{44F284BE-C821-4CC2-BAAB-9A63F45A575E}" Directory_="zhHans_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.VisualBasic_11_.resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.VisualBasic_12_.resources.dll" ComponentId="{AE6FF2B0-11BE-4DFD-8CB5-68DF87FB41CB}" Directory_="zhHant_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.VisualBasic_12_.resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.VisualBasic_1_.resources.dll" ComponentId="{9F61BB5E-3F64-499B-A965-8B11FF646281}" Directory_="de_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.VisualBasic_1_.resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.VisualBasic_2_.resources.dll" ComponentId="{899A2754-9DB8-44D4-9DAF-9B0C7AFA688C}" Directory_="es_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.VisualBasic_2_.resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.VisualBasic_3_.resources.dll" ComponentId="{95E82390-CDF9-40FB-8B38-48DDDEE4290A}" Directory_="fr_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.VisualBasic_3_.resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.VisualBasic_4_.resources.dll" ComponentId="{21660FAD-463D-4924-B5F8-E75E34FAFE65}" Directory_="it_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.VisualBasic_4_.resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.VisualBasic_5_.resources.dll" ComponentId="{7D45EFAD-4615-4D40-9BA1-89D5BE07412F}" Directory_="ja_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.VisualBasic_5_.resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.VisualBasic_6_.resources.dll" ComponentId="{B2744D15-5058-4CFB-80D6-E63FE38AB4CF}" Directory_="ko_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.VisualBasic_6_.resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.VisualBasic_7_.resources.dll" ComponentId="{5454F8B2-03F8-4AEC-B17F-67687F139DCD}" Directory_="pl_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.VisualBasic_7_.resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.VisualBasic_8_.resources.dll" ComponentId="{0793C028-36C4-4D1A-92A5-7C3854E98690}" Directory_="ptBR_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.VisualBasic_8_.resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.VisualBasic_9_.resources.dll" ComponentId="{910B9963-F421-4D39-8A2D-DFAB6463B80D}" Directory_="ru_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.VisualBasic_9_.resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.Workspaces._10_resources.dll" ComponentId="{5E54B61A-9DD8-46A4-8A36-CEC2F3D30F8F}" Directory_="tr_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.Workspaces._10_resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.Workspaces._11_resources.dll" ComponentId="{7B1DC5F3-5C93-4414-A6C3-949ACE10F289}" Directory_="zhHans_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.Workspaces._11_resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.Workspaces._12_resources.dll" ComponentId="{4558DABE-DD06-4A5F-9402-D40B6B28E87A}" Directory_="zhHant_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.Workspaces._12_resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.Workspaces._1_resources.dll" ComponentId="{2E95CB6E-A48D-4217-8D76-DCFEE2B0842B}" Directory_="de_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.Workspaces._1_resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.Workspaces._2_resources.dll" ComponentId="{1EFEA1B8-0811-4402-9936-6A65D9BD9833}" Directory_="es_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.Workspaces._2_resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.Workspaces._3_resources.dll" ComponentId="{E2DC7ECC-5446-4BC3-8E0C-4AAD47820D56}" Directory_="fr_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.Workspaces._3_resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.Workspaces._4_resources.dll" ComponentId="{EAA7925F-A155-4DEE-A782-4EC75D002778}" Directory_="it_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.Workspaces._4_resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.Workspaces._5_resources.dll" ComponentId="{9411ED5A-14CF-4870-9196-8357E77DF84B}" Directory_="ja_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.Workspaces._5_resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.Workspaces._6_resources.dll" ComponentId="{E9AEA3D4-B535-4C5F-B1CB-FF0E1D6B8334}" Directory_="ko_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.Workspaces._6_resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.Workspaces._7_resources.dll" ComponentId="{C7716F79-2F02-4324-A64B-29DF0F5A99CE}" Directory_="pl_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.Workspaces._7_resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.Workspaces._8_resources.dll" ComponentId="{1B6AD3F6-A98C-4488-A7FF-D2BD025ED361}" Directory_="ptBR_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.Workspaces._8_resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.Workspaces._9_resources.dll" ComponentId="{A76FDCA1-0867-465B-B1B6-86611315DBF6}" Directory_="ru_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.Workspaces._9_resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.Workspaces.dll" ComponentId="{FA18D595-2726-492D-8E9B-81A521A7BB2A}" Directory_="bin_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.Workspaces.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.Workspaces.resources.dll" ComponentId="{CF48AABC-3071-46BA-A0A6-8427B66A2CDF}" Directory_="cs_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.Workspaces.resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.dll" ComponentId="{E8A36F0C-E927-4BED-B495-8D2FDF0417D8}" Directory_="bin_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.resources.dll" ComponentId="{9ECDA9DA-7609-447F-84C3-2D4EE4B7B6E2}" Directory_="cs_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll"/>
+    <ROW Component="Microsoft.CodeAnalysis.resources.dll_1" ComponentId="{81A7EA07-45AD-49C5-8918-47BD52C1C184}" Directory_="de_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_1"/>
+    <ROW Component="Microsoft.CodeAnalysis.resources.dll_10" ComponentId="{27D9EC0A-5B4F-4DF7-A69A-75DE25036704}" Directory_="tr_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_10"/>
+    <ROW Component="Microsoft.CodeAnalysis.resources.dll_11" ComponentId="{C63E77D3-47D5-45CC-B271-251B437DC7D0}" Directory_="zhHans_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_11"/>
+    <ROW Component="Microsoft.CodeAnalysis.resources.dll_12" ComponentId="{784E55A7-CFED-49A1-AEF9-1B43B243985D}" Directory_="zhHant_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_12"/>
+    <ROW Component="Microsoft.CodeAnalysis.resources.dll_2" ComponentId="{4D7E7545-94CC-4965-BCFF-7C3FD220AFB0}" Directory_="es_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_2"/>
+    <ROW Component="Microsoft.CodeAnalysis.resources.dll_3" ComponentId="{E73BF815-4F0E-487C-8EC3-2C524595BE0F}" Directory_="fr_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_3"/>
+    <ROW Component="Microsoft.CodeAnalysis.resources.dll_4" ComponentId="{C090B77C-575B-4CDB-B7F7-EB26F92FC3DF}" Directory_="it_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_4"/>
+    <ROW Component="Microsoft.CodeAnalysis.resources.dll_5" ComponentId="{3F946926-E3C2-4627-8C5A-ED1CFCF3DE33}" Directory_="ja_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_5"/>
+    <ROW Component="Microsoft.CodeAnalysis.resources.dll_6" ComponentId="{EDF9996D-BA7A-45E3-AE88-24867406DD76}" Directory_="ko_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_6"/>
+    <ROW Component="Microsoft.CodeAnalysis.resources.dll_7" ComponentId="{DA432906-BF2F-4E2A-8162-41E50C69316C}" Directory_="pl_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_7"/>
+    <ROW Component="Microsoft.CodeAnalysis.resources.dll_8" ComponentId="{C9C9AB9E-4EC0-4456-B231-1549EA1FEEBC}" Directory_="ptBR_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_8"/>
+    <ROW Component="Microsoft.CodeAnalysis.resources.dll_9" ComponentId="{EB64ADAC-7F82-40EB-9C1E-AB68F294BBC1}" Directory_="ru_Dir" Attributes="0" KeyPath="Microsoft.CodeAnalysis.resources.dll_9"/>
+    <ROW Component="Microsoft.Extensions.DependencyInjection.Abstractions.dll" ComponentId="{C44F7613-59C3-48E1-925B-3E1E97BEC65D}" Directory_="bin_Dir" Attributes="0" KeyPath="Microsoft.Extensions.DependencyInjection.Abstractions.dll"/>
+    <ROW Component="Microsoft.Extensions.Logging.Abstractions.dll" ComponentId="{2968897D-924B-4CA6-8B3C-9E2526A30C1B}" Directory_="bin_Dir" Attributes="0" KeyPath="Microsoft.Extensions.Logging.Abstractions.dll"/>
+    <ROW Component="Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.dll" ComponentId="{3E186F3C-2746-48FD-AA6E-0DF7FEE7F755}" Directory_="bin_Dir" Attributes="256" KeyPath="Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.dl"/>
+    <ROW Component="Microsoft.VisualBasic.Data.Framework.dll" ComponentId="{FCF6DD39-9F4F-4E77-B595-B9D3EFD90F94}" Directory_="bin_Dir" Attributes="256" KeyPath="Microsoft.VisualBasic.Data.Framework.dll"/>
+    <ROW Component="Microsoft.VisualBasic.Drawing.Windows.dll" ComponentId="{422C61C7-C6EE-4556-A078-D543477D9C31}" Directory_="bin_Dir" Attributes="256" KeyPath="Microsoft.VisualBasic.Drawing.Windows.dll"/>
+    <ROW Component="Microsoft.VisualBasic.Imaging.dll" ComponentId="{E95ACE89-003A-4E28-8CA5-25C1AA217CCC}" Directory_="bin_Dir" Attributes="256" KeyPath="Microsoft.VisualBasic.Imaging.dll"/>
+    <ROW Component="Microsoft.VisualBasic.MIME.Html.dll" ComponentId="{99214081-6028-4740-82B8-A30D3D801F2C}" Directory_="bin_Dir" Attributes="256" KeyPath="Microsoft.VisualBasic.MIME.Html.dll"/>
+    <ROW Component="Microsoft.VisualBasic.MIME.Office.Excel.dll" ComponentId="{4660EFD0-0148-4E8B-A645-37EF5CB92BE3}" Directory_="bin_Dir" Attributes="256" KeyPath="Microsoft.VisualBasic.MIME.Office.Excel.dll"/>
+    <ROW Component="Microsoft.VisualBasic.MIME.application.json.dll" ComponentId="{D938FD06-D15A-4B1A-8437-6F3AD0EC44B9}" Directory_="bin_Dir" Attributes="256" KeyPath="Microsoft.VisualBasic.MIME.application.json.dll"/>
+    <ROW Component="Microsoft.VisualBasic.MIME.text.markdown.dll" ComponentId="{2D85A9C1-99D5-4EF3-8801-2CFCE934D53B}" Directory_="bin_Dir" Attributes="256" KeyPath="Microsoft.VisualBasic.MIME.text.markdown.dll"/>
+    <ROW Component="Microsoft.VisualBasic.MIME.text.yaml.dll" ComponentId="{010EA917-1872-4E81-8D68-18ED8A2C394B}" Directory_="bin_Dir" Attributes="256" KeyPath="Microsoft.VisualBasic.MIME.text.yaml.dll"/>
+    <ROW Component="Microsoft.VisualBasic.Math.Core.dll" ComponentId="{BEE290B6-ECA5-44A7-AF74-015398EF3E06}" Directory_="bin_Dir" Attributes="256" KeyPath="Microsoft.VisualBasic.Math.Core.dll"/>
+    <ROW Component="Microsoft.VisualBasic.Runtime.dll" ComponentId="{00420D23-797D-4940-A993-CCBBFC776AA4}" Directory_="bin_Dir" Attributes="256" KeyPath="Microsoft.VisualBasic.Runtime.dll"/>
+    <ROW Component="Microsoft.VisualBasic.Windows.Forms.Console.dll" ComponentId="{DBF59962-E718-4110-B3A5-9B8684901BFD}" Directory_="bin_Dir" Attributes="256" KeyPath="Microsoft.VisualBasic.Windows.Forms.Console.dll"/>
+    <ROW Component="Microsoft.VisualBasic.Windows.Forms.SshClient.dll" ComponentId="{80C564E2-532A-436B-A5D2-0B4366C2759C}" Directory_="bin_Dir" Attributes="256" KeyPath="Microsoft.VisualBasic.Windows.Forms.SshClient.dll"/>
+    <ROW Component="Microsoft.VisualStudio.Windows.Form.dll" ComponentId="{E986B9E8-9F54-4340-9485-9C0F96B917A2}" Directory_="bin_Dir" Attributes="256" KeyPath="Microsoft.VisualStudio.Windows.Form.dll"/>
+    <ROW Component="Microsoft.Web.WebView2.Core.dll" ComponentId="{00BE676D-7BD1-4E72-B6B0-4CED98C4599F}" Directory_="bin_Dir" Attributes="0" KeyPath="Microsoft.Web.WebView2.Core.dll"/>
+    <ROW Component="Microsoft.Web.WebView2.WinForms.dll" ComponentId="{F9AF5486-06B5-47C7-9106-3DD753CAF67C}" Directory_="bin_Dir" Attributes="0" KeyPath="Microsoft.Web.WebView2.WinForms.dll"/>
+    <ROW Component="Microsoft.Web.WebView2.Wpf.dll" ComponentId="{32BAC251-7B95-4008-9DEF-802FFC1841EA}" Directory_="bin_Dir" Attributes="0" KeyPath="Microsoft.Web.WebView2.Wpf.dll"/>
+    <ROW Component="Microsoft.Windows.FeatureAPI.dll" ComponentId="{32FB77D7-A72E-442D-81AB-43E1E63DD356}" Directory_="bin_Dir" Attributes="256" KeyPath="Microsoft.Windows.FeatureAPI.dll"/>
+    <ROW Component="Microsoft.Windows.Ribbon.dll" ComponentId="{FF36410E-45FD-4AF1-845B-33D4C1383624}" Directory_="bin_Dir" Attributes="0" KeyPath="Microsoft.Windows.Ribbon.dll"/>
+    <ROW Component="Ollama.dll" ComponentId="{653CF34A-BE07-4C0B-9D14-EFAE2735F820}" Directory_="bin_Dir" Attributes="256" KeyPath="Ollama.dll"/>
+    <ROW Component="ProductInformation" ComponentId="{BD951730-A676-4828-A1DE-22024A531D66}" Directory_="APPDIR" Attributes="260" KeyPath="Version"/>
+    <ROW Component="REnv.dll" ComponentId="{230D7D1C-4991-4341-A3C0-FB937698668A}" Directory_="bin_Dir" Attributes="256" KeyPath="REnv.dll"/>
+    <ROW Component="Renci.SshNet.dll" ComponentId="{FD9724D5-EC8D-469E-B1C5-7703B4A0657A}" Directory_="bin_Dir" Attributes="0" KeyPath="Renci.SshNet.dll"/>
+    <ROW Component="SHORTCUTDIR" ComponentId="{55FA154C-6275-4B7B-89D2-171A22BD23C5}" Directory_="SHORTCUTDIR" Attributes="0"/>
+    <ROW Component="SshClient.dll" ComponentId="{D74E698A-6689-41AF-A778-4BF7D6B40983}" Directory_="bin_Dir" Attributes="256" KeyPath="SshClient.dll"/>
+    <ROW Component="SshClient.exe" ComponentId="{6D81B45F-5E55-4D7E-A647-1469FEBDC547}" Directory_="bin_Dir" Attributes="256" KeyPath="SshClient.exe"/>
+    <ROW Component="System.Composition.AttributedModel.dll" ComponentId="{A51F5210-B14E-4CAD-903C-F230D2F62109}" Directory_="bin_Dir" Attributes="0" KeyPath="System.Composition.AttributedModel.dll"/>
+    <ROW Component="System.Composition.Convention.dll" ComponentId="{99948997-DE32-4187-B9E8-6573B8FCF4A1}" Directory_="bin_Dir" Attributes="0" KeyPath="System.Composition.Convention.dll"/>
+    <ROW Component="System.Composition.Hosting.dll" ComponentId="{1393D08F-7084-491B-A79B-577F2C8B6C91}" Directory_="bin_Dir" Attributes="0" KeyPath="System.Composition.Hosting.dll"/>
+    <ROW Component="System.Composition.Runtime.dll" ComponentId="{A9197083-8D38-46A5-8A65-86FB02A39A3A}" Directory_="bin_Dir" Attributes="0" KeyPath="System.Composition.Runtime.dll"/>
+    <ROW Component="System.Composition.TypedParts.dll" ComponentId="{E5CC5D69-CA09-4B28-88AA-727C638ED78F}" Directory_="bin_Dir" Attributes="0" KeyPath="System.Composition.TypedParts.dll"/>
+    <ROW Component="System.Management.dll" ComponentId="{DD1981E6-24C7-4D54-B786-C59C8F7BF856}" Directory_="net10.0_Dir" Attributes="0" KeyPath="System.Management.dll"/>
+    <ROW Component="System.Management.dll_1" ComponentId="{2123F1F9-D0E9-418C-8B9D-9CB8AF296D3F}" Directory_="bin_Dir" Attributes="0" KeyPath="System.Management.dll_1"/>
+    <ROW Component="System.Reflection.MetadataLoadContext.dll" ComponentId="{9C62A51B-B930-46B7-8760-A44C70BD2B58}" Directory_="bin_Dir" Attributes="0" KeyPath="System.Reflection.MetadataLoadContext.dll"/>
+    <ROW Component="ThemeVS2015.dll" ComponentId="{9D1D92B7-101B-4B15-A56E-7E688DCCDF7F}" Directory_="bin_Dir" Attributes="256" KeyPath="ThemeVS2015.dll"/>
+    <ROW Component="Vallina.dll" ComponentId="{9D186DE9-6A02-4FB7-BFF6-215FFCA1C29D}" Directory_="bin_Dir" Attributes="256" KeyPath="Vallina.dll"/>
+    <ROW Component="Vallina.exe" ComponentId="{AD96F135-C9BF-4141-9863-E01108771640}" Directory_="bin_Dir" Attributes="256" KeyPath="Vallina.exe"/>
+    <ROW Component="WebView2Loader.dll" ComponentId="{5167AC40-1EE8-4632-8AEF-1763BE7F39EF}" Directory_="native_Dir" Attributes="256" KeyPath="WebView2Loader.dll"/>
+    <ROW Component="WebView2Loader.dll_1" ComponentId="{B578A38D-34EC-470B-8718-57620C765353}" Directory_="native_1_Dir" Attributes="256" KeyPath="WebView2Loader.dll_1"/>
+    <ROW Component="WebView2Loader.dll_2" ComponentId="{95B6E658-D06D-4B0F-A5CE-F93CB8B70701}" Directory_="native_2_Dir" Attributes="0" KeyPath="WebView2Loader.dll_2"/>
+    <ROW Component="WebView2UI.dll" ComponentId="{89CB8C72-0DD5-4C33-A967-3DEE5C80535D}" Directory_="bin_Dir" Attributes="256" KeyPath="WebView2UI.dll"/>
+    <ROW Component="_" ComponentId="{6D2292D0-AC1C-41B2-857A-C9BB3C0A307A}" Directory_="__Dir" Attributes="0"/>
+    <ROW Component="about.css" ComponentId="{2B052E41-E4E4-4119-81F2-F9A5A3613601}" Directory_="css_Dir" Attributes="0" KeyPath="about.css" Type="0"/>
+    <ROW Component="about.html" ComponentId="{49596597-0812-4FAE-AC2F-B5208E6B2810}" Directory_="apps_Dir" Attributes="0" KeyPath="about.html" Type="0"/>
+    <ROW Component="appicon.png" ComponentId="{D539E45F-DB09-4ED2-969B-250501896F1C}" Directory_="assets_Dir" Attributes="0" KeyPath="appicon.png" Type="0"/>
+    <ROW Component="devkit.js" ComponentId="{1598AFEC-0D1F-4785-90F9-EDB03A3EDD5C}" Directory_="dist_Dir" Attributes="0" KeyPath="devkit.js" Type="0"/>
+    <ROW Component="devkit.ts" ComponentId="{FCC6AEBE-EDF0-457F-B68A-6D8A38514039}" Directory_="src_Dir" Attributes="0" KeyPath="devkit.ts" Type="0"/>
+    <ROW Component="esbuild" ComponentId="{29D5886F-90EE-4FD5-B0EB-4BBE221D0FA2}" Directory_="bin_1_Dir" Attributes="0" KeyPath="esbuild" Type="0"/>
+    <ROW Component="esbuild.exe" ComponentId="{EB14084B-D73D-4816-8845-5F86018F6949}" Directory_="win32x64_Dir" Attributes="256" KeyPath="esbuild.exe"/>
+    <ROW Component="esbuild_1" ComponentId="{23998FD2-F3DA-4589-B188-11C695670155}" Directory_="bin_2_Dir" Attributes="0" KeyPath="esbuild_1" Type="0"/>
+    <ROW Component="fixeditorlinedisplay_7aac6796.md" ComponentId="{0B8EE906-042A-4C3E-AA7E-E5823B75831D}" Directory_="plans_Dir" Attributes="0" KeyPath="fixeditorlinedisplay_7aac6796.md" Type="0"/>
+    <ROW Component="install.js" ComponentId="{0AFDAC8E-3795-4388-AF00-8031E5826185}" Directory_="esbuild_1_Dir" Attributes="0" KeyPath="install.js" Type="0"/>
+    <ROW Component="main.d.ts" ComponentId="{B957B106-C05A-4C97-9037-F7F0E3ED1865}" Directory_="lib_1_Dir" Attributes="0" KeyPath="main.d.ts" Type="0"/>
+    <ROW Component="package.json" ComponentId="{D46D42DF-E957-4C7A-B254-D623B8BD8CB0}" Directory_="win32x64_Dir" Attributes="0" KeyPath="package.json" Type="0"/>
+    <ROW Component="packagelock.json" ComponentId="{D86E5759-B773-4345-95E1-1D4436FB1895}" Directory_="node_modules_Dir" Attributes="0" KeyPath="packagelock.json" Type="0"/>
+    <ROW Component="settings.json" ComponentId="{7BD4A18D-E2D0-45BF-9DA9-519164895FF3}" Directory_="vscode_Dir" Attributes="0" KeyPath="settings.json" Type="0"/>
+    <ROW Component="settings.json_1" ComponentId="{415351AF-94CB-45BC-9693-0D5EE04E5659}" Directory_="vscode_1_Dir" Attributes="0" KeyPath="settings.json_1" Type="0"/>
+    <ROW Component="themes" ComponentId="{A0A1FBF6-E67C-4BFA-8137-639BC70BABF9}" Directory_="themes_Dir" Attributes="0"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
     <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0"/>
     <ATTRIBUTE name="CurrentFeature" value="MainFeature"/>
   </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
+    <ROW File="BouncyCastle.Cryptography.dll" Component_="BouncyCastle.Cryptography.dll" FileName="BOUNCY~1.DLL|BouncyCastle.Cryptography.dll" Attributes="0" SourcePath="..\dist\bin\BouncyCastle.Cryptography.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.resources.dll" Component_="Microsoft.CodeAnalysis.resources.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\dist\bin\cs\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.VisualBasic.resources.dll" Component_="Microsoft.CodeAnalysis.VisualBasic.resources.dll" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.VisualBasic.resources.dll" Attributes="0" SourcePath="..\dist\bin\cs\Microsoft.CodeAnalysis.VisualBasic.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.Workspaces.resources.dll" Component_="Microsoft.CodeAnalysis.Workspaces.resources.dll" FileName="MICROS~3.DLL|Microsoft.CodeAnalysis.Workspaces.resources.dll" Attributes="0" SourcePath="..\dist\bin\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.resources.dll_1" Component_="Microsoft.CodeAnalysis.resources.dll_1" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\dist\bin\de\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.VisualBasic_1_.resources.dll" Component_="Microsoft.CodeAnalysis.VisualBasic_1_.resources.dll" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.VisualBasic.resources.dll" Attributes="0" SourcePath="..\dist\bin\de\Microsoft.CodeAnalysis.VisualBasic.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.Workspaces._1_resources.dll" Component_="Microsoft.CodeAnalysis.Workspaces._1_resources.dll" FileName="MICROS~3.DLL|Microsoft.CodeAnalysis.Workspaces.resources.dll" Attributes="0" SourcePath="..\dist\bin\de\Microsoft.CodeAnalysis.Workspaces.resources.dll" SelfReg="false"/>
+    <ROW File="DevAgent.deps.json" Component_="DevAgent.deps.json" FileName="DEVAGE~1.JSO|DevAgent.deps.json" Attributes="0" SourcePath="..\dist\bin\DevAgent.deps.json" SelfReg="false"/>
+    <ROW File="DevAgent.dll" Component_="DevAgent.dll" FileName="DevAgent.dll" Attributes="0" SourcePath="..\dist\bin\DevAgent.dll" SelfReg="false"/>
+    <ROW File="DevAgent.exe" Component_="DevAgent.exe" FileName="DevAgent.exe" Attributes="0" SourcePath="..\dist\bin\DevAgent.exe" SelfReg="false" DigSign="true"/>
+    <ROW File="devagent.ini" Component_="DevAgent.deps.json" FileName="devagent.ini" Attributes="0" SourcePath="..\dist\bin\devagent.ini" SelfReg="false"/>
+    <ROW File="DevAgent.pdb" Component_="DevAgent.exe" FileName="DevAgent.pdb" Attributes="0" SourcePath="..\dist\bin\DevAgent.pdb" SelfReg="false"/>
+    <ROW File="DevAgent.runtimeconfig.json" Component_="DevAgent.deps.json" FileName="DEVAGE~2.JSO|DevAgent.runtimeconfig.json" Attributes="0" SourcePath="..\dist\bin\DevAgent.runtimeconfig.json" SelfReg="false"/>
+    <ROW File="DevAgent.xml" Component_="DevAgent.deps.json" FileName="DevAgent.xml" Attributes="0" SourcePath="..\dist\bin\DevAgent.xml" SelfReg="false"/>
+    <ROW File="Galaxy.Workbench.resources.dll" Component_="Galaxy.Workbench.resources.dll" FileName="GALAXY~1.DLL|Galaxy.Workbench.resources.dll" Attributes="0" SourcePath="..\dist\bin\en-US\Galaxy.Workbench.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.resources.dll_2" Component_="Microsoft.CodeAnalysis.resources.dll_2" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\dist\bin\es\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.VisualBasic_2_.resources.dll" Component_="Microsoft.CodeAnalysis.VisualBasic_2_.resources.dll" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.VisualBasic.resources.dll" Attributes="0" SourcePath="..\dist\bin\es\Microsoft.CodeAnalysis.VisualBasic.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.Workspaces._2_resources.dll" Component_="Microsoft.CodeAnalysis.Workspaces._2_resources.dll" FileName="MICROS~3.DLL|Microsoft.CodeAnalysis.Workspaces.resources.dll" Attributes="0" SourcePath="..\dist\bin\es\Microsoft.CodeAnalysis.Workspaces.resources.dll" SelfReg="false"/>
+    <ROW File="Flute.Http.dll" Component_="Flute.Http.dll" FileName="FLUTEH~1.DLL|Flute.Http.dll" Attributes="0" SourcePath="..\dist\bin\Flute.Http.dll" SelfReg="false"/>
+    <ROW File="Flute.Http.pdb" Component_="Flute.Http.dll" FileName="FLUTEH~1.PDB|Flute.Http.pdb" Attributes="0" SourcePath="..\dist\bin\Flute.Http.pdb" SelfReg="false"/>
+    <ROW File="Flute.Http.xml" Component_="DevAgent.deps.json" FileName="FLUTEH~1.XML|Flute.Http.xml" Attributes="0" SourcePath="..\dist\bin\Flute.Http.xml" SelfReg="false"/>
+    <ROW File="Fluteway.deps.json" Component_="DevAgent.deps.json" FileName="FLUTEW~1.JSO|Fluteway.deps.json" Attributes="0" SourcePath="..\dist\bin\Fluteway.deps.json" SelfReg="false"/>
+    <ROW File="Fluteway.dll" Component_="Fluteway.dll" FileName="Fluteway.dll" Attributes="0" SourcePath="..\dist\bin\Fluteway.dll" SelfReg="false"/>
+    <ROW File="Fluteway.exe" Component_="Fluteway.exe" FileName="Fluteway.exe" Attributes="0" SourcePath="..\dist\bin\Fluteway.exe" SelfReg="false" DigSign="true"/>
+    <ROW File="Fluteway.pdb" Component_="Fluteway.exe" FileName="Fluteway.pdb" Attributes="0" SourcePath="..\dist\bin\Fluteway.pdb" SelfReg="false"/>
+    <ROW File="Fluteway.runtimeconfig.json" Component_="DevAgent.deps.json" FileName="FLUTEW~2.JSO|Fluteway.runtimeconfig.json" Attributes="0" SourcePath="..\dist\bin\Fluteway.runtimeconfig.json" SelfReg="false"/>
+    <ROW File="Fluteway.xml" Component_="DevAgent.deps.json" FileName="Fluteway.xml" Attributes="0" SourcePath="..\dist\bin\Fluteway.xml" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.resources.dll_3" Component_="Microsoft.CodeAnalysis.resources.dll_3" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\dist\bin\fr\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.VisualBasic_3_.resources.dll" Component_="Microsoft.CodeAnalysis.VisualBasic_3_.resources.dll" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.VisualBasic.resources.dll" Attributes="0" SourcePath="..\dist\bin\fr\Microsoft.CodeAnalysis.VisualBasic.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.Workspaces._3_resources.dll" Component_="Microsoft.CodeAnalysis.Workspaces._3_resources.dll" FileName="MICROS~3.DLL|Microsoft.CodeAnalysis.Workspaces.resources.dll" Attributes="0" SourcePath="..\dist\bin\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll" SelfReg="false"/>
+    <ROW File="Galaxy.Data.dll" Component_="Galaxy.Data.dll" FileName="GALAXY~1.DLL|Galaxy.Data.dll" Attributes="0" SourcePath="..\dist\bin\Galaxy.Data.dll" SelfReg="false"/>
+    <ROW File="Galaxy.Data.dll.config" Component_="DevAgent.deps.json" FileName="GALAXY~1.CON|Galaxy.Data.dll.config" Attributes="0" SourcePath="..\dist\bin\Galaxy.Data.dll.config" SelfReg="false"/>
+    <ROW File="Galaxy.Data.pdb" Component_="Galaxy.Data.dll" FileName="GALAXY~1.PDB|Galaxy.Data.pdb" Attributes="0" SourcePath="..\dist\bin\Galaxy.Data.pdb" SelfReg="false"/>
+    <ROW File="Galaxy.Data.xml" Component_="DevAgent.deps.json" FileName="GALAXY~1.XML|Galaxy.Data.xml" Attributes="0" SourcePath="..\dist\bin\Galaxy.Data.xml" SelfReg="false"/>
+    <ROW File="Galaxy.Workbench.dll" Component_="Galaxy.Workbench.dll" FileName="GALAXY~2.DLL|Galaxy.Workbench.dll" Attributes="0" SourcePath="..\dist\bin\Galaxy.Workbench.dll" SelfReg="false"/>
+    <ROW File="Galaxy.Workbench.dll.config" Component_="DevAgent.deps.json" FileName="GALAXY~2.CON|Galaxy.Workbench.dll.config" Attributes="0" SourcePath="..\dist\bin\Galaxy.Workbench.dll.config" SelfReg="false"/>
+    <ROW File="Galaxy.Workbench.pdb" Component_="Galaxy.Workbench.dll" FileName="GALAXY~2.PDB|Galaxy.Workbench.pdb" Attributes="0" SourcePath="..\dist\bin\Galaxy.Workbench.pdb" SelfReg="false"/>
+    <ROW File="Galaxy.Workbench.xml" Component_="DevAgent.deps.json" FileName="GALAXY~2.XML|Galaxy.Workbench.xml" Attributes="0" SourcePath="..\dist\bin\Galaxy.Workbench.xml" SelfReg="false"/>
+    <ROW File="Humanizer.dll" Component_="Humanizer.dll" FileName="HUMANI~1.DLL|Humanizer.dll" Attributes="0" SourcePath="..\dist\bin\Humanizer.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.resources.dll_4" Component_="Microsoft.CodeAnalysis.resources.dll_4" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\dist\bin\it\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.VisualBasic_4_.resources.dll" Component_="Microsoft.CodeAnalysis.VisualBasic_4_.resources.dll" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.VisualBasic.resources.dll" Attributes="0" SourcePath="..\dist\bin\it\Microsoft.CodeAnalysis.VisualBasic.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.Workspaces._4_resources.dll" Component_="Microsoft.CodeAnalysis.Workspaces._4_resources.dll" FileName="MICROS~3.DLL|Microsoft.CodeAnalysis.Workspaces.resources.dll" Attributes="0" SourcePath="..\dist\bin\it\Microsoft.CodeAnalysis.Workspaces.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.resources.dll_5" Component_="Microsoft.CodeAnalysis.resources.dll_5" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\dist\bin\ja\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.VisualBasic_5_.resources.dll" Component_="Microsoft.CodeAnalysis.VisualBasic_5_.resources.dll" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.VisualBasic.resources.dll" Attributes="0" SourcePath="..\dist\bin\ja\Microsoft.CodeAnalysis.VisualBasic.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.Workspaces._5_resources.dll" Component_="Microsoft.CodeAnalysis.Workspaces._5_resources.dll" FileName="MICROS~3.DLL|Microsoft.CodeAnalysis.Workspaces.resources.dll" Attributes="0" SourcePath="..\dist\bin\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.resources.dll_6" Component_="Microsoft.CodeAnalysis.resources.dll_6" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\dist\bin\ko\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.VisualBasic_6_.resources.dll" Component_="Microsoft.CodeAnalysis.VisualBasic_6_.resources.dll" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.VisualBasic.resources.dll" Attributes="0" SourcePath="..\dist\bin\ko\Microsoft.CodeAnalysis.VisualBasic.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.Workspaces._6_resources.dll" Component_="Microsoft.CodeAnalysis.Workspaces._6_resources.dll" FileName="MICROS~3.DLL|Microsoft.CodeAnalysis.Workspaces.resources.dll" Attributes="0" SourcePath="..\dist\bin\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll" SelfReg="false"/>
+    <ROW File="LanguageServer.deps.json" Component_="DevAgent.deps.json" FileName="LANGUA~1.JSO|LanguageServer.deps.json" Attributes="0" SourcePath="..\dist\bin\LanguageServer.deps.json" SelfReg="false"/>
+    <ROW File="LanguageServer.dll" Component_="LanguageServer.dll" FileName="LANGUA~1.DLL|LanguageServer.dll" Attributes="0" SourcePath="..\dist\bin\LanguageServer.dll" SelfReg="false"/>
+    <ROW File="LanguageServer.exe" Component_="LanguageServer.exe" FileName="LANGUA~1.EXE|LanguageServer.exe" Attributes="0" SourcePath="..\dist\bin\LanguageServer.exe" SelfReg="false" DigSign="true"/>
+    <ROW File="LanguageServer.pdb" Component_="LanguageServer.exe" FileName="LANGUA~1.PDB|LanguageServer.pdb" Attributes="0" SourcePath="..\dist\bin\LanguageServer.pdb" SelfReg="false"/>
+    <ROW File="LanguageServer.runtimeconfig.json" Component_="DevAgent.deps.json" FileName="LANGUA~2.JSO|LanguageServer.runtimeconfig.json" Attributes="0" SourcePath="..\dist\bin\LanguageServer.runtimeconfig.json" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.dll" Component_="Microsoft.CodeAnalysis.dll" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.dll" Attributes="0" SourcePath="..\dist\bin\Microsoft.CodeAnalysis.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.VisualBasic.dll" Component_="Microsoft.CodeAnalysis.VisualBasic.dll" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.VisualBasic.dll" Attributes="0" SourcePath="..\dist\bin\Microsoft.CodeAnalysis.VisualBasic.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.Workspaces.dll" Component_="Microsoft.CodeAnalysis.Workspaces.dll" FileName="MICROS~3.DLL|Microsoft.CodeAnalysis.Workspaces.dll" Attributes="0" SourcePath="..\dist\bin\Microsoft.CodeAnalysis.Workspaces.dll" SelfReg="false"/>
+    <ROW File="Microsoft.Extensions.DependencyInjection.Abstractions.dll" Component_="Microsoft.Extensions.DependencyInjection.Abstractions.dll" FileName="MICROS~4.DLL|Microsoft.Extensions.DependencyInjection.Abstractions.dll" Attributes="0" SourcePath="..\dist\bin\Microsoft.Extensions.DependencyInjection.Abstractions.dll" SelfReg="false"/>
+    <ROW File="Microsoft.Extensions.Logging.Abstractions.dll" Component_="Microsoft.Extensions.Logging.Abstractions.dll" FileName="MICROS~5.DLL|Microsoft.Extensions.Logging.Abstractions.dll" Attributes="0" SourcePath="..\dist\bin\Microsoft.Extensions.Logging.Abstractions.dll" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.dl" Component_="Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.dll" FileName="MICROS~6.DLL|Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.dll" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.dll" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.pd" Component_="Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.dll" FileName="MICROS~1.PDB|Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.pdb" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.pdb" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.xm" Component_="DevAgent.deps.json" FileName="MICROS~1.XML|Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.xml" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.xml" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.Data.Framework.dll" Component_="Microsoft.VisualBasic.Data.Framework.dll" FileName="MICROS~7.DLL|Microsoft.VisualBasic.Data.Framework.dll" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.Data.Framework.dll" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.Data.Framework.pdb" Component_="Microsoft.VisualBasic.Data.Framework.dll" FileName="MICROS~2.PDB|Microsoft.VisualBasic.Data.Framework.pdb" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.Data.Framework.pdb" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.Data.Framework.xml" Component_="DevAgent.deps.json" FileName="MICROS~2.XML|Microsoft.VisualBasic.Data.Framework.xml" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.Data.Framework.xml" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.Drawing.Windows.dll" Component_="Microsoft.VisualBasic.Drawing.Windows.dll" FileName="MICROS~8.DLL|Microsoft.VisualBasic.Drawing.Windows.dll" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.Drawing.Windows.dll" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.Drawing.Windows.pdb" Component_="Microsoft.VisualBasic.Drawing.Windows.dll" FileName="MICROS~3.PDB|Microsoft.VisualBasic.Drawing.Windows.pdb" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.Drawing.Windows.pdb" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.Drawing.Windows.xml" Component_="DevAgent.deps.json" FileName="MICROS~3.XML|Microsoft.VisualBasic.Drawing.Windows.xml" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.Drawing.Windows.xml" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.Imaging.dll" Component_="Microsoft.VisualBasic.Imaging.dll" FileName="MICROS~9.DLL|Microsoft.VisualBasic.Imaging.dll" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.Imaging.dll" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.Imaging.dll.config" Component_="DevAgent.deps.json" FileName="MICROS~1.CON|Microsoft.VisualBasic.Imaging.dll.config" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.Imaging.dll.config" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.Imaging.pdb" Component_="Microsoft.VisualBasic.Imaging.dll" FileName="MICROS~4.PDB|Microsoft.VisualBasic.Imaging.pdb" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.Imaging.pdb" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.Imaging.xml" Component_="DevAgent.deps.json" FileName="MICROS~4.XML|Microsoft.VisualBasic.Imaging.xml" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.Imaging.xml" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.Math.Core.dll" Component_="Microsoft.VisualBasic.Math.Core.dll" FileName="MICRO~10.DLL|Microsoft.VisualBasic.Math.Core.dll" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.Math.Core.dll" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.Math.Core.dll.config" Component_="DevAgent.deps.json" FileName="MICROS~2.CON|Microsoft.VisualBasic.Math.Core.dll.config" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.Math.Core.dll.config" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.Math.Core.pdb" Component_="Microsoft.VisualBasic.Math.Core.dll" FileName="MICROS~5.PDB|Microsoft.VisualBasic.Math.Core.pdb" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.Math.Core.pdb" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.Math.Core.xml" Component_="DevAgent.deps.json" FileName="MICROS~5.XML|Microsoft.VisualBasic.Math.Core.xml" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.Math.Core.xml" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.MIME.application.json.dll" Component_="Microsoft.VisualBasic.MIME.application.json.dll" FileName="MICRO~11.DLL|Microsoft.VisualBasic.MIME.application.json.dll" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.MIME.application.json.dll" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.MIME.application.json.pdb" Component_="Microsoft.VisualBasic.MIME.application.json.dll" FileName="MICROS~6.PDB|Microsoft.VisualBasic.MIME.application.json.pdb" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.MIME.application.json.pdb" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.MIME.application.json.xml" Component_="DevAgent.deps.json" FileName="MICROS~6.XML|Microsoft.VisualBasic.MIME.application.json.xml" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.MIME.application.json.xml" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.MIME.Html.dll" Component_="Microsoft.VisualBasic.MIME.Html.dll" FileName="MICRO~12.DLL|Microsoft.VisualBasic.MIME.Html.dll" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.MIME.Html.dll" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.MIME.Html.pdb" Component_="Microsoft.VisualBasic.MIME.Html.dll" FileName="MICROS~7.PDB|Microsoft.VisualBasic.MIME.Html.pdb" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.MIME.Html.pdb" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.MIME.Html.xml" Component_="DevAgent.deps.json" FileName="MICROS~7.XML|Microsoft.VisualBasic.MIME.Html.xml" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.MIME.Html.xml" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.MIME.Office.Excel.dll" Component_="Microsoft.VisualBasic.MIME.Office.Excel.dll" FileName="MICRO~13.DLL|Microsoft.VisualBasic.MIME.Office.Excel.dll" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.MIME.Office.Excel.dll" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.MIME.Office.Excel.pdb" Component_="Microsoft.VisualBasic.MIME.Office.Excel.dll" FileName="MICROS~8.PDB|Microsoft.VisualBasic.MIME.Office.Excel.pdb" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.MIME.Office.Excel.pdb" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.MIME.Office.Excel.xml" Component_="DevAgent.deps.json" FileName="MICROS~8.XML|Microsoft.VisualBasic.MIME.Office.Excel.xml" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.MIME.Office.Excel.xml" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.MIME.text.markdown.dll" Component_="Microsoft.VisualBasic.MIME.text.markdown.dll" FileName="MICRO~14.DLL|Microsoft.VisualBasic.MIME.text.markdown.dll" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.MIME.text.markdown.dll" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.MIME.text.markdown.pdb" Component_="Microsoft.VisualBasic.MIME.text.markdown.dll" FileName="MICROS~9.PDB|Microsoft.VisualBasic.MIME.text.markdown.pdb" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.MIME.text.markdown.pdb" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.MIME.text.markdown.xml" Component_="DevAgent.deps.json" FileName="MICROS~9.XML|Microsoft.VisualBasic.MIME.text.markdown.xml" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.MIME.text.markdown.xml" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.MIME.text.yaml.dll" Component_="Microsoft.VisualBasic.MIME.text.yaml.dll" FileName="MICRO~15.DLL|Microsoft.VisualBasic.MIME.text.yaml.dll" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.MIME.text.yaml.dll" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.MIME.text.yaml.pdb" Component_="Microsoft.VisualBasic.MIME.text.yaml.dll" FileName="MICRO~10.PDB|Microsoft.VisualBasic.MIME.text.yaml.pdb" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.MIME.text.yaml.pdb" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.MIME.text.yaml.xml" Component_="DevAgent.deps.json" FileName="MICRO~10.XML|Microsoft.VisualBasic.MIME.text.yaml.xml" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.MIME.text.yaml.xml" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.Runtime.dll" Component_="Microsoft.VisualBasic.Runtime.dll" FileName="MICRO~16.DLL|Microsoft.VisualBasic.Runtime.dll" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.Runtime.dll" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.Runtime.dll.config" Component_="DevAgent.deps.json" FileName="MICROS~3.CON|Microsoft.VisualBasic.Runtime.dll.config" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.Runtime.dll.config" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.Runtime.pdb" Component_="Microsoft.VisualBasic.Runtime.dll" FileName="MICRO~11.PDB|Microsoft.VisualBasic.Runtime.pdb" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.Runtime.pdb" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.Runtime.xml" Component_="DevAgent.deps.json" FileName="MICRO~11.XML|Microsoft.VisualBasic.Runtime.xml" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.Runtime.xml" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.Windows.Forms.Console.dll" Component_="Microsoft.VisualBasic.Windows.Forms.Console.dll" FileName="MICRO~17.DLL|Microsoft.VisualBasic.Windows.Forms.Console.dll" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.Windows.Forms.Console.dll" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.Windows.Forms.Console.pdb" Component_="Microsoft.VisualBasic.Windows.Forms.Console.dll" FileName="MICRO~12.PDB|Microsoft.VisualBasic.Windows.Forms.Console.pdb" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.Windows.Forms.Console.pdb" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.Windows.Forms.Console.xml" Component_="DevAgent.deps.json" FileName="MICRO~12.XML|Microsoft.VisualBasic.Windows.Forms.Console.xml" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.Windows.Forms.Console.xml" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.Windows.Forms.SshClient.dll" Component_="Microsoft.VisualBasic.Windows.Forms.SshClient.dll" FileName="MICRO~18.DLL|Microsoft.VisualBasic.Windows.Forms.SshClient.dll" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.Windows.Forms.SshClient.dll" SelfReg="false"/>
+    <ROW File="Microsoft.VisualBasic.Windows.Forms.SshClient.pdb" Component_="Microsoft.VisualBasic.Windows.Forms.SshClient.dll" FileName="MICRO~13.PDB|Microsoft.VisualBasic.Windows.Forms.SshClient.pdb" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualBasic.Windows.Forms.SshClient.pdb" SelfReg="false"/>
+    <ROW File="Microsoft.VisualStudio.Windows.Form.dll" Component_="Microsoft.VisualStudio.Windows.Form.dll" FileName="MICRO~19.DLL|Microsoft.VisualStudio.Windows.Form.dll" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualStudio.Windows.Form.dll" SelfReg="false"/>
+    <ROW File="Microsoft.VisualStudio.Windows.Form.pdb" Component_="Microsoft.VisualStudio.Windows.Form.dll" FileName="MICRO~14.PDB|Microsoft.VisualStudio.Windows.Form.pdb" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualStudio.Windows.Form.pdb" SelfReg="false"/>
+    <ROW File="Microsoft.VisualStudio.Windows.Form.xml" Component_="DevAgent.deps.json" FileName="MICRO~13.XML|Microsoft.VisualStudio.Windows.Form.xml" Attributes="0" SourcePath="..\dist\bin\Microsoft.VisualStudio.Windows.Form.xml" SelfReg="false"/>
+    <ROW File="Microsoft.Web.WebView2.Core.dll" Component_="Microsoft.Web.WebView2.Core.dll" FileName="MICRO~20.DLL|Microsoft.Web.WebView2.Core.dll" Attributes="0" SourcePath="..\dist\bin\Microsoft.Web.WebView2.Core.dll" SelfReg="false"/>
+    <ROW File="Microsoft.Web.WebView2.Core.xml" Component_="DevAgent.deps.json" FileName="MICRO~14.XML|Microsoft.Web.WebView2.Core.xml" Attributes="0" SourcePath="..\dist\bin\Microsoft.Web.WebView2.Core.xml" SelfReg="false"/>
+    <ROW File="Microsoft.Web.WebView2.WinForms.dll" Component_="Microsoft.Web.WebView2.WinForms.dll" FileName="MICRO~21.DLL|Microsoft.Web.WebView2.WinForms.dll" Attributes="0" SourcePath="..\dist\bin\Microsoft.Web.WebView2.WinForms.dll" SelfReg="false"/>
+    <ROW File="Microsoft.Web.WebView2.WinForms.xml" Component_="DevAgent.deps.json" FileName="MICRO~15.XML|Microsoft.Web.WebView2.WinForms.xml" Attributes="0" SourcePath="..\dist\bin\Microsoft.Web.WebView2.WinForms.xml" SelfReg="false"/>
+    <ROW File="Microsoft.Web.WebView2.Wpf.dll" Component_="Microsoft.Web.WebView2.Wpf.dll" FileName="MICRO~22.DLL|Microsoft.Web.WebView2.Wpf.dll" Attributes="0" SourcePath="..\dist\bin\Microsoft.Web.WebView2.Wpf.dll" SelfReg="false"/>
+    <ROW File="Microsoft.Web.WebView2.Wpf.xml" Component_="DevAgent.deps.json" FileName="MICRO~16.XML|Microsoft.Web.WebView2.Wpf.xml" Attributes="0" SourcePath="..\dist\bin\Microsoft.Web.WebView2.Wpf.xml" SelfReg="false"/>
+    <ROW File="Microsoft.Windows.FeatureAPI.dll" Component_="Microsoft.Windows.FeatureAPI.dll" FileName="MICRO~23.DLL|Microsoft.Windows.FeatureAPI.dll" Attributes="0" SourcePath="..\dist\bin\Microsoft.Windows.FeatureAPI.dll" SelfReg="false"/>
+    <ROW File="Microsoft.Windows.FeatureAPI.pdb" Component_="Microsoft.Windows.FeatureAPI.dll" FileName="MICRO~15.PDB|Microsoft.Windows.FeatureAPI.pdb" Attributes="0" SourcePath="..\dist\bin\Microsoft.Windows.FeatureAPI.pdb" SelfReg="false"/>
+    <ROW File="Microsoft.Windows.FeatureAPI.xml" Component_="DevAgent.deps.json" FileName="MICRO~17.XML|Microsoft.Windows.FeatureAPI.xml" Attributes="0" SourcePath="..\dist\bin\Microsoft.Windows.FeatureAPI.xml" SelfReg="false"/>
+    <ROW File="Microsoft.Windows.Ribbon.dll" Component_="Microsoft.Windows.Ribbon.dll" FileName="MICRO~24.DLL|Microsoft.Windows.Ribbon.dll" Attributes="0" SourcePath="..\dist\bin\Microsoft.Windows.Ribbon.dll" SelfReg="false"/>
+    <ROW File="Microsoft.Windows.Ribbon.pdb" Component_="Microsoft.Windows.Ribbon.dll" FileName="MICRO~16.PDB|Microsoft.Windows.Ribbon.pdb" Attributes="0" SourcePath="..\dist\bin\Microsoft.Windows.Ribbon.pdb" SelfReg="false"/>
+    <ROW File="Microsoft.Windows.Ribbon.xml" Component_="DevAgent.deps.json" FileName="MICRO~18.XML|Microsoft.Windows.Ribbon.xml" Attributes="0" SourcePath="..\dist\bin\Microsoft.Windows.Ribbon.xml" SelfReg="false"/>
+    <ROW File="Ollama.dll" Component_="Ollama.dll" FileName="Ollama.dll" Attributes="0" SourcePath="..\dist\bin\Ollama.dll" SelfReg="false"/>
+    <ROW File="Ollama.pdb" Component_="Ollama.dll" FileName="Ollama.pdb" Attributes="0" SourcePath="..\dist\bin\Ollama.pdb" SelfReg="false"/>
+    <ROW File="Ollama.xml" Component_="DevAgent.deps.json" FileName="Ollama.xml" Attributes="0" SourcePath="..\dist\bin\Ollama.xml" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.resources.dll_7" Component_="Microsoft.CodeAnalysis.resources.dll_7" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\dist\bin\pl\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.VisualBasic_7_.resources.dll" Component_="Microsoft.CodeAnalysis.VisualBasic_7_.resources.dll" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.VisualBasic.resources.dll" Attributes="0" SourcePath="..\dist\bin\pl\Microsoft.CodeAnalysis.VisualBasic.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.Workspaces._7_resources.dll" Component_="Microsoft.CodeAnalysis.Workspaces._7_resources.dll" FileName="MICROS~3.DLL|Microsoft.CodeAnalysis.Workspaces.resources.dll" Attributes="0" SourcePath="..\dist\bin\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.resources.dll_8" Component_="Microsoft.CodeAnalysis.resources.dll_8" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\dist\bin\pt-BR\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.VisualBasic_8_.resources.dll" Component_="Microsoft.CodeAnalysis.VisualBasic_8_.resources.dll" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.VisualBasic.resources.dll" Attributes="0" SourcePath="..\dist\bin\pt-BR\Microsoft.CodeAnalysis.VisualBasic.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.Workspaces._8_resources.dll" Component_="Microsoft.CodeAnalysis.Workspaces._8_resources.dll" FileName="MICROS~3.DLL|Microsoft.CodeAnalysis.Workspaces.resources.dll" Attributes="0" SourcePath="..\dist\bin\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll" SelfReg="false"/>
+    <ROW File="Renci.SshNet.dll" Component_="Renci.SshNet.dll" FileName="RENCIS~1.DLL|Renci.SshNet.dll" Attributes="0" SourcePath="..\dist\bin\Renci.SshNet.dll" SelfReg="false"/>
+    <ROW File="REnv.dll" Component_="REnv.dll" FileName="REnv.dll" Attributes="0" SourcePath="..\dist\bin\REnv.dll" SelfReg="false"/>
+    <ROW File="REnv.dll.config" Component_="DevAgent.deps.json" FileName="RENVDL~1.CON|REnv.dll.config" Attributes="0" SourcePath="..\dist\bin\REnv.dll.config" SelfReg="false"/>
+    <ROW File="REnv.pdb" Component_="REnv.dll" FileName="REnv.pdb" Attributes="0" SourcePath="..\dist\bin\REnv.pdb" SelfReg="false"/>
+    <ROW File="REnv.xml" Component_="DevAgent.deps.json" FileName="REnv.xml" Attributes="0" SourcePath="..\dist\bin\REnv.xml" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.resources.dll_9" Component_="Microsoft.CodeAnalysis.resources.dll_9" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\dist\bin\ru\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.VisualBasic_9_.resources.dll" Component_="Microsoft.CodeAnalysis.VisualBasic_9_.resources.dll" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.VisualBasic.resources.dll" Attributes="0" SourcePath="..\dist\bin\ru\Microsoft.CodeAnalysis.VisualBasic.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.Workspaces._9_resources.dll" Component_="Microsoft.CodeAnalysis.Workspaces._9_resources.dll" FileName="MICROS~3.DLL|Microsoft.CodeAnalysis.Workspaces.resources.dll" Attributes="0" SourcePath="..\dist\bin\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll" SelfReg="false"/>
+    <ROW File="System.Management.dll" Component_="System.Management.dll" FileName="SYSTEM~1.DLL|System.Management.dll" Attributes="0" SourcePath="..\dist\bin\runtimes\win\lib\net10.0\System.Management.dll" SelfReg="false"/>
+    <ROW File="WebView2Loader.dll" Component_="WebView2Loader.dll" FileName="WEBVIE~1.DLL|WebView2Loader.dll" Attributes="0" SourcePath="..\dist\bin\runtimes\win-arm64\native\WebView2Loader.dll" SelfReg="false"/>
+    <ROW File="WebView2Loader.dll_1" Component_="WebView2Loader.dll_1" FileName="WEBVIE~1.DLL|WebView2Loader.dll" Attributes="0" SourcePath="..\dist\bin\runtimes\win-x64\native\WebView2Loader.dll" SelfReg="false"/>
+    <ROW File="WebView2Loader.dll_2" Component_="WebView2Loader.dll_2" FileName="WEBVIE~1.DLL|WebView2Loader.dll" Attributes="0" SourcePath="..\dist\bin\runtimes\win-x86\native\WebView2Loader.dll" SelfReg="false"/>
+    <ROW File="SshClient.deps.json" Component_="DevAgent.deps.json" FileName="SSHCLI~1.JSO|SshClient.deps.json" Attributes="0" SourcePath="..\dist\bin\SshClient.deps.json" SelfReg="false"/>
+    <ROW File="SshClient.dll" Component_="SshClient.dll" FileName="SSHCLI~1.DLL|SshClient.dll" Attributes="0" SourcePath="..\dist\bin\SshClient.dll" SelfReg="false"/>
+    <ROW File="SshClient.exe" Component_="SshClient.exe" FileName="SSHCLI~1.EXE|SshClient.exe" Attributes="0" SourcePath="..\dist\bin\SshClient.exe" SelfReg="false" DigSign="true"/>
+    <ROW File="SshClient.pdb" Component_="SshClient.exe" FileName="SSHCLI~1.PDB|SshClient.pdb" Attributes="0" SourcePath="..\dist\bin\SshClient.pdb" SelfReg="false"/>
+    <ROW File="SshClient.runtimeconfig.json" Component_="DevAgent.deps.json" FileName="SSHCLI~2.JSO|SshClient.runtimeconfig.json" Attributes="0" SourcePath="..\dist\bin\SshClient.runtimeconfig.json" SelfReg="false"/>
+    <ROW File="System.Composition.AttributedModel.dll" Component_="System.Composition.AttributedModel.dll" FileName="SYSTEM~1.DLL|System.Composition.AttributedModel.dll" Attributes="0" SourcePath="..\dist\bin\System.Composition.AttributedModel.dll" SelfReg="false"/>
+    <ROW File="System.Composition.Convention.dll" Component_="System.Composition.Convention.dll" FileName="SYSTEM~2.DLL|System.Composition.Convention.dll" Attributes="0" SourcePath="..\dist\bin\System.Composition.Convention.dll" SelfReg="false"/>
+    <ROW File="System.Composition.Hosting.dll" Component_="System.Composition.Hosting.dll" FileName="SYSTEM~3.DLL|System.Composition.Hosting.dll" Attributes="0" SourcePath="..\dist\bin\System.Composition.Hosting.dll" SelfReg="false"/>
+    <ROW File="System.Composition.Runtime.dll" Component_="System.Composition.Runtime.dll" FileName="SYSTEM~4.DLL|System.Composition.Runtime.dll" Attributes="0" SourcePath="..\dist\bin\System.Composition.Runtime.dll" SelfReg="false"/>
+    <ROW File="System.Composition.TypedParts.dll" Component_="System.Composition.TypedParts.dll" FileName="SYSTEM~5.DLL|System.Composition.TypedParts.dll" Attributes="0" SourcePath="..\dist\bin\System.Composition.TypedParts.dll" SelfReg="false"/>
+    <ROW File="System.Management.dll_1" Component_="System.Management.dll_1" FileName="SYSTEM~6.DLL|System.Management.dll" Attributes="0" SourcePath="..\dist\bin\System.Management.dll" SelfReg="false"/>
+    <ROW File="System.Reflection.MetadataLoadContext.dll" Component_="System.Reflection.MetadataLoadContext.dll" FileName="SYSTEM~7.DLL|System.Reflection.MetadataLoadContext.dll" Attributes="0" SourcePath="..\dist\bin\System.Reflection.MetadataLoadContext.dll" SelfReg="false"/>
+    <ROW File="ThemeVS2015.dll" Component_="ThemeVS2015.dll" FileName="THEMEV~1.DLL|ThemeVS2015.dll" Attributes="0" SourcePath="..\dist\bin\ThemeVS2015.dll" SelfReg="false"/>
+    <ROW File="ThemeVS2015.pdb" Component_="ThemeVS2015.dll" FileName="THEMEV~1.PDB|ThemeVS2015.pdb" Attributes="0" SourcePath="..\dist\bin\ThemeVS2015.pdb" SelfReg="false"/>
+    <ROW File="ThemeVS2015.xml" Component_="DevAgent.deps.json" FileName="THEMEV~1.XML|ThemeVS2015.xml" Attributes="0" SourcePath="..\dist\bin\ThemeVS2015.xml" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.resources.dll_10" Component_="Microsoft.CodeAnalysis.resources.dll_10" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\dist\bin\tr\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.VisualBasic_10_.resources.dll" Component_="Microsoft.CodeAnalysis.VisualBasic_10_.resources.dll" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.VisualBasic.resources.dll" Attributes="0" SourcePath="..\dist\bin\tr\Microsoft.CodeAnalysis.VisualBasic.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.Workspaces._10_resources.dll" Component_="Microsoft.CodeAnalysis.Workspaces._10_resources.dll" FileName="MICROS~3.DLL|Microsoft.CodeAnalysis.Workspaces.resources.dll" Attributes="0" SourcePath="..\dist\bin\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll" SelfReg="false"/>
+    <ROW File="Vallina.deps.json" Component_="DevAgent.deps.json" FileName="VALLIN~1.JSO|Vallina.deps.json" Attributes="0" SourcePath="..\dist\bin\Vallina.deps.json" SelfReg="false"/>
+    <ROW File="Vallina.dll" Component_="Vallina.dll" FileName="Vallina.dll" Attributes="0" SourcePath="..\dist\bin\Vallina.dll" SelfReg="false"/>
+    <ROW File="Vallina.exe" Component_="Vallina.exe" FileName="Vallina.exe" Attributes="0" SourcePath="..\dist\bin\Vallina.exe" SelfReg="false" DigSign="true"/>
+    <ROW File="Vallina.pdb" Component_="Vallina.exe" FileName="Vallina.pdb" Attributes="0" SourcePath="..\dist\bin\Vallina.pdb" SelfReg="false"/>
+    <ROW File="Vallina.runtimeconfig.json" Component_="DevAgent.deps.json" FileName="VALLIN~2.JSO|Vallina.runtimeconfig.json" Attributes="0" SourcePath="..\dist\bin\Vallina.runtimeconfig.json" SelfReg="false"/>
+    <ROW File="Vallina.xml" Component_="DevAgent.deps.json" FileName="Vallina.xml" Attributes="0" SourcePath="..\dist\bin\Vallina.xml" SelfReg="false"/>
+    <ROW File="WebView2UI.dll" Component_="WebView2UI.dll" FileName="WEBVIE~1.DLL|WebView2UI.dll" Attributes="0" SourcePath="..\dist\bin\WebView2UI.dll" SelfReg="false"/>
+    <ROW File="WebView2UI.pdb" Component_="WebView2UI.dll" FileName="WEBVIE~1.PDB|WebView2UI.pdb" Attributes="0" SourcePath="..\dist\bin\WebView2UI.pdb" SelfReg="false"/>
+    <ROW File="WebView2UI.xml" Component_="DevAgent.deps.json" FileName="WEBVIE~1.XML|WebView2UI.xml" Attributes="0" SourcePath="..\dist\bin\WebView2UI.xml" SelfReg="false"/>
+    <ROW File="Galaxy.Data.resources.dll" Component_="Galaxy.Data.resources.dll" FileName="GALAXY~1.DLL|Galaxy.Data.resources.dll" Attributes="0" SourcePath="..\dist\bin\zh-CN\Galaxy.Data.resources.dll" SelfReg="false"/>
+    <ROW File="Galaxy.Workbench.resources.dll_1" Component_="Galaxy.Workbench.resources.dll_1" FileName="GALAXY~1.DLL|Galaxy.Workbench.resources.dll" Attributes="0" SourcePath="..\dist\bin\zh-Hans\Galaxy.Workbench.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.resources.dll_11" Component_="Microsoft.CodeAnalysis.resources.dll_11" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\dist\bin\zh-Hans\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.VisualBasic_11_.resources.dll" Component_="Microsoft.CodeAnalysis.VisualBasic_11_.resources.dll" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.VisualBasic.resources.dll" Attributes="0" SourcePath="..\dist\bin\zh-Hans\Microsoft.CodeAnalysis.VisualBasic.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.Workspaces._11_resources.dll" Component_="Microsoft.CodeAnalysis.Workspaces._11_resources.dll" FileName="MICROS~3.DLL|Microsoft.CodeAnalysis.Workspaces.resources.dll" Attributes="0" SourcePath="..\dist\bin\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.resources.dll_12" Component_="Microsoft.CodeAnalysis.resources.dll_12" FileName="MICROS~1.DLL|Microsoft.CodeAnalysis.resources.dll" Attributes="0" SourcePath="..\dist\bin\zh-Hant\Microsoft.CodeAnalysis.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.VisualBasic_12_.resources.dll" Component_="Microsoft.CodeAnalysis.VisualBasic_12_.resources.dll" FileName="MICROS~2.DLL|Microsoft.CodeAnalysis.VisualBasic.resources.dll" Attributes="0" SourcePath="..\dist\bin\zh-Hant\Microsoft.CodeAnalysis.VisualBasic.resources.dll" SelfReg="false"/>
+    <ROW File="Microsoft.CodeAnalysis.Workspaces._12_resources.dll" Component_="Microsoft.CodeAnalysis.Workspaces._12_resources.dll" FileName="MICROS~3.DLL|Microsoft.CodeAnalysis.Workspaces.resources.dll" Attributes="0" SourcePath="..\dist\bin\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll" SelfReg="false"/>
+    <ROW File="Galaxy.Data.resources.dll_1" Component_="Galaxy.Data.resources.dll_1" FileName="GALAXY~1.DLL|Galaxy.Data.resources.dll" Attributes="0" SourcePath="..\dist\bin\zh-HK\Galaxy.Data.resources.dll" SelfReg="false"/>
+    <ROW File="Galaxy.Workbench.resources.dll_2" Component_="Galaxy.Workbench.resources.dll_2" FileName="GALAXY~2.DLL|Galaxy.Workbench.resources.dll" Attributes="0" SourcePath="..\dist\bin\zh-HK\Galaxy.Workbench.resources.dll" SelfReg="false"/>
+    <ROW File="fixeditorlinedisplay_7aac6796.md" Component_="fixeditorlinedisplay_7aac6796.md" FileName="FIX-ED~1.MD|fix-editor-line-display_7aac6796.md" Attributes="0" SourcePath="..\code-editor\.codebuddy\plans\fix-editor-line-display_7aac6796.md" SelfReg="false"/>
+    <ROW File="fixmultilinestringsrandvbnet_852874ee.md" Component_="fixeditorlinedisplay_7aac6796.md" FileName="FIX-MU~1.MD|fix-multiline-strings-r-and-vbnet_852874ee.md" Attributes="0" SourcePath="..\code-editor\.codebuddy\plans\fix-multiline-strings-r-and-vbnet_852874ee.md" SelfReg="false"/>
+    <ROW File="fixrmultilinestrings_317e5eec.md" Component_="fixeditorlinedisplay_7aac6796.md" FileName="FIX-R-~1.MD|fix-r-multiline-strings_317e5eec(未完成).md" Attributes="0" SourcePath="..\code-editor\.codebuddy\plans\fix-r-multiline-strings_317e5eec(未完成).md" SelfReg="false"/>
+    <ROW File="fixvbnetinterpolatedstring_56276420.md" Component_="fixeditorlinedisplay_7aac6796.md" FileName="FIX-VB~1.MD|fix-vbnet-interpolated-string_56276420.md" Attributes="0" SourcePath="..\code-editor\.codebuddy\plans\fix-vbnet-interpolated-string_56276420.md" SelfReg="false"/>
+    <ROW File="gitdiffviewer_475a1e22.md" Component_="fixeditorlinedisplay_7aac6796.md" FileName="GIT-DI~1.MD|git-diff-viewer_475a1e22.md" Attributes="0" SourcePath="..\code-editor\.codebuddy\plans\git-diff-viewer_475a1e22.md" SelfReg="false"/>
+    <ROW File="rprimitivehighlight_be197703.md" Component_="fixeditorlinedisplay_7aac6796.md" FileName="R-PRIM~1.MD|r-primitive-highlight_be197703.md" Attributes="0" SourcePath="..\code-editor\.codebuddy\plans\r-primitive-highlight_be197703.md" SelfReg="false"/>
+    <ROW File="weblanguagehighlighters_0e1e84fa.md" Component_="fixeditorlinedisplay_7aac6796.md" FileName="WEB-LA~1.MD|web-language-highlighters_0e1e84fa.md" Attributes="0" SourcePath="..\code-editor\.codebuddy\plans\web-language-highlighters_0e1e84fa.md" SelfReg="false"/>
+    <ROW File="bug_75396b1a.md" Component_="fixeditorlinedisplay_7aac6796.md" FileName="修复编辑器点~1.MD|修复编辑器点击代码上下乱跳的bug_75396b1a(未完成).md" Attributes="0" SourcePath="..\code-editor\.codebuddy\plans\修复编辑器点击代码上下乱跳的bug_75396b1a(未完成).md" SelfReg="false"/>
+    <ROW File="bug_9a1ec5f9.md" Component_="fixeditorlinedisplay_7aac6796.md" FileName="修复编辑器点~2.MD|修复编辑器点击代码上下乱跳的bug_9a1ec5f9.md" Attributes="0" SourcePath="..\code-editor\.codebuddy\plans\修复编辑器点击代码上下乱跳的bug_9a1ec5f9.md" SelfReg="false"/>
+    <ROW File="VB_NET_e0505d9f.md" Component_="fixeditorlinedisplay_7aac6796.md" FileName="扩展VB_N~1.MD|扩展VB_NET代码折叠支持更多块类型_e0505d9f.md" Attributes="0" SourcePath="..\code-editor\.codebuddy\plans\扩展VB_NET代码折叠支持更多块类型_e0505d9f.md" SelfReg="false"/>
+    <ROW File="settings.json" Component_="settings.json" FileName="SETTIN~1.JSO|settings.json" Attributes="0" SourcePath="..\code-editor\.vscode\settings.json" SelfReg="false"/>
+    <ROW File="about.html" Component_="about.html" FileName="ABOUT~1.HTM|about.html" Attributes="0" SourcePath="..\code-editor\about.html" SelfReg="false"/>
+    <ROW File="appicon.png" Component_="appicon.png" FileName="app-icon.png" Attributes="0" SourcePath="..\code-editor\assets\app-icon.png" SelfReg="false"/>
+    <ROW File="build.cmd" Component_="about.html" FileName="build.cmd" Attributes="0" SourcePath="..\code-editor\build.cmd" SelfReg="false"/>
+    <ROW File="about.css" Component_="about.css" FileName="about.css" Attributes="0" SourcePath="..\code-editor\css\about.css" SelfReg="false"/>
+    <ROW File="git.css" Component_="about.css" FileName="git.css" Attributes="0" SourcePath="..\code-editor\css\git.css" SelfReg="false"/>
+    <ROW File="layout.css" Component_="about.css" FileName="layout.css" Attributes="0" SourcePath="..\code-editor\css\layout.css" SelfReg="false"/>
+    <ROW File="settings.css" Component_="about.css" FileName="settings.css" Attributes="0" SourcePath="..\code-editor\css\settings.css" SelfReg="false"/>
+    <ROW File="startpage.css" Component_="about.css" FileName="STARTP~1.CSS|startpage.css" Attributes="0" SourcePath="..\code-editor\css\startpage.css" SelfReg="false"/>
+    <ROW File="themedark.css" Component_="about.css" FileName="THEME-~1.CSS|theme-dark.css" Attributes="0" SourcePath="..\code-editor\css\theme-dark.css" SelfReg="false"/>
+    <ROW File="themelight.css" Component_="about.css" FileName="THEME-~2.CSS|theme-light.css" Attributes="0" SourcePath="..\code-editor\css\theme-light.css" SelfReg="false"/>
+    <ROW File="devkit.js" Component_="devkit.js" FileName="devkit.js" Attributes="0" SourcePath="..\code-editor\dist\devkit.js" SelfReg="false"/>
+    <ROW File="editor.bundle.d.ts" Component_="devkit.js" FileName="EDITOR~1.TS|editor.bundle.d.ts" Attributes="0" SourcePath="..\code-editor\dist\editor.bundle.d.ts" SelfReg="false"/>
+    <ROW File="editor.bundle.js" Component_="devkit.js" FileName="EDITOR~1.JS|editor.bundle.js" Attributes="0" SourcePath="..\code-editor\dist\editor.bundle.js" SelfReg="false"/>
+    <ROW File="editor.bundle.js.map" Component_="devkit.js" FileName="EDITOR~1.MAP|editor.bundle.js.map" Attributes="0" SourcePath="..\code-editor\dist\editor.bundle.js.map" SelfReg="false"/>
+    <ROW File="git.js" Component_="devkit.js" FileName="git.js" Attributes="0" SourcePath="..\code-editor\dist\git.js" SelfReg="false"/>
+    <ROW File="settings.js" Component_="devkit.js" FileName="settings.js" Attributes="0" SourcePath="..\code-editor\dist\settings.js" SelfReg="false"/>
+    <ROW File="start.js" Component_="devkit.js" FileName="start.js" Attributes="0" SourcePath="..\code-editor\dist\start.js" SelfReg="false"/>
+    <ROW File="git.html" Component_="about.html" FileName="GIT~1.HTM|git.html" Attributes="0" SourcePath="..\code-editor\git.html" SelfReg="false"/>
+    <ROW File="index.html" Component_="about.html" FileName="INDEX~1.HTM|index.html" Attributes="0" SourcePath="..\code-editor\index.html" SelfReg="false"/>
+    <ROW File="esbuild" Component_="esbuild" FileName="esbuild" Attributes="0" SourcePath="..\code-editor\node_modules\.bin\esbuild" SelfReg="false"/>
+    <ROW File="esbuild.cmd" Component_="esbuild" FileName="esbuild.cmd" Attributes="0" SourcePath="..\code-editor\node_modules\.bin\esbuild.cmd" SelfReg="false"/>
+    <ROW File="esbuild.ps1" Component_="esbuild" FileName="esbuild.ps1" Attributes="0" SourcePath="..\code-editor\node_modules\.bin\esbuild.ps1" SelfReg="false"/>
+    <ROW File="packagelock.json" Component_="packagelock.json" FileName="PACKAG~1.JSO|.package-lock.json" Attributes="0" SourcePath="..\code-editor\node_modules\.package-lock.json" SelfReg="false"/>
+    <ROW File="esbuild.exe" Component_="esbuild.exe" FileName="esbuild.exe" Attributes="0" SourcePath="..\code-editor\node_modules\@esbuild\win32-x64\esbuild.exe" SelfReg="false" DigSign="true"/>
+    <ROW File="package.json" Component_="package.json" FileName="PACKAG~1.JSO|package.json" Attributes="0" SourcePath="..\code-editor\node_modules\@esbuild\win32-x64\package.json" SelfReg="false"/>
+    <ROW File="README.md" Component_="package.json" FileName="README.md" Attributes="0" SourcePath="..\code-editor\node_modules\@esbuild\win32-x64\README.md" SelfReg="false"/>
+    <ROW File="esbuild_1" Component_="esbuild_1" FileName="esbuild" Attributes="0" SourcePath="..\code-editor\node_modules\esbuild\bin\esbuild" SelfReg="false"/>
+    <ROW File="install.js" Component_="install.js" FileName="install.js" Attributes="0" SourcePath="..\code-editor\node_modules\esbuild\install.js" SelfReg="false"/>
+    <ROW File="main.d.ts" Component_="main.d.ts" FileName="MAIND~1.TS|main.d.ts" Attributes="0" SourcePath="..\code-editor\node_modules\esbuild\lib\main.d.ts" SelfReg="false"/>
+    <ROW File="main.js" Component_="main.d.ts" FileName="main.js" Attributes="0" SourcePath="..\code-editor\node_modules\esbuild\lib\main.js" SelfReg="false"/>
+    <ROW File="LICENSE.md" Component_="install.js" FileName="LICENSE.md" Attributes="0" SourcePath="..\code-editor\node_modules\esbuild\LICENSE.md" SelfReg="false"/>
+    <ROW File="package.json_1" Component_="install.js" FileName="PACKAG~1.JSO|package.json" Attributes="0" SourcePath="..\code-editor\node_modules\esbuild\package.json" SelfReg="false"/>
+    <ROW File="README.md_1" Component_="install.js" FileName="README.md" Attributes="0" SourcePath="..\code-editor\node_modules\esbuild\README.md" SelfReg="false"/>
+    <ROW File="packagelock.json_1" Component_="about.html" FileName="PACKAG~1.JSO|package-lock.json" Attributes="0" SourcePath="..\code-editor\package-lock.json" SelfReg="false"/>
+    <ROW File="package.json_2" Component_="about.html" FileName="PACKAG~2.JSO|package.json" Attributes="0" SourcePath="..\code-editor\package.json" SelfReg="false"/>
+    <ROW File="README.md_2" Component_="about.html" FileName="README.md" Attributes="0" SourcePath="..\code-editor\README.md" SelfReg="false"/>
+    <ROW File="settings.html" Component_="about.html" FileName="SETTIN~1.HTM|settings.html" Attributes="0" SourcePath="..\code-editor\settings.html" SelfReg="false"/>
+    <ROW File="settings.json_1" Component_="settings.json_1" FileName="SETTIN~1.JSO|settings.json" Attributes="0" SourcePath="..\code-editor\src\.vscode\settings.json" SelfReg="false"/>
+    <ROW File="Cursor.ts" Component_="Cursor.ts" FileName="Cursor.ts" Attributes="0" SourcePath="..\code-editor\src\core\Cursor.ts" SelfReg="false"/>
+    <ROW File="Editor.ts" Component_="Cursor.ts" FileName="Editor.ts" Attributes="0" SourcePath="..\code-editor\src\core\Editor.ts" SelfReg="false"/>
+    <ROW File="Highlighter.ts" Component_="Cursor.ts" FileName="HIGHLI~1.TS|Highlighter.ts" Attributes="0" SourcePath="..\code-editor\src\core\Highlighter.ts" SelfReg="false"/>
+    <ROW File="TextBuffer.ts" Component_="Cursor.ts" FileName="TEXTBU~1.TS|TextBuffer.ts" Attributes="0" SourcePath="..\code-editor\src\core\TextBuffer.ts" SelfReg="false"/>
+    <ROW File="devkit.ts" Component_="devkit.ts" FileName="devkit.ts" Attributes="0" SourcePath="..\code-editor\src\devkit.ts" SelfReg="false"/>
+    <ROW File="CodeFolder.ts" Component_="CodeFolder.ts" FileName="CODEFO~1.TS|CodeFolder.ts" Attributes="0" SourcePath="..\code-editor\src\features\CodeFolder.ts" SelfReg="false"/>
+    <ROW File="CompletionProvider.ts" Component_="CodeFolder.ts" FileName="COMPLE~1.TS|CompletionProvider.ts" Attributes="0" SourcePath="..\code-editor\src\features\CompletionProvider.ts" SelfReg="false"/>
+    <ROW File="DiffViewer.ts" Component_="CodeFolder.ts" FileName="DIFFVI~1.TS|DiffViewer.ts" Attributes="0" SourcePath="..\code-editor\src\features\DiffViewer.ts" SelfReg="false"/>
+    <ROW File="GoToLine.ts" Component_="CodeFolder.ts" FileName="GoToLine.ts" Attributes="0" SourcePath="..\code-editor\src\features\GoToLine.ts" SelfReg="false"/>
+    <ROW File="SymbolNavigator.ts" Component_="CodeFolder.ts" FileName="SYMBOL~1.TS|SymbolNavigator.ts" Attributes="0" SourcePath="..\code-editor\src\features\SymbolNavigator.ts" SelfReg="false"/>
+    <ROW File="CssHighlighter.ts" Component_="CssHighlighter.ts" FileName="CSSHIG~1.TS|CssHighlighter.ts" Attributes="0" SourcePath="..\code-editor\src\highlighters\CssHighlighter.ts" SelfReg="false"/>
+    <ROW File="HighlighterRegistry.ts" Component_="CssHighlighter.ts" FileName="HIGHLI~1.TS|HighlighterRegistry.ts" Attributes="0" SourcePath="..\code-editor\src\highlighters\HighlighterRegistry.ts" SelfReg="false"/>
+    <ROW File="HtmlHighlighter.ts" Component_="CssHighlighter.ts" FileName="HTMLHI~1.TS|HtmlHighlighter.ts" Attributes="0" SourcePath="..\code-editor\src\highlighters\HtmlHighlighter.ts" SelfReg="false"/>
+    <ROW File="JavaScriptHighlighter.ts" Component_="CssHighlighter.ts" FileName="JAVASC~1.TS|JavaScriptHighlighter.ts" Attributes="0" SourcePath="..\code-editor\src\highlighters\JavaScriptHighlighter.ts" SelfReg="false"/>
+    <ROW File="JsonHighlighter.ts" Component_="CssHighlighter.ts" FileName="JSONHI~1.TS|JsonHighlighter.ts" Attributes="0" SourcePath="..\code-editor\src\highlighters\JsonHighlighter.ts" SelfReg="false"/>
+    <ROW File="MarkdownHighlighter.ts" Component_="CssHighlighter.ts" FileName="MARKDO~1.TS|MarkdownHighlighter.ts" Attributes="0" SourcePath="..\code-editor\src\highlighters\MarkdownHighlighter.ts" SelfReg="false"/>
+    <ROW File="RHighlighter.ts" Component_="CssHighlighter.ts" FileName="RHIGHL~1.TS|RHighlighter.ts" Attributes="0" SourcePath="..\code-editor\src\highlighters\RHighlighter.ts" SelfReg="false"/>
+    <ROW File="TypeScriptHighlighter.ts" Component_="CssHighlighter.ts" FileName="TYPESC~1.TS|TypeScriptHighlighter.ts" Attributes="0" SourcePath="..\code-editor\src\highlighters\TypeScriptHighlighter.ts" SelfReg="false"/>
+    <ROW File="VbNetHighlighter.ts" Component_="CssHighlighter.ts" FileName="VBNETH~1.TS|VbNetHighlighter.ts" Attributes="0" SourcePath="..\code-editor\src\highlighters\VbNetHighlighter.ts" SelfReg="false"/>
+    <ROW File="XmlHighlighter.ts" Component_="CssHighlighter.ts" FileName="XMLHIG~1.TS|XmlHighlighter.ts" Attributes="0" SourcePath="..\code-editor\src\highlighters\XmlHighlighter.ts" SelfReg="false"/>
+    <ROW File="YamlHighlighter.ts" Component_="CssHighlighter.ts" FileName="YAMLHI~1.TS|YamlHighlighter.ts" Attributes="0" SourcePath="..\code-editor\src\highlighters\YamlHighlighter.ts" SelfReg="false"/>
+    <ROW File="main.ts" Component_="devkit.ts" FileName="main.ts" Attributes="0" SourcePath="..\code-editor\src\main.ts" SelfReg="false"/>
+    <ROW File="Diff.ts" Component_="Diff.ts" FileName="Diff.ts" Attributes="0" SourcePath="..\code-editor\src\utils\Diff.ts" SelfReg="false"/>
+    <ROW File="EventEmitter.ts" Component_="Diff.ts" FileName="EVENTE~1.TS|EventEmitter.ts" Attributes="0" SourcePath="..\code-editor\src\utils\EventEmitter.ts" SelfReg="false"/>
+    <ROW File="Tokenizer.ts" Component_="Diff.ts" FileName="TOKENI~1.TS|Tokenizer.ts" Attributes="0" SourcePath="..\code-editor\src\utils\Tokenizer.ts" SelfReg="false"/>
+    <ROW File="startpage.html" Component_="about.html" FileName="STARTP~1.HTM|startpage.html" Attributes="0" SourcePath="..\code-editor\startpage.html" SelfReg="false"/>
+    <ROW File="tsconfig.json" Component_="about.html" FileName="TSCONF~1.JSO|tsconfig.json" Attributes="0" SourcePath="..\code-editor\tsconfig.json" SelfReg="false"/>
+    <ROW File="_verify_multiline.cjs" Component_="about.html" FileName="_VERIF~1.CJS|_verify_multiline.cjs" Attributes="0" SourcePath="..\code-editor\_verify_multiline.cjs" SelfReg="false"/>
+  </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BootstrOptComponent">
     <ROW BootstrOptKey="GlobalOptions" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="2"/>
   </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.BootstrapperUISequenceComponent">
+    <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Sequence="249"/>
+    <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Condition="AI_SETUPEXEPATH_ORIGINAL" Sequence="251"/>
+  </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
-    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" Languages="zh" InstallationType="4" UseLargeSchema="true"/>
+    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" Languages="zh" InstallationType="4" CabsLocation="1" PackageType="1" FilesInsideExe="true" ExeIconPath="installer.ico" SummInfoMetadata="Page Count:450" ExtractionFolder="[AppDataFolder][|Manufacturer]\[|ProductName] [|ProductVersion]\install" UseLargeSchema="true" MsiPackageType="x64"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
     <ROW Path="&lt;AI_DICTS&gt;ui.ail"/>
@@ -63,8 +497,20 @@
     <ROW Fragment="VerifyRepairDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\VerifyRepairDlg.aip"/>
     <ROW Fragment="WelcomeDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\WelcomeDlg.aip"/>
   </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiActionTextComponent">
+    <ROW Action="AI_DeleteLzma" Description="正在删除从档案中提取的文件" DescriptionLocId="ActionText.Description.AI_DeleteLzma" TemplateLocId="-"/>
+    <ROW Action="AI_DeleteRLzma" Description="正在删除从档案中提取的文件" DescriptionLocId="ActionText.Description.AI_DeleteLzma" TemplateLocId="-"/>
+    <ROW Action="AI_ExtractFiles" Description="正在从档案中提取文件" DescriptionLocId="ActionText.Description.AI_ExtractLzma" TemplateLocId="-"/>
+    <ROW Action="AI_ExtractLzma" Description="正在从档案中提取文件" DescriptionLocId="ActionText.Description.AI_ExtractLzma" TemplateLocId="-"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiAppSearchComponent">
+    <ROW Property="AI_SETUPEXEPATH" Signature_="AI_EXE_PATH_LM" Builds="DefaultBuild"/>
+    <ROW Property="AI_SETUPEXEPATH" Signature_="AI_EXE_PATH_CU" Builds="DefaultBuild"/>
+  </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiBinaryComponent">
+    <ROW Name="Prereq.dll" SourcePath="&lt;AI_CUSTACTS&gt;Prereq.dll"/>
     <ROW Name="aicustact.dll" SourcePath="&lt;AI_CUSTACTS&gt;aicustact.dll"/>
+    <ROW Name="lzmaextractor.dll" SourcePath="&lt;AI_CUSTACTS&gt;lzmaextractor.dll"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiControlEventComponent">
     <ROW Dialog_="WelcomeDlg" Control_="Next" Event="NewDialog" Argument="FolderDlg" Condition="AI_INSTALL" Ordering="1"/>
@@ -92,33 +538,185 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCreateFolderComponent">
     <ROW Directory_="APPDIR" Component_="APPDIR" ManualDelete="true"/>
+    <ROW Directory_="SHORTCUTDIR" Component_="SHORTCUTDIR" ManualDelete="false"/>
+    <ROW Directory_="themes_Dir" Component_="themes" ManualDelete="false"/>
+    <ROW Directory_="__Dir" Component_="_" ManualDelete="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCustActComponent">
+    <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Type="51" Source="AI_SETUPEXEPATH_ORIGINAL" Target="[AI_SETUPEXEPATH]"/>
+    <ROW Action="AI_DATA_SETTER" Type="51" Source="CustomActionData" Target="[AI_SETUPEXEPATH]"/>
     <ROW Action="AI_DOWNGRADE" Type="19" Target="4010"/>
+    <ROW Action="AI_DeleteCadLzma" Type="51" Source="AI_DeleteLzma" Target="[AI_SETUPEXEPATH]"/>
+    <ROW Action="AI_DeleteLzma" Type="1025" Source="lzmaextractor.dll" Target="DeleteLZMAFiles"/>
+    <ROW Action="AI_DeleteRCadLzma" Type="51" Source="AI_DeleteRLzma" Target="[AI_SETUPEXEPATH]"/>
+    <ROW Action="AI_DeleteRLzma" Type="1281" Source="lzmaextractor.dll" Target="DeleteLZMAFiles"/>
     <ROW Action="AI_DpiContentScale" Type="1" Source="aicustact.dll" Target="DpiContentScale"/>
     <ROW Action="AI_EnableDebugLog" Type="321" Source="aicustact.dll" Target="EnableDebugLog"/>
+    <ROW Action="AI_ExtractCadLzma" Type="51" Source="AI_ExtractLzma" Target="[AI_SETUPEXEPATH]"/>
+    <ROW Action="AI_ExtractFiles" Type="1" Source="Prereq.dll" Target="ExtractSourceFiles" AdditionalSeq="AI_DATA_SETTER"/>
+    <ROW Action="AI_ExtractLzma" Type="1025" Source="lzmaextractor.dll" Target="ExtractLZMAFiles"/>
+    <ROW Action="AI_FindExeLzma" Type="1" Source="lzmaextractor.dll" Target="FindEXE"/>
     <ROW Action="AI_InstallModeCheck" Type="1" Source="aicustact.dll" Target="UpdateInstallMode" WithoutSeq="true"/>
     <ROW Action="AI_PREPARE_UPGRADE" Type="65" Source="aicustact.dll" Target="PrepareUpgrade"/>
     <ROW Action="AI_PRESERVE_INSTALL_TYPE" Type="65" Source="aicustact.dll" Target="PreserveInstallType"/>
+    <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Type="51" Source="AI_SETUPEXEPATH" Target="[AI_SETUPEXEPATH_ORIGINAL]"/>
     <ROW Action="AI_RESTORE_LOCATION" Type="65" Source="aicustact.dll" Target="RestoreLocation"/>
     <ROW Action="AI_ResolveKnownFolders" Type="1" Source="aicustact.dll" Target="AI_ResolveKnownFolders"/>
     <ROW Action="AI_SHOW_LOG" Type="65" Source="aicustact.dll" Target="LaunchLogFile" WithoutSeq="true"/>
     <ROW Action="AI_STORE_LOCATION" Type="51" Source="ARPINSTALLLOCATION" Target="[APPDIR]"/>
-    <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]"/>
+    <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]" MultiBuildTarget="DefaultBuild:[ProgramFiles64Folder][Manufacturer]\[ProductName]"/>
     <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
     <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatCompsComponent">
     <ROW Feature_="MainFeature" Component_="APPDIR"/>
     <ROW Feature_="MainFeature" Component_="ProductInformation"/>
+    <ROW Feature_="MainFeature" Component_="BouncyCastle.Cryptography.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.VisualBasic.resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.Workspaces.resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.resources.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.VisualBasic_1_.resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.Workspaces._1_resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevAgent.deps.json"/>
+    <ROW Feature_="MainFeature" Component_="DevAgent.dll"/>
+    <ROW Feature_="MainFeature" Component_="DevAgent.exe"/>
+    <ROW Feature_="MainFeature" Component_="Galaxy.Workbench.resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.resources.dll_2"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.VisualBasic_2_.resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.Workspaces._2_resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Flute.Http.dll"/>
+    <ROW Feature_="MainFeature" Component_="Fluteway.dll"/>
+    <ROW Feature_="MainFeature" Component_="Fluteway.exe"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.resources.dll_3"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.VisualBasic_3_.resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.Workspaces._3_resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Galaxy.Data.dll"/>
+    <ROW Feature_="MainFeature" Component_="Galaxy.Workbench.dll"/>
+    <ROW Feature_="MainFeature" Component_="Humanizer.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.resources.dll_4"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.VisualBasic_4_.resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.Workspaces._4_resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.resources.dll_5"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.VisualBasic_5_.resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.Workspaces._5_resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.resources.dll_6"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.VisualBasic_6_.resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.Workspaces._6_resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="LanguageServer.dll"/>
+    <ROW Feature_="MainFeature" Component_="LanguageServer.exe"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.VisualBasic.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.Workspaces.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.Extensions.DependencyInjection.Abstractions.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.Extensions.Logging.Abstractions.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.VisualBasic.Data.Framework.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.VisualBasic.Drawing.Windows.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.VisualBasic.Imaging.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.VisualBasic.Math.Core.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.VisualBasic.MIME.application.json.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.VisualBasic.MIME.Html.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.VisualBasic.MIME.Office.Excel.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.VisualBasic.MIME.text.markdown.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.VisualBasic.MIME.text.yaml.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.VisualBasic.Runtime.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.VisualBasic.Windows.Forms.Console.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.VisualBasic.Windows.Forms.SshClient.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.VisualStudio.Windows.Form.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.Web.WebView2.Core.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.Web.WebView2.WinForms.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.Web.WebView2.Wpf.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.Windows.FeatureAPI.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.Windows.Ribbon.dll"/>
+    <ROW Feature_="MainFeature" Component_="Ollama.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.resources.dll_7"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.VisualBasic_7_.resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.Workspaces._7_resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.resources.dll_8"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.VisualBasic_8_.resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.Workspaces._8_resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Renci.SshNet.dll"/>
+    <ROW Feature_="MainFeature" Component_="REnv.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.resources.dll_9"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.VisualBasic_9_.resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.Workspaces._9_resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="System.Management.dll"/>
+    <ROW Feature_="MainFeature" Component_="WebView2Loader.dll"/>
+    <ROW Feature_="MainFeature" Component_="WebView2Loader.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="WebView2Loader.dll_2"/>
+    <ROW Feature_="MainFeature" Component_="SshClient.dll"/>
+    <ROW Feature_="MainFeature" Component_="SshClient.exe"/>
+    <ROW Feature_="MainFeature" Component_="System.Composition.AttributedModel.dll"/>
+    <ROW Feature_="MainFeature" Component_="System.Composition.Convention.dll"/>
+    <ROW Feature_="MainFeature" Component_="System.Composition.Hosting.dll"/>
+    <ROW Feature_="MainFeature" Component_="System.Composition.Runtime.dll"/>
+    <ROW Feature_="MainFeature" Component_="System.Composition.TypedParts.dll"/>
+    <ROW Feature_="MainFeature" Component_="System.Management.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="System.Reflection.MetadataLoadContext.dll"/>
+    <ROW Feature_="MainFeature" Component_="ThemeVS2015.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.resources.dll_10"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.VisualBasic_10_.resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.Workspaces._10_resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Vallina.dll"/>
+    <ROW Feature_="MainFeature" Component_="Vallina.exe"/>
+    <ROW Feature_="MainFeature" Component_="WebView2UI.dll"/>
+    <ROW Feature_="MainFeature" Component_="Galaxy.Data.resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Galaxy.Workbench.resources.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.resources.dll_11"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.VisualBasic_11_.resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.Workspaces._11_resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.resources.dll_12"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.VisualBasic_12_.resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.Workspaces._12_resources.dll"/>
+    <ROW Feature_="MainFeature" Component_="Galaxy.Data.resources.dll_1"/>
+    <ROW Feature_="MainFeature" Component_="Galaxy.Workbench.resources.dll_2"/>
+    <ROW Feature_="MainFeature" Component_="fixeditorlinedisplay_7aac6796.md"/>
+    <ROW Feature_="MainFeature" Component_="settings.json"/>
+    <ROW Feature_="MainFeature" Component_="about.html"/>
+    <ROW Feature_="MainFeature" Component_="appicon.png"/>
+    <ROW Feature_="MainFeature" Component_="about.css"/>
+    <ROW Feature_="MainFeature" Component_="devkit.js"/>
+    <ROW Feature_="MainFeature" Component_="esbuild"/>
+    <ROW Feature_="MainFeature" Component_="packagelock.json"/>
+    <ROW Feature_="MainFeature" Component_="esbuild.exe"/>
+    <ROW Feature_="MainFeature" Component_="package.json"/>
+    <ROW Feature_="MainFeature" Component_="esbuild_1"/>
+    <ROW Feature_="MainFeature" Component_="install.js"/>
+    <ROW Feature_="MainFeature" Component_="main.d.ts"/>
+    <ROW Feature_="MainFeature" Component_="settings.json_1"/>
+    <ROW Feature_="MainFeature" Component_="Cursor.ts"/>
+    <ROW Feature_="MainFeature" Component_="devkit.ts"/>
+    <ROW Feature_="MainFeature" Component_="CodeFolder.ts"/>
+    <ROW Feature_="MainFeature" Component_="CssHighlighter.ts"/>
+    <ROW Feature_="MainFeature" Component_="themes"/>
+    <ROW Feature_="MainFeature" Component_="Diff.ts"/>
+    <ROW Feature_="MainFeature" Component_="SHORTCUTDIR"/>
+    <ROW Feature_="MainFeature" Component_="_"/>
+    <ROW Feature_="MainFeature" Component_="AI_ExePath"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiIconsComponent">
+    <ROW Name="Vallina.exe" SourcePath="..\dist\bin\Vallina.exe" Index="0"/>
+    <ROW Name="installer.exe" SourcePath="installer.ico" Index="0"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
     <ROW Action="AI_DOWNGRADE" Condition="AI_NEWERPRODUCTFOUND AND (UILevel &lt;&gt; 5)" Sequence="210"/>
     <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="749"/>
     <ROW Action="AI_STORE_LOCATION" Condition="(Not Installed) OR REINSTALL" Sequence="1501"/>
-    <ROW Action="AI_PREPARE_UPGRADE" Condition="AI_UPGRADE=&quot;No&quot; AND (Not Installed)" Sequence="1399"/>
+    <ROW Action="AI_PREPARE_UPGRADE" Condition="AI_UPGRADE=&quot;No&quot; AND (Not Installed)" Sequence="1397"/>
     <ROW Action="AI_ResolveKnownFolders" Sequence="52"/>
     <ROW Action="AI_EnableDebugLog" Sequence="51"/>
+    <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Sequence="99" Builds="DefaultBuild"/>
+    <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Condition="AI_SETUPEXEPATH_ORIGINAL" Sequence="101" Builds="DefaultBuild"/>
+    <ROW Action="AI_DeleteCadLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="199" Builds="DefaultBuild"/>
+    <ROW Action="AI_DeleteRCadLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="198" Builds="DefaultBuild"/>
+    <ROW Action="AI_ExtractCadLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="197" Builds="DefaultBuild"/>
+    <ROW Action="AI_FindExeLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="196" Builds="DefaultBuild"/>
+    <ROW Action="AI_ExtractLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="1549" Builds="DefaultBuild"/>
+    <ROW Action="AI_DeleteRLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="1548" Builds="DefaultBuild"/>
+    <ROW Action="AI_DeleteLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="6599" Builds="DefaultBuild"/>
+    <ROW Action="AI_ExtractFiles" Sequence="1399" Builds="DefaultBuild"/>
+    <ROW Action="AI_DATA_SETTER" Sequence="1398"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstallUISequenceComponent">
     <ROW Action="AI_PRESERVE_INSTALL_TYPE" Sequence="199"/>
@@ -126,26 +724,47 @@
     <ROW Action="AI_ResolveKnownFolders" Sequence="53"/>
     <ROW Action="AI_DpiContentScale" Sequence="52"/>
     <ROW Action="AI_EnableDebugLog" Sequence="51"/>
+    <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Sequence="99"/>
+    <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Condition="AI_SETUPEXEPATH_ORIGINAL" Sequence="101"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiLaunchConditionsComponent">
     <ROW Condition="((VersionNT &lt;&gt; 501) AND (VersionNT &lt;&gt; 502))" Description="[ProductName] 无法安装在 [WindowsTypeNT5XDisplay]." DescriptionLocId="AI.LaunchCondition.NoNT5X" IsPredefined="true" Builds="DefaultBuild"/>
     <ROW Condition="(VersionNT &lt;&gt; 400)" Description="[ProductName] 无法安装在 [WindowsTypeNT40Display]." DescriptionLocId="AI.LaunchCondition.NoNT40" IsPredefined="true" Builds="DefaultBuild"/>
     <ROW Condition="(VersionNT &lt;&gt; 500)" Description="[ProductName] 无法安装在 [WindowsTypeNT50Display]." DescriptionLocId="AI.LaunchCondition.NoNT50" IsPredefined="true" Builds="DefaultBuild"/>
     <ROW Condition="(VersionNT &lt;&gt; 600)" Description="[ProductName] 无法安装在 [WindowsTypeNT60Display]." DescriptionLocId="AI.LaunchCondition.NoNT60" IsPredefined="true" Builds="DefaultBuild"/>
+    <ROW Condition="SETUPEXEDIR OR (REMOVE=&quot;ALL&quot;)" Description="此安装包只能从引导程序运行。" DescriptionLocId="AI.LaunchCondition.RequireBootstrapper" IsPredefined="true" Builds="DefaultBuild"/>
     <ROW Condition="VersionNT" Description="[ProductName] 无法安装在 [WindowsType9XDisplay]." DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="DefaultBuild"/>
   </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiRegLocatorComponent">
+    <ROW Signature_="AI_EXE_PATH_CU" Root="1" Key="Software\Caphyon\Advanced Installer\LZMA\[ProductCode]\[ProductVersion]" Name="AI_ExePath" Type="2"/>
+    <ROW Signature_="AI_EXE_PATH_LM" Root="2" Key="Software\Caphyon\Advanced Installer\LZMA\[ProductCode]\[ProductVersion]" Name="AI_ExePath" Type="2"/>
+  </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiRegsComponent">
+    <ROW Registry="AI_ExePath" Root="-1" Key="Software\Caphyon\Advanced Installer\LZMA\[ProductCode]\[ProductVersion]" Name="AI_ExePath" Value="[AI_SETUPEXEPATH]" Component_="AI_ExePath"/>
+    <ROW Registry="AdvancedInstaller" Root="-1" Key="Software\Caphyon\Advanced Installer" Name="\"/>
+    <ROW Registry="Caphyon" Root="-1" Key="Software\Caphyon" Name="\"/>
+    <ROW Registry="LZMA" Root="-1" Key="Software\Caphyon\Advanced Installer\LZMA" Name="\"/>
     <ROW Registry="Manufacturer" Root="-1" Key="Software\[Manufacturer]" Name="\"/>
     <ROW Registry="Path" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Path" Value="[APPDIR]" Component_="ProductInformation"/>
+    <ROW Registry="ProductCode" Root="-1" Key="Software\Caphyon\Advanced Installer\LZMA\[ProductCode]" Name="\"/>
     <ROW Registry="ProductName" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="\"/>
+    <ROW Registry="ProductVersion" Root="-1" Key="Software\Caphyon\Advanced Installer\LZMA\[ProductCode]\[ProductVersion]" Name="\"/>
     <ROW Registry="Software" Root="-1" Key="Software" Name="\"/>
     <ROW Registry="Version" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Version" Value="[ProductVersion]" Component_="ProductInformation"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiShortsComponent">
+    <ROW Shortcut="Vallina" Directory_="SHORTCUTDIR" Name="Vallina" Component_="Vallina.exe" Target="[#Vallina.exe]" Hotkey="0" Icon_="Vallina.exe" IconIndex="0" ShowCmd="1" WkDir="bin_Dir"/>
+    <ROW Shortcut="Vallina_1" Directory_="__Dir" Name="Vallina" Component_="Vallina.exe" Target="[#Vallina.exe]" Hotkey="0" Icon_="Vallina.exe" IconIndex="0" ShowCmd="1" WkDir="bin_Dir"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiThemeComponent">
     <ATTRIBUTE name="UsedTheme" value="classic"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiUpgradeComponent">
-    <ROW UpgradeCode="[|UpgradeCode]" VersionMin="0.0.1" VersionMax="[|ProductVersion]" Attributes="257" ActionProperty="OLDPRODUCTS"/>
-    <ROW UpgradeCode="[|UpgradeCode]" VersionMin="[|ProductVersion]" Attributes="2" ActionProperty="AI_NEWERPRODUCTFOUND"/>
+    <ROW UpgradeCode="[|UpgradeCode]" VersionMin="0.0.1" VersionMax="255.255.6555.6555" Attributes="257" ActionProperty="OLDPRODUCTS"/>
+    <ROW UpgradeCode="[|UpgradeCode]" VersionMin="255.255.6555.6555" Attributes="2" ActionProperty="AI_NEWERPRODUCTFOUND"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.SynchronizedFolderComponent">
+    <ROW Directory_="bin_Dir" SourcePath="..\dist\bin" Feature="MainFeature" ExcludePattern="*~|#*#|%*%|._|CVS|.cvsignore|SCCS|vssver.scc|mssccprj.scc|vssver2.scc|.svn|.DS_Store" ExcludeFlags="6" FileAddOptions="4"/>
+    <ROW Directory_="apps_Dir" SourcePath="..\code-editor" Feature="MainFeature" ExcludePattern="*~|#*#|%*%|._|CVS|.cvsignore|SCCS|vssver.scc|mssccprj.scc|vssver2.scc|.svn|.DS_Store" ExcludeFlags="6" FileAddOptions="4"/>
   </COMPONENT>
 </DOCUMENT>

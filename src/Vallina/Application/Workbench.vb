@@ -70,7 +70,7 @@ Module Workbench
         If CheckDevelopmentMode() Then
             _wwwroot = "G:\DevAgent\code-editor"
         Else
-            _wwwroot = App.HOME & "/apps"
+            _wwwroot = App.HOME.ParentPath & "/apps"
         End If
 
         Return wwwroot
