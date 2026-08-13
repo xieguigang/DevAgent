@@ -33,7 +33,7 @@ Partial Class FormEditSsh
         passwordLabel = New Label()
         passwordMaskedTextBox = New MaskedTextBox()
         groupLabel = New Label()
-        groupTextBox = New TextBox()
+        groupComboBox = New ComboBox()
         okButton = New Button()
         GroupBox1 = New GroupBox()
         GroupBox1.SuspendLayout()
@@ -114,12 +114,13 @@ Partial Class FormEditSsh
         groupLabel.TabIndex = 8
         groupLabel.Text = "Group:"
         ' 
-        ' groupTextBox
+        ' groupComboBox
         ' 
-        groupTextBox.Location = New Point(89, 176)
-        groupTextBox.Name = "groupTextBox"
-        groupTextBox.Size = New Size(240, 23)
-        groupTextBox.TabIndex = 9
+        groupComboBox.DropDownStyle = ComboBoxStyle.DropDown
+        groupComboBox.Location = New Point(89, 176)
+        groupComboBox.Name = "groupComboBox"
+        groupComboBox.Size = New Size(240, 23)
+        groupComboBox.TabIndex = 9
         ' 
         ' okButton
         ' 
@@ -135,7 +136,7 @@ Partial Class FormEditSsh
         ' 
         GroupBox1.Controls.Add(hostTextBox)
         GroupBox1.Controls.Add(hostLabel)
-        GroupBox1.Controls.Add(groupTextBox)
+        GroupBox1.Controls.Add(groupComboBox)
         GroupBox1.Controls.Add(groupLabel)
         GroupBox1.Controls.Add(portLabel)
         GroupBox1.Controls.Add(passwordMaskedTextBox)
@@ -174,7 +175,7 @@ Partial Class FormEditSsh
     Friend WithEvents passwordLabel As System.Windows.Forms.Label
     Friend WithEvents passwordMaskedTextBox As System.Windows.Forms.MaskedTextBox
     Friend WithEvents groupLabel As System.Windows.Forms.Label
-    Friend WithEvents groupTextBox As System.Windows.Forms.TextBox
+    Friend WithEvents groupComboBox As System.Windows.Forms.ComboBox
     Friend WithEvents okButton As System.Windows.Forms.Button
     Friend WithEvents GroupBox1 As GroupBox
 End Class

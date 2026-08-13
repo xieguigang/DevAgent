@@ -119,6 +119,14 @@ Public Class FormLinuxServers
         End If
 
         Dim conn As SshConnection = DirectCast(node.Tag, SshConnection)
+
+        Dim message As String = $"Are you sure you want to delete the SSH connection '{conn.DisplayName}'?"
+        Dim result As DialogResult = MessageBox.Show(Me, message, "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+
+        If result <> DialogResult.Yes Then
+            Return
+        End If
+
         config.sshServers.Remove(conn)
         Call SaveAndRefresh()
     End Sub

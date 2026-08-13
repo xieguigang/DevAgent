@@ -15,7 +15,30 @@ Public Class FormEditSsh
         portTextBox.Text = conn.port.ToString()
         userTextBox.Text = conn.user
         passwordMaskedTextBox.Text = conn.Password
-        groupTextBox.Text = conn.group
+        groupComboBox.Text = conn.group
+    End Sub
+
+    ''' <summary>
+    ''' Populate the group ComboBox with existing group labels loaded from the config.
+    ''' This allows the user to either pick an existing group or type a new one.
+    ''' </summary>
+    Private Sub LoadExistingGroups()
+        Dim existing = ConfigJSON _
+            .Load() _
+            .sshServers _
+            .connections _
+            .Select(Function(c) c.group) _
+            .Where(Function(g) Not String.IsNullOrWhiteSpace(g)) _
+            .Distinct() _
+            .OrderBy(Function(g) g) _
+            .ToArray()
+
+        groupComboBox.Items.Clear()
+        groupComboBox.Items.AddRange(existing)
+    End Sub
+
+    Private Sub FormEditSsh_Load(sender As Object, e As EventArgs) Handles Me.Load
+        Call LoadExistingGroups()
     End Sub
 
     Private Sub okButton_Click(sender As Object, e As EventArgs) Handles okButton.Click
