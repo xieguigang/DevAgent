@@ -6,7 +6,7 @@ Public Class FormLinuxServers
     Private config As ConfigJSON
 
     Private Sub FormLinuxServers_Load(sender As Object, e As EventArgs) Handles Me.Load
-        Call ApplyVsTheme(ToolStrip1)
+        Call ApplyVsTheme(ToolStrip1, ContextMenuStrip1)
         config = ConfigJSON.Load()
         Call RefreshTree()
     End Sub
