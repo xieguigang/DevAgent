@@ -48,10 +48,7 @@
     <ROW Directory="__Dir" Directory_Parent="ProgramMenuFolder" DefaultDir="Vallina"/>
     <ROW Directory="apps_Dir" Directory_Parent="APPDIR" DefaultDir="apps"/>
     <ROW Directory="assets_Dir" Directory_Parent="apps_Dir" DefaultDir="assets"/>
-    <ROW Directory="bin_1_Dir" Directory_Parent="node_modules_Dir" DefaultDir="BIN~1|.bin"/>
-    <ROW Directory="bin_2_Dir" Directory_Parent="esbuild_1_Dir" DefaultDir="bin"/>
     <ROW Directory="bin_Dir" Directory_Parent="APPDIR" DefaultDir="bin"/>
-    <ROW Directory="codebuddy_Dir" Directory_Parent="apps_Dir" DefaultDir="CODEBU~1|.codebuddy"/>
     <ROW Directory="core_Dir" Directory_Parent="src_Dir" DefaultDir="core"/>
     <ROW Directory="cs_Dir" Directory_Parent="bin_Dir" DefaultDir="cs"/>
     <ROW Directory="css_Dir" Directory_Parent="apps_Dir" DefaultDir="css"/>
@@ -59,23 +56,18 @@
     <ROW Directory="dist_Dir" Directory_Parent="apps_Dir" DefaultDir="dist"/>
     <ROW Directory="enUS_Dir" Directory_Parent="bin_Dir" DefaultDir="en-US"/>
     <ROW Directory="es_Dir" Directory_Parent="bin_Dir" DefaultDir="es"/>
-    <ROW Directory="esbuild_1_Dir" Directory_Parent="node_modules_Dir" DefaultDir="esbuild"/>
-    <ROW Directory="esbuild_Dir" Directory_Parent="node_modules_Dir" DefaultDir="@esbuild"/>
     <ROW Directory="features_Dir" Directory_Parent="src_Dir" DefaultDir="features"/>
     <ROW Directory="fr_Dir" Directory_Parent="bin_Dir" DefaultDir="fr"/>
     <ROW Directory="highlighters_Dir" Directory_Parent="src_Dir" DefaultDir="HIGHLI~1|highlighters"/>
     <ROW Directory="it_Dir" Directory_Parent="bin_Dir" DefaultDir="it"/>
     <ROW Directory="ja_Dir" Directory_Parent="bin_Dir" DefaultDir="ja"/>
     <ROW Directory="ko_Dir" Directory_Parent="bin_Dir" DefaultDir="ko"/>
-    <ROW Directory="lib_1_Dir" Directory_Parent="esbuild_1_Dir" DefaultDir="lib"/>
     <ROW Directory="lib_Dir" Directory_Parent="win_Dir" DefaultDir="lib"/>
     <ROW Directory="native_1_Dir" Directory_Parent="winx64_Dir" DefaultDir="native"/>
     <ROW Directory="native_2_Dir" Directory_Parent="winx86_Dir" DefaultDir="native"/>
     <ROW Directory="native_Dir" Directory_Parent="winarm64_Dir" DefaultDir="native"/>
     <ROW Directory="net10.0_Dir" Directory_Parent="lib_Dir" DefaultDir="net10.0"/>
-    <ROW Directory="node_modules_Dir" Directory_Parent="apps_Dir" DefaultDir="NODE_M~1|node_modules"/>
     <ROW Directory="pl_Dir" Directory_Parent="bin_Dir" DefaultDir="pl"/>
-    <ROW Directory="plans_Dir" Directory_Parent="codebuddy_Dir" DefaultDir="plans"/>
     <ROW Directory="ptBR_Dir" Directory_Parent="bin_Dir" DefaultDir="pt-BR"/>
     <ROW Directory="ru_Dir" Directory_Parent="bin_Dir" DefaultDir="ru"/>
     <ROW Directory="runtimes_Dir" Directory_Parent="bin_Dir" DefaultDir="runtimes"/>
@@ -83,9 +75,6 @@
     <ROW Directory="themes_Dir" Directory_Parent="src_Dir" DefaultDir="themes"/>
     <ROW Directory="tr_Dir" Directory_Parent="bin_Dir" DefaultDir="tr"/>
     <ROW Directory="utils_Dir" Directory_Parent="src_Dir" DefaultDir="utils"/>
-    <ROW Directory="vscode_1_Dir" Directory_Parent="src_Dir" DefaultDir="VSCODE~1|.vscode"/>
-    <ROW Directory="vscode_Dir" Directory_Parent="apps_Dir" DefaultDir="VSCODE~1|.vscode"/>
-    <ROW Directory="win32x64_Dir" Directory_Parent="esbuild_Dir" DefaultDir="WIN32-~1|win32-x64"/>
     <ROW Directory="win_Dir" Directory_Parent="runtimes_Dir" DefaultDir="win"/>
     <ROW Directory="winarm64_Dir" Directory_Parent="runtimes_Dir" DefaultDir="WIN-AR~1|win-arm64"/>
     <ROW Directory="winx64_Dir" Directory_Parent="runtimes_Dir" DefaultDir="win-x64"/>
@@ -216,16 +205,6 @@
     <ROW Component="appicon.png" ComponentId="{D539E45F-DB09-4ED2-969B-250501896F1C}" Directory_="assets_Dir" Attributes="0" KeyPath="appicon.png" Type="0"/>
     <ROW Component="devkit.js" ComponentId="{1598AFEC-0D1F-4785-90F9-EDB03A3EDD5C}" Directory_="dist_Dir" Attributes="0" KeyPath="devkit.js" Type="0"/>
     <ROW Component="devkit.ts" ComponentId="{FCC6AEBE-EDF0-457F-B68A-6D8A38514039}" Directory_="src_Dir" Attributes="0" KeyPath="devkit.ts" Type="0"/>
-    <ROW Component="esbuild" ComponentId="{29D5886F-90EE-4FD5-B0EB-4BBE221D0FA2}" Directory_="bin_1_Dir" Attributes="0" KeyPath="esbuild" Type="0"/>
-    <ROW Component="esbuild.exe" ComponentId="{EB14084B-D73D-4816-8845-5F86018F6949}" Directory_="win32x64_Dir" Attributes="256" KeyPath="esbuild.exe"/>
-    <ROW Component="esbuild_1" ComponentId="{23998FD2-F3DA-4589-B188-11C695670155}" Directory_="bin_2_Dir" Attributes="0" KeyPath="esbuild_1" Type="0"/>
-    <ROW Component="fixeditorlinedisplay_7aac6796.md" ComponentId="{0B8EE906-042A-4C3E-AA7E-E5823B75831D}" Directory_="plans_Dir" Attributes="0" KeyPath="fixeditorlinedisplay_7aac6796.md" Type="0"/>
-    <ROW Component="install.js" ComponentId="{0AFDAC8E-3795-4388-AF00-8031E5826185}" Directory_="esbuild_1_Dir" Attributes="0" KeyPath="install.js" Type="0"/>
-    <ROW Component="main.d.ts" ComponentId="{B957B106-C05A-4C97-9037-F7F0E3ED1865}" Directory_="lib_1_Dir" Attributes="0" KeyPath="main.d.ts" Type="0"/>
-    <ROW Component="package.json" ComponentId="{D46D42DF-E957-4C7A-B254-D623B8BD8CB0}" Directory_="win32x64_Dir" Attributes="0" KeyPath="package.json" Type="0"/>
-    <ROW Component="packagelock.json" ComponentId="{D86E5759-B773-4345-95E1-1D4436FB1895}" Directory_="node_modules_Dir" Attributes="0" KeyPath="packagelock.json" Type="0"/>
-    <ROW Component="settings.json" ComponentId="{7BD4A18D-E2D0-45BF-9DA9-519164895FF3}" Directory_="vscode_Dir" Attributes="0" KeyPath="settings.json" Type="0"/>
-    <ROW Component="settings.json_1" ComponentId="{415351AF-94CB-45BC-9693-0D5EE04E5659}" Directory_="vscode_1_Dir" Attributes="0" KeyPath="settings.json_1" Type="0"/>
     <ROW Component="themes" ComponentId="{A0A1FBF6-E67C-4BFA-8137-639BC70BABF9}" Directory_="themes_Dir" Attributes="0"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
@@ -405,17 +384,6 @@
     <ROW File="Microsoft.CodeAnalysis.Workspaces._12_resources.dll" Component_="Microsoft.CodeAnalysis.Workspaces._12_resources.dll" FileName="MICROS~3.DLL|Microsoft.CodeAnalysis.Workspaces.resources.dll" Attributes="0" SourcePath="..\dist\bin\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll" SelfReg="false"/>
     <ROW File="Galaxy.Data.resources.dll_1" Component_="Galaxy.Data.resources.dll_1" FileName="GALAXY~1.DLL|Galaxy.Data.resources.dll" Attributes="0" SourcePath="..\dist\bin\zh-HK\Galaxy.Data.resources.dll" SelfReg="false"/>
     <ROW File="Galaxy.Workbench.resources.dll_2" Component_="Galaxy.Workbench.resources.dll_2" FileName="GALAXY~2.DLL|Galaxy.Workbench.resources.dll" Attributes="0" SourcePath="..\dist\bin\zh-HK\Galaxy.Workbench.resources.dll" SelfReg="false"/>
-    <ROW File="fixeditorlinedisplay_7aac6796.md" Component_="fixeditorlinedisplay_7aac6796.md" FileName="FIX-ED~1.MD|fix-editor-line-display_7aac6796.md" Attributes="0" SourcePath="..\code-editor\.codebuddy\plans\fix-editor-line-display_7aac6796.md" SelfReg="false"/>
-    <ROW File="fixmultilinestringsrandvbnet_852874ee.md" Component_="fixeditorlinedisplay_7aac6796.md" FileName="FIX-MU~1.MD|fix-multiline-strings-r-and-vbnet_852874ee.md" Attributes="0" SourcePath="..\code-editor\.codebuddy\plans\fix-multiline-strings-r-and-vbnet_852874ee.md" SelfReg="false"/>
-    <ROW File="fixrmultilinestrings_317e5eec.md" Component_="fixeditorlinedisplay_7aac6796.md" FileName="FIX-R-~1.MD|fix-r-multiline-strings_317e5eec(未完成).md" Attributes="0" SourcePath="..\code-editor\.codebuddy\plans\fix-r-multiline-strings_317e5eec(未完成).md" SelfReg="false"/>
-    <ROW File="fixvbnetinterpolatedstring_56276420.md" Component_="fixeditorlinedisplay_7aac6796.md" FileName="FIX-VB~1.MD|fix-vbnet-interpolated-string_56276420.md" Attributes="0" SourcePath="..\code-editor\.codebuddy\plans\fix-vbnet-interpolated-string_56276420.md" SelfReg="false"/>
-    <ROW File="gitdiffviewer_475a1e22.md" Component_="fixeditorlinedisplay_7aac6796.md" FileName="GIT-DI~1.MD|git-diff-viewer_475a1e22.md" Attributes="0" SourcePath="..\code-editor\.codebuddy\plans\git-diff-viewer_475a1e22.md" SelfReg="false"/>
-    <ROW File="rprimitivehighlight_be197703.md" Component_="fixeditorlinedisplay_7aac6796.md" FileName="R-PRIM~1.MD|r-primitive-highlight_be197703.md" Attributes="0" SourcePath="..\code-editor\.codebuddy\plans\r-primitive-highlight_be197703.md" SelfReg="false"/>
-    <ROW File="weblanguagehighlighters_0e1e84fa.md" Component_="fixeditorlinedisplay_7aac6796.md" FileName="WEB-LA~1.MD|web-language-highlighters_0e1e84fa.md" Attributes="0" SourcePath="..\code-editor\.codebuddy\plans\web-language-highlighters_0e1e84fa.md" SelfReg="false"/>
-    <ROW File="bug_75396b1a.md" Component_="fixeditorlinedisplay_7aac6796.md" FileName="修复编辑器点~1.MD|修复编辑器点击代码上下乱跳的bug_75396b1a(未完成).md" Attributes="0" SourcePath="..\code-editor\.codebuddy\plans\修复编辑器点击代码上下乱跳的bug_75396b1a(未完成).md" SelfReg="false"/>
-    <ROW File="bug_9a1ec5f9.md" Component_="fixeditorlinedisplay_7aac6796.md" FileName="修复编辑器点~2.MD|修复编辑器点击代码上下乱跳的bug_9a1ec5f9.md" Attributes="0" SourcePath="..\code-editor\.codebuddy\plans\修复编辑器点击代码上下乱跳的bug_9a1ec5f9.md" SelfReg="false"/>
-    <ROW File="VB_NET_e0505d9f.md" Component_="fixeditorlinedisplay_7aac6796.md" FileName="扩展VB_N~1.MD|扩展VB_NET代码折叠支持更多块类型_e0505d9f.md" Attributes="0" SourcePath="..\code-editor\.codebuddy\plans\扩展VB_NET代码折叠支持更多块类型_e0505d9f.md" SelfReg="false"/>
-    <ROW File="settings.json" Component_="settings.json" FileName="SETTIN~1.JSO|settings.json" Attributes="0" SourcePath="..\code-editor\.vscode\settings.json" SelfReg="false"/>
     <ROW File="about.html" Component_="about.html" FileName="ABOUT~1.HTM|about.html" Attributes="0" SourcePath="..\code-editor\about.html" SelfReg="false"/>
     <ROW File="appicon.png" Component_="appicon.png" FileName="app-icon.png" Attributes="0" SourcePath="..\code-editor\assets\app-icon.png" SelfReg="false"/>
     <ROW File="build.cmd" Component_="about.html" FileName="build.cmd" Attributes="0" SourcePath="..\code-editor\build.cmd" SelfReg="false"/>
@@ -435,25 +403,10 @@
     <ROW File="start.js" Component_="devkit.js" FileName="start.js" Attributes="0" SourcePath="..\code-editor\dist\start.js" SelfReg="false"/>
     <ROW File="git.html" Component_="about.html" FileName="GIT~1.HTM|git.html" Attributes="0" SourcePath="..\code-editor\git.html" SelfReg="false"/>
     <ROW File="index.html" Component_="about.html" FileName="INDEX~1.HTM|index.html" Attributes="0" SourcePath="..\code-editor\index.html" SelfReg="false"/>
-    <ROW File="esbuild" Component_="esbuild" FileName="esbuild" Attributes="0" SourcePath="..\code-editor\node_modules\.bin\esbuild" SelfReg="false"/>
-    <ROW File="esbuild.cmd" Component_="esbuild" FileName="esbuild.cmd" Attributes="0" SourcePath="..\code-editor\node_modules\.bin\esbuild.cmd" SelfReg="false"/>
-    <ROW File="esbuild.ps1" Component_="esbuild" FileName="esbuild.ps1" Attributes="0" SourcePath="..\code-editor\node_modules\.bin\esbuild.ps1" SelfReg="false"/>
-    <ROW File="packagelock.json" Component_="packagelock.json" FileName="PACKAG~1.JSO|.package-lock.json" Attributes="0" SourcePath="..\code-editor\node_modules\.package-lock.json" SelfReg="false"/>
-    <ROW File="esbuild.exe" Component_="esbuild.exe" FileName="esbuild.exe" Attributes="0" SourcePath="..\code-editor\node_modules\@esbuild\win32-x64\esbuild.exe" SelfReg="false" DigSign="true"/>
-    <ROW File="package.json" Component_="package.json" FileName="PACKAG~1.JSO|package.json" Attributes="0" SourcePath="..\code-editor\node_modules\@esbuild\win32-x64\package.json" SelfReg="false"/>
-    <ROW File="README.md" Component_="package.json" FileName="README.md" Attributes="0" SourcePath="..\code-editor\node_modules\@esbuild\win32-x64\README.md" SelfReg="false"/>
-    <ROW File="esbuild_1" Component_="esbuild_1" FileName="esbuild" Attributes="0" SourcePath="..\code-editor\node_modules\esbuild\bin\esbuild" SelfReg="false"/>
-    <ROW File="install.js" Component_="install.js" FileName="install.js" Attributes="0" SourcePath="..\code-editor\node_modules\esbuild\install.js" SelfReg="false"/>
-    <ROW File="main.d.ts" Component_="main.d.ts" FileName="MAIND~1.TS|main.d.ts" Attributes="0" SourcePath="..\code-editor\node_modules\esbuild\lib\main.d.ts" SelfReg="false"/>
-    <ROW File="main.js" Component_="main.d.ts" FileName="main.js" Attributes="0" SourcePath="..\code-editor\node_modules\esbuild\lib\main.js" SelfReg="false"/>
-    <ROW File="LICENSE.md" Component_="install.js" FileName="LICENSE.md" Attributes="0" SourcePath="..\code-editor\node_modules\esbuild\LICENSE.md" SelfReg="false"/>
-    <ROW File="package.json_1" Component_="install.js" FileName="PACKAG~1.JSO|package.json" Attributes="0" SourcePath="..\code-editor\node_modules\esbuild\package.json" SelfReg="false"/>
-    <ROW File="README.md_1" Component_="install.js" FileName="README.md" Attributes="0" SourcePath="..\code-editor\node_modules\esbuild\README.md" SelfReg="false"/>
     <ROW File="packagelock.json_1" Component_="about.html" FileName="PACKAG~1.JSO|package-lock.json" Attributes="0" SourcePath="..\code-editor\package-lock.json" SelfReg="false"/>
     <ROW File="package.json_2" Component_="about.html" FileName="PACKAG~2.JSO|package.json" Attributes="0" SourcePath="..\code-editor\package.json" SelfReg="false"/>
     <ROW File="README.md_2" Component_="about.html" FileName="README.md" Attributes="0" SourcePath="..\code-editor\README.md" SelfReg="false"/>
     <ROW File="settings.html" Component_="about.html" FileName="SETTIN~1.HTM|settings.html" Attributes="0" SourcePath="..\code-editor\settings.html" SelfReg="false"/>
-    <ROW File="settings.json_1" Component_="settings.json_1" FileName="SETTIN~1.JSO|settings.json" Attributes="0" SourcePath="..\code-editor\src\.vscode\settings.json" SelfReg="false"/>
     <ROW File="Cursor.ts" Component_="Cursor.ts" FileName="Cursor.ts" Attributes="0" SourcePath="..\code-editor\src\core\Cursor.ts" SelfReg="false"/>
     <ROW File="Editor.ts" Component_="Cursor.ts" FileName="Editor.ts" Attributes="0" SourcePath="..\code-editor\src\core\Editor.ts" SelfReg="false"/>
     <ROW File="Highlighter.ts" Component_="Cursor.ts" FileName="HIGHLI~1.TS|Highlighter.ts" Attributes="0" SourcePath="..\code-editor\src\core\Highlighter.ts" SelfReg="false"/>
@@ -742,20 +695,10 @@
     <ROW Feature_="MainFeature" Component_="Microsoft.CodeAnalysis.Workspaces._12_resources.dll"/>
     <ROW Feature_="MainFeature" Component_="Galaxy.Data.resources.dll_1"/>
     <ROW Feature_="MainFeature" Component_="Galaxy.Workbench.resources.dll_2"/>
-    <ROW Feature_="MainFeature" Component_="fixeditorlinedisplay_7aac6796.md"/>
-    <ROW Feature_="MainFeature" Component_="settings.json"/>
     <ROW Feature_="MainFeature" Component_="about.html"/>
     <ROW Feature_="MainFeature" Component_="appicon.png"/>
     <ROW Feature_="MainFeature" Component_="about.css"/>
     <ROW Feature_="MainFeature" Component_="devkit.js"/>
-    <ROW Feature_="MainFeature" Component_="esbuild"/>
-    <ROW Feature_="MainFeature" Component_="packagelock.json"/>
-    <ROW Feature_="MainFeature" Component_="esbuild.exe"/>
-    <ROW Feature_="MainFeature" Component_="package.json"/>
-    <ROW Feature_="MainFeature" Component_="esbuild_1"/>
-    <ROW Feature_="MainFeature" Component_="install.js"/>
-    <ROW Feature_="MainFeature" Component_="main.d.ts"/>
-    <ROW Feature_="MainFeature" Component_="settings.json_1"/>
     <ROW Feature_="MainFeature" Component_="Cursor.ts"/>
     <ROW Feature_="MainFeature" Component_="devkit.ts"/>
     <ROW Feature_="MainFeature" Component_="CodeFolder.ts"/>
@@ -879,6 +822,6 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.SynchronizedFolderComponent">
     <ROW Directory_="bin_Dir" SourcePath="..\dist\bin" Feature="MainFeature" ExcludePattern="*~|#*#|%*%|._|CVS|.cvsignore|SCCS|vssver.scc|mssccprj.scc|vssver2.scc|.svn|.DS_Store" ExcludeFlags="6" FileAddOptions="4"/>
-    <ROW Directory_="apps_Dir" SourcePath="..\code-editor" Feature="MainFeature" ExcludePattern="*~|#*#|%*%|._|CVS|.cvsignore|SCCS|vssver.scc|mssccprj.scc|vssver2.scc|.svn|.DS_Store" ExcludeFlags="6" FileAddOptions="4"/>
+    <ROW Directory_="apps_Dir" SourcePath="..\code-editor" Feature="MainFeature" ExcludePattern="*~|#*#|%*%|._|CVS|.cvsignore|SCCS|vssver.scc|mssccprj.scc|vssver2.scc|.svn|.DS_Store|node_modules|.codebuddy|.vscode" ExcludeFlags="6" FileAddOptions="4"/>
   </COMPONENT>
 </DOCUMENT>

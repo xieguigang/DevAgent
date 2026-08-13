@@ -283,3 +283,4 @@ install/dev-cache/cacheIndex.txt
 *.cab
 install/dev-cache/part1/output-info.ini
 *.exe
+install/dev-cache/part2/output-info.ini
