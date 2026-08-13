@@ -1,5 +1,4 @@
-﻿Imports Galaxy.Workbench.CommonDialogs
-Imports VallinaDevelopment.Settings
+﻿Imports VallinaDevelopment.Settings
 
 Public Class FormEditSsh
 
@@ -75,7 +74,7 @@ Public Class FormEditSsh
 
     Public ReadOnly Property group As String
         Get
-            Dim g = If(groupTextBox?.Text, "").Trim()
+            Dim g = If(groupComboBox?.Text, "[Default]").Trim()
             Return SshServerConfig.NormalizeGroup(g)
         End Get
     End Property
