@@ -149,6 +149,10 @@ Module RibbonMenu
         Call DirectCast(CommonRuntime.AppHost, Form).Invoke(Sub() CommonRuntime.ShowDocument(Of FormHtmlViewer)(title:="About").SetUrl($"http://127.0.0.1:{Workbench.port}/about.html", New AboutPage))
     End Sub
 
+    Public Function OpenUrl(url As String) As FormHtmlViewer
+        Return DirectCast(CommonRuntime.AppHost, Form).Invoke(Function() CommonRuntime.ShowDocument(Of FormHtmlViewer)().SetUrl(url, Nothing))
+    End Function
+
     Public Sub OpenStartupPage()
         Call CommonRuntime.ShowSingleDocument(Of FormStartPage)()
     End Sub

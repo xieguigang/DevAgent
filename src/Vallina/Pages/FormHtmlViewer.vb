@@ -30,4 +30,10 @@ Public Class FormHtmlViewer
 
         Call WebView21.CoreWebView2.Navigate(url)
     End Sub
+
+    Private Sub WebView21_NavigationCompleted(sender As Object, e As CoreWebView2NavigationCompletedEventArgs) Handles WebView21.NavigationCompleted
+        If interop Is Nothing Then
+            TabText = WebView21.CoreWebView2.DocumentTitle
+        End If
+    End Sub
 End Class

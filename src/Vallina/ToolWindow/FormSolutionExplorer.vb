@@ -259,19 +259,23 @@ Public Class FormSolutionExplorer
         End If
 
         Dim folder As String
+        Dim filename As String
 
         If node.Parent Is Nothing Then
             ' is root
             folder = Workspace
+            filename = "index.html"
         ElseIf DirectCast(node.Tag, FileSystemTree).IsDirectory Then
+            filename = "index.html"
             folder = Workspace & "/" & DirectCast(node.Tag, FileSystemTree).FullName
         Else
             folder = (Workspace & "/" & DirectCast(node.Tag, FileSystemTree).FullName).ParentPath
+            filename = DirectCast(node.Tag, FileSystemTree).FullName.FileName
         End If
 
         Dim http = New HttpServices(wwwroot:=folder).StartHttp()
-        Dim p = Process.Start(New ProcessStartInfo With {.FileName = $"http://127.0.0.1:{http.port}/", .UseShellExecute = True})
+        Dim web As FormHtmlViewer = RibbonMenu.OpenUrl($"http://127.0.0.1:{http.port}/{filename}")
 
-        AddHandler p.Exited, Sub() Call http.Dispose()
+        AddHandler web.FormClosing, Sub() Call http.Dispose()
     End Sub
 End Class
