@@ -1,5 +1,5 @@
 ﻿Imports Galaxy.Workbench.CommonDialogs
-Imports Vallina.Application.Settings
+Imports VallinaDevelopment.Settings
 
 Public Class FormLinuxServers
 
@@ -101,6 +101,10 @@ Public Class FormLinuxServers
                 Call SaveAndRefresh()
             End Sub,
             config:=editor)
+    End Sub
+
+    Private Sub DeleteConfigButton_Click(sender As Object, e As EventArgs) Handles DeleteConfig.Click
+        Call DeleteToolStripMenuItem_Click(DeleteConfig, EventArgs.Empty)
     End Sub
 
     Private Sub DeleteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeleteToolStripMenuItem.Click

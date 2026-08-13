@@ -1,5 +1,5 @@
 ﻿Imports Galaxy.Workbench.CommonDialogs
-Imports Vallina.Application.Settings
+Imports VallinaDevelopment.Settings
 
 Public Class FormEditSsh
 
