@@ -1,4 +1,5 @@
 ﻿Imports DevAgent
+Imports Fluteway
 Imports Galaxy.Workbench
 Imports Galaxy.Workbench.CommonDialogs
 Imports Microsoft.VisualBasic.ApplicationServices
@@ -248,5 +249,29 @@ Public Class FormSolutionExplorer
         Else
             Call RibbonMenu.OpenConsole(folder:=(Workspace & "/" & DirectCast(node.Tag, FileSystemTree).FullName).ParentPath)
         End If
+    End Sub
+
+    Private Sub OpenHttpServerAtHereToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenHttpServerAtHereToolStripMenuItem.Click
+        Dim node = TreeView1.SelectedNode
+
+        If node Is Nothing Then
+            Return
+        End If
+
+        Dim folder As String
+
+        If node.Parent Is Nothing Then
+            ' is root
+            folder = Workspace
+        ElseIf DirectCast(node.Tag, FileSystemTree).IsDirectory Then
+            folder = Workspace & "/" & DirectCast(node.Tag, FileSystemTree).FullName
+        Else
+            folder = (Workspace & "/" & DirectCast(node.Tag, FileSystemTree).FullName).ParentPath
+        End If
+
+        Dim http = New HttpServices(wwwroot:=folder).StartHttp()
+        Dim p = Process.Start(New ProcessStartInfo With {.FileName = $"http://127.0.0.1:{http.port}/", .UseShellExecute = True})
+
+        AddHandler p.Exited, Sub() Call http.Dispose()
     End Sub
 End Class
