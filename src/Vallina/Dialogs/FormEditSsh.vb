@@ -18,6 +18,10 @@ Public Class FormEditSsh
         groupTextBox.Text = conn.group
     End Sub
 
+    Private Sub okButton_Click(sender As Object, e As EventArgs) Handles okButton.Click
+        Me.DialogResult = DialogResult.OK
+    End Sub
+
     Public ReadOnly Property host As String
         Get
             Return If(hostTextBox?.Text, "").Trim()

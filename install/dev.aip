@@ -21,10 +21,10 @@
     <ROW Property="ARPSYSTEMCOMPONENT" Value="1"/>
     <ROW Property="Manufacturer" Value="Vallina"/>
     <ROW Property="MsiLogging" MultiBuildValue="DefaultBuild:vp"/>
-    <ROW Property="ProductCode" Value="2052:{CF147B33-90A1-4978-A06C-E7CDB911E489} " Type="16"/>
+    <ROW Property="ProductCode" Value="2052:{B8E6615A-9CF7-4213-BD3F-EEB8FA4AA884} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="VallinaDev"/>
-    <ROW Property="ProductVersion" Value="1.0.0" Options="32"/>
+    <ROW Property="ProductVersion" Value="1.0.1" Options="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{45BD3260-FD59-4145-ACEF-9A4E7224DFA8}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
@@ -89,7 +89,7 @@
     <ROW Component="ProductInformation" Value="{BD951730-A676-4828-A1DE-22024A531D66}"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
-    <ROW Component="AI_CustomARPName" ComponentId="{1A490EB1-8F96-4123-AE70-47C4D689FD36}" Directory_="APPDIR" Attributes="260" KeyPath="DisplayName" Options="1"/>
+    <ROW Component="AI_CustomARPName" ComponentId="{AD9D8602-E82F-424C-9DF1-0BA967B411B1}" Directory_="APPDIR" Attributes="260" KeyPath="DisplayName" Options="1"/>
     <ROW Component="AI_DisableModify" ComponentId="{0DD95E7C-BD6F-4950-86FC-3605A4558BFE}" Directory_="APPDIR" Attributes="260" KeyPath="NoModify" Options="1"/>
     <ROW Component="AI_ExePath" ComponentId="{FCF0FFCE-FFAB-4BC3-A3E4-464F6B732DA9}" Directory_="APPDIR" Attributes="260" KeyPath="AI_ExePath"/>
     <ROW Component="APPDIR" ComponentId="{0C7E2B95-5239-421B-A720-8046ACDA840F}" Directory_="APPDIR" Attributes="0"/>
@@ -384,57 +384,57 @@
     <ROW File="Microsoft.CodeAnalysis.Workspaces._12_resources.dll" Component_="Microsoft.CodeAnalysis.Workspaces._12_resources.dll" FileName="MICROS~3.DLL|Microsoft.CodeAnalysis.Workspaces.resources.dll" Attributes="0" SourcePath="..\dist\bin\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll" SelfReg="false"/>
     <ROW File="Galaxy.Data.resources.dll_1" Component_="Galaxy.Data.resources.dll_1" FileName="GALAXY~1.DLL|Galaxy.Data.resources.dll" Attributes="0" SourcePath="..\dist\bin\zh-HK\Galaxy.Data.resources.dll" SelfReg="false"/>
     <ROW File="Galaxy.Workbench.resources.dll_2" Component_="Galaxy.Workbench.resources.dll_2" FileName="GALAXY~2.DLL|Galaxy.Workbench.resources.dll" Attributes="0" SourcePath="..\dist\bin\zh-HK\Galaxy.Workbench.resources.dll" SelfReg="false"/>
-    <ROW File="about.html" Component_="about.html" FileName="ABOUT~1.HTM|about.html" Attributes="0" SourcePath="..\code-editor\about.html" SelfReg="false"/>
-    <ROW File="appicon.png" Component_="appicon.png" FileName="app-icon.png" Attributes="0" SourcePath="..\code-editor\assets\app-icon.png" SelfReg="false"/>
-    <ROW File="build.cmd" Component_="about.html" FileName="build.cmd" Attributes="0" SourcePath="..\code-editor\build.cmd" SelfReg="false"/>
-    <ROW File="about.css" Component_="about.css" FileName="about.css" Attributes="0" SourcePath="..\code-editor\css\about.css" SelfReg="false"/>
-    <ROW File="git.css" Component_="about.css" FileName="git.css" Attributes="0" SourcePath="..\code-editor\css\git.css" SelfReg="false"/>
-    <ROW File="layout.css" Component_="about.css" FileName="layout.css" Attributes="0" SourcePath="..\code-editor\css\layout.css" SelfReg="false"/>
-    <ROW File="settings.css" Component_="about.css" FileName="settings.css" Attributes="0" SourcePath="..\code-editor\css\settings.css" SelfReg="false"/>
-    <ROW File="startpage.css" Component_="about.css" FileName="STARTP~1.CSS|startpage.css" Attributes="0" SourcePath="..\code-editor\css\startpage.css" SelfReg="false"/>
-    <ROW File="themedark.css" Component_="about.css" FileName="THEME-~1.CSS|theme-dark.css" Attributes="0" SourcePath="..\code-editor\css\theme-dark.css" SelfReg="false"/>
-    <ROW File="themelight.css" Component_="about.css" FileName="THEME-~2.CSS|theme-light.css" Attributes="0" SourcePath="..\code-editor\css\theme-light.css" SelfReg="false"/>
-    <ROW File="devkit.js" Component_="devkit.js" FileName="devkit.js" Attributes="0" SourcePath="..\code-editor\dist\devkit.js" SelfReg="false"/>
-    <ROW File="editor.bundle.d.ts" Component_="devkit.js" FileName="EDITOR~1.TS|editor.bundle.d.ts" Attributes="0" SourcePath="..\code-editor\dist\editor.bundle.d.ts" SelfReg="false"/>
-    <ROW File="editor.bundle.js" Component_="devkit.js" FileName="EDITOR~1.JS|editor.bundle.js" Attributes="0" SourcePath="..\code-editor\dist\editor.bundle.js" SelfReg="false"/>
-    <ROW File="editor.bundle.js.map" Component_="devkit.js" FileName="EDITOR~1.MAP|editor.bundle.js.map" Attributes="0" SourcePath="..\code-editor\dist\editor.bundle.js.map" SelfReg="false"/>
-    <ROW File="git.js" Component_="devkit.js" FileName="git.js" Attributes="0" SourcePath="..\code-editor\dist\git.js" SelfReg="false"/>
-    <ROW File="settings.js" Component_="devkit.js" FileName="settings.js" Attributes="0" SourcePath="..\code-editor\dist\settings.js" SelfReg="false"/>
-    <ROW File="start.js" Component_="devkit.js" FileName="start.js" Attributes="0" SourcePath="..\code-editor\dist\start.js" SelfReg="false"/>
-    <ROW File="git.html" Component_="about.html" FileName="GIT~1.HTM|git.html" Attributes="0" SourcePath="..\code-editor\git.html" SelfReg="false"/>
-    <ROW File="index.html" Component_="about.html" FileName="INDEX~1.HTM|index.html" Attributes="0" SourcePath="..\code-editor\index.html" SelfReg="false"/>
-    <ROW File="packagelock.json_1" Component_="about.html" FileName="PACKAG~1.JSO|package-lock.json" Attributes="0" SourcePath="..\code-editor\package-lock.json" SelfReg="false"/>
-    <ROW File="package.json_2" Component_="about.html" FileName="PACKAG~2.JSO|package.json" Attributes="0" SourcePath="..\code-editor\package.json" SelfReg="false"/>
-    <ROW File="README.md_2" Component_="about.html" FileName="README.md" Attributes="0" SourcePath="..\code-editor\README.md" SelfReg="false"/>
-    <ROW File="settings.html" Component_="about.html" FileName="SETTIN~1.HTM|settings.html" Attributes="0" SourcePath="..\code-editor\settings.html" SelfReg="false"/>
-    <ROW File="Cursor.ts" Component_="Cursor.ts" FileName="Cursor.ts" Attributes="0" SourcePath="..\code-editor\src\core\Cursor.ts" SelfReg="false"/>
-    <ROW File="Editor.ts" Component_="Cursor.ts" FileName="Editor.ts" Attributes="0" SourcePath="..\code-editor\src\core\Editor.ts" SelfReg="false"/>
-    <ROW File="Highlighter.ts" Component_="Cursor.ts" FileName="HIGHLI~1.TS|Highlighter.ts" Attributes="0" SourcePath="..\code-editor\src\core\Highlighter.ts" SelfReg="false"/>
-    <ROW File="TextBuffer.ts" Component_="Cursor.ts" FileName="TEXTBU~1.TS|TextBuffer.ts" Attributes="0" SourcePath="..\code-editor\src\core\TextBuffer.ts" SelfReg="false"/>
-    <ROW File="devkit.ts" Component_="devkit.ts" FileName="devkit.ts" Attributes="0" SourcePath="..\code-editor\src\devkit.ts" SelfReg="false"/>
-    <ROW File="CodeFolder.ts" Component_="CodeFolder.ts" FileName="CODEFO~1.TS|CodeFolder.ts" Attributes="0" SourcePath="..\code-editor\src\features\CodeFolder.ts" SelfReg="false"/>
-    <ROW File="CompletionProvider.ts" Component_="CodeFolder.ts" FileName="COMPLE~1.TS|CompletionProvider.ts" Attributes="0" SourcePath="..\code-editor\src\features\CompletionProvider.ts" SelfReg="false"/>
-    <ROW File="DiffViewer.ts" Component_="CodeFolder.ts" FileName="DIFFVI~1.TS|DiffViewer.ts" Attributes="0" SourcePath="..\code-editor\src\features\DiffViewer.ts" SelfReg="false"/>
-    <ROW File="GoToLine.ts" Component_="CodeFolder.ts" FileName="GoToLine.ts" Attributes="0" SourcePath="..\code-editor\src\features\GoToLine.ts" SelfReg="false"/>
-    <ROW File="SymbolNavigator.ts" Component_="CodeFolder.ts" FileName="SYMBOL~1.TS|SymbolNavigator.ts" Attributes="0" SourcePath="..\code-editor\src\features\SymbolNavigator.ts" SelfReg="false"/>
-    <ROW File="CssHighlighter.ts" Component_="CssHighlighter.ts" FileName="CSSHIG~1.TS|CssHighlighter.ts" Attributes="0" SourcePath="..\code-editor\src\highlighters\CssHighlighter.ts" SelfReg="false"/>
-    <ROW File="HighlighterRegistry.ts" Component_="CssHighlighter.ts" FileName="HIGHLI~1.TS|HighlighterRegistry.ts" Attributes="0" SourcePath="..\code-editor\src\highlighters\HighlighterRegistry.ts" SelfReg="false"/>
-    <ROW File="HtmlHighlighter.ts" Component_="CssHighlighter.ts" FileName="HTMLHI~1.TS|HtmlHighlighter.ts" Attributes="0" SourcePath="..\code-editor\src\highlighters\HtmlHighlighter.ts" SelfReg="false"/>
-    <ROW File="JavaScriptHighlighter.ts" Component_="CssHighlighter.ts" FileName="JAVASC~1.TS|JavaScriptHighlighter.ts" Attributes="0" SourcePath="..\code-editor\src\highlighters\JavaScriptHighlighter.ts" SelfReg="false"/>
-    <ROW File="JsonHighlighter.ts" Component_="CssHighlighter.ts" FileName="JSONHI~1.TS|JsonHighlighter.ts" Attributes="0" SourcePath="..\code-editor\src\highlighters\JsonHighlighter.ts" SelfReg="false"/>
-    <ROW File="MarkdownHighlighter.ts" Component_="CssHighlighter.ts" FileName="MARKDO~1.TS|MarkdownHighlighter.ts" Attributes="0" SourcePath="..\code-editor\src\highlighters\MarkdownHighlighter.ts" SelfReg="false"/>
-    <ROW File="RHighlighter.ts" Component_="CssHighlighter.ts" FileName="RHIGHL~1.TS|RHighlighter.ts" Attributes="0" SourcePath="..\code-editor\src\highlighters\RHighlighter.ts" SelfReg="false"/>
-    <ROW File="TypeScriptHighlighter.ts" Component_="CssHighlighter.ts" FileName="TYPESC~1.TS|TypeScriptHighlighter.ts" Attributes="0" SourcePath="..\code-editor\src\highlighters\TypeScriptHighlighter.ts" SelfReg="false"/>
-    <ROW File="VbNetHighlighter.ts" Component_="CssHighlighter.ts" FileName="VBNETH~1.TS|VbNetHighlighter.ts" Attributes="0" SourcePath="..\code-editor\src\highlighters\VbNetHighlighter.ts" SelfReg="false"/>
-    <ROW File="XmlHighlighter.ts" Component_="CssHighlighter.ts" FileName="XMLHIG~1.TS|XmlHighlighter.ts" Attributes="0" SourcePath="..\code-editor\src\highlighters\XmlHighlighter.ts" SelfReg="false"/>
-    <ROW File="YamlHighlighter.ts" Component_="CssHighlighter.ts" FileName="YAMLHI~1.TS|YamlHighlighter.ts" Attributes="0" SourcePath="..\code-editor\src\highlighters\YamlHighlighter.ts" SelfReg="false"/>
-    <ROW File="main.ts" Component_="devkit.ts" FileName="main.ts" Attributes="0" SourcePath="..\code-editor\src\main.ts" SelfReg="false"/>
-    <ROW File="Diff.ts" Component_="Diff.ts" FileName="Diff.ts" Attributes="0" SourcePath="..\code-editor\src\utils\Diff.ts" SelfReg="false"/>
-    <ROW File="EventEmitter.ts" Component_="Diff.ts" FileName="EVENTE~1.TS|EventEmitter.ts" Attributes="0" SourcePath="..\code-editor\src\utils\EventEmitter.ts" SelfReg="false"/>
-    <ROW File="Tokenizer.ts" Component_="Diff.ts" FileName="TOKENI~1.TS|Tokenizer.ts" Attributes="0" SourcePath="..\code-editor\src\utils\Tokenizer.ts" SelfReg="false"/>
-    <ROW File="startpage.html" Component_="about.html" FileName="STARTP~1.HTM|startpage.html" Attributes="0" SourcePath="..\code-editor\startpage.html" SelfReg="false"/>
-    <ROW File="tsconfig.json" Component_="about.html" FileName="TSCONF~1.JSO|tsconfig.json" Attributes="0" SourcePath="..\code-editor\tsconfig.json" SelfReg="false"/>
-    <ROW File="_verify_multiline.cjs" Component_="about.html" FileName="_VERIF~1.CJS|_verify_multiline.cjs" Attributes="0" SourcePath="..\code-editor\_verify_multiline.cjs" SelfReg="false"/>
+    <ROW File="about.html" Component_="about.html" FileName="ABOUT~1.HTM|about.html" Attributes="0" SourcePath="..\dist\apps\about.html" SelfReg="false"/>
+    <ROW File="appicon.png" Component_="appicon.png" FileName="app-icon.png" Attributes="0" SourcePath="..\dist\apps\assets\app-icon.png" SelfReg="false"/>
+    <ROW File="build.cmd" Component_="about.html" FileName="build.cmd" Attributes="0" SourcePath="..\dist\apps\build.cmd" SelfReg="false"/>
+    <ROW File="about.css" Component_="about.css" FileName="about.css" Attributes="0" SourcePath="..\dist\apps\css\about.css" SelfReg="false"/>
+    <ROW File="git.css" Component_="about.css" FileName="git.css" Attributes="0" SourcePath="..\dist\apps\css\git.css" SelfReg="false"/>
+    <ROW File="layout.css" Component_="about.css" FileName="layout.css" Attributes="0" SourcePath="..\dist\apps\css\layout.css" SelfReg="false"/>
+    <ROW File="settings.css" Component_="about.css" FileName="settings.css" Attributes="0" SourcePath="..\dist\apps\css\settings.css" SelfReg="false"/>
+    <ROW File="startpage.css" Component_="about.css" FileName="STARTP~1.CSS|startpage.css" Attributes="0" SourcePath="..\dist\apps\css\startpage.css" SelfReg="false"/>
+    <ROW File="themedark.css" Component_="about.css" FileName="THEME-~1.CSS|theme-dark.css" Attributes="0" SourcePath="..\dist\apps\css\theme-dark.css" SelfReg="false"/>
+    <ROW File="themelight.css" Component_="about.css" FileName="THEME-~2.CSS|theme-light.css" Attributes="0" SourcePath="..\dist\apps\css\theme-light.css" SelfReg="false"/>
+    <ROW File="devkit.js" Component_="devkit.js" FileName="devkit.js" Attributes="0" SourcePath="..\dist\apps\dist\devkit.js" SelfReg="false"/>
+    <ROW File="editor.bundle.d.ts" Component_="devkit.js" FileName="EDITOR~1.TS|editor.bundle.d.ts" Attributes="0" SourcePath="..\dist\apps\dist\editor.bundle.d.ts" SelfReg="false"/>
+    <ROW File="editor.bundle.js" Component_="devkit.js" FileName="EDITOR~1.JS|editor.bundle.js" Attributes="0" SourcePath="..\dist\apps\dist\editor.bundle.js" SelfReg="false"/>
+    <ROW File="editor.bundle.js.map" Component_="devkit.js" FileName="EDITOR~1.MAP|editor.bundle.js.map" Attributes="0" SourcePath="..\dist\apps\dist\editor.bundle.js.map" SelfReg="false"/>
+    <ROW File="git.js" Component_="devkit.js" FileName="git.js" Attributes="0" SourcePath="..\dist\apps\dist\git.js" SelfReg="false"/>
+    <ROW File="settings.js" Component_="devkit.js" FileName="settings.js" Attributes="0" SourcePath="..\dist\apps\dist\settings.js" SelfReg="false"/>
+    <ROW File="start.js" Component_="devkit.js" FileName="start.js" Attributes="0" SourcePath="..\dist\apps\dist\start.js" SelfReg="false"/>
+    <ROW File="git.html" Component_="about.html" FileName="GIT~1.HTM|git.html" Attributes="0" SourcePath="..\dist\apps\git.html" SelfReg="false"/>
+    <ROW File="index.html" Component_="about.html" FileName="INDEX~1.HTM|index.html" Attributes="0" SourcePath="..\dist\apps\index.html" SelfReg="false"/>
+    <ROW File="packagelock.json_1" Component_="about.html" FileName="PACKAG~1.JSO|package-lock.json" Attributes="0" SourcePath="..\dist\apps\package-lock.json" SelfReg="false"/>
+    <ROW File="package.json_2" Component_="about.html" FileName="PACKAG~2.JSO|package.json" Attributes="0" SourcePath="..\dist\apps\package.json" SelfReg="false"/>
+    <ROW File="README.md_2" Component_="about.html" FileName="README.md" Attributes="0" SourcePath="..\dist\apps\README.md" SelfReg="false"/>
+    <ROW File="settings.html" Component_="about.html" FileName="SETTIN~1.HTM|settings.html" Attributes="0" SourcePath="..\dist\apps\settings.html" SelfReg="false"/>
+    <ROW File="Cursor.ts" Component_="Cursor.ts" FileName="Cursor.ts" Attributes="0" SourcePath="..\dist\apps\src\core\Cursor.ts" SelfReg="false"/>
+    <ROW File="Editor.ts" Component_="Cursor.ts" FileName="Editor.ts" Attributes="0" SourcePath="..\dist\apps\src\core\Editor.ts" SelfReg="false"/>
+    <ROW File="Highlighter.ts" Component_="Cursor.ts" FileName="HIGHLI~1.TS|Highlighter.ts" Attributes="0" SourcePath="..\dist\apps\src\core\Highlighter.ts" SelfReg="false"/>
+    <ROW File="TextBuffer.ts" Component_="Cursor.ts" FileName="TEXTBU~1.TS|TextBuffer.ts" Attributes="0" SourcePath="..\dist\apps\src\core\TextBuffer.ts" SelfReg="false"/>
+    <ROW File="devkit.ts" Component_="devkit.ts" FileName="devkit.ts" Attributes="0" SourcePath="..\dist\apps\src\devkit.ts" SelfReg="false"/>
+    <ROW File="CodeFolder.ts" Component_="CodeFolder.ts" FileName="CODEFO~1.TS|CodeFolder.ts" Attributes="0" SourcePath="..\dist\apps\src\features\CodeFolder.ts" SelfReg="false"/>
+    <ROW File="CompletionProvider.ts" Component_="CodeFolder.ts" FileName="COMPLE~1.TS|CompletionProvider.ts" Attributes="0" SourcePath="..\dist\apps\src\features\CompletionProvider.ts" SelfReg="false"/>
+    <ROW File="DiffViewer.ts" Component_="CodeFolder.ts" FileName="DIFFVI~1.TS|DiffViewer.ts" Attributes="0" SourcePath="..\dist\apps\src\features\DiffViewer.ts" SelfReg="false"/>
+    <ROW File="GoToLine.ts" Component_="CodeFolder.ts" FileName="GoToLine.ts" Attributes="0" SourcePath="..\dist\apps\src\features\GoToLine.ts" SelfReg="false"/>
+    <ROW File="SymbolNavigator.ts" Component_="CodeFolder.ts" FileName="SYMBOL~1.TS|SymbolNavigator.ts" Attributes="0" SourcePath="..\dist\apps\src\features\SymbolNavigator.ts" SelfReg="false"/>
+    <ROW File="CssHighlighter.ts" Component_="CssHighlighter.ts" FileName="CSSHIG~1.TS|CssHighlighter.ts" Attributes="0" SourcePath="..\dist\apps\src\highlighters\CssHighlighter.ts" SelfReg="false"/>
+    <ROW File="HighlighterRegistry.ts" Component_="CssHighlighter.ts" FileName="HIGHLI~1.TS|HighlighterRegistry.ts" Attributes="0" SourcePath="..\dist\apps\src\highlighters\HighlighterRegistry.ts" SelfReg="false"/>
+    <ROW File="HtmlHighlighter.ts" Component_="CssHighlighter.ts" FileName="HTMLHI~1.TS|HtmlHighlighter.ts" Attributes="0" SourcePath="..\dist\apps\src\highlighters\HtmlHighlighter.ts" SelfReg="false"/>
+    <ROW File="JavaScriptHighlighter.ts" Component_="CssHighlighter.ts" FileName="JAVASC~1.TS|JavaScriptHighlighter.ts" Attributes="0" SourcePath="..\dist\apps\src\highlighters\JavaScriptHighlighter.ts" SelfReg="false"/>
+    <ROW File="JsonHighlighter.ts" Component_="CssHighlighter.ts" FileName="JSONHI~1.TS|JsonHighlighter.ts" Attributes="0" SourcePath="..\dist\apps\src\highlighters\JsonHighlighter.ts" SelfReg="false"/>
+    <ROW File="MarkdownHighlighter.ts" Component_="CssHighlighter.ts" FileName="MARKDO~1.TS|MarkdownHighlighter.ts" Attributes="0" SourcePath="..\dist\apps\src\highlighters\MarkdownHighlighter.ts" SelfReg="false"/>
+    <ROW File="RHighlighter.ts" Component_="CssHighlighter.ts" FileName="RHIGHL~1.TS|RHighlighter.ts" Attributes="0" SourcePath="..\dist\apps\src\highlighters\RHighlighter.ts" SelfReg="false"/>
+    <ROW File="TypeScriptHighlighter.ts" Component_="CssHighlighter.ts" FileName="TYPESC~1.TS|TypeScriptHighlighter.ts" Attributes="0" SourcePath="..\dist\apps\src\highlighters\TypeScriptHighlighter.ts" SelfReg="false"/>
+    <ROW File="VbNetHighlighter.ts" Component_="CssHighlighter.ts" FileName="VBNETH~1.TS|VbNetHighlighter.ts" Attributes="0" SourcePath="..\dist\apps\src\highlighters\VbNetHighlighter.ts" SelfReg="false"/>
+    <ROW File="XmlHighlighter.ts" Component_="CssHighlighter.ts" FileName="XMLHIG~1.TS|XmlHighlighter.ts" Attributes="0" SourcePath="..\dist\apps\src\highlighters\XmlHighlighter.ts" SelfReg="false"/>
+    <ROW File="YamlHighlighter.ts" Component_="CssHighlighter.ts" FileName="YAMLHI~1.TS|YamlHighlighter.ts" Attributes="0" SourcePath="..\dist\apps\src\highlighters\YamlHighlighter.ts" SelfReg="false"/>
+    <ROW File="main.ts" Component_="devkit.ts" FileName="main.ts" Attributes="0" SourcePath="..\dist\apps\src\main.ts" SelfReg="false"/>
+    <ROW File="Diff.ts" Component_="Diff.ts" FileName="Diff.ts" Attributes="0" SourcePath="..\dist\apps\src\utils\Diff.ts" SelfReg="false"/>
+    <ROW File="EventEmitter.ts" Component_="Diff.ts" FileName="EVENTE~1.TS|EventEmitter.ts" Attributes="0" SourcePath="..\dist\apps\src\utils\EventEmitter.ts" SelfReg="false"/>
+    <ROW File="Tokenizer.ts" Component_="Diff.ts" FileName="TOKENI~1.TS|Tokenizer.ts" Attributes="0" SourcePath="..\dist\apps\src\utils\Tokenizer.ts" SelfReg="false"/>
+    <ROW File="startpage.html" Component_="about.html" FileName="STARTP~1.HTM|startpage.html" Attributes="0" SourcePath="..\dist\apps\startpage.html" SelfReg="false"/>
+    <ROW File="tsconfig.json" Component_="about.html" FileName="TSCONF~1.JSO|tsconfig.json" Attributes="0" SourcePath="..\dist\apps\tsconfig.json" SelfReg="false"/>
+    <ROW File="_verify_multiline.cjs" Component_="about.html" FileName="_VERIF~1.CJS|_verify_multiline.cjs" Attributes="0" SourcePath="..\dist\apps\_verify_multiline.cjs" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BootstrOptComponent">
     <ROW BootstrOptKey="GlobalOptions" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="2"/>
@@ -822,6 +822,6 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.SynchronizedFolderComponent">
     <ROW Directory_="bin_Dir" SourcePath="..\dist\bin" Feature="MainFeature" ExcludePattern="*~|#*#|%*%|._|CVS|.cvsignore|SCCS|vssver.scc|mssccprj.scc|vssver2.scc|.svn|.DS_Store" ExcludeFlags="6" FileAddOptions="4"/>
-    <ROW Directory_="apps_Dir" SourcePath="..\code-editor" Feature="MainFeature" ExcludePattern="*~|#*#|%*%|._|CVS|.cvsignore|SCCS|vssver.scc|mssccprj.scc|vssver2.scc|.svn|.DS_Store|node_modules|.codebuddy|.vscode" ExcludeFlags="6" FileAddOptions="4"/>
+    <ROW Directory_="apps_Dir" SourcePath="..\dist\apps" Feature="MainFeature" ExcludePattern="*~|#*#|%*%|._|CVS|.cvsignore|SCCS|vssver.scc|mssccprj.scc|vssver2.scc|.svn|.DS_Store|node_modules|.codebuddy|.vscode" ExcludeFlags="6" FileAddOptions="4"/>
   </COMPONENT>
 </DOCUMENT>
