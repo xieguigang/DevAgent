@@ -279,3 +279,7 @@ storage.ide-wal
 *.db-wal
 src/.vs/DevAgent.slnx/v18/DocumentLayout.json
 src/.vs/DevAgent.slnx/v18/DocumentLayout.backup.json
+install/dev-cache/cacheIndex.txt
+*.cab
+install/dev-cache/part1/output-info.ini
+*.exe
