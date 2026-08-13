@@ -30,7 +30,7 @@ Partial Class FormEditSsh
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(448, 477)
+        ClientSize = New Size(495, 499)
         Name = "FormEditSsh"
         Text = "Edit Ssh Connection"
         ResumeLayout(False)

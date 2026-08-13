@@ -27,52 +27,75 @@ Partial Class FormLinuxServers
         components = New ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormLinuxServers))
         ToolStrip1 = New ToolStrip()
-        ToolStripButton1 = New ToolStripButton()
-        ToolStripButton2 = New ToolStripButton()
+        AddConfig = New ToolStripButton()
+        DeleteConfig = New ToolStripButton()
         TreeView1 = New TreeView()
+        ContextMenuStrip1 = New ContextMenuStrip(components)
+        OpenConnectionToolStripMenuItem = New ToolStripMenuItem()
+        EditToolStripMenuItem = New ToolStripMenuItem()
         ToolStrip1.SuspendLayout()
+        ContextMenuStrip1.SuspendLayout()
         SuspendLayout()
         ' 
         ' ToolStrip1
         ' 
-        ToolStrip1.Items.AddRange(New ToolStripItem() {ToolStripButton1, ToolStripButton2})
+        ToolStrip1.Items.AddRange(New ToolStripItem() {AddConfig, DeleteConfig})
         ToolStrip1.Location = New Point(0, 0)
         ToolStrip1.Name = "ToolStrip1"
-        ToolStrip1.Size = New Size(438, 25)
+        ToolStrip1.Size = New Size(403, 25)
         ToolStrip1.TabIndex = 0
         ToolStrip1.Text = "ToolStrip1"
         ' 
-        ' ToolStripButton1
+        ' AddConfig
         ' 
-        ToolStripButton1.DisplayStyle = ToolStripItemDisplayStyle.Image
-        ToolStripButton1.Image = CType(resources.GetObject("ToolStripButton1.Image"), Image)
-        ToolStripButton1.ImageTransparentColor = Color.Magenta
-        ToolStripButton1.Name = "ToolStripButton1"
-        ToolStripButton1.Size = New Size(23, 22)
-        ToolStripButton1.Text = "Add"
+        AddConfig.DisplayStyle = ToolStripItemDisplayStyle.Image
+        AddConfig.Image = CType(resources.GetObject("AddConfig.Image"), Image)
+        AddConfig.ImageTransparentColor = Color.Magenta
+        AddConfig.Name = "AddConfig"
+        AddConfig.Size = New Size(23, 22)
+        AddConfig.Text = "Add"
         ' 
-        ' ToolStripButton2
+        ' DeleteConfig
         ' 
-        ToolStripButton2.DisplayStyle = ToolStripItemDisplayStyle.Image
-        ToolStripButton2.Image = CType(resources.GetObject("ToolStripButton2.Image"), Image)
-        ToolStripButton2.ImageTransparentColor = Color.Magenta
-        ToolStripButton2.Name = "ToolStripButton2"
-        ToolStripButton2.Size = New Size(23, 22)
-        ToolStripButton2.Text = "Delete"
+        DeleteConfig.DisplayStyle = ToolStripItemDisplayStyle.Image
+        DeleteConfig.Image = CType(resources.GetObject("DeleteConfig.Image"), Image)
+        DeleteConfig.ImageTransparentColor = Color.Magenta
+        DeleteConfig.Name = "DeleteConfig"
+        DeleteConfig.Size = New Size(23, 22)
+        DeleteConfig.Text = "Delete"
         ' 
         ' TreeView1
         ' 
+        TreeView1.ContextMenuStrip = ContextMenuStrip1
         TreeView1.Dock = DockStyle.Fill
         TreeView1.Location = New Point(0, 25)
         TreeView1.Name = "TreeView1"
-        TreeView1.Size = New Size(438, 779)
+        TreeView1.Size = New Size(403, 604)
         TreeView1.TabIndex = 1
+        ' 
+        ' ContextMenuStrip1
+        ' 
+        ContextMenuStrip1.Items.AddRange(New ToolStripItem() {OpenConnectionToolStripMenuItem, EditToolStripMenuItem})
+        ContextMenuStrip1.Name = "ContextMenuStrip1"
+        ContextMenuStrip1.Size = New Size(169, 48)
+        ' 
+        ' OpenConnectionToolStripMenuItem
+        ' 
+        OpenConnectionToolStripMenuItem.Name = "OpenConnectionToolStripMenuItem"
+        OpenConnectionToolStripMenuItem.Size = New Size(168, 22)
+        OpenConnectionToolStripMenuItem.Text = "Open Connection"
+        ' 
+        ' EditToolStripMenuItem
+        ' 
+        EditToolStripMenuItem.Name = "EditToolStripMenuItem"
+        EditToolStripMenuItem.Size = New Size(168, 22)
+        EditToolStripMenuItem.Text = "Edit"
         ' 
         ' FormLinuxServers
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(438, 804)
+        ClientSize = New Size(403, 629)
         Controls.Add(TreeView1)
         Controls.Add(ToolStrip1)
         DockAreas = Microsoft.VisualStudio.WinForms.Docking.DockAreas.Float Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockLeft Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockRight Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockTop Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockBottom Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.Document
@@ -83,12 +106,16 @@ Partial Class FormLinuxServers
         Text = "Linux Server Sessions"
         ToolStrip1.ResumeLayout(False)
         ToolStrip1.PerformLayout()
+        ContextMenuStrip1.ResumeLayout(False)
         ResumeLayout(False)
         PerformLayout()
     End Sub
 
     Friend WithEvents ToolStrip1 As ToolStrip
     Friend WithEvents TreeView1 As TreeView
-    Friend WithEvents ToolStripButton1 As ToolStripButton
-    Friend WithEvents ToolStripButton2 As ToolStripButton
+    Friend WithEvents AddConfig As ToolStripButton
+    Friend WithEvents DeleteConfig As ToolStripButton
+    Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
+    Friend WithEvents OpenConnectionToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents EditToolStripMenuItem As ToolStripMenuItem
 End Class

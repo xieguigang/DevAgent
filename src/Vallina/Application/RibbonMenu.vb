@@ -42,12 +42,14 @@ Module RibbonMenu
         End Using
     End Sub
 
-    Public Sub OpenBash()
+    Public Function OpenBash() As FormSsh
         Dim bash As New FormSsh
 
         bash.Show(CommonRuntime.AppHost.GetDockPanel)
         bash.DockState = DockState.DockBottom
-    End Sub
+
+        Return bash
+    End Function
 
     Public Sub OpenLinuxSessions()
         Dim servers = CommonRuntime.TryGetToolWindow("linux_servers")
