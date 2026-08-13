@@ -67,11 +67,11 @@ Module Workbench
     End Sub
 
     Private Function GetWebRoot() As String
-        If CheckDevelopmentMode() Then
-            _wwwroot = "G:\DevAgent\code-editor"
-        Else
-            _wwwroot = App.HOME.ParentPath & "/apps"
-        End If
+        ' If CheckDevelopmentMode() Then
+        '     _wwwroot = "G:\DevAgent\code-editor"
+        ' Else
+        _wwwroot = App.HOME.ParentPath & "/apps"
+        ' End If
 
         Return wwwroot
     End Function
