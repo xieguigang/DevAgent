@@ -33,6 +33,7 @@ Partial Class FormLinuxServers
         ContextMenuStrip1 = New ContextMenuStrip(components)
         OpenConnectionToolStripMenuItem = New ToolStripMenuItem()
         EditToolStripMenuItem = New ToolStripMenuItem()
+        DeleteToolStripMenuItem = New ToolStripMenuItem()
         ToolStrip1.SuspendLayout()
         ContextMenuStrip1.SuspendLayout()
         SuspendLayout()
@@ -75,7 +76,7 @@ Partial Class FormLinuxServers
         ' 
         ' ContextMenuStrip1
         ' 
-        ContextMenuStrip1.Items.AddRange(New ToolStripItem() {OpenConnectionToolStripMenuItem, EditToolStripMenuItem})
+        ContextMenuStrip1.Items.AddRange(New ToolStripItem() {OpenConnectionToolStripMenuItem, EditToolStripMenuItem, DeleteToolStripMenuItem})
         ContextMenuStrip1.Name = "ContextMenuStrip1"
         ContextMenuStrip1.Size = New Size(169, 48)
         ' 
@@ -90,6 +91,12 @@ Partial Class FormLinuxServers
         EditToolStripMenuItem.Name = "EditToolStripMenuItem"
         EditToolStripMenuItem.Size = New Size(168, 22)
         EditToolStripMenuItem.Text = "Edit"
+        ' 
+        ' DeleteToolStripMenuItem
+        ' 
+        DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
+        DeleteToolStripMenuItem.Size = New Size(168, 22)
+        DeleteToolStripMenuItem.Text = "Delete"
         ' 
         ' FormLinuxServers
         ' 
@@ -118,4 +125,5 @@ Partial Class FormLinuxServers
     Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
     Friend WithEvents OpenConnectionToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents EditToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents DeleteToolStripMenuItem As ToolStripMenuItem
 End Class
