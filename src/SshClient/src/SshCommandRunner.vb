@@ -5,6 +5,7 @@
 ' 将 stdout/stderr 实时输出到本地控制台，并返回退出码。
 ' ============================================================================
 
+Imports System.IO
 Imports Renci.SshNet
 
 ''' <summary>
@@ -20,6 +21,38 @@ Public Class SshCommandRunner
         _verbose = verbose
     End Sub
 
+    Public Shared Sub ReadSshStdOut(cmd As SshCommand, text As TextWriter)
+        Using reader As New StreamReader(cmd.OutputStream)
+            Dim buffer(8192) As Char
+            Dim count As Integer
+
+            Do
+                count = reader.Read(buffer, 0, buffer.Length)
+                If count > 0 Then
+                    text.Write(buffer, 0, count)
+                End If
+            Loop Until count = 0
+
+            Call text.Flush()
+        End Using
+    End Sub
+
+    Public Shared Sub ReadSshStdErr(cmd As SshCommand, text As TextWriter)
+        Using reader As New StreamReader(cmd.ExtendedOutputStream)
+            Dim buffer(8192) As Char
+            Dim count As Integer
+
+            Do
+                count = reader.Read(buffer, 0, buffer.Length)
+                If count > 0 Then
+                    text.Write(buffer, 0, count)
+                End If
+            Loop Until count = 0
+
+            Call text.Flush()
+        End Using
+    End Sub
+
     ''' <summary>
     ''' 执行单条远程命令并输出结果。
     ''' </summary>
@@ -31,38 +64,9 @@ Public Class SshCommandRunner
         End If
 
         Dim cmd As SshCommand = _client.RunCommand(command)
-
         ' 异步读取输出避免大输出时阻塞
-        Dim stdoutTask As System.Threading.Tasks.Task = System.Threading.Tasks.Task.Run(
-            Sub()
-                Using reader As New System.IO.StreamReader(cmd.OutputStream)
-                    Dim buffer(8192) As Char
-                    Dim count As Integer
-                    Do
-                        count = reader.Read(buffer, 0, buffer.Length)
-                        If count > 0 Then
-                            Console.Out.Write(buffer, 0, count)
-                        End If
-                    Loop Until count = 0
-                    Console.Out.Flush()
-                End Using
-            End Sub)
-
-        Dim stderrTask As System.Threading.Tasks.Task = System.Threading.Tasks.Task.Run(
-            Sub()
-                Using reader As New System.IO.StreamReader(cmd.ExtendedOutputStream)
-                    Dim buffer(8192) As Char
-                    Dim count As Integer
-                    Do
-                        count = reader.Read(buffer, 0, buffer.Length)
-                        If count > 0 Then
-                            Console.Error.Write(buffer, 0, count)
-                        End If
-                    Loop Until count = 0
-                    Console.Error.Flush()
-                End Using
-            End Sub)
-
+        Dim stdoutTask As Task = Task.Run(Sub() Call ReadSshStdOut(cmd, Console.Out))
+        Dim stderrTask As Task = Task.Run(Sub() Call ReadSshStdErr(cmd, Console.Error))
         ' 异步执行命令，使后台线程能够持续泵送输出流
         Dim asyncResult As IAsyncResult = cmd.BeginExecute()
         ' 阻塞等待命令执行完成
