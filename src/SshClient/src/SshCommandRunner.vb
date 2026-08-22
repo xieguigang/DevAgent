@@ -22,30 +22,22 @@ Public Class SshCommandRunner
     End Sub
 
     Public Shared Sub ReadSshStdOut(cmd As SshCommand, text As TextWriter)
-        Using reader As New StreamReader(cmd.OutputStream)
-            Dim buffer(8192) As Char
-            Dim count As Integer
-
-            Do
-                count = reader.Read(buffer, 0, buffer.Length)
-                If count > 0 Then
-                    text.Write(buffer, 0, count)
-                End If
-            Loop Until count = 0
-
-            Call text.Flush()
-        End Using
+        Call ReadSshStream(cmd.OutputStream, text)
     End Sub
 
     Public Shared Sub ReadSshStdErr(cmd As SshCommand, text As TextWriter)
-        Using reader As New StreamReader(cmd.ExtendedOutputStream)
+        Call ReadSshStream(cmd.ExtendedOutputStream, text)
+    End Sub
+
+    Public Shared Sub ReadSshStream(ssh As Stream, text As TextWriter)
+        Using reader As New StreamReader(ssh)
             Dim buffer(8192) As Char
             Dim count As Integer
 
             Do
                 count = reader.Read(buffer, 0, buffer.Length)
                 If count > 0 Then
-                    text.Write(buffer, 0, count)
+                    Call text.Write(buffer, 0, count)
                 End If
             Loop Until count = 0
 
