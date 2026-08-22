@@ -1,12 +1,13 @@
+Imports System.IO
+Imports System.Text
+Imports Renci.SshNet
+
 ' ============================================================================
 ' SshCommandRunner.vb - 单命令执行模式
 '
 ' 通过 SSH.NET 的 RunCommand 方法在远程主机上执行单条命令，
 ' 将 stdout/stderr 实时输出到本地控制台，并返回退出码。
 ' ============================================================================
-
-Imports System.IO
-Imports Renci.SshNet
 
 ''' <summary>
 ''' 单命令执行器。
@@ -46,7 +47,7 @@ Public Class SshCommandRunner
     End Sub
 
     ''' <summary>
-    ''' 执行单条远程命令并输出结果。
+    ''' 执行单条远程命令并在终端上输出结果。
     ''' </summary>
     ''' <param name="command">要执行的命令字符串。</param>
     ''' <returns>远程命令的退出码。连接失败返回 -1。</returns>
@@ -55,19 +56,44 @@ Public Class SshCommandRunner
             Console.Error.WriteLine($"[调试] 执行命令: {command}")
         End If
 
-        Dim cmd As SshCommand = _client.RunCommand(command)
+        Using cmd As SshCommand = _client.RunCommand(command)
+            Return Run(cmd, stdout:=Console.Out, stderr:=Console.Error)
+        End Using
+    End Function
+
+    ''' <summary>
+    ''' 执行单条远程命令，并获取得到远程命令的标准输出以及标准错误
+    ''' </summary>
+    ''' <param name="command"></param>
+    ''' <returns></returns>
+    Public Function Execute(command As String) As (exitCode As Integer, stdout As String, stderr As String)
+        If _verbose Then
+            Console.Error.WriteLine($"[调试] 执行命令: {command}")
+        End If
+
+        Using cmd As SshCommand = _client.RunCommand(command)
+            Dim stdout As New StringBuilder
+            Dim stderr As New StringBuilder
+            Dim exitCode As Integer = Run(cmd, stdout:=New StringWriter(stdout), stderr:=New StringWriter(stderr))
+
+            Return (exitCode, stdout.ToString, stderr.ToString)
+        End Using
+    End Function
+
+    Private Function Run(cmd As SshCommand, stdout As TextWriter, stderr As TextWriter) As Integer
         ' 异步读取输出避免大输出时阻塞
-        Dim stdoutTask As Task = Task.Run(Sub() Call ReadSshStdOut(cmd, Console.Out))
-        Dim stderrTask As Task = Task.Run(Sub() Call ReadSshStdErr(cmd, Console.Error))
+        Dim stdoutTask As Task = Task.Run(Sub() Call ReadSshStdOut(cmd, stdout))
+        Dim stderrTask As Task = Task.Run(Sub() Call ReadSshStdErr(cmd, stderr))
         ' 异步执行命令，使后台线程能够持续泵送输出流
         Dim asyncResult As IAsyncResult = cmd.BeginExecute()
+
         ' 阻塞等待命令执行完成
-        asyncResult.AsyncWaitHandle.WaitOne()
-        cmd.EndExecute(asyncResult)
+        Call asyncResult.AsyncWaitHandle.WaitOne()
+        Call cmd.EndExecute(asyncResult)
 
         ' 确保输出读取完毕
-        stdoutTask.Wait()
-        stderrTask.Wait()
+        Call stdoutTask.Wait()
+        Call stderrTask.Wait()
 
         Dim exitCode As Integer = If(cmd.ExitStatus >= 0, cmd.ExitStatus, -1)
 
@@ -80,7 +106,6 @@ Public Class SshCommandRunner
             Console.Error.WriteLine($"[调试] 命令退出码: {exitCode}")
         End If
 
-        cmd.Dispose()
         Return exitCode
     End Function
 
