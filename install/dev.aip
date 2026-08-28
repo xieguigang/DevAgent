@@ -2,16 +2,9 @@
 <DOCUMENT Type="Advanced Installer" CreateVersion="22.2" version="22.2" Modules="professional" RootPath="." Language="zh" Id="{61CEB174-D015-4303-A21B-386EC93F659C}">
   <COMPONENT cid="caphyon.advinst.msicomp.MsiPropsComponent">
     <ROW Property="AI_BITMAP_DISPLAY_MODE" Value="0"/>
-    <ROW Property="AI_COLOR_DISABLED_TEXT" Value="3026478" MultiBuildValue="DefaultBuild:15461355" MsiKey="AI_COLOR_DISABLED_TEXT"/>
-    <ROW Property="AI_CONTROL_VISUAL_STYLE" Value="2960685;4276545;6776679;16176031" MultiBuildValue="DefaultBuild:16777215;15859690;7579735;3957806" MsiKey="AI_CONTROL_VISUAL_STYLE"/>
-    <ROW Property="AI_CONTROL_VISUAL_STYLE_EX" Value="1513239;3026478;3026478" MultiBuildValue="DefaultBuild:16514043;15461355;15461355" MsiKey="AI_CONTROL_VISUAL_STYLE_EX"/>
-    <ROW Property="AI_CONTROL_VISUAL_STYLE_FLAT" MultiBuildValue="DefaultBuild:15859690;15859690;7579735;3957806" MsiKey="AI_CONTROL_VISUAL_STYLE_FLAT"/>
     <ROW Property="AI_EXTERNALUIUNINSTALLERNAME" MultiBuildValue="DefaultBuild:aiui"/>
     <ROW Property="AI_FINDEXE_TITLE" Value="选择 [|ProductName] 安装包" ValueLocId="AI.Property.FindExeTitle"/>
-    <ROW Property="AI_FrameBtnsColor" Value="metroblack" MultiBuildValue="DefaultBuild:metrogreen" MsiKey="AI_FrameBtnsColor"/>
-    <ROW Property="AI_FrameColor" Value="metroblack" MultiBuildValue="DefaultBuild:metrogreen" MsiKey="AI_FrameColor"/>
     <ROW Property="AI_PRODUCTNAME_ARP" Value="VallinaDev"/>
-    <ROW Property="AI_ThemeStyle" Value="default" MultiBuildValue="DefaultBuild:metrogreen" MsiKey="AI_ThemeStyle"/>
     <ROW Property="AI_UNINSTALLER" Value="msiexec.exe"/>
     <ROW Property="ALLUSERS" Value="1"/>
     <ROW Property="ARPCOMMENTS" Value="此 Installer 数据库包含了安装 [|ProductName] 所需的逻辑和数据。" ValueLocId="*"/>
@@ -21,10 +14,10 @@
     <ROW Property="ARPSYSTEMCOMPONENT" Value="1"/>
     <ROW Property="Manufacturer" Value="Vallina"/>
     <ROW Property="MsiLogging" MultiBuildValue="DefaultBuild:vp"/>
-    <ROW Property="ProductCode" Value="2052:{BB5F8926-25A8-4F32-B36A-8652DADB9B33} " Type="16"/>
+    <ROW Property="ProductCode" Value="2052:{36F88E6F-38E7-47E6-BDF6-453A2F3C74BF} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="VallinaDev"/>
-    <ROW Property="ProductVersion" Value="1.0.3" Options="32"/>
+    <ROW Property="ProductVersion" Value="1.1.2026.0828" Options="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{45BD3260-FD59-4145-ACEF-9A4E7224DFA8}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
@@ -89,7 +82,7 @@
     <ROW Component="ProductInformation" Value="{BD951730-A676-4828-A1DE-22024A531D66}"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
-    <ROW Component="AI_CustomARPName" ComponentId="{3D3AFD1F-F098-49D5-B2A9-29F0806608B3}" Directory_="APPDIR" Attributes="260" KeyPath="DisplayName" Options="1"/>
+    <ROW Component="AI_CustomARPName" ComponentId="{CE09028F-BA26-48FA-BC4F-EB4F71BABDDF}" Directory_="APPDIR" Attributes="260" KeyPath="DisplayName" Options="1"/>
     <ROW Component="AI_DisableModify" ComponentId="{0DD95E7C-BD6F-4950-86FC-3605A4558BFE}" Directory_="APPDIR" Attributes="260" KeyPath="NoModify" Options="1"/>
     <ROW Component="AI_ExePath" ComponentId="{FCF0FFCE-FFAB-4BC3-A3E4-464F6B732DA9}" Directory_="APPDIR" Attributes="260" KeyPath="AI_ExePath"/>
     <ROW Component="APPDIR" ComponentId="{0C7E2B95-5239-421B-A720-8046ACDA840F}" Directory_="APPDIR" Attributes="0"/>
@@ -804,14 +797,8 @@
     <ROW Shortcut="Vallina_1" Directory_="__Dir" Name="Vallina" Component_="Vallina.exe" Target="[#Vallina.exe]" Hotkey="0" Icon_="Vallina.exe" IconIndex="0" ShowCmd="1" WkDir="bin_Dir"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiTextStyleComponent">
-    <ROW TextStyle="BrandingStyle" FaceName="Segoe UI" Size="8" Color="2171376" MultiBuildColor="DefaultBuild:15395562" StyleBits="0" MsiKey="BrandingStyle"/>
-    <ROW TextStyle="DlgFont8" FaceName="Segoe UI" Size="11" Color="14079702" MultiBuildColor="DefaultBuild:4473924" StyleBits="0" MsiKey="DlgFont8"/>
-    <ROW TextStyle="ImageButton" FaceName="Segoe UI" Size="11" Color="14079702" MultiBuildColor="DefaultBuild:16777215" StyleBits="1" MsiKey="ImageButton"/>
-    <ROW TextStyle="InputCtrlFont" FaceName="Segoe UI" Size="8" Color="16777215" MultiBuildColor="DefaultBuild:8289918" StyleBits="0" MsiKey="InputCtrlFont"/>
-    <ROW TextStyle="Manufacturer" FaceName="Verdana" Size="10" Color="16777215" MultiBuildColor="DefaultBuild:1065232" StyleBits="0" MsiKey="Manufacturer"/>
-    <ROW TextStyle="MetroInstallButton" FaceName="Segoe UI" Size="22" Color="14079702" MultiBuildColor="DefaultBuild:16777215" StyleBits="0" MsiKey="MetroInstallButton"/>
-    <ROW TextStyle="SubTitle" FaceName="Segoe UI" Size="14" Color="14079702" MultiBuildColor="DefaultBuild:8289918" StyleBits="0" MsiKey="SubTitle"/>
-    <ROW TextStyle="SubnoteFont" FaceName="Segoe UI" Size="8" Color="9671571" MultiBuildColor="DefaultBuild:14079702" StyleBits="0" MsiKey="SubnoteFont"/>
+    <ROW TextStyle="BrandingStyle" FaceName="Segoe UI" Size="8" Color="2171376" MultiBuildColor="DefaultBuild:2565927" StyleBits="0" MsiKey="BrandingStyle"/>
+    <ROW TextStyle="InputCtrlFont" FaceName="Segoe UI" Size="8" Color="16777215" MultiBuildColor="DefaultBuild:14079702" StyleBits="0" MsiKey="InputCtrlFont"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiThemeComponent">
     <ATTRIBUTE name="UsedTheme" value="surface"/>
