@@ -44,10 +44,10 @@ Public Class FormSolutionExplorer
         Select Case ProjectFile.ExtensionSuffix
             Case "vbproj"
                 proj = VBProject.Load(ProjectFile, parseDoc:=False)
-                Call LoadVBProjectFileTree()
+                Call ProgressSpinner.DoLoading(Sub() Call Me.Invoke(Sub() Call LoadVBProjectFileTree()))
             Case Else
                 proj = New FolderWorkspace(ProjectFile)
-                Call LoadFolderProjectTree()
+                Call ProgressSpinner.DoLoading(Sub() Call Me.Invoke(Sub() Call LoadFolderProjectTree()))
         End Select
 
         ' switch to new workspace context for LLM
