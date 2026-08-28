@@ -93,6 +93,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Icons8\Icons.Designer.vb">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Icons.resx</DependentUpon>
+    </Compile>
     <Compile Update="My Project\Application.Designer.vb">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -119,6 +124,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Icons8\Icons.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Icons.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="My Project\Resources.resx">
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

@@ -1,5 +1,7 @@
 ﻿Imports DevAgent
 Imports Galaxy.Workbench
+Imports Microsoft.VisualBasic.Drawing.Interop
+Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualStudio.WinForms.Docking
 Imports Ollama
 
@@ -25,6 +27,7 @@ Public Class FormLLMsTool
         llm.HookReadOnlyFileSystem(_tools)
         llm.AddFunction(_tools, "write_file")
 
+        WebView2llmui1.avatar = New DataURI(New GDIPlusImage(My.Resources.Icons.icons8_deepseek_96)).ToString
         WebView2llmui1.SetHost(llm,
             callback:=Sub(res)
                           CommonRuntime.GetOutputWindow.AppendLine($"<think>{res.think}</think>" & vbCrLf & vbCrLf)
