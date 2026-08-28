@@ -27,6 +27,7 @@ Public Class FormLLMsTool
         llm.HookReadOnlyFileSystem(_tools)
         llm.AddFunction(_tools, "write_file")
 
+        WebView2llmui1.logo = New DataURI(New GDIPlusImage(My.Resources.Icons.icons8_source_code_96)).ToString
         WebView2llmui1.avatar = New DataURI(New GDIPlusImage(My.Resources.Icons.icons8_deepseek_96)).ToString
         WebView2llmui1.SetHost(llm,
             callback:=Sub(res)
