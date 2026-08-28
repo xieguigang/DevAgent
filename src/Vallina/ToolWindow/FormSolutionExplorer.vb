@@ -43,7 +43,7 @@ Public Class FormSolutionExplorer
 
         Select Case ProjectFile.ExtensionSuffix
             Case "vbproj"
-                proj = VBProject.Load(ProjectFile)
+                proj = VBProject.Load(ProjectFile, parseDoc:=False)
                 Call LoadVBProjectFileTree()
             Case Else
                 proj = New FolderWorkspace(ProjectFile)

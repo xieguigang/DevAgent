@@ -1,16 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\DevAgent\\src\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{586F30AC-D83F-A6D7-8D18-F38147DB23E0}|SshClient\\SshClient.vbproj|g:\\devagent\\src\\sshclient\\src\\sshcommandrunner.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{586F30AC-D83F-A6D7-8D18-F38147DB23E0}|SshClient\\SshClient.vbproj|solutionrelative:sshclient\\src\\sshcommandrunner.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{586F30AC-D83F-A6D7-8D18-F38147DB23E0}|SshClient\\SshClient.vbproj|g:\\devagent\\src\\sshclient\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{586F30AC-D83F-A6D7-8D18-F38147DB23E0}|SshClient\\SshClient.vbproj|solutionrelative:sshclient\\program.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -18,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -31,32 +22,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "SshCommandRunner.vb",
-              "DocumentMoniker": "G:\\DevAgent\\src\\SshClient\\src\\SshCommandRunner.vb",
-              "RelativeDocumentMoniker": "SshClient\\src\\SshCommandRunner.vb",
-              "ToolTip": "G:\\DevAgent\\src\\SshClient\\src\\SshCommandRunner.vb",
-              "RelativeToolTip": "SshClient\\src\\SshCommandRunner.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-08-22T08:21:42.982Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Program.vb",
-              "DocumentMoniker": "G:\\DevAgent\\src\\SshClient\\Program.vb",
-              "RelativeDocumentMoniker": "SshClient\\Program.vb",
-              "ToolTip": "G:\\DevAgent\\src\\SshClient\\Program.vb",
-              "RelativeToolTip": "SshClient\\Program.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-08-22T08:21:32.581Z",
-              "EditorCaption": ""
             }
           ]
         },
