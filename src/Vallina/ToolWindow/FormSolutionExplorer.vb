@@ -40,6 +40,7 @@ Public Class FormSolutionExplorer
         Dim oldName As String = If(proj Is Nothing, "", proj.Name)
 
         TabText = $"Project Explorer [{ProjectFile.FileName}]"
+        DirectCast(CommonRuntime.AppHost, FormMain).SetTitle(ProjectFile)
 
         Select Case ProjectFile.ExtensionSuffix
             Case "vbproj"
@@ -54,6 +55,9 @@ Public Class FormSolutionExplorer
         If proj.Name <> oldName Then
             RibbonMenu.OpenLLMsChat.Clear()
         End If
+
+        Call CommonRuntime.StatusMessage("Open " & TabText)
+        Call CommonRuntime.GetOutputWindow.AddLog("load_workspace", TabText)
     End Sub
 
     Private Sub LoadFolderProjectTree()

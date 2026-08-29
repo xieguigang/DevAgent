@@ -7,12 +7,13 @@
     <ROW Property="ARPCOMMENTS" Value="此 Installer 数据库包含了安装 [|ProductName] 所需的逻辑和数据。" ValueLocId="*"/>
     <ROW Property="ARPNOMODIFY" MultiBuildValue="DefaultBuild:1"/>
     <ROW Property="ARPNOREPAIR" MultiBuildValue="DefaultBuild:1"/>
+    <ROW Property="ARPPRODUCTICON" Value="installer.exe" Type="8"/>
     <ROW Property="Manufacturer" Value="Vallina"/>
     <ROW Property="MsiLogging" MultiBuildValue="DefaultBuild:vp"/>
-    <ROW Property="ProductCode" Value="2052:{C199E11B-63ED-4726-A63D-D902ADC9DAE8} " Type="16"/>
+    <ROW Property="ProductCode" Value="2052:{035E75EE-BC09-43F1-903E-89CA14D33FA5} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="VallinaDev"/>
-    <ROW Property="ProductVersion" Value="1.1.2026.0829" Options="32"/>
+    <ROW Property="ProductVersion" Value="1.1.2026.08292" Options="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{45BD3260-FD59-4145-ACEF-9A4E7224DFA8}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
@@ -694,6 +695,7 @@
   <COMPONENT cid="caphyon.advinst.msicomp.MsiIconsComponent">
     <ROW Name="DevAgent.exe" SourcePath="..\dist\bin\DevAgent.exe" Index="0"/>
     <ROW Name="Vallina.exe" SourcePath="..\dist\bin\Vallina.exe" Index="0"/>
+    <ROW Name="installer.exe" SourcePath="installer.ico" Index="0"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
     <ROW Action="AI_DOWNGRADE" Condition="AI_NEWERPRODUCTFOUND AND (UILevel &lt;&gt; 5)" Sequence="210"/>
