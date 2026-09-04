@@ -51,11 +51,11 @@ Public Class FormLLMsTool
 
     Public Async Function SetFileReference(filepath As String) As Task
         tools.SetWorkspace(filepath.ParentPath.GetDirectoryFullPath)
-        Await WebView2llmui1.SetFileReference(filepath)
+        Await WebView2llmui1.AddFileReference(filepath)
     End Function
 
     Public Async Function SetFileReference(text As Func(Of Task(Of String))) As Task
-        Await WebView2llmui1.SetFileReferenceHandle(text, App.NextTempName & ".vb")
+        Await WebView2llmui1.AddFileReference(text, App.NextTempName & ".vb")
     End Function
 
     Public Async Function ClearFileReference() As Task
