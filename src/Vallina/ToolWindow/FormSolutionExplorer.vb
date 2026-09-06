@@ -184,15 +184,22 @@ Public Class FormSolutionExplorer
         Dim llmbox As FormLLMsTool = RibbonMenu.OpenLLMsChat
         Dim ollama As LLMClient = llmbox.llm
 
+        CommonRuntime.StatusMessage("Analysis git diff...")
+
+        Dim diffResult = diff.GetDiff(Workspace, cached:=False)
+
         Call llmbox.WebView2llmui1.PushStart()
 
-        Dim git_diff = Await CommitMessageGenerator.GenerateCommitMessage(ollama, Workspace)
+        Dim git_diff = Await CommitMessageGenerator.GenerateCommitMessage(diffResult, ollama)
 
         If git_diff Is Nothing OrElse git_diff.Summary.StringEmpty(, True) Then
             git_diff = Nothing
         End If
+
         If Not git_diff Is Nothing Then
             Dim err As String = Nothing
+
+            CommonRuntime.StatusMessage("Running git commit...")
 
             If Not Commit.CommitFolderChanges(Workspace, Workspace, git_diff, outputMessage:=err) Then
                 Call CommonRuntime.Warning(err)

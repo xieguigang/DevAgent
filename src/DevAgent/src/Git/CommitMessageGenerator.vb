@@ -1,3 +1,4 @@
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VersionControl.Git
 Imports Ollama
@@ -32,33 +33,42 @@ Public Module CommitMessageGenerator
         End If
         If String.IsNullOrWhiteSpace(workspace) Then
             Throw New ArgumentException("工作区路径不能为空", NameOf(workspace))
+        Else
+            Return Await diff.GetDiff(workspace, cached).GenerateCommitMessage(ollama)
         End If
+    End Function
 
-        Dim diffResult As DiffResult = diff.GetDiff(workspace, cached)
-
+    ''' <summary>
+    ''' 解析指定工作区的编辑差异，并交由 LLM 生成 git commit 的 summary 与 description。
+    ''' </summary>
+    ''' <param name="ollama">已构造好的 LLM 客户端（Ollama.LLMClient）。注意：本次调用会把 diff 与回复追加到该客户端的对话记忆中，调用方如需隔离可在调用后通过 <c>ollama.Clear()</c> 清理。</param>
+    ''' <returns>包含 <see cref="CommitSummary.Summary"/> 与 <see cref="CommitSummary.Description"/> 的 <see cref="CommitSummary"/> 对象。</returns>
+    ''' 
+    <Extension>
+    Public Async Function GenerateCommitMessage(diffResult As DiffResult, ollama As LLMClient) As Task(Of CommitSummary)
         If diffResult Is Nothing OrElse diffResult.Files.IsNullOrEmpty Then
             Call "工作区无尚未提交的改动，无法生成 commit 信息".warning
 
             Return New CommitSummary With {
                .Summary = String.Empty,
                .Description = String.Empty
-           }
+            }
+        Else
+            Dim diffText As String = RenderDiff(diffResult)
+
+            If diffText.StringEmpty Then
+                Throw New InvalidOperationException("工作区无尚未提交的改动，无法生成 commit 信息")
+            End If
+
+            Dim prompt As String = BuildPrompt(diffText)
+            Dim response As LLMsResponse = Await ollama.Chat(prompt)
+
+            If response Is Nothing OrElse response.output.StringEmpty Then
+                Throw New InvalidOperationException("LLM 未返回有效内容，无法解析 commit 信息")
+            End If
+
+            Return ParseResponse(response.output)
         End If
-
-        Dim diffText As String = RenderDiff(diffResult)
-
-        If diffText.StringEmpty Then
-            Throw New InvalidOperationException("工作区无尚未提交的改动，无法生成 commit 信息")
-        End If
-
-        Dim prompt As String = BuildPrompt(diffText)
-        Dim response As LLMsResponse = Await ollama.Chat(prompt)
-
-        If response Is Nothing OrElse response.output.StringEmpty Then
-            Throw New InvalidOperationException("LLM 未返回有效内容，无法解析 commit 信息")
-        End If
-
-        Return ParseResponse(response.output)
     End Function
 
     ''' <summary>
