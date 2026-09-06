@@ -7,6 +7,7 @@ Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.sln
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VersionControl.Git
+Imports Microsoft.VisualBasic.MIME.Html.XmlMeta
 Imports Microsoft.VisualStudio.WinForms.Docking
 Imports Ollama
 
@@ -267,8 +268,17 @@ Public Class FormSolutionExplorer
 
         If node Is Nothing Then
             Return
-        End If
+        Else
+            With GetTargetFolderCommon(node)
+                Dim http = New HttpServices(wwwroot:= .folder).StartHttp()
+                Dim web As FormHtmlViewer = RibbonMenu.OpenUrl($"http://127.0.0.1:{http.port}/{ .filename}")
 
+                AddHandler web.FormClosing, Sub() Call http.Dispose()
+            End With
+        End If
+    End Sub
+
+    Private Function GetTargetFolderCommon(node As TreeNode) As (folder$, filename$)
         Dim folder As String
         Dim filename As String
 
@@ -284,9 +294,18 @@ Public Class FormSolutionExplorer
             filename = DirectCast(node.Tag, FileSystemTree).FullName.FileName
         End If
 
-        Dim http = New HttpServices(wwwroot:=folder).StartHttp()
-        Dim web As FormHtmlViewer = RibbonMenu.OpenUrl($"http://127.0.0.1:{http.port}/{filename}")
+        Return (folder.GetDirectoryFullPath, filename)
+    End Function
 
-        AddHandler web.FormClosing, Sub() Call http.Dispose()
+    Private Sub OpenInExplorerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles OpenInExplorerToolStripMenuItem.Click
+        Dim node = TreeView1.SelectedNode
+
+        If node Is Nothing Then
+            Return
+        Else
+            With GetTargetFolderCommon(node)
+                Call Process.Start("explorer.exe", .folder)
+            End With
+        End If
     End Sub
 End Class

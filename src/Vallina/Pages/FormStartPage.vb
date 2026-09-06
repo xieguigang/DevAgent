@@ -18,4 +18,12 @@ Public Class FormStartPage
         Await WebView21.ExecuteScriptAsync("$('statusbar').style.display = 'none';")
         Await WebView21.ExecuteScriptAsync("$('topbar').style.display = 'none';")
     End Sub
+
+    Protected Overrides Sub CopyFullPath()
+        Call Clipboard.SetText(App.HOME)
+    End Sub
+
+    Protected Overrides Sub OpenContainingFolder()
+        Call Process.Start("explorer.exe", App.HOME)
+    End Sub
 End Class

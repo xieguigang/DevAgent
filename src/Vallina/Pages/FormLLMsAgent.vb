@@ -21,4 +21,12 @@ Public Class FormLLMsAgent
     Private Sub ConsoleControl1_ProcessExisted() Handles ConsoleControl1.ProcessExisted
         Call Invoke(Sub() Me.Close())
     End Sub
+
+    Protected Overrides Sub CopyFullPath()
+        Call Clipboard.SetText(Workspace)
+    End Sub
+
+    Protected Overrides Sub OpenContainingFolder()
+        Call Process.Start("explorer.exe", Workspace)
+    End Sub
 End Class

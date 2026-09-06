@@ -209,6 +209,18 @@ Public Class FormEditor
         End If
     End Function
 
+    Protected Overrides Sub CopyFullPath()
+        Call Clipboard.SetText(codefile)
+    End Sub
+
+    Protected Overrides Sub OpenContainingFolder()
+        If codefile.StringEmpty Then
+            Call CommonRuntime.Warning("Sorry, you should save this in-memory code file into disk file at first.")
+        Else
+            Call Process.Start("explorer.exe", codefile.ParentPath)
+        End If
+    End Sub
+
     Private Async Function SaveAsCodeFile() As Task
         Using file As New SaveFileDialog With {.Filter = "VisualBasic(*.vb)|*.vb|Rscript(*.r)|*.r"}
             If file.ShowDialog = DialogResult.OK Then

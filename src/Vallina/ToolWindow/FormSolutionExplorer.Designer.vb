@@ -33,6 +33,7 @@ Partial Class FormSolutionExplorer
         ToolStripMenuItem1 = New ToolStripSeparator()
         LLMExplainToolStripMenuItem = New ToolStripMenuItem()
         OpenConsoleAtHereToolStripMenuItem = New ToolStripMenuItem()
+        OpenHttpServerAtHereToolStripMenuItem = New ToolStripMenuItem()
         ImageList1 = New ImageList(components)
         ToolStrip1 = New ToolStrip()
         ToolStripButton1 = New ToolStripButton()
@@ -44,7 +45,7 @@ Partial Class FormSolutionExplorer
         ToolStripButton2 = New ToolStripButton()
         ToolStripSeparator3 = New ToolStripSeparator()
         ToolStripButton3 = New ToolStripButton()
-        OpenHttpServerAtHereToolStripMenuItem = New ToolStripMenuItem()
+        OpenInExplorerToolStripMenuItem = New ToolStripMenuItem()
         ContextMenuStrip1.SuspendLayout()
         ToolStrip1.SuspendLayout()
         SuspendLayout()
@@ -63,9 +64,9 @@ Partial Class FormSolutionExplorer
         ' 
         ' ContextMenuStrip1
         ' 
-        ContextMenuStrip1.Items.AddRange(New ToolStripItem() {OpenToolStripMenuItem, CopyFilePathToolStripMenuItem, ToolStripMenuItem1, LLMExplainToolStripMenuItem, OpenConsoleAtHereToolStripMenuItem, OpenHttpServerAtHereToolStripMenuItem})
+        ContextMenuStrip1.Items.AddRange(New ToolStripItem() {OpenToolStripMenuItem, OpenInExplorerToolStripMenuItem, CopyFilePathToolStripMenuItem, ToolStripMenuItem1, LLMExplainToolStripMenuItem, OpenConsoleAtHereToolStripMenuItem, OpenHttpServerAtHereToolStripMenuItem})
         ContextMenuStrip1.Name = "ContextMenuStrip1"
-        ContextMenuStrip1.Size = New Size(209, 142)
+        ContextMenuStrip1.Size = New Size(209, 164)
         ' 
         ' OpenToolStripMenuItem
         ' 
@@ -98,6 +99,12 @@ Partial Class FormSolutionExplorer
         OpenConsoleAtHereToolStripMenuItem.Name = "OpenConsoleAtHereToolStripMenuItem"
         OpenConsoleAtHereToolStripMenuItem.Size = New Size(208, 22)
         OpenConsoleAtHereToolStripMenuItem.Text = "Open Console At Here"
+        ' 
+        ' OpenHttpServerAtHereToolStripMenuItem
+        ' 
+        OpenHttpServerAtHereToolStripMenuItem.Name = "OpenHttpServerAtHereToolStripMenuItem"
+        OpenHttpServerAtHereToolStripMenuItem.Size = New Size(208, 22)
+        OpenHttpServerAtHereToolStripMenuItem.Text = "Open Http Server At Here"
         ' 
         ' ImageList1
         ' 
@@ -186,11 +193,12 @@ Partial Class FormSolutionExplorer
         ToolStripButton3.Size = New Size(23, 22)
         ToolStripButton3.Text = "Refresh"
         ' 
-        ' OpenHttpServerAtHereToolStripMenuItem
+        ' OpenInExplorerToolStripMenuItem
         ' 
-        OpenHttpServerAtHereToolStripMenuItem.Name = "OpenHttpServerAtHereToolStripMenuItem"
-        OpenHttpServerAtHereToolStripMenuItem.Size = New Size(208, 22)
-        OpenHttpServerAtHereToolStripMenuItem.Text = "Open Http Server At Here"
+        OpenInExplorerToolStripMenuItem.Image = CType(resources.GetObject("OpenInExplorerToolStripMenuItem.Image"), Image)
+        OpenInExplorerToolStripMenuItem.Name = "OpenInExplorerToolStripMenuItem"
+        OpenInExplorerToolStripMenuItem.Size = New Size(208, 22)
+        OpenInExplorerToolStripMenuItem.Text = "Open In Explorer"
         ' 
         ' FormSolutionExplorer
         ' 
@@ -231,4 +239,5 @@ Partial Class FormSolutionExplorer
     Friend WithEvents ToolStripButton6 As ToolStripButton
     Friend WithEvents OpenConsoleAtHereToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents OpenHttpServerAtHereToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents OpenInExplorerToolStripMenuItem As ToolStripMenuItem
 End Class
