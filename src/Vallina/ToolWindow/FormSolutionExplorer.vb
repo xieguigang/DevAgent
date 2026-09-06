@@ -176,6 +176,8 @@ Public Class FormSolutionExplorer
         End If
     End Sub
 
+    Dim runGitdiff As Boolean
+
     ''' <summary>
     ''' auto commit
     ''' </summary>
@@ -185,9 +187,15 @@ Public Class FormSolutionExplorer
         Dim llmbox As FormLLMsTool = RibbonMenu.OpenLLMsChat
         Dim ollama As LLMClient = llmbox.llm
 
+        If runGitdiff Then
+            Return
+        Else
+            runGitdiff = True
+        End If
+
         CommonRuntime.StatusMessage("Analysis git diff...")
 
-        Dim diffResult = diff.GetDiff(Workspace, cached:=False)
+        Dim diffResult As DiffResult = ProgressSpinner.LoadData(Function() diff.GetDiff(Workspace, cached:=False))
 
         Call llmbox.WebView2llmui1.PushStart()
 
@@ -212,6 +220,8 @@ Public Class FormSolutionExplorer
         End If
 
         Call llmbox.WebView2llmui1.PushEnd("", "")
+
+        runGitdiff = False
     End Sub
 
     ''' <summary>
