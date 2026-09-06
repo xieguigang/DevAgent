@@ -10,10 +10,10 @@
     <ROW Property="ARPPRODUCTICON" Value="installer.exe" Type="8"/>
     <ROW Property="Manufacturer" Value="Vallina"/>
     <ROW Property="MsiLogging" MultiBuildValue="DefaultBuild:vp"/>
-    <ROW Property="ProductCode" Value="2052:{86A9320E-A8A3-4241-B1F1-1BAD425E7BA3} " Type="16"/>
+    <ROW Property="ProductCode" Value="2052:{5B5F1DAC-D5A5-43D3-B04E-2145CE05C865} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="VallinaDev"/>
-    <ROW Property="ProductVersion" Value="1.1.2026.09051" Options="32"/>
+    <ROW Property="ProductVersion" Value="1.2026.0907.2" Options="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{45BD3260-FD59-4145-ACEF-9A4E7224DFA8}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
