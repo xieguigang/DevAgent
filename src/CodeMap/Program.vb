@@ -53,45 +53,52 @@ Module Program
             Return 1
         End If
 
-        Dim ws As WorkspaceInfo
-
-        Try
-            Console.WriteLine($"[CodeMap] opening workspace (read only): {workspacePath}")
-            ws = WorkspaceLoader.Open(workspacePath)
-        Catch ex As Exception
-            Console.Error.WriteLine($"[CodeMap] cannot open workspace: {ex.Message}")
+        If Not IO.Directory.Exists(workspacePath) AndAlso Not IO.File.Exists(workspacePath) Then
+            Console.Error.WriteLine($"[CodeMap] workspace path does not exist: {workspacePath}")
             Return 2
-        End Try
-
-        Console.WriteLine($"[CodeMap] workspace  : {ws.Name} ({ws.KindName})")
-        Console.WriteLine($"[CodeMap] root       : {ws.RootPath}")
-        Console.WriteLine($"[CodeMap] projects   : {ws.Projects.Count}")
-        Console.WriteLine($"[CodeMap] source file: {ws.Files.Count}")
-
-        If ws.Errors.Count > 0 Then
-            Console.WriteLine($"[CodeMap] warnings   : {ws.Errors.Count} (see /api/workspace)")
-
-            For Each err As String In ws.Errors.Take(5)
-                Console.WriteLine($"            ! {err}")
-            Next
-        End If
-
-        If ws.Files.Count = 0 Then
-            Console.Error.WriteLine("[CodeMap] no vb.net source file found in the given workspace.")
-            Return 3
         End If
 
         Dim index As New CodeMapIndex(q:=qgram, maxCodeLines:=maxLines)
 
-        ' the index is built on a background thread so that the http service
-        ' becomes available immediately; queries are answered with HTTP 503
-        ' until the build finished.
+        ' both the workspace parsing and the index building run on a background
+        ' thread so that the http service starts listening right away; queries
+        ' are answered with HTTP 503 until the index is ready.
         Dim worker As New Thread(Sub()
+                                     Dim ws As WorkspaceInfo = Nothing
+
+                                     Try
+                                         Console.WriteLine($"[CodeMap] opening workspace (read only): {workspacePath}")
+                                         ws = WorkspaceLoader.Open(workspacePath)
+                                     Catch ex As Exception
+                                         Console.Error.WriteLine($"[CodeMap] cannot open workspace: {ex.Message}")
+                                         Call index.MarkFailed(ex.Message)
+                                         Return
+                                     End Try
+
+                                     Console.WriteLine($"[CodeMap] workspace  : {ws.Name} ({ws.KindName})")
+                                     Console.WriteLine($"[CodeMap] root       : {ws.RootPath}")
+                                     Console.WriteLine($"[CodeMap] projects   : {ws.Projects.Count}")
+                                     Console.WriteLine($"[CodeMap] source file: {ws.Files.Count}")
+
+                                     If ws.Errors.Count > 0 Then
+                                         Console.WriteLine($"[CodeMap] warnings   : {ws.Errors.Count} (see /api/workspace)")
+
+                                         For Each err As String In ws.Errors.Take(5)
+                                             Console.WriteLine($"            ! {err}")
+                                         Next
+                                     End If
+
+                                     If ws.Files.Count = 0 Then
+                                         Call index.MarkFailed("no vb.net source file found in the given workspace.")
+                                         Return
+                                     End If
+
                                      Try
                                          Call index.Build(ws)
                                          Console.WriteLine($"[CodeMap] index ready: {index.Status.symbols} symbols, {index.Status.elapsedMs} ms")
                                      Catch ex As Exception
                                          Console.Error.WriteLine($"[CodeMap] index build failed: {ex.Message}")
+                                         Call index.MarkFailed(ex.Message)
                                      End Try
                                  End Sub) With {
             .IsBackground = True,

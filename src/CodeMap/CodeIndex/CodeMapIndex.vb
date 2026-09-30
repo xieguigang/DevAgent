@@ -34,7 +34,11 @@ Namespace CodeIndex
         Dim symbols As List(Of CodeSymbol)
         Dim documents As Integer
         Dim errorCount As Integer
-        Dim _status As IndexStatus = IndexStatus.Idle()
+        Dim _status As IndexStatus = New IndexStatus With {
+            .phase = "opening",
+            .ready = False,
+            .message = "opening the workspace ..."
+        }
         Dim startedAt As Stopwatch
 
         Sub New(Optional q As Integer = 3,
@@ -70,11 +74,31 @@ Namespace CodeIndex
         End Property
 
         ''' <summary>
+        ''' mark the index as unusable, e.g. when the workspace could not be
+        ''' opened at all. The http service keeps running and reports the reason
+        ''' through <c>/api/status</c>.
+        ''' </summary>
+        Public Sub MarkFailed(message As String)
+            SyncLock lock
+                _status = New IndexStatus With {
+                    .phase = "failed",
+                    .ready = False,
+                    .message = message
+                }
+            End SyncLock
+        End Sub
+
+        ''' <summary>
         ''' build the whole index on the calling thread. Callers are expected to
         ''' run this on a background thread; the http service stays responsive
         ''' in the meantime and reports <see cref="Status"/> progress.
         ''' </summary>
         Public Sub Build(ws As WorkspaceInfo)
+            If ws Is Nothing Then
+                Call MarkFailed("the workspace is not available.")
+                Return
+            End If
+
             Dim sw As Stopwatch = Stopwatch.StartNew()
 
             SyncLock lock
