@@ -39,6 +39,8 @@ Partial Class FormTreeMap
         Me.btnBack = New System.Windows.Forms.Button()
         Me.btnFit = New System.Windows.Forms.Button()
         Me.btnSnapshot = New System.Windows.Forms.Button()
+        Me.lblPalette = New System.Windows.Forms.Label()
+        Me.cboPalette = New System.Windows.Forms.ComboBox()
         Me.FlowBreadcrumb = New System.Windows.Forms.FlowLayoutPanel()
         Me.PanelBottom = New System.Windows.Forms.Panel()
         Me.TxtDetail = New System.Windows.Forms.TextBox()
@@ -90,6 +92,8 @@ Partial Class FormTreeMap
         Me.FlowTools.Controls.Add(Me.btnBack)
         Me.FlowTools.Controls.Add(Me.btnFit)
         Me.FlowTools.Controls.Add(Me.btnSnapshot)
+        Me.FlowTools.Controls.Add(Me.lblPalette)
+        Me.FlowTools.Controls.Add(Me.cboPalette)
         Me.FlowTools.Dock = System.Windows.Forms.DockStyle.Fill
         Me.FlowTools.FlowDirection = System.Windows.Forms.FlowDirection.LeftToRight
         Me.FlowTools.Location = New System.Drawing.Point(0, 30)
@@ -238,6 +242,27 @@ Partial Class FormTreeMap
         Me.btnSnapshot.Text = "导出快照"
         Me.btnSnapshot.UseVisualStyleBackColor = True
         '
+        'lblPalette
+        '
+        Me.lblPalette.AutoSize = True
+        Me.lblPalette.ForeColor = System.Drawing.Color.FromArgb(CType(CType(148, Byte), Integer), CType(CType(163, Byte), Integer), CType(CType(184, Byte), Integer))
+        Me.lblPalette.Location = New System.Drawing.Point(1013, 8)
+        Me.lblPalette.Margin = New System.Windows.Forms.Padding(3, 8, 3, 0)
+        Me.lblPalette.Name = "lblPalette"
+        Me.lblPalette.Size = New System.Drawing.Size(32, 15)
+        Me.lblPalette.TabIndex = 13
+        Me.lblPalette.Text = "配色"
+        '
+        'cboPalette
+        '
+        Me.cboPalette.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cboPalette.FormattingEnabled = True
+        Me.cboPalette.Items.AddRange(New Object() {"viridis", "magma", "inferno", "plasma", "turbo", "Jet", "Hot", "Cool", "Rainbow", "按层级着色"})
+        Me.cboPalette.Location = New System.Drawing.Point(1051, 4)
+        Me.cboPalette.Name = "cboPalette"
+        Me.cboPalette.Size = New System.Drawing.Size(104, 23)
+        Me.cboPalette.TabIndex = 14
+        '
         'FlowBreadcrumb
         '
         Me.FlowBreadcrumb.AutoSize = False
@@ -342,5 +367,7 @@ Partial Class FormTreeMap
     Friend WithEvents btnBack As System.Windows.Forms.Button
     Friend WithEvents btnFit As System.Windows.Forms.Button
     Friend WithEvents btnSnapshot As System.Windows.Forms.Button
+    Friend WithEvents lblPalette As System.Windows.Forms.Label
+    Friend WithEvents cboPalette As System.Windows.Forms.ComboBox
 
 End Class

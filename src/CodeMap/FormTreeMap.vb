@@ -5,6 +5,7 @@ Imports CodeMap.CodeIndex
 Imports CodeMap.TreeMap
 Imports Microsoft.VisualBasic.Data.Plots
 Imports Microsoft.VisualBasic.Drawing.DirectX
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports std = System.Math
 
 ''' <summary>
@@ -25,6 +26,8 @@ Public Class FormTreeMap
     Dim buildings As New List(Of CityBuilding)()
     Dim hovered As CodeNode = Nothing
     Dim downAt As Point
+    Dim panning As Boolean = False
+    Dim panAt As Point
     Dim treeBuilt As Boolean = False
 
     ''' <summary>
@@ -45,6 +48,7 @@ Public Class FormTreeMap
         cboMetric.SelectedIndex = 0
         cboLevel.SelectedIndex = 2
         cboExtrude.SelectedIndex = 1
+        cboPalette.SelectedIndex = 0
 
         layout.Metric = TreeMapMetric.Lines
         layout.Level = CodeNodeKind.File
@@ -60,6 +64,7 @@ Public Class FormTreeMap
         AddHandler Canvas.MouseMove, AddressOf OnCanvasMouseMove
         AddHandler Canvas.MouseDown, AddressOf OnCanvasMouseDown
         AddHandler Canvas.MouseUp, AddressOf OnCanvasMouseUp
+        AddHandler Canvas.MouseWheel, AddressOf OnCanvasMouseWheel
         AddHandler Canvas.Resize, AddressOf OnCanvasResize
 
         Call poll.Start()
@@ -147,6 +152,7 @@ Public Class FormTreeMap
             Call Canvas.ClearScene()
 
             layout.Level = LayoutLevel()
+            Call layout.ResetView()
             Call layout.Invalidate()
             Call Canvas.Invalidate()
         Else
@@ -196,6 +202,15 @@ Public Class FormTreeMap
     ' /********************************************************************************/
 
     Private Sub OnCanvasMouseMove(sender As Object, e As MouseEventArgs)
+        If panning Then
+            Call layout.PanBy(e.X - panAt.X, e.Y - panAt.Y)
+
+            panAt = e.Location
+
+            Call Canvas.Invalidate()
+            Return
+        End If
+
         Dim node As CodeNode = PickNode(e.X, e.Y)
 
         If node Is Nothing Then
@@ -215,9 +230,43 @@ Public Class FormTreeMap
 
     Private Sub OnCanvasMouseDown(sender As Object, e As MouseEventArgs)
         downAt = e.Location
+
+        ' in the flat view the right button scrolls the canvas, the orbit camera
+        ' of the 3d view is not involved there
+        If e.Button = MouseButtons.Right AndAlso mode = TreeMapViewMode.TwoD Then
+            panning = True
+            panAt = e.Location
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' the wheel zooms the flat treemap around the cursor: the level stays the
+    ''' same, only the rectangles grow, so a node can be inspected without
+    ''' drilling down into it.
+    ''' </summary>
+    Private Sub OnCanvasMouseWheel(sender As Object, e As MouseEventArgs)
+        If mode <> TreeMapViewMode.TwoD Then
+            ' the 3d view uses the wheel for the camera distance of the canvas
+            Return
+        End If
+
+        Dim factor As Double = If(e.Delta > 0, 1.25, 1.0 / 1.25)
+
+        Call layout.ZoomAt(e.X, e.Y, factor)
+        Call Canvas.Invalidate()
+        Call ShowZoom()
+    End Sub
+
+    Private Sub ShowZoom()
+        lblProgress.Text = $"zoom {layout.Zoom:F2}x · {layout.Nodes.Count} 个节点 · 度量 {layout.MinValue:0}-{layout.MaxValue:0}"
     End Sub
 
     Private Sub OnCanvasMouseUp(sender As Object, e As MouseEventArgs)
+        If e.Button = MouseButtons.Right Then
+            panning = False
+            Return
+        End If
+
         If e.Button <> MouseButtons.Left Then
             Return
         End If
@@ -375,7 +424,8 @@ Public Class FormTreeMap
 
         cboExtrude.Enabled = (mode = TreeMapViewMode.ThreeD)
         nudBuildings.Enabled = (mode = TreeMapViewMode.ThreeD)
-        btnFit.Enabled = (mode = TreeMapViewMode.ThreeD)
+        ' "fit view" resets the zoom of the flat map and the camera of the city
+        btnFit.Enabled = True
 
         Call RefreshView()
     End Sub
@@ -421,12 +471,59 @@ Public Class FormTreeMap
         Call GoToLevel(path.Count - 2)
     End Sub
 
+    Private Sub cboPalette_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboPalette.SelectedIndexChanged
+        Select Case cboPalette.SelectedIndex
+            Case 0
+                layout.Palette = ScalerPalette.viridis
+                layout.UseHeatmap = True
+            Case 1
+                layout.Palette = ScalerPalette.magma
+                layout.UseHeatmap = True
+            Case 2
+                layout.Palette = ScalerPalette.inferno
+                layout.UseHeatmap = True
+            Case 3
+                layout.Palette = ScalerPalette.plasma
+                layout.UseHeatmap = True
+            Case 4
+                layout.Palette = ScalerPalette.turbo
+                layout.UseHeatmap = True
+            Case 5
+                layout.Palette = ScalerPalette.Jet
+                layout.UseHeatmap = True
+            Case 6
+                layout.Palette = ScalerPalette.Hot
+                layout.UseHeatmap = True
+            Case 7
+                layout.Palette = ScalerPalette.Cool
+                layout.UseHeatmap = True
+            Case 8
+                layout.Palette = ScalerPalette.Rainbow
+                layout.UseHeatmap = True
+            Case Else
+                ' 按层级着色
+                layout.UseHeatmap = False
+        End Select
+
+        Call layout.InvalidateColors()
+
+        If treeBuilt Then
+            If mode = TreeMapViewMode.ThreeD Then
+                Call RebuildCity()
+            Else
+                Call Canvas.Invalidate()
+            End If
+        End If
+    End Sub
+
     Private Sub btnFit_Click(sender As Object, e As EventArgs) Handles btnFit.Click
         If mode = TreeMapViewMode.ThreeD Then
             Call Canvas.ResetView()
         Else
+            Call layout.ResetView()
             Call layout.Invalidate()
             Call Canvas.Invalidate()
+            Call ShowZoom()
         End If
     End Sub
 
