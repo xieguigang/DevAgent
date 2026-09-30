@@ -8,6 +8,7 @@
     <MyType>WindowsForms</MyType>
     <UseWPF>True</UseWPF>
     <Platforms>AnyCPU;x64</Platforms>
+    <NoWarn>$(NoWarn);WFO1000</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
