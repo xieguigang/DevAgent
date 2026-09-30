@@ -350,25 +350,6 @@ Namespace TreeMap
             OffsetY = 0.0
         End Sub
 
-        ''' <summary>
-        ''' pick the code map node that covers the given canvas position.
-        ''' </summary>
-        Public Function HitTest(x As Single, y As Single) As CodeNode
-            If _result Is Nothing Then
-                Return Nothing
-            End If
-
-            Dim w As PointF = ToWorld(x, y)
-
-            For i As Integer = _result.Count - 1 To 0 Step -1
-                If _result(i).Rect.Contains(w) Then
-                    Return TryCast(_result(i).Tag, CodeNode)
-                End If
-            Next
-
-            Return Nothing
-        End Function
-
         ' /********************************************************************************/
         '  the rendering
         ' /********************************************************************************/
@@ -410,14 +391,47 @@ Namespace TreeMap
             End Using
         End Sub
 
+        ''' <summary>
+        ''' the gap between two neighbouring tiles, in pixels; it shrinks with the
+        ''' tile so that a very small tile never disappears completely.
+        ''' </summary>
+        Public Property NodeMargin As Single = 2.0F
+        ''' <summary>the distance between the code text and the border of its tile</summary>
+        Public Property TextPadding As Single = 6.0F
+
+        ''' <summary>the laid out tile that sits under the center of the viewport</summary>
+        Dim focusEntry As TreemapNode = Nothing
+
+        ''' <summary>
+        ''' the code map node under the center of the viewport; it is the only
+        ''' node whose raw source text is painted when the view is zoomed in.
+        ''' </summary>
+        Public ReadOnly Property Focus As CodeNode
+            Get
+                Return If(focusEntry Is Nothing, Nothing, TryCast(focusEntry.Tag, CodeNode))
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' resolve the node under the center of a canvas of the given size
+        ''' without waiting for the next frame.
+        ''' </summary>
+        Public Function FocusAt(width As Integer, height As Integer) As CodeNode
+            Dim entry As TreemapNode = FindEntryAt(width / 2.0F, height / 2.0F)
+
+            Return If(entry Is Nothing, Nothing, TryCast(entry.Tag, CodeNode))
+        End Function
+
         Private Sub PaintNodes(g As IGraphics, width As Integer, height As Integer)
             Using bg As New SolidBrush(Theme.BackgroundColor)
                 Call g.FillRectangle(bg, New RectangleF(0, 0, width, height))
             End Using
 
+            focusEntry = FindEntryAt(width / 2.0F, height / 2.0F)
+
             Using border As New Pen(Theme.BackgroundColor, 1.0F)
                 For Each n As TreemapNode In _result
-                    Dim r As RectangleF = ToScreen(n.Rect)
+                    Dim r As RectangleF = PaintRect(n.Rect)
 
                     If r.Width < 0.5F OrElse r.Height < 0.5F Then
                         Continue For
@@ -437,10 +451,22 @@ Namespace TreeMap
                 Next
             End Using
 
+            ' the node under the center of the view gets a highlight border, it
+            ' is the one that carries the source text
+            If focusEntry IsNot Nothing Then
+                Dim fr As RectangleF = PaintRect(focusEntry.Rect)
+
+                If fr.Width > 6.0F AndAlso fr.Height > 6.0F Then
+                    Using pen As New Pen(Color.FromArgb(225, 45, 212, 191), 2.0F)
+                        Call g.DrawRectangle(pen, fr.X, fr.Y, fr.Width, fr.Height)
+                    End Using
+                End If
+            End If
+
             ' the text pass runs in a second loop so that no rectangle border is
             ' ever painted over a label
             For Each n As TreemapNode In _result
-                Dim r As RectangleF = ToScreen(n.Rect)
+                Dim r As RectangleF = PaintRect(n.Rect)
 
                 If r.Width < 24.0F OrElse r.Height < 12.0F Then
                     Continue For
@@ -450,11 +476,61 @@ Namespace TreeMap
                     Continue For
                 End If
 
-                Call DrawNodeText(g, n, r)
+                If n Is focusEntry Then
+                    Call DrawCode(g, n, r)
+                Else
+                    Call DrawLabel(g, n, r)
+                End If
             Next
 
             Call DrawLegend(g, width, height)
         End Sub
+
+        ''' <summary>
+        ''' the rectangle of a tile as it is painted on the canvas: the screen
+        ''' transform plus the margin that keeps the neighbours apart.
+        ''' </summary>
+        Private Function PaintRect(r As RectangleF) As RectangleF
+            Dim s As RectangleF = ToScreen(r)
+
+            If NodeMargin <= 0.0F Then
+                Return s
+            End If
+
+            Dim m As Single = std.Min(NodeMargin, std.Min(s.Width, s.Height) / 4.0F)
+
+            If m <= 0.0F Then
+                Return s
+            End If
+
+            Return New RectangleF(s.X + m, s.Y + m, s.Width - 2.0F * m, s.Height - 2.0F * m)
+        End Function
+
+        ''' <summary>the deepest laid out tile that covers the given canvas position</summary>
+        Private Function FindEntryAt(x As Single, y As Single) As TreemapNode
+            If _result Is Nothing Then
+                Return Nothing
+            End If
+
+            Dim w As PointF = ToWorld(x, y)
+
+            For i As Integer = _result.Count - 1 To 0 Step -1
+                If _result(i).Rect.Contains(w) Then
+                    Return _result(i)
+                End If
+            Next
+
+            Return Nothing
+        End Function
+
+        ''' <summary>
+        ''' pick the code map node that covers the given canvas position.
+        ''' </summary>
+        Public Function HitTest(x As Single, y As Single) As CodeNode
+            Dim entry As TreemapNode = FindEntryAt(x, y)
+
+            Return If(entry Is Nothing, Nothing, TryCast(entry.Tag, CodeNode))
+        End Function
 
         ''' <summary>resolve the raw source text of a leaf node through the host</summary>
         Private Function ResolveCode(cn As CodeNode) As String
@@ -473,54 +549,67 @@ Namespace TreeMap
             Return If(cn.Symbol Is Nothing, "", If(cn.Symbol.Code, ""))
         End Function
 
-        Private Sub DrawNodeText(g As IGraphics, n As TreemapNode, r As RectangleF)
-            Dim cn As CodeNode = TryCast(n.Tag, CodeNode)
+        Private Function InkOf(n As TreemapNode) As Color
             Dim base_ As Color = If(n.Color, Theme.Palette(0))
             Dim brightness As Double = (0.299 * base_.R + 0.587 * base_.G + 0.114 * base_.B) / 255
-            Dim ink As Color = If(brightness > 0.55, Color.Black, Color.White)
 
-            ' zoomed in far enough: show the raw source text of the leaf
-            If Zoom >= CodeTextZoom AndAlso cn IsNot Nothing AndAlso
-                r.Width > 55.0F AndAlso r.Height > 42.0F Then
+            Return If(brightness > 0.55, Color.Black, Color.White)
+        End Function
 
-                Dim code As String = ResolveCode(cn)
-
-                If code Is Nothing Then
-                    code = ""
-                End If
-
-                If code.Length > 4000 Then
-                    code = code.Substring(0, 4000)
-                End If
-
-                Dim head As New RectangleF(r.X + 3.0F, r.Y + 2.0F, r.Width - 6.0F, 14.0F)
-                Dim body As New RectangleF(r.X + 3.0F, r.Y + 17.0F, r.Width - 6.0F, r.Height - 20.0F)
-                Dim headFont As New Font("Microsoft YaHei", 8, FontStyle.Bold)
-
-                Using br As New SolidBrush(ink)
-                    Call g.DrawString(cn.Name, headFont, br, head)
-                End Using
-
-                If body.Height > 8.0F AndAlso code.Length > 0 Then
-                    Dim codeFont As New Font("Consolas", 8)
-
-                    Using br As New SolidBrush(ink)
-                        Call g.DrawString(code, codeFont, br, body)
-                    End Using
-                End If
-
+        ''' <summary>
+        ''' paint the raw source text of the node that sits under the center of
+        ''' the viewport; the text keeps a padding from the border of the tile.
+        ''' </summary>
+        Private Sub DrawCode(g As IGraphics, n As TreemapNode, r As RectangleF)
+            If Zoom < CodeTextZoom OrElse r.Width < 55.0F OrElse r.Height < 42.0F Then
+                Call DrawLabel(g, n, r)
                 Return
             End If
 
+            Dim cn As CodeNode = TryCast(n.Tag, CodeNode)
+            Dim ink As Color = InkOf(n)
+            Dim code As String = ResolveCode(cn)
+
+            If code Is Nothing Then
+                code = ""
+            End If
+
+            If code.Length > 4000 Then
+                code = code.Substring(0, 4000)
+            End If
+
+            Dim p As Single = TextPadding
+            Dim head As New RectangleF(r.X + p, r.Y + p, r.Width - 2.0F * p, 14.0F)
+            Dim body As New RectangleF(r.X + p, r.Y + p + 17.0F, r.Width - 2.0F * p, r.Height - 2.0F * p - 17.0F)
+            Dim headFont As New Font("Microsoft YaHei", 8, FontStyle.Bold)
+
+            Using br As New SolidBrush(ink)
+                Call g.DrawString(If(cn Is Nothing, n.Label, cn.Name), headFont, br, head)
+            End Using
+
+            If body.Height > 8.0F AndAlso body.Width > 16.0F AndAlso code.Length > 0 Then
+                Dim codeFont As New Font("Consolas", 8)
+
+                Using br As New SolidBrush(ink)
+                    Call g.DrawString(code, codeFont, br, body)
+                End Using
+            End If
+        End Sub
+
+        ''' <summary>paint the name of a tile, centered in its own rectangle</summary>
+        Private Sub DrawLabel(g As IGraphics, n As TreemapNode, r As RectangleF)
             If r.Width < 30.0F OrElse r.Height < 16.0F Then
                 Return
             End If
 
+            Dim ink As Color = InkOf(n)
             Dim size As Single = CSng(std.Max(6.5, std.Min(11.0, r.Height / 4.0)))
             Dim labelFont As New Font("Microsoft YaHei", size)
+            Dim lp As Single = std.Min(TextPadding, 4.0F)
 
             Using br As New SolidBrush(ink)
-                Call g.DrawString(n.Label, labelFont, br, New RectangleF(r.X + 2.0F, r.Y + 1.0F, r.Width - 4.0F, r.Height - 2.0F))
+                Call g.DrawString(n.Label, labelFont, br,
+                                  New RectangleF(r.X + lp, r.Y + lp, r.Width - 2.0F * lp, r.Height - 2.0F * lp))
             End Using
         End Sub
 

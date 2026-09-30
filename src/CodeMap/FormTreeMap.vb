@@ -26,6 +26,8 @@ Public Class FormTreeMap
     Dim buildings As New List(Of CityBuilding)()
     ''' <summary>the memoized file text of the zoomed in treemap nodes</summary>
     ReadOnly textCache As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
+    ''' <summary>the node whose source text is currently shown in the detail pane</summary>
+    Dim focusShown As CodeNode = Nothing
     Dim hovered As CodeNode = Nothing
     Dim downAt As Point
     Dim panning As Boolean = False
@@ -211,6 +213,7 @@ Public Class FormTreeMap
             panAt = e.Location
 
             Call Canvas.Invalidate()
+            Call UpdateFocusDetail()
             Return
         End If
 
@@ -258,6 +261,27 @@ Public Class FormTreeMap
         Call layout.ZoomAt(e.X, e.Y, factor)
         Call Canvas.Invalidate()
         Call ShowZoom()
+        Call UpdateFocusDetail()
+    End Sub
+
+    ''' <summary>
+    ''' the detail pane follows the node that sits under the center of the
+    ''' viewport, so zooming and panning reads the code around the view center.
+    ''' </summary>
+    Private Sub UpdateFocusDetail()
+        If mode <> TreeMapViewMode.TwoD OrElse Not treeBuilt Then
+            Return
+        End If
+
+        Dim f As CodeNode = layout.FocusAt(Canvas.Width, Canvas.Height)
+
+        If f Is Nothing OrElse f Is focusShown Then
+            Return
+        End If
+
+        focusShown = f
+
+        Call ShowDetail(f)
     End Sub
 
     Private Sub ShowZoom()
@@ -345,6 +369,18 @@ Public Class FormTreeMap
             Call sb.AppendLine($"project : {node.Symbol.Project}")
             Call sb.AppendLine()
             Call sb.AppendLine(node.Symbol.Code)
+            Return
+        End If
+
+        Dim text As String = ResolveNodeText(node)
+
+        If text.Length > 0 Then
+            If text.Length > 8000 Then
+                text = text.Substring(0, 8000) & vbCrLf & "... (truncated)"
+            End If
+
+            Call sb.AppendLine()
+            Call sb.AppendLine(text)
         Else
             Call sb.AppendLine()
             Call sb.AppendLine("(容器节点，双击可继续下钻)")
