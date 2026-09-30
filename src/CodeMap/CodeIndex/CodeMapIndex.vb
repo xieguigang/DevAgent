@@ -64,7 +64,7 @@ Namespace CodeIndex
         Public ReadOnly Property Workspace As WorkspaceInfo
             Get
                 SyncLock lock
-                    Return workspace
+                    Return _workspace
                 End SyncLock
             End Get
         End Property
@@ -78,10 +78,10 @@ Namespace CodeIndex
             Dim sw As Stopwatch = Stopwatch.StartNew()
 
             SyncLock lock
-                workspace = ws
+                _workspace = ws
                 startedAt = sw
                 errorCount = 0
-                status = New IndexStatus With {
+                _status = New IndexStatus With {
                     .phase = "building",
                     .ready = False,
                     .totalFiles = If(ws Is Nothing, 0, ws.Files.Count),
@@ -125,7 +125,7 @@ Namespace CodeIndex
 
                 If (i + 1) Mod 25 = 0 OrElse i = files.Count - 1 Then
                     SyncLock lock
-                        status = New IndexStatus With {
+                        _status = New IndexStatus With {
                             .phase = "building",
                             .ready = False,
                             .processedFiles = i + 1,
@@ -148,7 +148,7 @@ Namespace CodeIndex
                 symbols = all
                 documents = docs
                 errorCount = errs
-                status = New IndexStatus With {
+                _status = New IndexStatus With {
                     .phase = "ready",
                     .ready = True,
                     .processedFiles = files.Count,
@@ -165,20 +165,20 @@ Namespace CodeIndex
         ''' <summary>
         ''' run a fuzzy keyword query over the indexed symbol texts.
         ''' </summary>
-        ''' <param name="query">the raw query text typed by the user.</param>
+        ''' <param name="keyword">the raw query text typed by the user.</param>
         ''' <param name="top">max number of symbols to return.</param>
         ''' <param name="threshold">the minimum q-gram similarity of a matched word.</param>
         ''' <returns>
         ''' nothing when the index is not ready yet; an empty array when the
         ''' query produced no candidate at all.
         ''' </returns>
-        Public Function Query(query As String, Optional top As Integer = 20, Optional threshold As Double = 0.15) As QueryHit()
+        Public Function Query(keyword As String, Optional top As Integer = 20, Optional threshold As Double = 0.15) As QueryHit()
             Dim eng As QGramFullText = Nothing
             Dim map As Dictionary(Of String, List(Of CodeSymbol)) = Nothing
             Dim ready As Boolean = False
 
             SyncLock lock
-                ready = status.ready
+                ready = _status.ready
                 eng = engine
                 map = byText
             End SyncLock
@@ -187,7 +187,7 @@ Namespace CodeIndex
                 Return Nothing
             End If
 
-            If String.IsNullOrWhiteSpace(query) Then
+            If String.IsNullOrWhiteSpace(keyword) Then
                 Return New QueryHit() {}
             End If
 
@@ -198,7 +198,7 @@ Namespace CodeIndex
             ' the engine matches word by word; very short words explode the
             ' candidate set without adding any recall, so drop them and keep
             ' only the most selective words of a long query.
-            Dim words As String() = eng.Tokenize(query.Trim().ToLowerInvariant()) _
+            Dim words As String() = eng.Tokenize(keyword.Trim().ToLowerInvariant()) _
                 .Where(Function(w) w IsNot Nothing AndAlso w.Length >= 3) _
                 .Distinct() _
                 .OrderByDescending(Function(w) w.Length) _
@@ -267,7 +267,7 @@ Namespace CodeIndex
             SyncLock lock
                 allRef = symbols
                 fullMap = byFullName
-                wsRef = workspace
+                wsRef = _workspace
             End SyncLock
 
             If fullMap IsNot Nothing Then

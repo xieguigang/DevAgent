@@ -1,5 +1,6 @@
 Imports System.Linq
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.sln
+Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.sln.File
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj.CodeDOM
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj.CodeDOM.Syntax
