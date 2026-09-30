@@ -2,7 +2,6 @@ Imports System.Threading
 Imports System.Windows.Forms
 Imports CodeMap.CodeIndex
 Imports CodeMap.HttpService
-Imports CodeMap.TreeMap
 Imports Flute.Http.Configurations
 Imports Flute.Http.Core
 
@@ -55,10 +54,6 @@ Module Program
         Dim silent As Boolean = flags.Contains("silent")
         Dim treemap As Boolean = flags.Contains("treemap") OrElse flags.Contains("ui")
         Dim httpEnabled As Boolean = opts.ContainsKey("port") OrElse opts.ContainsKey("p")
-
-        If flags.Contains("selftest") Then
-            Return SelfTest(workspacePath)
-        End If
 
         If port <= 0 OrElse port > 65535 Then
             Call Console.Error.WriteLine($"[CodeMap] invalid port: {port}")
@@ -240,104 +235,6 @@ Module Program
         End If
 
         Console.WriteLine("[CodeMap] explorer closed.")
-
-        Return 0
-    End Function
-
-    Private Function SelfTest(path As String) As Integer
-        Dim ws As WorkspaceInfo = WorkspaceLoader.Open(path)
-
-        Console.WriteLine($"workspace : {ws.Name} files={ws.Files.Count} projects={ws.Projects.Count}")
-
-        Dim t0 As Date = Date.Now
-        Dim projects As List(Of CodeNode) = CodeTreeBuilder.Build(ws)
-
-        Console.WriteLine($"tree      : {projects.Count} roots, {(Date.Now - t0).TotalMilliseconds:F0} ms")
-
-        Dim total As Integer = 0
-        Dim stack As New Stack(Of CodeNode)()
-
-        For Each p As CodeNode In projects
-            Call stack.Push(p)
-        Next
-
-        While stack.Count > 0
-            Dim n As CodeNode = stack.Pop()
-
-            total += 1
-
-            For Each c As CodeNode In n.Children
-                Call stack.Push(c)
-            Next
-        End While
-
-        Console.WriteLine($"nodes     : {total}")
-
-        Dim byKind As New Dictionary(Of CodeNodeKind, Integer)()
-
-        For Each k As CodeNodeKind In New CodeNodeKind() {CodeNodeKind.Project, CodeNodeKind.Folder, CodeNodeKind.File, CodeNodeKind.Type, CodeNodeKind.Member}
-            byKind(k) = 0
-        Next
-
-        stack.Clear()
-
-        For Each p As CodeNode In projects
-            Call stack.Push(p)
-        Next
-
-        While stack.Count > 0
-            Dim n As CodeNode = stack.Pop()
-
-            byKind(n.Kind) += 1
-
-            For Each c As CodeNode In n.Children
-                Call stack.Push(c)
-            Next
-        End While
-
-        Console.WriteLine($"by kind   : " & String.Join(", ", byKind.Select(Function(kv) $"{kv.Key}={kv.Value}")))
-        Console.WriteLine($"root      : lines={projects(0).Lines} chars={projects(0).Chars} symbols={projects(0).SymbolCount}")
-
-        Dim view As New TreeMapLayout()
-
-        Call view.SetRoots(projects)
-        view.Level = CodeNodeKind.Type
-
-        t0 = Date.Now
-
-        Dim laid As List(Of Microsoft.VisualBasic.Data.Plots.TreemapNode) = view.Layout(1280, 600)
-
-        Console.WriteLine($"layout    : {laid.Count} rects, {(Date.Now - t0).TotalMilliseconds:F0} ms")
-        Console.WriteLine($"visible   : {laid.Where(Function(n) n.Rect.Width > 1.0F AndAlso n.Rect.Height > 1.0F).Count()}")
-        Console.WriteLine($"hit@center: {If(view.HitTest(640, 300) Is Nothing, "(none)", view.HitTest(640, 300).FullName)}")
-
-        For Each k As CodeNodeKind In New CodeNodeKind() {CodeNodeKind.Folder, CodeNodeKind.File, CodeNodeKind.Type, CodeNodeKind.Member}
-            Dim buildings As List(Of CityBuilding) = Nothing
-
-            view.Level = k
-
-            Dim laid2 As List(Of Microsoft.VisualBasic.Data.Plots.TreemapNode) = view.Layout(1280, 600)
-
-            t0 = Date.Now
-
-            Dim faces As Microsoft.VisualBasic.Imaging.Drawing3D.Surface() =
-                CityModelBuilder.Build(laid2, k, 3000, 200.0, 0.18F, 1280, 600, buildings)
-
-            Dim laidKinds As New Dictionary(Of CodeNodeKind, Integer)()
-            For Each ln In laid2
-                Dim cn2 = TryCast(ln.Tag, CodeNode)
-                If cn2 Is Nothing Then Continue For
-                If Not laidKinds.ContainsKey(cn2.Kind) Then laidKinds(cn2.Kind) = 0
-                laidKinds(cn2.Kind) += 1
-            Next
-
-            Console.WriteLine($"city {k,-8}: {buildings.Count} buildings / {faces.Length} faces, {(Date.Now - t0).TotalMilliseconds:F0} ms, layout={laid2.Count} " &
-                              String.Join(",", laidKinds.Select(Function(kv) $"{kv.Key}={kv.Value}")))
-
-            If buildings.Count > 0 Then
-                Console.WriteLine($"   tallest: {buildings(0).Node.FullName} h={buildings(0).Height:F1}")
-            End If
-        Next
 
         Return 0
     End Function

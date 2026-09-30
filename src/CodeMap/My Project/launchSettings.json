@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CodeMap": {
+      "commandName": "Project",
+      "commandLineArgs": "--workspace \"G:\\GCModeller\\src\\runtime\\sciBASIC#\\nuget.slnx\" --treemap"
+    }
+  }
+}
