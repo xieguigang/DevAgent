@@ -14,7 +14,7 @@ Public Class FormTreeMap
     ReadOnly index As CodeMapIndex
     ReadOnly treeLayout As New TreeMapLayout()
     ReadOnly tip As New ToolTip()
-    ReadOnly poll As New Timer()
+    Dim WithEvents poll As New Timer()
 
     Dim projects As New List(Of CodeNode)()
     ''' <summary>the drill down path, the last entry owns the current roots</summary>
@@ -60,16 +60,7 @@ Public Class FormTreeMap
         tip.ReshowDelay = 100
 
         poll.Interval = 250
-
-        AddHandler poll.Tick, AddressOf OnPoll
-        AddHandler Canvas.Render, AddressOf OnCanvasRender
-        AddHandler Canvas.MouseMove, AddressOf OnCanvasMouseMove
-        AddHandler Canvas.MouseDown, AddressOf OnCanvasMouseDown
-        AddHandler Canvas.MouseUp, AddressOf OnCanvasMouseUp
-        AddHandler Canvas.MouseWheel, AddressOf OnCanvasMouseWheel
-        AddHandler Canvas.Resize, AddressOf OnCanvasResize
-
-        Call poll.Start()
+        poll.Start()
 
         lblStatus.Text = "正在构建代码索引 …"
     End Sub
@@ -78,7 +69,7 @@ Public Class FormTreeMap
     '  the index state
     ' /********************************************************************************/
 
-    Private Sub OnPoll(sender As Object, e As EventArgs)
+    Private Sub OnPoll(sender As Object, e As EventArgs) Handles poll.tick
         If index Is Nothing Then
             Call poll.Stop()
             Return
@@ -130,7 +121,7 @@ Public Class FormTreeMap
     '  the rendering
     ' /********************************************************************************/
 
-    Private Sub OnCanvasRender(sender As Object, e As DxRenderEventArgs)
+    Private Sub OnCanvasRender(sender As Object, e As DxRenderEventArgs) Handles Canvas.Render
         If mode <> TreeMapViewMode.TwoD Then
             ' the 3d city is rendered by the scene pipeline of the canvas itself
             Return
@@ -203,7 +194,7 @@ Public Class FormTreeMap
     '  the interaction
     ' /********************************************************************************/
 
-    Private Sub OnCanvasMouseMove(sender As Object, e As MouseEventArgs)
+    Private Sub OnCanvasMouseMove(sender As Object, e As MouseEventArgs) Handles Canvas.MouseMove
         If panning Then
             Call treeLayout.PanBy(e.X - panAt.X, e.Y - panAt.Y)
 
@@ -231,7 +222,7 @@ Public Class FormTreeMap
         Call tip.SetToolTip(Canvas, Describe(node))
     End Sub
 
-    Private Sub OnCanvasMouseDown(sender As Object, e As MouseEventArgs)
+    Private Sub OnCanvasMouseDown(sender As Object, e As MouseEventArgs) Handles Canvas.MouseMove
         downAt = e.Location
 
         ' in the flat view the right button scrolls the canvas, the orbit camera
@@ -247,7 +238,7 @@ Public Class FormTreeMap
     ''' same, only the rectangles grow, so a node can be inspected without
     ''' drilling down into it.
     ''' </summary>
-    Private Sub OnCanvasMouseWheel(sender As Object, e As MouseEventArgs)
+    Private Sub OnCanvasMouseWheel(sender As Object, e As MouseEventArgs) Handles Canvas.MouseWheel
         If mode <> TreeMapViewMode.TwoD Then
             ' the 3d view uses the wheel for the camera distance of the canvas
             Return
@@ -285,7 +276,7 @@ Public Class FormTreeMap
         lblProgress.Text = $"zoom {treeLayout.Zoom:F2}x · {treeLayout.Nodes.Count} 个节点 · 度量 {treeLayout.MinValue:0}-{treeLayout.MaxValue:0}"
     End Sub
 
-    Private Sub OnCanvasMouseUp(sender As Object, e As MouseEventArgs)
+    Private Sub OnCanvasMouseUp(sender As Object, e As MouseEventArgs) Handles Canvas.MouseUp
         If e.Button = MouseButtons.Right Then
             panning = False
             Return
@@ -316,7 +307,7 @@ Public Class FormTreeMap
         End If
     End Sub
 
-    Private Sub OnCanvasResize(sender As Object, e As EventArgs)
+    Private Sub OnCanvasResize(sender As Object, e As EventArgs) Handles Canvas.Resize
         Call Canvas.UpdateViewport()
 
         If mode = TreeMapViewMode.ThreeD Then
