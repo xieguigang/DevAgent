@@ -1,9 +1,6 @@
-﻿Imports System.Drawing
-Imports System.Text
-Imports System.Windows.Forms
+﻿Imports System.Text
 Imports CodeMap.CodeIndex
 Imports CodeMap.TreeMap
-Imports Microsoft.VisualBasic.Data.Plots
 Imports Microsoft.VisualBasic.Drawing.DirectX
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports std = System.Math
@@ -15,7 +12,7 @@ Imports std = System.Math
 Public Class FormTreeMap
 
     ReadOnly index As CodeMapIndex
-    ReadOnly layout As New TreeMapLayout()
+    ReadOnly treeLayout As New TreeMapLayout()
     ReadOnly tip As New ToolTip()
     ReadOnly poll As New Timer()
 
@@ -54,9 +51,9 @@ Public Class FormTreeMap
         cboExtrude.SelectedIndex = 1
         cboPalette.SelectedIndex = 0
 
-        layout.Metric = TreeMapMetric.Lines
-        layout.Level = CodeNodeKind.File
-        layout.TextProvider = AddressOf ResolveNodeText
+        treeLayout.Metric = TreeMapMetric.Lines
+        treeLayout.Level = CodeNodeKind.File
+        treeLayout.TextProvider = AddressOf ResolveNodeText
 
         tip.AutoPopDelay = 8000
         tip.InitialDelay = 150
@@ -124,7 +121,7 @@ Public Class FormTreeMap
         projects = CodeTreeBuilder.Build(ws)
         path.Clear()
 
-        Call layout.SetRoots(projects)
+        Call treeLayout.SetRoots(projects)
         Call RebuildBreadcrumb()
         Call RefreshView()
     End Sub
@@ -144,7 +141,7 @@ Public Class FormTreeMap
         End If
 
         Try
-            Call layout.Render(e.Graphics, e.Width, e.Height)
+            Call treeLayout.Render(e.Graphics, e.Width, e.Height)
         Catch ex As Exception
             Call Console.Error.WriteLine("[CodeMap] treemap render failed: " & ex.Message)
         End Try
@@ -156,9 +153,9 @@ Public Class FormTreeMap
             ' a stale city must not be painted underneath the flat treemap
             Call Canvas.ClearScene()
 
-            layout.Level = LayoutLevel()
-            Call layout.ResetView()
-            Call layout.Invalidate()
+            treeLayout.Level = LayoutLevel()
+            Call treeLayout.ResetView()
+            Call treeLayout.Invalidate()
             Call Canvas.Invalidate()
         Else
             Call RebuildCity()
@@ -175,18 +172,18 @@ Public Class FormTreeMap
 
         ' the city can only extrude a level that the layout actually reached
         If CodeTreeBuilder.KindOrder(LayoutLevel()) >= CodeTreeBuilder.KindOrder(ExtrudeKind()) Then
-            layout.Level = LayoutLevel()
+            treeLayout.Level = LayoutLevel()
         Else
-            layout.Level = ExtrudeKind()
+            treeLayout.Level = ExtrudeKind()
         End If
 
         Try
             ' the very same squarified layout as the 2d view drives the city
-            Call layout.Layout(w, h)
+            Call treeLayout.Layout(w, h)
 
             Dim maxHeight As Double = 0.35 * std.Min(w, h)
             Dim faces As Microsoft.VisualBasic.Imaging.Drawing3D.Surface() =
-                CityModelBuilder.Build(layout.Nodes,
+                CityModelBuilder.Build(treeLayout.Nodes,
                                        ExtrudeKind(),
                                        CInt(nudBuildings.Value),
                                        maxHeight,
@@ -208,7 +205,7 @@ Public Class FormTreeMap
 
     Private Sub OnCanvasMouseMove(sender As Object, e As MouseEventArgs)
         If panning Then
-            Call layout.PanBy(e.X - panAt.X, e.Y - panAt.Y)
+            Call treeLayout.PanBy(e.X - panAt.X, e.Y - panAt.Y)
 
             panAt = e.Location
 
@@ -258,7 +255,7 @@ Public Class FormTreeMap
 
         Dim factor As Double = If(e.Delta > 0, 1.25, 1.0 / 1.25)
 
-        Call layout.ZoomAt(e.X, e.Y, factor)
+        Call treeLayout.ZoomAt(e.X, e.Y, factor)
         Call Canvas.Invalidate()
         Call ShowZoom()
         Call UpdateFocusDetail()
@@ -273,7 +270,7 @@ Public Class FormTreeMap
             Return
         End If
 
-        Dim f As CodeNode = layout.FocusAt(Canvas.Width, Canvas.Height)
+        Dim f As CodeNode = treeLayout.FocusAt(Canvas.Width, Canvas.Height)
 
         If f Is Nothing OrElse f Is focusShown Then
             Return
@@ -285,7 +282,7 @@ Public Class FormTreeMap
     End Sub
 
     Private Sub ShowZoom()
-        lblProgress.Text = $"zoom {layout.Zoom:F2}x · {layout.Nodes.Count} 个节点 · 度量 {layout.MinValue:0}-{layout.MaxValue:0}"
+        lblProgress.Text = $"zoom {treeLayout.Zoom:F2}x · {treeLayout.Nodes.Count} 个节点 · 度量 {treeLayout.MinValue:0}-{treeLayout.MaxValue:0}"
     End Sub
 
     Private Sub OnCanvasMouseUp(sender As Object, e As MouseEventArgs)
@@ -313,7 +310,7 @@ Public Class FormTreeMap
 
         If Not node.IsLeaf Then
             Call path.Add(node)
-            Call layout.SetRoots(node.Children)
+            Call treeLayout.SetRoots(node.Children)
             Call RebuildBreadcrumb()
             Call RefreshView()
         End If
@@ -326,12 +323,12 @@ Public Class FormTreeMap
             Return
         End If
 
-        Call layout.Invalidate()
+        Call treeLayout.Invalidate()
     End Sub
 
     Private Function PickNode(x As Integer, y As Integer) As CodeNode
         If mode = TreeMapViewMode.TwoD Then
-            Return layout.HitTest(x, y)
+            Return treeLayout.HitTest(x, y)
         End If
 
         Dim b As CityBuilding = CityModelBuilder.Pick(Canvas, buildings, x, y)
@@ -435,7 +432,7 @@ Public Class FormTreeMap
 
         Dim roots As List(Of CodeNode) = If(path.Count = 0, projects, path(path.Count - 1).Children)
 
-        Call layout.SetRoots(roots)
+        Call treeLayout.SetRoots(roots)
         Call RebuildBreadcrumb()
         Call RefreshView()
     End Sub
@@ -515,11 +512,11 @@ Public Class FormTreeMap
     Private Sub cboMetric_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboMetric.SelectedIndexChanged
         Select Case cboMetric.SelectedIndex
             Case 1
-                layout.Metric = TreeMapMetric.Chars
+                treeLayout.Metric = TreeMapMetric.Chars
             Case 2
-                layout.Metric = TreeMapMetric.Symbols
+                treeLayout.Metric = TreeMapMetric.Symbols
             Case Else
-                layout.Metric = TreeMapMetric.Lines
+                treeLayout.Metric = TreeMapMetric.Lines
         End Select
 
         If treeBuilt Then
@@ -556,38 +553,38 @@ Public Class FormTreeMap
     Private Sub cboPalette_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboPalette.SelectedIndexChanged
         Select Case cboPalette.SelectedIndex
             Case 0
-                layout.Palette = ScalerPalette.viridis
-                layout.UseHeatmap = True
+                treeLayout.Palette = ScalerPalette.viridis
+                treeLayout.UseHeatmap = True
             Case 1
-                layout.Palette = ScalerPalette.magma
-                layout.UseHeatmap = True
+                treeLayout.Palette = ScalerPalette.magma
+                treeLayout.UseHeatmap = True
             Case 2
-                layout.Palette = ScalerPalette.inferno
-                layout.UseHeatmap = True
+                treeLayout.Palette = ScalerPalette.inferno
+                treeLayout.UseHeatmap = True
             Case 3
-                layout.Palette = ScalerPalette.plasma
-                layout.UseHeatmap = True
+                treeLayout.Palette = ScalerPalette.plasma
+                treeLayout.UseHeatmap = True
             Case 4
-                layout.Palette = ScalerPalette.turbo
-                layout.UseHeatmap = True
+                treeLayout.Palette = ScalerPalette.turbo
+                treeLayout.UseHeatmap = True
             Case 5
-                layout.Palette = ScalerPalette.Jet
-                layout.UseHeatmap = True
+                treeLayout.Palette = ScalerPalette.Jet
+                treeLayout.UseHeatmap = True
             Case 6
-                layout.Palette = ScalerPalette.Hot
-                layout.UseHeatmap = True
+                treeLayout.Palette = ScalerPalette.Hot
+                treeLayout.UseHeatmap = True
             Case 7
-                layout.Palette = ScalerPalette.Cool
-                layout.UseHeatmap = True
+                treeLayout.Palette = ScalerPalette.Cool
+                treeLayout.UseHeatmap = True
             Case 8
-                layout.Palette = ScalerPalette.Rainbow
-                layout.UseHeatmap = True
+                treeLayout.Palette = ScalerPalette.Rainbow
+                treeLayout.UseHeatmap = True
             Case Else
                 ' 按层级着色
-                layout.UseHeatmap = False
+                treeLayout.UseHeatmap = False
         End Select
 
-        Call layout.InvalidateColors()
+        Call treeLayout.InvalidateColors()
 
         If treeBuilt Then
             If mode = TreeMapViewMode.ThreeD Then
@@ -602,8 +599,8 @@ Public Class FormTreeMap
         If mode = TreeMapViewMode.ThreeD Then
             Call Canvas.ResetView()
         Else
-            Call layout.ResetView()
-            Call layout.Invalidate()
+            Call treeLayout.ResetView()
+            Call treeLayout.Invalidate()
             Call Canvas.Invalidate()
             Call ShowZoom()
         End If
