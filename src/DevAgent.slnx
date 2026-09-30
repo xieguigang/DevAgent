@@ -7,6 +7,9 @@
     <Project Path="../../GCModeller/src/runtime/sciBASIC#/Data_science/Mathematica/Math/Math/Math.NET5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="../../GCModeller/src/runtime/sciBASIC#/Data_science/Visualization/DataPlot/DataPlot.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="../../GCModeller/src/runtime/sciBASIC#/gr/Drawing-net4.8/Drawing-net4.8.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>

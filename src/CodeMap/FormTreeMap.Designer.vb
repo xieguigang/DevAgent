@@ -22,10 +22,30 @@ Partial Class FormTreeMap
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        components = New System.ComponentModel.Container()
+        DxScene3dCanvas1 = New Drawing.DirectX.DxScene3DCanvas()
+        SuspendLayout()
+        ' 
+        ' DxScene3dCanvas1
+        ' 
+        DxScene3dCanvas1.AutoClear = False
+        DxScene3dCanvas1.BackColor = Color.LightSkyBlue
+        DxScene3dCanvas1.Dock = DockStyle.Fill
+        DxScene3dCanvas1.Location = New Point(0, 0)
+        DxScene3dCanvas1.Name = "DxScene3dCanvas1"
+        DxScene3dCanvas1.Size = New Size(845, 629)
+        DxScene3dCanvas1.TabIndex = 0
+        ' 
+        ' FormTreeMap
+        ' 
+        AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
-        ClientSize = New Size(800, 450)
+        ClientSize = New Size(845, 629)
+        Controls.Add(DxScene3dCanvas1)
+        Name = "FormTreeMap"
         Text = "Form1"
+        ResumeLayout(False)
     End Sub
+
+    Friend WithEvents DxScene3dCanvas1 As Microsoft.VisualBasic.Drawing.DirectX.DxScene3DCanvas
 
 End Class
