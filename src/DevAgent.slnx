@@ -23,6 +23,17 @@
       <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>
+  <Folder Name="/framework/directx/">
+    <Project Path="../../Microsoft.VisualBasic.Drawing/src/DXApi/DXApi.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../Microsoft.VisualBasic.Drawing/src/DxCanvas/DxCanvas.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../Microsoft.VisualBasic.Drawing/src/Microsoft.VisualBasic.Drawing/Microsoft.VisualBasic.Drawing.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+  </Folder>
   <Folder Name="/framework/http/">
     <Project Path="../../GCModeller/src/runtime/httpd/src/Flute/Flute.NET5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
@@ -94,6 +105,7 @@
       <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>
+  <Project Path="CodeMap/CodeMap.vbproj" Id="664a38da-4dba-4cda-bafb-5c96babdc637" />
   <Project Path="DevAgent/DevAgent.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
