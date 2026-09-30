@@ -232,11 +232,12 @@ Namespace CodeIndex
 
                 For Each sym As CodeSymbol In hits
                     If best.ContainsKey(sym.Id) Then
-                        If find.similarity > best(sym.Id).score Then
-                            best(sym.Id).score = find.similarity
+                        If find.similarity > best(sym.Id).rawScore Then
+                            best(sym.Id).rawScore = find.similarity
                         End If
                     Else
                         best(sym.Id) = New QueryHit With {
+                            .rawScore = find.similarity,
                             .score = find.similarity,
                             .symbol = sym
                         }
@@ -244,10 +245,51 @@ Namespace CodeIndex
                 Next
             Next
 
+            ' the engine ranks a document by the summed similarity of all of its
+            ' matched words, which favours long code blocks over the symbol that
+            ' actually carries the requested name; scale the raw score by the
+            ' name match so that an identifier query hits its own declaration.
+            Dim needle As String = keyword.Trim()
+
+            For Each hit As QueryHit In best.Values
+                hit.score = hit.rawScore * NameBoost(hit.symbol, needle)
+            Next
+
             Return best.Values _
                 .OrderByDescending(Function(h) h.score) _
                 .Take(top) _
                 .ToArray()
+        End Function
+
+        ''' <summary>
+        ''' how well does the symbol name itself match the query? returns a
+        ''' multiplier of the raw engine similarity.
+        ''' </summary>
+        Private Shared Function NameBoost(sym As CodeSymbol, needle As String) As Double
+            If sym Is Nothing OrElse String.IsNullOrEmpty(needle) Then
+                Return 1
+            End If
+
+            Dim name As String = If(sym.Name, "")
+            Dim fullName As String = If(sym.FullName, "")
+
+            If String.Equals(name, needle, StringComparison.OrdinalIgnoreCase) Then
+                Return 16
+            End If
+
+            If String.Equals(fullName, needle, StringComparison.OrdinalIgnoreCase) Then
+                Return 12
+            End If
+
+            If name.Length > 0 AndAlso name.IndexOf(needle, StringComparison.OrdinalIgnoreCase) >= 0 Then
+                Return 8
+            End If
+
+            If fullName.Length > 0 AndAlso fullName.IndexOf(needle, StringComparison.OrdinalIgnoreCase) >= 0 Then
+                Return 4
+            End If
+
+            Return 1
         End Function
 
         ''' <summary>

@@ -96,8 +96,18 @@ Namespace CodeIndex
                 Try
                     Dim proj As VBProject = VBProject.Load(projFile, parseDoc:=True)
 
+                    ' .slnx files do not carry a display name, so the project
+                    ' entry name falls back to the relative project file path.
+                    Dim displayName As String = p.Name
+
+                    If String.IsNullOrEmpty(displayName) OrElse
+                        displayName.IndexOfAny(New Char() {IO.Path.DirectorySeparatorChar, "/"c, "\"c}) >= 0 Then
+
+                        displayName = IO.Path.GetFileNameWithoutExtension(projFile)
+                    End If
+
                     Call info.VbProjects.Add(proj)
-                    Call info.Projects.Add(If(String.IsNullOrEmpty(p.Name), proj.AssemblyName, p.Name))
+                    Call info.Projects.Add(displayName)
                     Call AddProjectFiles(info, proj, IO.Path.GetDirectoryName(projFile))
                 Catch ex As Exception
                     Call info.Errors.Add($"[{IO.Path.GetFileName(projFile)}] {ex.Message}")

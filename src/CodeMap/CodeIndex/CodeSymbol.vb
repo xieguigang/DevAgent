@@ -153,7 +153,12 @@ Namespace CodeIndex
     ''' </summary>
     Public Class QueryHit
 
-        ''' <summary>the accumulated q-gram similarity of this hit</summary>
+        ''' <summary>the raw q-gram similarity reported by the full text engine</summary>
+        Public Property rawScore As Double
+        ''' <summary>
+        ''' the ranking score: the raw similarity scaled by how well the symbol
+        ''' name itself matches the query.
+        ''' </summary>
         Public Property score As Double
         ''' <summary>the matched code symbol</summary>
         Public Property symbol As CodeSymbol
