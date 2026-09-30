@@ -197,4 +197,12 @@ Public Class FormTreeMap
     Private Sub Canvas_DisplayProgress(p As Double, message As String) Handles Canvas.DisplayProgress
         lblProgress.Text = message
     End Sub
+
+    Private Sub Canvas_BreadcrumbDistory() Handles Canvas.BreadcrumbDistory
+        Call FlowBreadcrumb.Controls.Clear()
+    End Sub
+
+    Private Sub Canvas_BreadcrumbSetup(control As Control) Handles Canvas.BreadcrumbSetup
+        Call FlowBreadcrumb.Controls.Add(control)
+    End Sub
 End Class

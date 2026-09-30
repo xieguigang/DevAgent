@@ -366,7 +366,7 @@ Public Class TreeNavMap
     ' /********************************************************************************/
 
     Private Sub RebuildBreadcrumb()
-        Call FlowBreadcrumb.Controls.Clear()
+        RaiseEvent BreadcrumbDistory()
 
         Dim root As New LinkLabel() With {
             .Text = "workspace",
@@ -376,7 +376,7 @@ Public Class TreeNavMap
 
         AddHandler root.Click, Sub(s, e) Call GoToLevel(-1)
 
-        Call FlowBreadcrumb.Controls.Add(root)
+        RaiseEvent BreadcrumbSetup(root)
 
         For i As Integer = 0 To path.Count - 1
             Dim sep As New Label() With {
@@ -385,7 +385,7 @@ Public Class TreeNavMap
                 .ForeColor = Color.FromArgb(148, 163, 184)
             }
 
-            Call FlowBreadcrumb.Controls.Add(sep)
+            RaiseEvent BreadcrumbSetup(sep)
 
             Dim level As Integer = i
             Dim link As New LinkLabel() With {
@@ -396,9 +396,12 @@ Public Class TreeNavMap
 
             AddHandler link.Click, Sub(s, e) Call GoToLevel(level)
 
-            Call FlowBreadcrumb.Controls.Add(link)
+            RaiseEvent BreadcrumbSetup(link)
         Next
     End Sub
+
+    Public Event BreadcrumbDistory()
+    Public Event BreadcrumbSetup(control As Control)
 
     Private Sub GoToLevel(level As Integer)
         While path.Count > level + 1
