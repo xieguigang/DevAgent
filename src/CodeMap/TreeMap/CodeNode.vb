@@ -31,6 +31,14 @@ Namespace TreeMap
         Symbols
     End Enum
 
+    ''' <summary>the presentation mode of the code map canvas</summary>
+    Public Enum TreeMapViewMode
+        ''' <summary>the flat squarified treemap</summary>
+        TwoD
+        ''' <summary>the 3d code city, the rectangles are extruded into buildings</summary>
+        ThreeD
+    End Enum
+
     ''' <summary>
     ''' one node of the read only code map hierarchy.
     ''' </summary>

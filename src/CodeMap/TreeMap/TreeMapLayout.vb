@@ -1,6 +1,8 @@
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Data.Plots
 Imports Microsoft.VisualBasic.Imaging
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
 
 Namespace TreeMap
 
