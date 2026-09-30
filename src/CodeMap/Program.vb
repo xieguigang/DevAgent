@@ -1,9 +1,7 @@
 Imports System.Threading
 Imports System.Windows.Forms
-Imports System.Drawing
 Imports CodeMap.CodeIndex
 Imports CodeMap.HttpService
-Imports CodeMap.TreeMap
 Imports Flute.Http.Configurations
 Imports Flute.Http.Core
 
@@ -56,10 +54,6 @@ Module Program
         Dim silent As Boolean = flags.Contains("silent")
         Dim treemap As Boolean = flags.Contains("treemap") OrElse flags.Contains("ui")
         Dim httpEnabled As Boolean = opts.ContainsKey("port") OrElse opts.ContainsKey("p")
-
-        If flags.Contains("selftest") Then
-            Return SelfTest(workspacePath)
-        End If
 
         If port <= 0 OrElse port > 65535 Then
             Call Console.Error.WriteLine($"[CodeMap] invalid port: {port}")
@@ -242,64 +236,6 @@ Module Program
 
         Console.WriteLine("[CodeMap] explorer closed.")
 
-        Return 0
-    End Function
-
-    Private Function SelfTest(path As String) As Integer
-        Dim ramp As Color() = Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Designer.FromSchema(
-            Microsoft.VisualBasic.Imaging.Drawing2D.Colors.ScalerPalette.viridis, 16)
-
-        Console.WriteLine($"ramp      : n={ramp.Length} first={ramp(0)} last={ramp(ramp.Length - 1)}")
-
-        Dim ws As WorkspaceInfo = WorkspaceLoader.Open(path)
-        Dim projects As List(Of CodeNode) = CodeTreeBuilder.Build(ws)
-        Dim view As New TreeMapLayout()
-
-        Call view.SetRoots(projects)
-        view.Level = CodeNodeKind.File
-        view.Palette = Microsoft.VisualBasic.Imaging.Drawing2D.Colors.ScalerPalette.viridis
-
-        Dim laid As List(Of Microsoft.VisualBasic.Data.Plots.TreemapNode) = view.Layout(1280, 600)
-        Dim colors As New HashSet(Of Color)()
-
-        For Each n In laid
-            If n.Color.HasValue Then colors.Add(n.Color.Value)
-        Next
-
-        Console.WriteLine($"layout    : {laid.Count} rects, distinct colors = {colors.Count}")
-        Console.WriteLine($"range     : {view.MinValue:0} .. {view.MaxValue:0}")
-
-        Dim before As CodeNode = view.HitTest(640, 300)
-
-        Console.WriteLine($"hit@center: {If(before Is Nothing, "(none)", before.FullName)}")
-
-        Call view.ZoomAt(640, 300, 4.0)
-
-        Dim after As CodeNode = view.HitTest(640, 300)
-
-        Console.WriteLine($"zoom      : {view.Zoom:F2}x offset=({view.OffsetX:F0},{view.OffsetY:F0})")
-        Console.WriteLine($"hit@center after zoom: {If(after Is Nothing, "(none)", after.FullName)} (same = {before Is after})")
-
-        Dim r0 As RectangleF = view.ToScreen(laid(0).Rect)
-
-        Console.WriteLine($"screen    : rect0 = ({r0.X:F1},{r0.Y:F1},{r0.Width:F1},{r0.Height:F1})")
-
-        Call view.ResetView()
-
-        Console.WriteLine($"reset     : {view.Zoom:F2}x")
-
-        ' the code text only shows up past the zoom threshold
-        view.Zoom = 3.0
-
-        Dim leaves As Integer = 0
-
-        For Each n In laid
-            Dim cn = TryCast(n.Tag, CodeNode)
-
-            If cn IsNot Nothing AndAlso cn.Symbol IsNot Nothing Then leaves += 1
-        Next
-
-        Console.WriteLine($"with code : {leaves} nodes carry a source text (threshold {view.CodeTextZoom}x)")
         Return 0
     End Function
 

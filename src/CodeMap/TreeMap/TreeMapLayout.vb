@@ -65,6 +65,13 @@ Namespace TreeMap
         ''' inside its rectangle.
         ''' </summary>
         Public Property CodeTextZoom As Double = 2.5
+        ''' <summary>
+        ''' the host supplied text provider: it resolves the raw source text of a
+        ''' leaf node on demand. A type or a member node already carries its text
+        ''' in <see cref="CodeNode.Symbol"/>, a file level node reads its file
+        ''' through this hook.
+        ''' </summary>
+        Public Property TextProvider As Func(Of CodeNode, String)
 
         Dim roots As New List(Of CodeNode)()
         Dim nodeCache As New List(Of TreemapNode)()
@@ -449,24 +456,45 @@ Namespace TreeMap
             Call DrawLegend(g, width, height)
         End Sub
 
+        ''' <summary>resolve the raw source text of a leaf node through the host</summary>
+        Private Function ResolveCode(cn As CodeNode) As String
+            If cn Is Nothing Then
+                Return ""
+            End If
+
+            If TextProvider IsNot Nothing Then
+                Try
+                    Return If(TextProvider(cn), "")
+                Catch
+                    Return ""
+                End Try
+            End If
+
+            Return If(cn.Symbol Is Nothing, "", If(cn.Symbol.Code, ""))
+        End Function
+
         Private Sub DrawNodeText(g As IGraphics, n As TreemapNode, r As RectangleF)
             Dim cn As CodeNode = TryCast(n.Tag, CodeNode)
             Dim base_ As Color = If(n.Color, Theme.Palette(0))
             Dim brightness As Double = (0.299 * base_.R + 0.587 * base_.G + 0.114 * base_.B) / 255
             Dim ink As Color = If(brightness > 0.55, Color.Black, Color.White)
 
-            ' zoomed in far enough: show the raw declaration of a leaf symbol
-            If Zoom >= CodeTextZoom AndAlso cn IsNot Nothing AndAlso cn.Symbol IsNot Nothing AndAlso
-                r.Width > 70.0F AndAlso r.Height > 54.0F Then
+            ' zoomed in far enough: show the raw source text of the leaf
+            If Zoom >= CodeTextZoom AndAlso cn IsNot Nothing AndAlso
+                r.Width > 55.0F AndAlso r.Height > 42.0F Then
 
-                Dim head As New RectangleF(r.X + 3.0F, r.Y + 2.0F, r.Width - 6.0F, 14.0F)
-                Dim body As New RectangleF(r.X + 3.0F, r.Y + 17.0F, r.Width - 6.0F, r.Height - 20.0F)
-                Dim code As String = If(cn.Symbol.Code, "")
+                Dim code As String = ResolveCode(cn)
+
+                If code Is Nothing Then
+                    code = ""
+                End If
 
                 If code.Length > 4000 Then
                     code = code.Substring(0, 4000)
                 End If
 
+                Dim head As New RectangleF(r.X + 3.0F, r.Y + 2.0F, r.Width - 6.0F, 14.0F)
+                Dim body As New RectangleF(r.X + 3.0F, r.Y + 17.0F, r.Width - 6.0F, r.Height - 20.0F)
                 Dim headFont As New Font("Microsoft YaHei", 8, FontStyle.Bold)
 
                 Using br As New SolidBrush(ink)

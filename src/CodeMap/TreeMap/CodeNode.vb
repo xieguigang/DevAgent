@@ -54,6 +54,8 @@ Namespace TreeMap
         Public Property Kind As CodeNodeKind
         ''' <summary>the relative path inside the workspace, or the absolute path of the file</summary>
         Public Property Path As String
+        ''' <summary>the absolute path of the source file behind a file level node</summary>
+        Public Property SourceFile As String
         ''' <summary>the pre aggregated number of the source lines</summary>
         Public Property Lines As Integer
         ''' <summary>the pre aggregated number of the characters</summary>

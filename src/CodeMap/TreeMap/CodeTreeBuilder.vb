@@ -33,6 +33,7 @@ Namespace TreeMap
                     .Kind = CodeNodeKind.File,
                     .FullName = If(file.RelativePath, file.AbsolutePath),
                     .Path = If(file.RelativePath, file.AbsolutePath),
+                    .SourceFile = file.AbsolutePath,
                     .Parent = folder,
                     .Depth = folder.Depth + 1,
                     .Lines = 0,

@@ -24,6 +24,8 @@ Public Class FormTreeMap
     Dim path As New List(Of CodeNode)()
     Dim mode As TreeMapViewMode = TreeMapViewMode.TwoD
     Dim buildings As New List(Of CityBuilding)()
+    ''' <summary>the memoized file text of the zoomed in treemap nodes</summary>
+    ReadOnly textCache As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
     Dim hovered As CodeNode = Nothing
     Dim downAt As Point
     Dim panning As Boolean = False
@@ -52,6 +54,7 @@ Public Class FormTreeMap
 
         layout.Metric = TreeMapMetric.Lines
         layout.Level = CodeNodeKind.File
+        layout.TextProvider = AddressOf ResolveNodeText
 
         tip.AutoPopDelay = 8000
         tip.InitialDelay = 150
@@ -404,6 +407,49 @@ Public Class FormTreeMap
     ' /********************************************************************************/
     '  the toolbar
     ' /********************************************************************************/
+
+    ''' <summary>
+    ''' resolve the raw source text of a leaf node for the zoomed in treemap.
+    ''' A type or a member carries its text in the symbol, a file level node
+    ''' reads its physical file on demand and the result is memoized.
+    ''' </summary>
+    Private Function ResolveNodeText(node As CodeNode) As String
+        If node Is Nothing Then
+            Return ""
+        End If
+
+        If node.Symbol IsNot Nothing Then
+            Return If(node.Symbol.Code, "")
+        End If
+
+        If String.IsNullOrEmpty(node.SourceFile) Then
+            Return ""
+        End If
+
+        Dim cached As String = Nothing
+
+        If textCache.TryGetValue(node.SourceFile, cached) Then
+            Return cached
+        End If
+
+        Try
+            If Not IO.File.Exists(node.SourceFile) Then
+                Return ""
+            End If
+
+            Dim text As String = IO.File.ReadAllText(node.SourceFile)
+
+            If textCache.Count > 64 Then
+                Call textCache.Clear()
+            End If
+
+            textCache(node.SourceFile) = text
+
+            Return text
+        Catch
+            Return ""
+        End Try
+    End Function
 
     ''' <summary>the deepest hierarchy level that the 2d layout descends to</summary>
     Private Function LayoutLevel() As CodeNodeKind
