@@ -467,13 +467,17 @@ Namespace TreeMap
                     code = code.Substring(0, 4000)
                 End If
 
-                Using br As New SolidBrush(ink), font As New Font("Microsoft YaHei", 8, FontStyle.Bold)
-                    Call g.DrawString(cn.Name, font, br, head)
+                Dim headFont As New Font("Microsoft YaHei", 8, FontStyle.Bold)
+
+                Using br As New SolidBrush(ink)
+                    Call g.DrawString(cn.Name, headFont, br, head)
                 End Using
 
                 If body.Height > 8.0F AndAlso code.Length > 0 Then
-                    Using br As New SolidBrush(ink), font As New Font("Consolas", 8)
-                        Call g.DrawString(code, font, br, body)
+                    Dim codeFont As New Font("Consolas", 8)
+
+                    Using br As New SolidBrush(ink)
+                        Call g.DrawString(code, codeFont, br, body)
                     End Using
                 End If
 
@@ -485,9 +489,10 @@ Namespace TreeMap
             End If
 
             Dim size As Single = CSng(std.Max(6.5, std.Min(11.0, r.Height / 4.0)))
+            Dim labelFont As New Font("Microsoft YaHei", size)
 
-            Using br As New SolidBrush(ink), font As New Font("Microsoft YaHei", size)
-                Call g.DrawString(n.Label, font, br, New RectangleF(r.X + 2.0F, r.Y + 1.0F, r.Width - 4.0F, r.Height - 2.0F))
+            Using br As New SolidBrush(ink)
+                Call g.DrawString(n.Label, labelFont, br, New RectangleF(r.X + 2.0F, r.Y + 1.0F, r.Width - 4.0F, r.Height - 2.0F))
             End Using
         End Sub
 
@@ -512,8 +517,11 @@ Namespace TreeMap
                 End Using
             Next
 
-            Using br As New SolidBrush(Theme.TextColor), font As New Font("Consolas", 8)
-                Call g.DrawString($"{valueMin:0} {Palette.ToString()} {Metric.ToString()} {valueMax:0}", font, br, x0, y0 + barH + 2.0F)
+            Dim legendFont As New Font("Consolas", 8)
+            Dim legendText As String = $"{valueMin:0} · {Palette.ToString()} / {Metric.ToString()} · {valueMax:0}"
+
+            Using br As New SolidBrush(Theme.TextColor)
+                Call g.DrawString(legendText, legendFont, br, x0, y0 + barH + 2.0F)
             End Using
         End Sub
 
