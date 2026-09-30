@@ -60,6 +60,43 @@ Namespace TreeMap
             Return projects
         End Function
 
+        ''' <summary>the position of one hierarchy level inside the five level chain</summary>
+        Public Function KindOrder(k As CodeNodeKind) As Integer
+            Select Case k
+                Case CodeNodeKind.Project
+                    Return 0
+                Case CodeNodeKind.Folder
+                    Return 1
+                Case CodeNodeKind.File
+                    Return 2
+                Case CodeNodeKind.Type
+                    Return 3
+                Case Else
+                    Return 4
+            End Select
+        End Function
+
+        ''' <summary>the hierarchy level of the given position; out of range clamps to member</summary>
+        Public Function KindOfIndex(i As Integer) As CodeNodeKind
+            If i <= 0 Then
+                Return CodeNodeKind.Project
+            End If
+
+            If i = 1 Then
+                Return CodeNodeKind.Folder
+            End If
+
+            If i = 2 Then
+                Return CodeNodeKind.File
+            End If
+
+            If i = 3 Then
+                Return CodeNodeKind.Type
+            End If
+
+            Return CodeNodeKind.Member
+        End Function
+
         ''' <summary>
         ''' replace the measures of every container by the sum of its children.
         ''' </summary>

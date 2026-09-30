@@ -33,6 +33,9 @@ Namespace TreeMap
     ''' </summary>
     Public Module CityModelBuilder
 
+        ''' <summary>the smallest ground area of a building, in world units</summary>
+        Public Const MinimumFootprint As Double = 1.5
+
         ''' <summary>
         ''' build the geometry of the city.
         ''' </summary>
@@ -137,6 +140,19 @@ Namespace TreeMap
                 Dim x1 As Double = mx + w / 2.0
                 Dim y0 As Double = my - h / 2.0
                 Dim y1 As Double = my + h / 2.0
+
+                ' a footprint below one pixel is invisible on the screen, so the
+                ' building keeps a minimal ground area and only its height stays
+                ' the carrier of the measure
+                If x1 - x0 < MinimumFootprint Then
+                    x0 = mx - MinimumFootprint / 2.0
+                    x1 = mx + MinimumFootprint / 2.0
+                End If
+
+                If y1 - y0 < MinimumFootprint Then
+                    y0 = my - MinimumFootprint / 2.0
+                    y1 = my + MinimumFootprint / 2.0
+                End If
 
                 ' the vertex order is the one of the cube model:
                 ' 0..3 are the corners of the bottom face, 4..7 the top face

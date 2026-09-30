@@ -18,8 +18,20 @@ Namespace TreeMap
 
         ''' <summary>the measure that drives the area of a rectangle</summary>
         Public Property Metric As TreeMapMetric = TreeMapMetric.Lines
-        ''' <summary>the deepest hierarchy level that is laid out, 0 = projects only</summary>
-        Public Property MaxDepth As Integer = 3
+        ''' <summary>
+        ''' the deepest hierarchy level that becomes a laid out rectangle: the
+        ''' layout descends until a node of this kind is reached, that node is a
+        ''' leaf of the layout even when it owns children.
+        ''' </summary>
+        ''' <remarks>
+        ''' The descent is driven by the kind and not by the raw tree depth on
+        ''' purpose: the folder chain of a source file is of an arbitrary length,
+        ''' so a plain depth limit would swallow the type and the member levels of
+        ''' every deeply nested file.
+        ''' </remarks>
+        Public Property Level As CodeNodeKind = CodeNodeKind.File
+        ''' <summary>a safety bound of the recursion depth, normally never reached</summary>
+        Public Property MaxDepth As Integer = 64
 
         Dim roots As New List(Of CodeNode)()
         Dim nodeCache As New List(Of TreemapNode)()
@@ -188,7 +200,16 @@ Namespace TreeMap
                 .Tag = n
             }
 
-            If depth >= MaxDepth OrElse n.IsLeaf Then
+            ' Stop at the requested level and at everything below it: a file that
+            ' sits directly in the project root has no folder above it, so the
+            ' descent is bounded by the level and not by an exact match. The
+            ' folder level is transparent on purpose - a folder only names a path
+            ' segment, so the whole folder chain is walked down no matter how
+            ' deeply the source files are nested.
+            Dim atLevel As Boolean = CodeTreeBuilder.KindOrder(n.Kind) >= CodeTreeBuilder.KindOrder(Level)
+            Dim transparent As Boolean = (n.Kind = CodeNodeKind.Folder)
+
+            If depth >= MaxDepth OrElse n.IsLeaf OrElse (atLevel AndAlso Not transparent) Then
                 Return node
             End If
 
