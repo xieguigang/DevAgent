@@ -1,4 +1,3 @@
-Imports System.IO
 Imports CodeMap.CodeIndex
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj.CodeDOM
 Imports std = System.Math

@@ -1,5 +1,3 @@
-Imports System.Diagnostics
-Imports System.Linq
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj.CodeDOM
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository

@@ -1,6 +1,5 @@
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj.CodeDOM
-Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj.CodeDOM.Syntax
 
 Namespace CodeIndex
 

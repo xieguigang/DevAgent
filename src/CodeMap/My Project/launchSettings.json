@@ -2,7 +2,7 @@
   "profiles": {
     "CodeMap": {
       "commandName": "Project",
-      "commandLineArgs": "--workspace \"G:\\GCModeller\\src\\runtime\\sciBASIC#\\nuget.slnx\" --treemap"
+      "commandLineArgs": "--workspace \"G:\\DevAgent\\src\\DevAgent.slnx\" --treemap"
     }
   }
 }

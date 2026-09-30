@@ -1,4 +1,3 @@
-Imports System.Drawing
 Imports Microsoft.VisualBasic.Data.Plots
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Drawing3D.Models
