@@ -6,7 +6,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 ''' the code map explorer: a directx accelerated treemap of an opened code
 ''' repository, presented either flat (2d) or as a code city (3d).
 ''' </summary>
-Public Class FormTreeMap
+Friend Class FormTreeMap
 
     Public Function LoadIndex(index As CodeMapIndex) As FormTreeMap
         Call Canvas.LoadMap(index)
