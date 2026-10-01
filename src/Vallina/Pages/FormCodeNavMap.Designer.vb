@@ -26,10 +26,22 @@ Partial Class FormCodeNavMap
     Private Sub InitializeComponent()
         ToolStrip1 = New ToolStrip()
         Canvas = New CodeMap.TreeNavMap()
+        ToolStripLabel1 = New ToolStripLabel()
+        cboMode = New ToolStripComboBox()
+        ToolStripLabel2 = New ToolStripLabel()
+        cboMetric = New ToolStripComboBox()
+        ToolStripLabel3 = New ToolStripLabel()
+        cboLevel = New ToolStripComboBox()
+        ToolStripLabel4 = New ToolStripLabel()
+        cboExtrude = New ToolStripComboBox()
+        ToolStripLabel5 = New ToolStripLabel()
+        cboPalette = New ToolStripComboBox()
+        ToolStrip1.SuspendLayout()
         SuspendLayout()
         ' 
         ' ToolStrip1
         ' 
+        ToolStrip1.Items.AddRange(New ToolStripItem() {ToolStripLabel1, cboMode, ToolStripLabel2, cboMetric, ToolStripLabel3, cboLevel, ToolStripLabel4, cboExtrude, ToolStripLabel5, cboPalette})
         ToolStrip1.Location = New Point(0, 0)
         ToolStrip1.Name = "ToolStrip1"
         ToolStrip1.Size = New Size(1520, 25)
@@ -48,6 +60,66 @@ Partial Class FormCodeNavMap
         Canvas.Size = New Size(1520, 839)
         Canvas.TabIndex = 2
         ' 
+        ' ToolStripLabel1
+        ' 
+        ToolStripLabel1.Name = "ToolStripLabel1"
+        ToolStripLabel1.Size = New Size(81, 22)
+        ToolStripLabel1.Text = "Render Mode:"
+        ' 
+        ' cboMode
+        ' 
+        cboMode.DropDownStyle = ComboBoxStyle.DropDownList
+        cboMode.Name = "cboMode"
+        cboMode.Size = New Size(121, 25)
+        ' 
+        ' ToolStripLabel2
+        ' 
+        ToolStripLabel2.Name = "ToolStripLabel2"
+        ToolStripLabel2.Size = New Size(44, 22)
+        ToolStripLabel2.Text = "Metric:"
+        ' 
+        ' cboMetric
+        ' 
+        cboMetric.DropDownStyle = ComboBoxStyle.DropDownList
+        cboMetric.Name = "cboMetric"
+        cboMetric.Size = New Size(121, 25)
+        ' 
+        ' ToolStripLabel3
+        ' 
+        ToolStripLabel3.Name = "ToolStripLabel3"
+        ToolStripLabel3.Size = New Size(80, 22)
+        ToolStripLabel3.Text = "Symbol Level:"
+        ' 
+        ' cboLevel
+        ' 
+        cboLevel.DropDownStyle = ComboBoxStyle.DropDownList
+        cboLevel.Name = "cboLevel"
+        cboLevel.Size = New Size(121, 25)
+        ' 
+        ' ToolStripLabel4
+        ' 
+        ToolStripLabel4.Name = "ToolStripLabel4"
+        ToolStripLabel4.Size = New Size(80, 22)
+        ToolStripLabel4.Text = "Extrude Level:"
+        ' 
+        ' cboExtrude
+        ' 
+        cboExtrude.DropDownStyle = ComboBoxStyle.DropDownList
+        cboExtrude.Name = "cboExtrude"
+        cboExtrude.Size = New Size(121, 25)
+        ' 
+        ' ToolStripLabel5
+        ' 
+        ToolStripLabel5.Name = "ToolStripLabel5"
+        ToolStripLabel5.Size = New Size(78, 22)
+        ToolStripLabel5.Text = "Color Palette:"
+        ' 
+        ' cboPalette
+        ' 
+        cboPalette.DropDownStyle = ComboBoxStyle.DropDownList
+        cboPalette.Name = "cboPalette"
+        cboPalette.Size = New Size(121, 25)
+        ' 
         ' FormCodeNavMap
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -61,10 +133,22 @@ Partial Class FormCodeNavMap
         ShowHint = Microsoft.VisualStudio.WinForms.Docking.DockState.Unknown
         TabPageContextMenuStrip = DockContextMenuStrip1
         Text = "Project Navigation Map"
+        ToolStrip1.ResumeLayout(False)
+        ToolStrip1.PerformLayout()
         ResumeLayout(False)
         PerformLayout()
     End Sub
 
     Friend WithEvents ToolStrip1 As ToolStrip
     Friend WithEvents Canvas As CodeMap.TreeNavMap
+    Friend WithEvents ToolStripLabel1 As ToolStripLabel
+    Friend WithEvents cboMode As ToolStripComboBox
+    Friend WithEvents ToolStripLabel2 As ToolStripLabel
+    Friend WithEvents cboMetric As ToolStripComboBox
+    Friend WithEvents ToolStripLabel3 As ToolStripLabel
+    Friend WithEvents cboLevel As ToolStripComboBox
+    Friend WithEvents ToolStripLabel4 As ToolStripLabel
+    Friend WithEvents cboExtrude As ToolStripComboBox
+    Friend WithEvents ToolStripLabel5 As ToolStripLabel
+    Friend WithEvents cboPalette As ToolStripComboBox
 End Class
