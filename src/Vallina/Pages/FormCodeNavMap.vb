@@ -215,4 +215,14 @@ Public Class FormCodeNavMap
     Private Sub Canvas_BreadcrumbSetup(control As Control) Handles Canvas.BreadcrumbSetup
         ' Call FlowBreadcrumb.Controls.Add(control)
     End Sub
+
+    Private Sub FormCodeNavMap_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+        Call ActivateRibbon()
+    End Sub
+
+    Private Sub FormCodeNavMap_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        Call btnSnapshot.ClearHook()
+        Call btnFit.ClearHook()
+        Call btnBack.ClearHook()
+    End Sub
 End Class
