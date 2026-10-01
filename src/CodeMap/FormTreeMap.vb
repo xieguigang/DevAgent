@@ -136,8 +136,8 @@ Public Class FormTreeMap
         If Canvas.Mode = TreeMapViewMode.ThreeD Then
             Call Canvas.ResetView()
         Else
-            Call treeLayout.ResetView()
-            Call treeLayout.Invalidate()
+            Call Canvas.treeLayout.ResetView()
+            Call Canvas.treeLayout.Invalidate()
             Call Canvas.Invalidate()
             Call Canvas.ShowZoom()
         End If

@@ -70,7 +70,7 @@ Public Class TreeNavMap
 
         If st.ready Then
             If Not TreeBuilt Then
-                TreeBuilt = True
+                _TreeBuilt = True
 
                 Call BuildTree()
 
