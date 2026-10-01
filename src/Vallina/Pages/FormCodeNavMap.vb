@@ -17,13 +17,13 @@ Public Class FormCodeNavMap
     End Sub
 
     Private Sub FormCodeNavMap_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        RibbonMenu.Ribbon.TabCodeNavMap.ContextAvailable = ContextAvailability.Active
-
         Call ActivateRibbon()
         Call ApplyVsTheme(ToolStrip1)
     End Sub
 
     Private Sub ActivateRibbon()
+        RibbonMenu.Ribbon.TabCodeNavMap.ContextAvailable = ContextAvailability.Active
+
         Call btnFit.Addhandler(AddressOf FitView)
         Call btnBack.Addhandler(AddressOf BackToUpLevel)
         Call btnSnapshot.Addhandler(AddressOf MakeSnapshot)
@@ -221,6 +221,8 @@ Public Class FormCodeNavMap
     End Sub
 
     Private Sub FormCodeNavMap_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        RibbonMenu.Ribbon.TabCodeNavMap.ContextAvailable = ContextAvailability.NotAvailable
+
         Call btnSnapshot.ClearHook()
         Call btnFit.ClearHook()
         Call btnBack.ClearHook()
