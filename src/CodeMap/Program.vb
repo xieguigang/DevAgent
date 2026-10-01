@@ -226,7 +226,7 @@ Module Program
         Call Application.EnableVisualStyles()
         Call Application.SetCompatibleTextRenderingDefault(False)
 
-        Using form As New FormTreeMap(index)
+        Using form = New FormTreeMap().LoadIndex(index)
             Call Application.Run(form)
         End Using
 

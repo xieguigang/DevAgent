@@ -109,7 +109,7 @@
     </Project>
   </Folder>
   <Project Path="CodeMap/CodeMap.vbproj" Id="664a38da-4dba-4cda-bafb-5c96babdc637">
-    <Platform Solution="Release|x64" Project="x64" />
+    <Platform Solution="*|x64" Project="x64" />
   </Project>
   <Project Path="DevAgent/DevAgent.vbproj">
     <Platform Solution="*|x64" Project="x64" />

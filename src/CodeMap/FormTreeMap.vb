@@ -8,28 +8,12 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 ''' </summary>
 Public Class FormTreeMap
 
+    Public Function LoadIndex(index As CodeMapIndex) As FormTreeMap
+        Call Canvas.LoadMap(index)
+        Call Canvas.RefreshView()
 
-
-    ''' <summary>
-    ''' the default instance constructor that the winforms infrastructure of the
-    ''' project asks for; the explorer needs an index, so the view stays empty
-    ''' until one is supplied through the other constructor.
-    ''' </summary>
-    Sub New()
-        Me.New(Nothing)
-    End Sub
-
-    Sub New(index As CodeMapIndex)
-        Call InitializeComponent()
-
-        cboMode.SelectedIndex = 0
-        cboMetric.SelectedIndex = 0
-        cboLevel.SelectedIndex = 2
-        cboExtrude.SelectedIndex = 1
-        cboPalette.SelectedIndex = 0
-
-        lblStatus.Text = "正在构建代码索引 …"
-    End Sub
+        Return Me
+    End Function
 
     Private Sub cboMode_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboMode.SelectedIndexChanged
         If cboMode.SelectedIndex < 0 Then
@@ -168,6 +152,15 @@ Public Class FormTreeMap
     Private Sub FormTreeMap_Load(sender As Object, e As EventArgs) Handles Me.Load
         Canvas.ExtrudeKind = AddressOf ExtrudeKind
         Canvas.LayoutLevel = AddressOf LayoutLevel
+        Canvas.NudBuildings = AddressOf GetNudBuildings
+
+        cboMode.SelectedIndex = 0
+        cboMetric.SelectedIndex = 0
+        cboLevel.SelectedIndex = 2
+        cboExtrude.SelectedIndex = 1
+        cboPalette.SelectedIndex = 0
+
+        lblStatus.Text = "正在构建代码索引 …"
     End Sub
 
     Private Function ExtrudeKind() As CodeNodeKind

@@ -131,10 +131,13 @@ Public Class TreeNavMap
             ' a stale city must not be painted underneath the flat treemap
             Call Canvas.ClearScene()
 
-            treeLayout.Level = _LayoutLevel()
-            Call treeLayout.ResetView()
-            Call treeLayout.Invalidate()
-            Call Canvas.Invalidate()
+            If LayoutLevel IsNot Nothing Then
+                treeLayout.Level = _LayoutLevel()
+
+                Call treeLayout.ResetView()
+                Call treeLayout.Invalidate()
+                Call Canvas.Invalidate()
+            End If
         Else
             Call RebuildCity()
         End If

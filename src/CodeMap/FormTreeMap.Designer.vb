@@ -17,6 +17,15 @@ Partial Class FormTreeMap
     'Required by the Windows Form Designer
     Private components As System.ComponentModel.IContainer
 
+    Sub New()
+
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        ' Add any initialization after the InitializeComponent() call.
+
+    End Sub
+
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.
     'Do not modify it using the code editor.
