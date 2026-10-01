@@ -223,6 +223,33 @@
         <Image MinDPI="192">Icons8/icons8-run-command-96.png</Image>
       </Command.LargeImages>
     </Command>
+    <Command Name="cmdTabCodeNavMap" Id="42" LabelTitle="Code Navigation Map" />
+    <Command Name="cmdButtonFit" Id="43" LabelTitle="Fit View">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-fullscreen-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-fullscreen-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdButtonBack" Id="44" LabelTitle="Back Up Level">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/icons8-up-3-96.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/icons8-up-3-96.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdButtonMapSnapshot" Id="45" LabelTitle="NavMap Snapshot">
+      <Command.SmallImages>
+        <Image MinDPI="192">Icons8/applets-screenshooter.png</Image>
+      </Command.SmallImages>
+      <Command.LargeImages>
+        <Image MinDPI="192">Icons8/applets-screenshooter.png</Image>
+      </Command.LargeImages>
+    </Command>
+    <Command Name="cmdMenuNavMap" Id="46" LabelTitle="Navigation Map" />
+    <Command Name="cmdGroupNavMapActions" Id="47" LabelTitle="Operations" />
   </Application.Commands>
   <Application.Views>
     <Ribbon>
@@ -269,6 +296,15 @@
             <Group CommandName="cmdGroupEditorMics" SizeDefinition="TwoButtons">
               <Button CommandName="cmdButtonDeepSeekLLM" />
               <Button CommandName="cmdButtonEditorTheme" />
+            </Group>
+          </Tab>
+        </TabGroup>
+        <TabGroup CommandName="cmdTabCodeNavMap">
+          <Tab CommandName="cmdMenuNavMap">
+            <Group CommandName="cmdGroupNavMapActions" SizeDefinition="ThreeButtons">
+              <Button CommandName="cmdButtonBack" />
+              <Button CommandName="cmdButtonFit" />
+              <Button CommandName="cmdButtonMapSnapshot" />
             </Group>
           </Tab>
         </TabGroup>

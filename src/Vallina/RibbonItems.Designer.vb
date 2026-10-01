@@ -38,6 +38,12 @@ Namespace RibbonLib.Controls
             Public Const cmdGroupEditorMics As UInteger = 19
             Public Const cmdButtonDeepSeekLLM As UInteger = 29
             Public Const cmdButtonEditorTheme As UInteger = 15
+            Public Const cmdTabCodeNavMap As UInteger = 42
+            Public Const cmdMenuNavMap As UInteger = 46
+            Public Const cmdGroupNavMapActions As UInteger = 47
+            Public Const cmdButtonBack As UInteger = 44
+            Public Const cmdButtonFit As UInteger = 43
+            Public Const cmdButtonMapSnapshot As UInteger = 45
             Public Const cmdMenuEdit As UInteger = 14
             Public Const cmdGroupFile As UInteger = 12
             Public Const cmdButtonOpenFolder As UInteger = 40
@@ -203,6 +209,42 @@ Namespace RibbonLib.Controls
                 Return _ButtonEditorTheme
             End Get
         End Property
+        Private _TabCodeNavMap As RibbonTabGroup
+        Public ReadOnly Property TabCodeNavMap As RibbonTabGroup
+            Get
+                Return _TabCodeNavMap
+            End Get
+        End Property
+        Private _MenuNavMap As RibbonTab
+        Public ReadOnly Property MenuNavMap As RibbonTab
+            Get
+                Return _MenuNavMap
+            End Get
+        End Property
+        Private _GroupNavMapActions As RibbonGroup
+        Public ReadOnly Property GroupNavMapActions As RibbonGroup
+            Get
+                Return _GroupNavMapActions
+            End Get
+        End Property
+        Private _ButtonBack As RibbonButton
+        Public ReadOnly Property ButtonBack As RibbonButton
+            Get
+                Return _ButtonBack
+            End Get
+        End Property
+        Private _ButtonFit As RibbonButton
+        Public ReadOnly Property ButtonFit As RibbonButton
+            Get
+                Return _ButtonFit
+            End Get
+        End Property
+        Private _ButtonMapSnapshot As RibbonButton
+        Public ReadOnly Property ButtonMapSnapshot As RibbonButton
+            Get
+                Return _ButtonMapSnapshot
+            End Get
+        End Property
         Private _MenuEdit As RibbonTab
         Public ReadOnly Property MenuEdit As RibbonTab
             Get
@@ -334,6 +376,12 @@ Namespace RibbonLib.Controls
             _GroupEditorMics = New RibbonGroup(_ribbon, Cmd.cmdGroupEditorMics)
             _ButtonDeepSeekLLM = New RibbonButton(_ribbon, Cmd.cmdButtonDeepSeekLLM)
             _ButtonEditorTheme = New RibbonButton(_ribbon, Cmd.cmdButtonEditorTheme)
+            _TabCodeNavMap = New RibbonTabGroup(_ribbon, Cmd.cmdTabCodeNavMap)
+            _MenuNavMap = New RibbonTab(_ribbon, Cmd.cmdMenuNavMap)
+            _GroupNavMapActions = New RibbonGroup(_ribbon, Cmd.cmdGroupNavMapActions)
+            _ButtonBack = New RibbonButton(_ribbon, Cmd.cmdButtonBack)
+            _ButtonFit = New RibbonButton(_ribbon, Cmd.cmdButtonFit)
+            _ButtonMapSnapshot = New RibbonButton(_ribbon, Cmd.cmdButtonMapSnapshot)
             _MenuEdit = New RibbonTab(_ribbon, Cmd.cmdMenuEdit)
             _GroupFile = New RibbonGroup(_ribbon, Cmd.cmdGroupFile)
             _ButtonOpenFolder = New RibbonButton(_ribbon, Cmd.cmdButtonOpenFolder)

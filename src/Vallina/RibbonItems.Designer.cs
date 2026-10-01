@@ -41,6 +41,12 @@ namespace RibbonLib.Controls
             public const uint cmdGroupEditorMics = 19;
             public const uint cmdButtonDeepSeekLLM = 29;
             public const uint cmdButtonEditorTheme = 15;
+            public const uint cmdTabCodeNavMap = 42;
+            public const uint cmdMenuNavMap = 46;
+            public const uint cmdGroupNavMapActions = 47;
+            public const uint cmdButtonBack = 44;
+            public const uint cmdButtonFit = 43;
+            public const uint cmdButtonMapSnapshot = 45;
             public const uint cmdMenuEdit = 14;
             public const uint cmdGroupFile = 12;
             public const uint cmdButtonOpenFolder = 40;
@@ -86,6 +92,12 @@ namespace RibbonLib.Controls
         public RibbonGroup GroupEditorMics { get; private set; }
         public RibbonButton ButtonDeepSeekLLM { get; private set; }
         public RibbonButton ButtonEditorTheme { get; private set; }
+        public RibbonTabGroup TabCodeNavMap { get; private set; }
+        public RibbonTab MenuNavMap { get; private set; }
+        public RibbonGroup GroupNavMapActions { get; private set; }
+        public RibbonButton ButtonBack { get; private set; }
+        public RibbonButton ButtonFit { get; private set; }
+        public RibbonButton ButtonMapSnapshot { get; private set; }
         public RibbonTab MenuEdit { get; private set; }
         public RibbonGroup GroupFile { get; private set; }
         public RibbonButton ButtonOpenFolder { get; private set; }
@@ -132,6 +144,12 @@ namespace RibbonLib.Controls
             GroupEditorMics = new RibbonGroup(ribbon, Cmd.cmdGroupEditorMics);
             ButtonDeepSeekLLM = new RibbonButton(ribbon, Cmd.cmdButtonDeepSeekLLM);
             ButtonEditorTheme = new RibbonButton(ribbon, Cmd.cmdButtonEditorTheme);
+            TabCodeNavMap = new RibbonTabGroup(ribbon, Cmd.cmdTabCodeNavMap);
+            MenuNavMap = new RibbonTab(ribbon, Cmd.cmdMenuNavMap);
+            GroupNavMapActions = new RibbonGroup(ribbon, Cmd.cmdGroupNavMapActions);
+            ButtonBack = new RibbonButton(ribbon, Cmd.cmdButtonBack);
+            ButtonFit = new RibbonButton(ribbon, Cmd.cmdButtonFit);
+            ButtonMapSnapshot = new RibbonButton(ribbon, Cmd.cmdButtonMapSnapshot);
             MenuEdit = new RibbonTab(ribbon, Cmd.cmdMenuEdit);
             GroupFile = new RibbonGroup(ribbon, Cmd.cmdGroupFile);
             ButtonOpenFolder = new RibbonButton(ribbon, Cmd.cmdButtonOpenFolder);
