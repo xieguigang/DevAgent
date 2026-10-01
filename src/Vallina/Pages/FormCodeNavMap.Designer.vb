@@ -25,6 +25,7 @@ Partial Class FormCodeNavMap
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         ToolStrip1 = New ToolStrip()
+        Canvas = New CodeMap.TreeNavMap()
         SuspendLayout()
         ' 
         ' ToolStrip1
@@ -35,11 +36,24 @@ Partial Class FormCodeNavMap
         ToolStrip1.TabIndex = 1
         ToolStrip1.Text = "ToolStrip1"
         ' 
+        ' Canvas
+        ' 
+        Canvas.Dock = DockStyle.Fill
+        Canvas.ExtrudeKind = Nothing
+        Canvas.LayoutLevel = Nothing
+        Canvas.Location = New Point(0, 25)
+        Canvas.Mode = CodeMap.TreeMap.TreeMapViewMode.TwoD
+        Canvas.Name = "Canvas"
+        Canvas.NudBuildings = Nothing
+        Canvas.Size = New Size(1520, 839)
+        Canvas.TabIndex = 2
+        ' 
         ' FormCodeNavMap
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
         AutoScaleMode = AutoScaleMode.Font
         ClientSize = New Size(1520, 864)
+        Controls.Add(Canvas)
         Controls.Add(ToolStrip1)
         DockAreas = Microsoft.VisualStudio.WinForms.Docking.DockAreas.Float Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockLeft Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockRight Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockTop Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockBottom Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.Document
         DoubleBuffered = True
@@ -52,4 +66,5 @@ Partial Class FormCodeNavMap
     End Sub
 
     Friend WithEvents ToolStrip1 As ToolStrip
+    Friend WithEvents Canvas As CodeMap.TreeNavMap
 End Class

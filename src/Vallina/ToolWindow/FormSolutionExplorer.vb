@@ -1,4 +1,7 @@
-﻿Imports DevAgent
+﻿Imports System.Threading
+Imports CodeMap
+Imports CodeMap.CodeIndex
+Imports DevAgent
 Imports Fluteway
 Imports Galaxy.Workbench
 Imports Galaxy.Workbench.CommonDialogs
@@ -317,5 +320,13 @@ Public Class FormSolutionExplorer
                 Call Process.Start("explorer.exe", .folder)
             End With
         End If
+    End Sub
+
+    Private Sub ToolStripButton7_Click(sender As Object, e As EventArgs) Handles ToolStripButton7.Click
+        Dim index As New CodeMapIndex(q:=3, maxCodeLines:=1000)
+
+        Call IndexWorker.IndexInBackground(index, workspacePath:=Workspace)
+        Call CommonRuntime.ShowDocument(Of FormCodeNavMap)().LoadIndex(index)
+        Call CommonRuntime.StatusMessage("[CodeMap] opening the treemap explorer ...")
     End Sub
 End Class

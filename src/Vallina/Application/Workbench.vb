@@ -32,6 +32,10 @@ Module Workbench
 
     Public ReadOnly Property config As ConfigJSON
 
+    Sub New()
+        Call Microsoft.VisualBasic.Drawing.SkiaDriver.Register()
+    End Sub
+
     Public Sub LoadConfig()
         _config = ConfigJSON.Load
     End Sub

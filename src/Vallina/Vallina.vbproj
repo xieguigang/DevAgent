@@ -44,6 +44,7 @@
     <None Remove="RibbonMarkup.log" />
     <None Remove="RibbonMarkup.ribbon" />
     <None Remove="RibbonMarkup.xml.bak" />
+    <None Remove="ToolWindow\FormSolutionExplorer.resx~RF1e118f3.TMP" />
   </ItemGroup>
 
   <ItemGroup>

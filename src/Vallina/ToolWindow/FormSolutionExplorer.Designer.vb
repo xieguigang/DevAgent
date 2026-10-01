@@ -29,6 +29,7 @@ Partial Class FormSolutionExplorer
         TreeView1 = New TreeView()
         ContextMenuStrip1 = New ContextMenuStrip(components)
         OpenToolStripMenuItem = New ToolStripMenuItem()
+        OpenInExplorerToolStripMenuItem = New ToolStripMenuItem()
         CopyFilePathToolStripMenuItem = New ToolStripMenuItem()
         ToolStripMenuItem1 = New ToolStripSeparator()
         LLMExplainToolStripMenuItem = New ToolStripMenuItem()
@@ -45,7 +46,7 @@ Partial Class FormSolutionExplorer
         ToolStripButton2 = New ToolStripButton()
         ToolStripSeparator3 = New ToolStripSeparator()
         ToolStripButton3 = New ToolStripButton()
-        OpenInExplorerToolStripMenuItem = New ToolStripMenuItem()
+        ToolStripButton7 = New ToolStripButton()
         ContextMenuStrip1.SuspendLayout()
         ToolStrip1.SuspendLayout()
         SuspendLayout()
@@ -66,7 +67,7 @@ Partial Class FormSolutionExplorer
         ' 
         ContextMenuStrip1.Items.AddRange(New ToolStripItem() {OpenToolStripMenuItem, OpenInExplorerToolStripMenuItem, CopyFilePathToolStripMenuItem, ToolStripMenuItem1, LLMExplainToolStripMenuItem, OpenConsoleAtHereToolStripMenuItem, OpenHttpServerAtHereToolStripMenuItem})
         ContextMenuStrip1.Name = "ContextMenuStrip1"
-        ContextMenuStrip1.Size = New Size(209, 164)
+        ContextMenuStrip1.Size = New Size(209, 142)
         ' 
         ' OpenToolStripMenuItem
         ' 
@@ -74,6 +75,13 @@ Partial Class FormSolutionExplorer
         OpenToolStripMenuItem.Name = "OpenToolStripMenuItem"
         OpenToolStripMenuItem.Size = New Size(208, 22)
         OpenToolStripMenuItem.Text = "Open"
+        ' 
+        ' OpenInExplorerToolStripMenuItem
+        ' 
+        OpenInExplorerToolStripMenuItem.Image = CType(resources.GetObject("OpenInExplorerToolStripMenuItem.Image"), Image)
+        OpenInExplorerToolStripMenuItem.Name = "OpenInExplorerToolStripMenuItem"
+        OpenInExplorerToolStripMenuItem.Size = New Size(208, 22)
+        OpenInExplorerToolStripMenuItem.Text = "Open In Explorer"
         ' 
         ' CopyFilePathToolStripMenuItem
         ' 
@@ -117,7 +125,7 @@ Partial Class FormSolutionExplorer
         ' 
         ' ToolStrip1
         ' 
-        ToolStrip1.Items.AddRange(New ToolStripItem() {ToolStripButton1, ToolStripButton6, ToolStripSeparator1, ToolStripButton5, ToolStripButton4, ToolStripSeparator2, ToolStripButton2, ToolStripSeparator3, ToolStripButton3})
+        ToolStrip1.Items.AddRange(New ToolStripItem() {ToolStripButton1, ToolStripButton6, ToolStripSeparator1, ToolStripButton7, ToolStripButton5, ToolStripButton4, ToolStripSeparator2, ToolStripButton2, ToolStripSeparator3, ToolStripButton3})
         ToolStrip1.Location = New Point(0, 0)
         ToolStrip1.Name = "ToolStrip1"
         ToolStrip1.Size = New Size(403, 25)
@@ -193,12 +201,14 @@ Partial Class FormSolutionExplorer
         ToolStripButton3.Size = New Size(23, 22)
         ToolStripButton3.Text = "Refresh"
         ' 
-        ' OpenInExplorerToolStripMenuItem
+        ' ToolStripButton7
         ' 
-        OpenInExplorerToolStripMenuItem.Image = CType(resources.GetObject("OpenInExplorerToolStripMenuItem.Image"), Image)
-        OpenInExplorerToolStripMenuItem.Name = "OpenInExplorerToolStripMenuItem"
-        OpenInExplorerToolStripMenuItem.Size = New Size(208, 22)
-        OpenInExplorerToolStripMenuItem.Text = "Open In Explorer"
+        ToolStripButton7.DisplayStyle = ToolStripItemDisplayStyle.Image
+        ToolStripButton7.Image = CType(resources.GetObject("ToolStripButton7.Image"), Image)
+        ToolStripButton7.ImageTransparentColor = Color.Magenta
+        ToolStripButton7.Name = "ToolStripButton7"
+        ToolStripButton7.Size = New Size(23, 22)
+        ToolStripButton7.Text = "Open Code Map"
         ' 
         ' FormSolutionExplorer
         ' 
@@ -240,4 +250,5 @@ Partial Class FormSolutionExplorer
     Friend WithEvents OpenConsoleAtHereToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents OpenHttpServerAtHereToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents OpenInExplorerToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripButton7 As ToolStripButton
 End Class
