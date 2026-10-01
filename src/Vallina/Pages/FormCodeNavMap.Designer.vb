@@ -24,8 +24,8 @@ Partial Class FormCodeNavMap
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FormCodeNavMap))
         ToolStrip1 = New ToolStrip()
-        Canvas = New CodeMap.TreeNavMap()
         ToolStripLabel1 = New ToolStripLabel()
         cboMode = New ToolStripComboBox()
         ToolStripLabel2 = New ToolStripLabel()
@@ -36,6 +36,7 @@ Partial Class FormCodeNavMap
         cboExtrude = New ToolStripComboBox()
         ToolStripLabel5 = New ToolStripLabel()
         cboPalette = New ToolStripComboBox()
+        Canvas = New CodeMap.TreeNavMap()
         ToolStrip1.SuspendLayout()
         SuspendLayout()
         ' 
@@ -47,18 +48,6 @@ Partial Class FormCodeNavMap
         ToolStrip1.Size = New Size(1520, 25)
         ToolStrip1.TabIndex = 1
         ToolStrip1.Text = "ToolStrip1"
-        ' 
-        ' Canvas
-        ' 
-        Canvas.Dock = DockStyle.Fill
-        Canvas.ExtrudeKind = Nothing
-        Canvas.LayoutLevel = Nothing
-        Canvas.Location = New Point(0, 25)
-        Canvas.Mode = CodeMap.TreeMap.TreeMapViewMode.TwoD
-        Canvas.Name = "Canvas"
-        Canvas.NudBuildings = Nothing
-        Canvas.Size = New Size(1520, 839)
-        Canvas.TabIndex = 2
         ' 
         ' ToolStripLabel1
         ' 
@@ -125,6 +114,18 @@ Partial Class FormCodeNavMap
         cboPalette.Name = "cboPalette"
         cboPalette.Size = New Size(121, 25)
         ' 
+        ' Canvas
+        ' 
+        Canvas.Dock = DockStyle.Fill
+        Canvas.ExtrudeKind = Nothing
+        Canvas.LayoutLevel = Nothing
+        Canvas.Location = New Point(0, 25)
+        Canvas.Mode = CodeMap.TreeMap.TreeMapViewMode.TwoD
+        Canvas.Name = "Canvas"
+        Canvas.NudBuildings = Nothing
+        Canvas.Size = New Size(1520, 839)
+        Canvas.TabIndex = 2
+        ' 
         ' FormCodeNavMap
         ' 
         AutoScaleDimensions = New SizeF(7F, 15F)
@@ -134,6 +135,7 @@ Partial Class FormCodeNavMap
         Controls.Add(ToolStrip1)
         DockAreas = Microsoft.VisualStudio.WinForms.Docking.DockAreas.Float Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockLeft Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockRight Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockTop Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.DockBottom Or Microsoft.VisualStudio.WinForms.Docking.DockAreas.Document
         DoubleBuffered = True
+        Icon = CType(resources.GetObject("$this.Icon"), Icon)
         Name = "FormCodeNavMap"
         ShowHint = Microsoft.VisualStudio.WinForms.Docking.DockState.Unknown
         TabPageContextMenuStrip = DockContextMenuStrip1

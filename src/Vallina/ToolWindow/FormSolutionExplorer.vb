@@ -1,5 +1,4 @@
-﻿Imports System.Threading
-Imports CodeMap
+﻿Imports CodeMap
 Imports CodeMap.CodeIndex
 Imports DevAgent
 Imports Fluteway
@@ -10,7 +9,6 @@ Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.sln
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VBProj
 Imports Microsoft.VisualBasic.ApplicationServices.Development.VisualStudio.VersionControl.Git
-Imports Microsoft.VisualBasic.MIME.Html.XmlMeta
 Imports Microsoft.VisualStudio.WinForms.Docking
 Imports Ollama
 
@@ -35,6 +33,7 @@ Public Class FormSolutionExplorer
     End Property
 
     Dim proj As IProjectWorkspace
+    Dim index As New CodeMapIndex(q:=3, maxCodeLines:=1000)
 
     Private Sub FormSolutionExplorer_Load(sender As Object, e As EventArgs) Handles Me.Load
         Call ApplyVsTheme(ToolStrip1, ContextMenuStrip1)
@@ -60,6 +59,8 @@ Public Class FormSolutionExplorer
             RibbonMenu.OpenLLMsChat.Clear()
         End If
 
+        Call IndexWorker.IndexInBackground(index, workspacePath:=Workspace)
+        Call CommonRuntime.StatusMessage("[CodeMap] opening the treemap explorer ...")
         Call CommonRuntime.StatusMessage("Open " & TabText)
         Call CommonRuntime.GetOutputWindow.AddLog("load_workspace", TabText)
     End Sub
@@ -323,10 +324,6 @@ Public Class FormSolutionExplorer
     End Sub
 
     Private Sub ToolStripButton7_Click(sender As Object, e As EventArgs) Handles ToolStripButton7.Click
-        Dim index As New CodeMapIndex(q:=3, maxCodeLines:=1000)
-
-        Call IndexWorker.IndexInBackground(index, workspacePath:=Workspace)
-        Call CommonRuntime.ShowDocument(Of FormCodeNavMap)().LoadIndex(index)
-        Call CommonRuntime.StatusMessage("[CodeMap] opening the treemap explorer ...")
+        Call CommonRuntime.ShowDocument(Of FormCodeNavMap)().LoadIndex(Index)
     End Sub
 End Class
