@@ -69,6 +69,7 @@ Partial Class FormCodeNavMap
         ' cboMode
         ' 
         cboMode.DropDownStyle = ComboBoxStyle.DropDownList
+        cboMode.Items.AddRange(New Object() {"2D 平面", "3D 城市"})
         cboMode.Name = "cboMode"
         cboMode.Size = New Size(121, 25)
         ' 
@@ -81,6 +82,7 @@ Partial Class FormCodeNavMap
         ' cboMetric
         ' 
         cboMetric.DropDownStyle = ComboBoxStyle.DropDownList
+        cboMetric.Items.AddRange(New Object() {"代码行数", "字符数", "符号数"})
         cboMetric.Name = "cboMetric"
         cboMetric.Size = New Size(121, 25)
         ' 
@@ -93,6 +95,7 @@ Partial Class FormCodeNavMap
         ' cboLevel
         ' 
         cboLevel.DropDownStyle = ComboBoxStyle.DropDownList
+        cboLevel.Items.AddRange(New Object() {"vbproj", "folder", "source file", "type", "member"})
         cboLevel.Name = "cboLevel"
         cboLevel.Size = New Size(121, 25)
         ' 
@@ -105,6 +108,7 @@ Partial Class FormCodeNavMap
         ' cboExtrude
         ' 
         cboExtrude.DropDownStyle = ComboBoxStyle.DropDownList
+        cboExtrude.Items.AddRange(New Object() {"folder", "source file", "type", "member"})
         cboExtrude.Name = "cboExtrude"
         cboExtrude.Size = New Size(121, 25)
         ' 
@@ -117,6 +121,7 @@ Partial Class FormCodeNavMap
         ' cboPalette
         ' 
         cboPalette.DropDownStyle = ComboBoxStyle.DropDownList
+        cboPalette.Items.AddRange(New Object() {"viridis", "magma", "inferno", "plasma", "turbo", "Jet", "Hot", "Cool", "Rainbow", "按层级着色"})
         cboPalette.Name = "cboPalette"
         cboPalette.Size = New Size(121, 25)
         ' 
