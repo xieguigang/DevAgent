@@ -1,10 +1,6 @@
-﻿Imports System.Text
-Imports CodeMap.CodeIndex
+﻿Imports CodeMap.CodeIndex
 Imports CodeMap.TreeMap
-Imports Microsoft.VisualBasic.Drawing.DirectX
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
-Imports Microsoft.VisualBasic.Imaging.PostScript.Elements
-Imports std = System.Math
 
 ''' <summary>
 ''' the code map explorer: a directx accelerated treemap of an opened code
@@ -40,96 +36,96 @@ Public Class FormTreeMap
             Return
         End If
 
-        mode = If(cboMode.SelectedIndex = 0, TreeMapViewMode.TwoD, TreeMapViewMode.ThreeD)
+        Canvas.Mode = If(cboMode.SelectedIndex = 0, TreeMapViewMode.TwoD, TreeMapViewMode.ThreeD)
 
-        cboExtrude.Enabled = (mode = TreeMapViewMode.ThreeD)
-        nudBuildings.Enabled = (mode = TreeMapViewMode.ThreeD)
+        cboExtrude.Enabled = (Canvas.Mode = TreeMapViewMode.ThreeD)
+        nudBuildings.Enabled = (Canvas.Mode = TreeMapViewMode.ThreeD)
         ' "fit view" resets the zoom of the flat map and the camera of the city
         btnFit.Enabled = True
 
-        Call RefreshView()
+        Call Canvas.RefreshView()
     End Sub
 
     Private Sub cboMetric_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboMetric.SelectedIndexChanged
         Select Case cboMetric.SelectedIndex
             Case 1
-                treeLayout.Metric = TreeMapMetric.Chars
+                Canvas.treeLayout.Metric = TreeMapMetric.Chars
             Case 2
-                treeLayout.Metric = TreeMapMetric.Symbols
+                Canvas.treeLayout.Metric = TreeMapMetric.Symbols
             Case Else
-                treeLayout.Metric = TreeMapMetric.Lines
+                Canvas.treeLayout.Metric = TreeMapMetric.Lines
         End Select
 
-        If treeBuilt Then
-            Call RefreshView()
+        If Canvas.TreeBuilt Then
+            Call Canvas.RefreshView()
         End If
     End Sub
 
     Private Sub cboLevel_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboLevel.SelectedIndexChanged
-        If treeBuilt Then
-            Call RefreshView()
+        If Canvas.TreeBuilt Then
+            Call Canvas.RefreshView()
         End If
     End Sub
 
     Private Sub cboExtrude_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboExtrude.SelectedIndexChanged
-        If treeBuilt AndAlso mode = TreeMapViewMode.ThreeD Then
-            Call RebuildCity()
+        If Canvas.TreeBuilt AndAlso Canvas.Mode = TreeMapViewMode.ThreeD Then
+            Call Canvas.RebuildCity()
         End If
     End Sub
 
     Private Sub nudBuildings_ValueChanged(sender As Object, e As EventArgs) Handles nudBuildings.ValueChanged
-        If treeBuilt AndAlso mode = TreeMapViewMode.ThreeD Then
-            Call RebuildCity()
+        If Canvas.TreeBuilt AndAlso Canvas.Mode = TreeMapViewMode.ThreeD Then
+            Call Canvas.RebuildCity()
         End If
     End Sub
 
     Private Sub btnBack_Click(sender As Object, e As EventArgs) Handles btnBack.Click
-        If path.Count = 0 Then
+        If Canvas.PathLength = 0 Then
             Return
         End If
 
-        Call GoToLevel(path.Count - 2)
+        Call Canvas.GoToLevel(Canvas.PathLength - 2)
     End Sub
 
     Private Sub cboPalette_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboPalette.SelectedIndexChanged
         Select Case cboPalette.SelectedIndex
             Case 0
-                treeLayout.Palette = ScalerPalette.viridis
-                treeLayout.UseHeatmap = True
+                Canvas.treeLayout.Palette = ScalerPalette.viridis
+                Canvas.treeLayout.UseHeatmap = True
             Case 1
-                treeLayout.Palette = ScalerPalette.magma
-                treeLayout.UseHeatmap = True
+                Canvas.treeLayout.Palette = ScalerPalette.magma
+                Canvas.treeLayout.UseHeatmap = True
             Case 2
-                treeLayout.Palette = ScalerPalette.inferno
-                treeLayout.UseHeatmap = True
+                Canvas.treeLayout.Palette = ScalerPalette.inferno
+                Canvas.treeLayout.UseHeatmap = True
             Case 3
-                treeLayout.Palette = ScalerPalette.plasma
-                treeLayout.UseHeatmap = True
+                Canvas.treeLayout.Palette = ScalerPalette.plasma
+                Canvas.treeLayout.UseHeatmap = True
             Case 4
-                treeLayout.Palette = ScalerPalette.turbo
-                treeLayout.UseHeatmap = True
+                Canvas.treeLayout.Palette = ScalerPalette.turbo
+                Canvas.treeLayout.UseHeatmap = True
             Case 5
-                treeLayout.Palette = ScalerPalette.Jet
-                treeLayout.UseHeatmap = True
+                Canvas.treeLayout.Palette = ScalerPalette.Jet
+                Canvas.treeLayout.UseHeatmap = True
             Case 6
-                treeLayout.Palette = ScalerPalette.Hot
-                treeLayout.UseHeatmap = True
+                Canvas.treeLayout.Palette = ScalerPalette.Hot
+                Canvas.treeLayout.UseHeatmap = True
             Case 7
-                treeLayout.Palette = ScalerPalette.Cool
-                treeLayout.UseHeatmap = True
+                Canvas.treeLayout.Palette = ScalerPalette.Cool
+                Canvas.treeLayout.UseHeatmap = True
             Case 8
-                treeLayout.Palette = ScalerPalette.Rainbow
-                treeLayout.UseHeatmap = True
+                Canvas.treeLayout.Palette = ScalerPalette.Rainbow
+                Canvas.treeLayout.UseHeatmap = True
             Case Else
                 ' 按层级着色
-                treeLayout.UseHeatmap = False
+                Canvas.treeLayout.UseHeatmap = False
         End Select
 
-        Call treeLayout.InvalidateColors()
+        Call Canvas.treeLayout.InvalidateColors()
 
-        If treeBuilt Then
-            If mode = TreeMapViewMode.ThreeD Then
-                Call RebuildCity()
+        If Canvas.TreeBuilt Then
+            If Canvas.Mode = TreeMapViewMode.ThreeD Then
+                Call Canvas.RebuildCity()
             Else
                 Call Canvas.Invalidate()
             End If
@@ -137,13 +133,13 @@ Public Class FormTreeMap
     End Sub
 
     Private Sub btnFit_Click(sender As Object, e As EventArgs) Handles btnFit.Click
-        If mode = TreeMapViewMode.ThreeD Then
+        If Canvas.Mode = TreeMapViewMode.ThreeD Then
             Call Canvas.ResetView()
         Else
             Call treeLayout.ResetView()
             Call treeLayout.Invalidate()
             Call Canvas.Invalidate()
-            Call ShowZoom()
+            Call Canvas.ShowZoom()
         End If
     End Sub
 

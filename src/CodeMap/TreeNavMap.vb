@@ -8,14 +8,14 @@ Imports std = System.Math
 Public Class TreeNavMap
 
     Dim WithEvents index As CodeMapIndex
-    ReadOnly treeLayout As New TreeMapLayout()
+    Public ReadOnly Property treeLayout As New TreeMapLayout()
     ReadOnly tip As New ToolTip()
     Dim WithEvents poll As New Timer()
 
     Dim projects As New List(Of CodeNode)()
     ''' <summary>the drill down path, the last entry owns the current roots</summary>
     Dim path As New List(Of CodeNode)()
-    Dim mode As TreeMapViewMode = TreeMapViewMode.TwoD
+    Public Property Mode As TreeMapViewMode = TreeMapViewMode.TwoD
     Dim buildings As New List(Of CityBuilding)()
     ''' <summary>the memoized file text of the zoomed in treemap nodes</summary>
     ReadOnly textCache As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
@@ -25,7 +25,13 @@ Public Class TreeNavMap
     Dim downAt As Point
     Dim panning As Boolean = False
     Dim panAt As Point
-    Dim treeBuilt As Boolean = False
+
+    Public ReadOnly Property TreeBuilt As Boolean = False
+    Public ReadOnly Property PathLength As Integer
+        Get
+            Return path.Count
+        End Get
+    End Property
 
     Public Overloads Sub LoadMap(index As CodeMapIndex)
         Me.index = index
@@ -63,8 +69,8 @@ Public Class TreeNavMap
         End If
 
         If st.ready Then
-            If Not treeBuilt Then
-                treeBuilt = True
+            If Not TreeBuilt Then
+                TreeBuilt = True
 
                 Call BuildTree()
 
@@ -77,6 +83,10 @@ Public Class TreeNavMap
         End If
 
         RaiseEvent DisplayProgress(st.processedFiles / st.totalFiles, $"{st.phase} {st.processedFiles}/{st.totalFiles}")
+    End Sub
+
+    Public Sub ResetView()
+        Call Canvas.ResetView()
     End Sub
 
     Private Sub BuildTree()
@@ -99,7 +109,7 @@ Public Class TreeNavMap
     ' /********************************************************************************/
 
     Private Sub OnCanvasRender(sender As Object, e As DxRenderEventArgs) Handles Canvas.Render
-        If mode <> TreeMapViewMode.TwoD Then
+        If Mode <> TreeMapViewMode.TwoD Then
             ' the 3d city is rendered by the scene pipeline of the canvas itself
             Return
         End If
@@ -116,8 +126,8 @@ Public Class TreeNavMap
     End Sub
 
     ''' <summary>re-layout and repaint the current view</summary>
-    Private Sub RefreshView()
-        If mode = TreeMapViewMode.TwoD Then
+    Public Sub RefreshView()
+        If Mode = TreeMapViewMode.TwoD Then
             ' a stale city must not be painted underneath the flat treemap
             Call Canvas.ClearScene()
 
@@ -130,7 +140,7 @@ Public Class TreeNavMap
         End If
     End Sub
 
-    Private Sub RebuildCity()
+    Public Sub RebuildCity()
         Dim w As Integer = Canvas.Width
         Dim h As Integer = Canvas.Height
 
@@ -206,7 +216,7 @@ Public Class TreeNavMap
 
         ' in the flat view the right button scrolls the canvas, the orbit camera
         ' of the 3d view is not involved there
-        If e.Button = MouseButtons.Right AndAlso mode = TreeMapViewMode.TwoD Then
+        If e.Button = MouseButtons.Right AndAlso Mode = TreeMapViewMode.TwoD Then
             panning = True
             panAt = e.Location
         End If
@@ -218,7 +228,7 @@ Public Class TreeNavMap
     ''' drilling down into it.
     ''' </summary>
     Private Sub OnCanvasMouseWheel(sender As Object, e As MouseEventArgs) Handles Canvas.MouseWheel
-        If mode <> TreeMapViewMode.TwoD Then
+        If Mode <> TreeMapViewMode.TwoD Then
             ' the 3d view uses the wheel for the camera distance of the canvas
             Return
         End If
@@ -236,7 +246,7 @@ Public Class TreeNavMap
     ''' viewport, so zooming and panning reads the code around the view center.
     ''' </summary>
     Private Sub UpdateFocusDetail()
-        If mode <> TreeMapViewMode.TwoD OrElse Not treeBuilt Then
+        If Mode <> TreeMapViewMode.TwoD OrElse Not TreeBuilt Then
             Return
         End If
 
@@ -251,7 +261,7 @@ Public Class TreeNavMap
         Call ShowDetail(f)
     End Sub
 
-    Private Sub ShowZoom()
+    Public Sub ShowZoom()
         RaiseEvent DisplayStatus($"zoom {treeLayout.Zoom:F2}x · {treeLayout.Nodes.Count} 个节点 · 度量 {treeLayout.MinValue:0}-{treeLayout.MaxValue:0}")
     End Sub
 
@@ -292,7 +302,7 @@ Public Class TreeNavMap
     Private Sub OnCanvasResize(sender As Object, e As EventArgs) Handles Canvas.Resize
         Call Canvas.UpdateViewport()
 
-        If mode = TreeMapViewMode.ThreeD Then
+        If Mode = TreeMapViewMode.ThreeD Then
             Return
         End If
 
@@ -300,7 +310,7 @@ Public Class TreeNavMap
     End Sub
 
     Private Function PickNode(x As Integer, y As Integer) As CodeNode
-        If mode = TreeMapViewMode.TwoD Then
+        If Mode = TreeMapViewMode.TwoD Then
             Return treeLayout.HitTest(x, y)
         End If
 
@@ -403,7 +413,7 @@ Public Class TreeNavMap
     Public Event BreadcrumbDistory()
     Public Event BreadcrumbSetup(control As Control)
 
-    Private Sub GoToLevel(level As Integer)
+    Public Sub GoToLevel(level As Integer)
         While path.Count > level + 1
             Call path.RemoveAt(path.Count - 1)
         End While
