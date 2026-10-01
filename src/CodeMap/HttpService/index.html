@@ -1,347 +1,840 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="light">
+
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>CodeMap · 代码符号索引</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" />
-<style>
-  :root{
-    --bg-0:#0F172A; --bg-1:#1E293B; --bg-2:#111827;
-    --tx-0:#E2E8F0; --tx-1:#94A3B8; --tx-2:#FFFFFF;
-    --p-0:#2DD4BF; --p-1:#0EA5E9; --p-2:#6366F1;
-    --ok:#34D399; --bad:#F87171; --warn:#FBBF24; --info:#38BDF8;
-    --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0;padding:0}
-  body{
-    min-height:100vh;
-    font-family:'Noto Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
-    font-size:14px; color:var(--tx-0);
-    background:
-      radial-gradient(1100px 620px at 12% -8%, rgba(45,212,191,.16), transparent 60%),
-      radial-gradient(900px 560px at 92% 4%, rgba(99,102,241,.18), transparent 62%),
-      radial-gradient(760px 520px at 50% 108%, rgba(14,165,233,.12), transparent 60%),
-      linear-gradient(160deg,var(--bg-0) 0%,var(--bg-2) 58%,#0b1120 100%);
-    background-attachment:fixed;
-  }
-  .glass{
-    background:linear-gradient(150deg, rgba(30,41,59,.82), rgba(17,24,39,.68));
-    border:1px solid rgba(148,163,184,.16);
-    border-radius:18px;
-    backdrop-filter:blur(18px) saturate(150%);
-    -webkit-backdrop-filter:blur(18px) saturate(150%);
-    box-shadow:0 22px 60px -28px rgba(0,0,0,.85), inset 0 1px 0 rgba(255,255,255,.06);
-  }
-  .grad-text{
-    background:linear-gradient(92deg,var(--p-0),var(--p-1) 48%,var(--p-2));
-    -webkit-background-clip:text; background-clip:text; color:transparent;
-  }
-  .hairline{height:1px;background:linear-gradient(90deg,transparent,rgba(45,212,191,.55),rgba(99,102,241,.45),transparent)}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodeMap · 代码符号索引</title>
+  <link rel="icon" type="image/png" href="assets/app-icon.png"
+    onerror="this.href='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Crect width=%2216%22 height=%2216%22 rx=%223%22 fill=%22%23007acc%22/%3E%3C/svg%3E'" />
+  <style>
+    /* ============================================================
+       CodeMap query console - Visual Studio light theme.
+       Design tokens are the ones of the code editor light theme
+       (css/theme-light.css), the layout follows css/git.css so
+       this page reads as one product with the Start / Git pages.
+       Everything is inlined: the page ships as an embedded
+       resource of the CodeMap assembly.
+       ============================================================ */
+    :root {
+      /* ---- UI colors ---- */
+      --ui-foreground: #1e1e1e;
+      --ui-foreground-muted: #6a6a6a;
+      --ui-foreground-subtle: #8a8a8a;
+      --ui-background: #ffffff;
+      --ui-background-hover: #f0f7ff;
+      --ui-border: #e0e0e0;
+      --ui-border-strong: #cccccc;
 
-  header.topbar{position:sticky;top:0;z-index:40;backdrop-filter:blur(16px);
-    background:linear-gradient(180deg,rgba(15,23,42,.94),rgba(15,23,42,.62));
-    border-bottom:1px solid rgba(148,163,184,.14)}
-  .brand{display:flex;align-items:center;gap:12px}
-  .brand .mark{
-    width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
-    background:linear-gradient(140deg,var(--p-0),var(--p-1) 55%,var(--p-2));
-    box-shadow:0 10px 26px -10px rgba(45,212,191,.7), inset 0 1px 0 rgba(255,255,255,.35);
-    animation:floaty 6s ease-in-out infinite;
-  }
-  @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-  .chip{
-    display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:999px;
-    font-size:12px;font-weight:600;letter-spacing:.2px;
-    border:1px solid rgba(148,163,184,.22);background:rgba(148,163,184,.09);color:var(--tx-1);
-  }
-  .chip .dot{width:7px;height:7px;border-radius:50%;background:var(--warn);box-shadow:0 0 0 4px rgba(251,191,36,.16)}
-  .chip.ready{color:#A7F3D0;border-color:rgba(52,211,153,.36);background:rgba(52,211,153,.12)}
-  .chip.ready .dot{background:var(--ok);box-shadow:0 0 0 4px rgba(52,211,153,.18);animation:pulse 1.9s ease-in-out infinite}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.42}}
+      /* ---- Accents (Visual Studio blue) ---- */
+      --accent: #007acc;
+      --accent-hover: #0067b8;
+      --accent-soft: #e5f3ff;
+      --accent-soft-border: #b3d7f2;
 
-  .searchwrap{position:relative}
-  .searchwrap input{
-    width:100%;padding:17px 132px 17px 52px;border-radius:16px;
-    background:rgba(15,23,42,.78);color:var(--tx-2);
-    border:1px solid rgba(148,163,184,.22);outline:none;
-    font-size:16px;font-weight:600;letter-spacing:.2px;
-    transition:border-color .22s ease, box-shadow .22s ease, transform .22s ease;
-  }
-  .searchwrap input::placeholder{color:rgba(148,163,184,.72);font-weight:400}
-  .searchwrap input:focus{
-    border-color:rgba(45,212,191,.62);
-    box-shadow:0 0 0 4px rgba(45,212,191,.14), 0 18px 40px -22px rgba(45,212,191,.55);
-  }
-  .searchwrap .ico{position:absolute;left:18px;top:50%;transform:translateY(-50%);color:var(--tx-1);pointer-events:none}
-  .btn-search{
-    position:absolute;right:8px;top:50%;transform:translateY(-50%);
-    padding:11px 22px;border:0;border-radius:12px;cursor:pointer;
-    font-weight:700;font-size:13px;color:#04211f;letter-spacing:.3px;
-    background:linear-gradient(96deg,var(--p-0),var(--p-1));
-    box-shadow:0 12px 28px -12px rgba(14,165,233,.8);
-    transition:transform .16s ease, box-shadow .22s ease, filter .2s ease;
-  }
-  .btn-search:hover{transform:translateY(-50%) translateY(-1px) scale(1.02);filter:brightness(1.07)}
-  .btn-search:active{transform:translateY(-50%) scale(.98)}
-  .btn-search[disabled]{filter:grayscale(.6) brightness(.75);cursor:not-allowed}
+      /* ---- Toolbar ---- */
+      --toolbar-background: #f5f5f5;
+      --toolbar-border: #e0e0e0;
 
-  .adv{display:flex;flex-wrap:wrap;gap:14px;align-items:end;margin-top:14px}
-  .fld{display:flex;flex-direction:column;gap:6px}
-  .fld label{font-size:11px;color:var(--tx-1);font-weight:600;letter-spacing:.5px;text-transform:uppercase}
-  .fld input{
-    width:120px;padding:8px 11px;border-radius:10px;background:rgba(15,23,42,.72);
-    border:1px solid rgba(148,163,184,.2);color:var(--tx-0);font-size:13px;outline:none;
-    transition:border-color .2s ease, box-shadow .2s ease;
-  }
-  .fld input:focus{border-color:rgba(45,212,191,.5);box-shadow:0 0 0 3px rgba(45,212,191,.12)}
+      /* ---- Inputs ---- */
+      --input-background: #ffffff;
+      --input-foreground: #1e1e1e;
+      --input-border: #cccccc;
+      --input-focus-border: #007acc;
 
-  .hit{
-    position:relative;padding:18px 20px;border-radius:16px;
-    background:linear-gradient(150deg,rgba(30,41,59,.72),rgba(17,24,39,.6));
-    border:1px solid rgba(148,163,184,.15);
-    transition:transform .22s cubic-bezier(.22,.68,.35,1), border-color .22s ease, box-shadow .22s ease;
-    animation:rise .34s cubic-bezier(.22,.68,.35,1) both;
-  }
-  .hit:hover{transform:translateY(-3px);border-color:rgba(45,212,191,.42);
-    box-shadow:0 20px 44px -24px rgba(45,212,191,.5)}
-  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-  .hit .kind{
-    font-size:10.5px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;
-    padding:4px 9px;border-radius:7px;color:#0b2b2a;background:linear-gradient(96deg,var(--p-0),var(--p-1));
-  }
-  .hit .fname{font-family:var(--mono);font-size:13.5px;font-weight:500;color:#BAE6FD;word-break:break-all}
-  .hit .meta{font-family:var(--mono);font-size:11.5px;color:var(--tx-1)}
-  pre.code{
-    margin:12px 0 0;padding:14px 16px;border-radius:12px;overflow:auto;max-height:340px;
-    font-family:var(--mono);font-size:12.4px;line-height:1.62;color:#D7E3F4;
-    background:rgba(2,6,23,.72);border:1px solid rgba(148,163,184,.14);
-    border-left:3px solid rgba(45,212,191,.6);
-    scrollbar-width:thin;
-  }
-  pre.code::-webkit-scrollbar{width:9px;height:9px}
-  pre.code::-webkit-scrollbar-thumb{background:rgba(148,163,184,.32);border-radius:9px}
-  .score{
-    font-family:var(--mono);font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:999px;
-    color:#A7F3D0;background:rgba(52,211,153,.13);border:1px solid rgba(52,211,153,.3);white-space:nowrap;
-  }
-  .skeleton{border-radius:16px;background:linear-gradient(90deg,rgba(30,41,59,.6),rgba(51,65,85,.75),rgba(30,41,59,.6));
-    background-size:220% 100%;animation:shimmer 1.25s linear infinite;height:132px}
-  @keyframes shimmer{0%{background-position:120% 0}100%{background-position:-120% 0}}
-  .empty{padding:46px 20px;text-align:center;color:var(--tx-1)}
-  .err{padding:16px 18px;border-radius:14px;color:#FECACA;background:rgba(248,113,113,.12);
-    border:1px solid rgba(248,113,113,.3);font-size:13px}
-  footer.statusbar{
-    position:sticky;bottom:0;z-index:30;margin-top:26px;
-    backdrop-filter:blur(14px);background:linear-gradient(0deg,rgba(15,23,42,.96),rgba(15,23,42,.55));
-    border-top:1px solid rgba(148,163,184,.14);
-  }
-  .spin{width:15px;height:15px;border-radius:50%;border:2px solid rgba(45,212,191,.25);
-    border-top-color:var(--p-0);animation:sp .78s linear infinite;display:inline-block;vertical-align:-3px}
-  @keyframes sp{to{transform:rotate(360deg)}}
-  a.jump{color:var(--p-0);text-decoration:none;border-bottom:1px dashed rgba(45,212,191,.5)}
-  a.jump:hover{color:var(--info)}
-  .divider{height:1px;background:rgba(148,163,184,.12);margin:18px 0}
-</style>
-</head>
-<body>
+      /* ---- Editor / code ---- */
+      --editor-background: #ffffff;
+      --gutter-background: #f5f5f5;
+      --line-number-foreground: #2b91af;
+      --code-font-family: "Cascadia Code", "Consolas", "Courier New", monospace;
+      --code-font-size: 13px;
+      --code-line-height: 1.55;
 
-<header class="topbar">
-  <div class="max-w-7xl mx-auto px-5 py-4 flex items-center justify-between gap-4 flex-wrap">
-    <div class="brand">
-      <div class="mark">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#05201f" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 7l6-4 6 4 6-4v14l-6 4-6-4-6 4z"/><path d="M9 3v14M15 7v14"/>
-        </svg>
-      </div>
-      <div>
-        <div class="text-[19px] font-bold leading-tight"><span class="grad-text">CodeMap</span> <span class="text-slate-400 font-semibold text-sm">/ 代码符号索引</span></div>
-        <div class="text-xs text-slate-400 font-mono mt-0.5" id="wsName">{{WORKSPACE}} · {{KIND}}</div>
-      </div>
-    </div>
-    <div class="flex items-center gap-2 flex-wrap">
-      <span class="chip" id="stateChip"><span class="dot"></span><span id="stateText">连接中…</span></span>
-      <span class="chip font-mono" id="statChip">符号 0</span>
-      <span class="chip font-mono">:{{PORT}}</span>
-    </div>
-  </div>
-  <div class="hairline"></div>
-</header>
+      /* ---- Diff panel ---- */
+      --diff-panel-border: #e0e0e0;
+      --diff-header-background: #f5f5f5;
+      --diff-added-background: #e6ffed;
+      --diff-removed-background: #ffeef0;
+      --diff-added-foreground: #22863a;
+      --diff-removed-foreground: #cb2431;
+      --error-foreground: #cb2431;
 
-<main class="max-w-7xl mx-auto px-5 py-7">
+      /* ---- Status bar ---- */
+      --statusbar-background: #007acc;
+      --statusbar-foreground: #ffffff;
+      --statusbar-border: #0067b8;
 
-  <section class="glass p-6 lg:col-span-4">
-    <div class="searchwrap">
-      <svg class="ico" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
-        <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>
-      </svg>
-      <input id="q" autocomplete="off" spellcheck="false" placeholder="搜索代码符号关键词，例如 QGramFullText / JacobiStencil / ParseDoc" />
-      <button class="btn-search" id="go">搜索</button>
-    </div>
-    <div class="adv">
-      <div class="fld"><label for="top">返回条数 top</label><input id="top" type="number" min="1" max="200" value="20" /></div>
-      <div class="fld"><label for="thr">相似度阈值 threshold</label><input id="thr" type="number" min="0" max="1" step="0.05" value="0.15" /></div>
-      <div class="text-xs text-slate-400 pb-2">输入后自动查询（300ms 防抖）· 支持模糊匹配</div>
-    </div>
-    <div class="divider"></div>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
-      <div class="rounded-xl px-3 py-2.5" style="background:rgba(148,163,184,.08);border:1px solid rgba(148,163,184,.14)">
-        <div class="text-slate-400">工作区根目录</div>
-        <div class="font-mono text-slate-200 mt-1 truncate" id="wsRoot" title="{{ROOT}}">{{ROOT}}</div>
-      </div>
-      <div class="rounded-xl px-3 py-2.5" style="background:rgba(148,163,184,.08);border:1px solid rgba(148,163,184,.14)">
-        <div class="text-slate-400">项目数 / 文件数</div>
-        <div class="font-mono text-slate-200 mt-1">{{PROJECTS}} / {{FILES}}</div>
-      </div>
-      <div class="rounded-xl px-3 py-2.5" style="background:rgba(148,163,184,.08);border:1px solid rgba(148,163,184,.14)">
-        <div class="text-slate-400">已索引符号</div>
-        <div class="font-mono text-slate-200 mt-1" id="symCount">0</div>
-      </div>
-      <div class="rounded-xl px-3 py-2.5" style="background:rgba(148,163,184,.08);border:1px solid rgba(148,163,184,.14)">
-        <div class="text-slate-400">索引进度</div>
-        <div class="font-mono text-slate-200 mt-1" id="progress">0%</div>
-      </div>
-    </div>
-  </section>
+      /* ---- Scrollbar ---- */
+      --scrollbar-track: #f0f0f0;
+      --scrollbar-thumb: #c0c0c0;
+      --scrollbar-thumb-hover: #a0a0a0;
 
-  <section class="mt-6">
-    <div id="results" class="grid grid-cols-1 gap-4"></div>
-  </section>
-
-</main>
-
-<footer class="statusbar">
-  <div class="max-w-7xl mx-auto px-5 py-3 flex items-center justify-between gap-4 flex-wrap text-xs text-slate-400">
-    <div id="msg">就绪 · 输入关键词开始检索</div>
-    <div class="font-mono">CodeMap 只读代码地图服务 · 数据源 {{WORKSPACE}}</div>
-  </div>
-</footer>
-
-<script>
-(function(){
-  var $ = function(id){ return document.getElementById(id); };
-  var qEl=$('q'), goEl=$('go'), topEl=$('top'), thrEl=$('thr');
-  var box=$('results'), msg=$('msg');
-  var stateChip=$('stateChip'), stateText=$('stateText'), symCount=$('symCount'),
-      progress=$('progress'), statChip=$('statChip');
-  var timer=null, ready=false;
-
-  function esc(s){
-    return (s==null?'':String(s))
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-  }
-  function setState(kind, text){
-    stateText.textContent = text;
-    if(kind==='ready'){ stateChip.classList.add('ready'); }
-    else { stateChip.classList.remove('ready'); }
-  }
-  function skeletons(n){
-    var h='';
-    for(var i=0;i<n;i++){ h += '<div class="skeleton"></div>'; }
-    box.innerHTML = '<div class="grid grid-cols-1 gap-4">'+h+'</div>';
-  }
-  function errBox(text){
-    box.innerHTML = '<div class="err">'+esc(text)+'</div>';
-  }
-  function emptyBox(){
-    box.innerHTML = '<div class="empty">没有命中结果 · 试试更短的关键词或降低阈值</div>';
-  }
-
-  function render(data){
-    var hits = data.hits || [];
-    if(!hits.length){ emptyBox(); return; }
-    var html = '';
-    for(var i=0;i<hits.length;i++){
-      var h = hits[i]||{}, s = h.symbol||{};
-      var code = s.Code || '';
-      if(code.length > 6000){ code = code.substring(0,6000); }
-      html += '<article class="hit" style="animation-delay:'+(i*28)+'ms">'
-        + '<div class="flex items-start justify-between gap-3 flex-wrap">'
-        +   '<div class="min-w-0">'
-        +     '<div class="flex items-center gap-2 flex-wrap">'
-        +       '<span class="kind">'+esc(s.Kind||'symbol')+'</span>'
-        +       '<span class="fname">'+esc(s.FullName||s.Name)+'</span>'
-        +     '</div>'
-        +     '<div class="meta mt-1.5">'+esc(s.RelativeFile||s.File||'')+' : '
-        +       esc(String(s.StartLine||0))+'-'+esc(String(s.EndLine||0))
-        +       (s.Project? ' &nbsp;·&nbsp; '+esc(s.Project):'')+'</div>'
-        +   '</div>'
-        +   '<div class="flex items-center gap-2">'
-        +     '<span class="score">score '+(h.score==null?0:h.score).toFixed(4)+'</span>'
-        +     '<a class="jump text-xs" target="_blank" href="/api/symbol?fullname='+encodeURIComponent(s.FullName||s.Name||'')+'">原始定义</a>'
-        +   '</div>'
-        + '</div>'
-        + '<pre class="code">'+esc(code)+'</pre>'
-        + '</article>';
+      /* ---- Fonts / shadows ---- */
+      --font-ui: "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Microsoft YaHei", sans-serif;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
     }
-    box.innerHTML = html;
-  }
 
-  function pollStatus(){
-    fetch('/api/status', {cache:'no-store'})
-      .then(function(r){ return r.json(); })
-      .then(function(st){
-        symCount.textContent = st.symbols || 0;
-        statChip.textContent = '符号 ' + (st.symbols||0);
-        var pct = Math.round((st.progress||0)*100);
-        progress.textContent = pct + '%';
-        if(st.ready){
-          ready = true;
-          setState('ready', '索引就绪 · ' + (st.symbols||0) + ' 个符号');
-          msg.textContent = st.message || '索引就绪';
-        } else {
-          ready = false;
-          setState('build', st.phase==='failed' ? '索引失败' : '构建中 ' + (st.processedFiles||0) + '/' + (st.totalFiles||0));
-          msg.innerHTML = '<span class="spin"></span> 正在构建索引 … ' + (st.processedFiles||0) + '/' + (st.totalFiles||0)
-            + ' &nbsp;·&nbsp; ' + esc(st.message||'') + ' &nbsp;·&nbsp; 2s 后重试';
-          setTimeout(pollStatus, 2000);
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-family: var(--font-ui);
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--ui-foreground);
+      background: var(--ui-background);
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* ============================================================
+       Top bar
+       ============================================================ */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 10px 24px;
+      background: var(--toolbar-background);
+      border-bottom: 1px solid var(--toolbar-border);
+    }
+
+    .topbar .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--ui-foreground);
+    }
+
+    .topbar .brand-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 5px;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .topbar .brand-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .topbar .brand-sub {
+      font-weight: 400;
+      font-size: 12px;
+      color: var(--ui-foreground-muted);
+    }
+
+    .topbar .chips {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-family: var(--code-font-family);
+      color: var(--ui-foreground-muted);
+      background: var(--input-background);
+      border: 1px solid var(--ui-border-strong);
+      border-radius: 11px;
+      white-space: nowrap;
+    }
+
+    .chip .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--ui-foreground-subtle);
+      flex-shrink: 0;
+    }
+
+    .chip.ready {
+      color: var(--diff-added-foreground);
+      background: var(--diff-added-background);
+      border-color: #b5e2c0;
+    }
+
+    .chip.ready .dot {
+      background: var(--diff-added-foreground);
+      animation: pulse 1.9s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.35;
+      }
+    }
+
+    /* ============================================================
+       Toolbar (title + query controls)
+       ============================================================ */
+    .toolbar {
+      display: flex;
+      align-items: flex-end;
+      gap: 20px;
+      flex-wrap: wrap;
+      padding: 18px 28px 16px;
+      background: var(--ui-background);
+      border-bottom: 1px solid var(--ui-border);
+    }
+
+    .toolbar .toolbar-title {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .toolbar .toolbar-title h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      color: var(--ui-foreground);
+    }
+
+    .toolbar .toolbar-title p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--ui-foreground-muted);
+    }
+
+    .toolbar .toolbar-actions {
+      margin-left: auto;
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .fld {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .fld label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      color: var(--ui-foreground-muted);
+    }
+
+    .git-input,
+    .git-select {
+      font-family: var(--font-ui);
+      font-size: 13px;
+      color: var(--input-foreground);
+      background: var(--input-background);
+      border: 1px solid var(--input-border);
+      border-radius: 5px;
+      padding: 7px 10px;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .git-input:focus,
+    .git-select:focus {
+      border-color: var(--input-focus-border);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    .git-input.num {
+      width: 92px;
+      font-family: var(--code-font-family);
+    }
+
+    .search-wrap {
+      position: relative;
+      display: inline-flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .search-wrap .box {
+      position: relative;
+      display: inline-flex;
+    }
+
+    .git-input.search {
+      width: 380px;
+      max-width: 60vw;
+      padding-left: 30px;
+      font-size: 14px;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236a6a6a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='8'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>");
+      background-repeat: no-repeat;
+      background-position: 9px center;
+    }
+
+    .git-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 14px;
+      font-size: 13px;
+      font-family: var(--font-ui);
+      color: var(--ui-foreground);
+      background: var(--input-background);
+      border: 1px solid var(--ui-border-strong);
+      border-radius: 5px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+
+    .git-btn:hover {
+      border-color: var(--accent);
+      background: var(--ui-background-hover);
+      color: var(--accent);
+    }
+
+    .git-btn.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .git-btn.primary:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+      color: #fff;
+    }
+
+    .git-btn[disabled] {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: var(--ui-foreground-muted);
+      padding-bottom: 8px;
+    }
+
+    /* ============================================================
+       Workspace summary cards
+       ============================================================ */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      padding: 16px 28px 4px;
+    }
+
+    .stat-card {
+      padding: 10px 14px;
+      background: var(--ui-background);
+      border: 1px solid var(--ui-border);
+      border-radius: 6px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .stat-card .label {
+      font-size: 11px;
+      color: var(--ui-foreground-muted);
+    }
+
+    .stat-card .value {
+      margin-top: 3px;
+      font-family: var(--code-font-family);
+      font-size: 13px;
+      color: var(--ui-foreground);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ============================================================
+       Result cards
+       ============================================================ */
+    .results {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      padding: 16px 28px 24px;
+    }
+
+    .hit {
+      padding: 14px 18px;
+      background: var(--ui-background);
+      border: 1px solid var(--ui-border);
+      border-radius: 6px;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.16s, border-color 0.16s, box-shadow 0.16s, background 0.16s;
+      animation: rise 0.28s ease-out both;
+    }
+
+    .hit:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+      background: var(--ui-background-hover);
+      box-shadow: var(--shadow-md);
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .hit .head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hit .kind {
+      display: inline-block;
+      padding: 3px 8px;
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      color: var(--symbol-icon-foreground, #fff);
+      background: var(--accent);
+      border-radius: 4px;
+    }
+
+    .hit .fname {
+      font-family: var(--code-font-family);
+      font-size: 13.5px;
+      color: var(--ui-foreground);
+      word-break: break-all;
+    }
+
+    .hit .meta {
+      margin-top: 5px;
+      font-family: var(--code-font-family);
+      font-size: 11.5px;
+      color: var(--ui-foreground-muted);
+      word-break: break-all;
+    }
+
+    .hit .side {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .score {
+      padding: 3px 9px;
+      font-family: var(--code-font-family);
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--diff-added-foreground);
+      background: var(--diff-added-background);
+      border: 1px solid #b5e2c0;
+      border-radius: 11px;
+      white-space: nowrap;
+    }
+
+    .jump {
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    pre.code {
+      margin: 12px 0 0;
+      padding: 12px 14px;
+      border-radius: 5px;
+      overflow: auto;
+      max-height: 360px;
+      font-family: var(--code-font-family);
+      font-size: var(--code-font-size);
+      line-height: var(--code-line-height);
+      color: var(--ui-foreground);
+      background: var(--editor-background);
+      border: 1px solid var(--diff-panel-border);
+      border-left: 3px solid var(--accent);
+      tab-size: 4;
+    }
+
+    pre.code::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    pre.code::-webkit-scrollbar-track {
+      background: var(--scrollbar-track);
+    }
+
+    pre.code::-webkit-scrollbar-thumb {
+      background: var(--scrollbar-thumb);
+      border-radius: 5px;
+    }
+
+    pre.code::-webkit-scrollbar-thumb:hover {
+      background: var(--scrollbar-thumb-hover);
+    }
+
+    /* ---- placeholders ---- */
+    .skeleton {
+      height: 128px;
+      border-radius: 6px;
+      background: linear-gradient(90deg, #f5f5f5, #ececec, #f5f5f5);
+      background-size: 220% 100%;
+      animation: shimmer 1.25s linear infinite;
+      border: 1px solid var(--ui-border);
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: 120% 0;
+      }
+
+      100% {
+        background-position: -120% 0;
+      }
+    }
+
+    .empty {
+      padding: 40px 20px;
+      text-align: center;
+      color: var(--ui-foreground-muted);
+      border: 1px dashed var(--ui-border-strong);
+      border-radius: 6px;
+    }
+
+    .err {
+      padding: 14px 18px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: var(--error-foreground);
+      background: var(--diff-removed-background);
+      border: 1px solid #f0c4c8;
+    }
+
+    .spin {
+      display: inline-block;
+      width: 13px;
+      height: 13px;
+      vertical-align: -2px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      border-top-color: #fff;
+      animation: sp 0.78s linear infinite;
+    }
+
+    @keyframes sp {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* ============================================================
+       Status bar + footer
+       ============================================================ */
+    .statusbar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 4px 16px;
+      margin-top: auto;
+      background: var(--statusbar-background);
+      color: var(--statusbar-foreground);
+      border-top: 1px solid var(--statusbar-border);
+      font-size: 12px;
+    }
+
+    .statusbar .status-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      opacity: 0.95;
+    }
+
+    .statusbar .spacer {
+      flex: 1;
+    }
+
+    .statusbar b {
+      font-weight: 600;
+    }
+
+    .footer {
+      padding: 14px 32px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--ui-foreground-subtle);
+      background: var(--ui-background);
+      border-top: 1px solid var(--ui-border);
+    }
+
+    .footer .footer-copy {
+      margin-left: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .toolbar .toolbar-actions {
+        margin-left: 0;
+      }
+
+      .git-input.search {
+        width: 100%;
+        max-width: none;
+      }
+
+      .search-wrap .box,
+      .search-wrap {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ===================== Top bar ===================== -->
+  <header class="topbar" id="topbar">
+    <div class="brand">
+      <span class="brand-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.1" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M3 7l6-4 6 4 6-4v14l-6 4-6-4-6 4z" />
+          <path d="M9 3v14M15 7v14" />
+        </svg>
+      </span>
+      <span>CodeMap <span class="brand-sub">/ 代码符号索引</span></span>
+    </div>
+    <div class="chips">
+      <span class="chip" id="stateChip"><span class="dot"></span><span id="stateText">连接中…</span></span>
+      <span class="chip" id="statChip">符号 0</span>
+      <span class="chip">:{{PORT}}</span>
+    </div>
+  </header>
+
+  <!-- ===================== Toolbar ===================== -->
+  <div class="toolbar">
+    <div class="toolbar-title">
+      <h1>代码符号索引</h1>
+      <p>{{WORKSPACE}} · {{KIND}}</p>
+    </div>
+    <div class="toolbar-actions">
+      <div class="search-wrap">
+        <label for="q">关键词</label>
+        <span class="box">
+          <input type="text" class="git-input search" id="q" autocomplete="off" spellcheck="false"
+            placeholder="搜索代码符号关键词，例如 QGramFullText / JacobiStencil / ParseDoc" />
+        </span>
+      </div>
+      <div class="fld">
+        <label for="top">返回条数 top</label>
+        <input type="number" class="git-input num" id="top" min="1" max="200" value="20" />
+      </div>
+      <div class="fld">
+        <label for="thr">相似度阈值 threshold</label>
+        <input type="number" class="git-input num" id="thr" min="0" max="1" step="0.05" value="0.15" />
+      </div>
+      <button class="git-btn primary" id="go">搜索</button>
+    </div>
+  </div>
+
+  <!-- ===================== Workspace summary ===================== -->
+  <section class="stats">
+    <div class="stat-card">
+      <div class="label">工作区根目录</div>
+      <div class="value" id="wsRoot" title="{{ROOT}}">{{ROOT}}</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">项目数 / 文件数</div>
+      <div class="value">{{PROJECTS}} / {{FILES}}</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">已索引符号</div>
+      <div class="value" id="symCount">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">索引进度</div>
+      <div class="value" id="progress">0%</div>
+    </div>
+  </section>
+  <div class="hint" style="padding: 0 28px;">输入后自动查询（300ms 防抖）· 支持模糊匹配 · 回车立即检索</div>
+
+  <!-- ===================== Results ===================== -->
+  <section class="results" id="results"></section>
+
+  <!-- ===================== Status bar ===================== -->
+  <footer class="statusbar">
+    <span class="status-item" id="msg">就绪 · 输入关键词开始检索</span>
+    <span class="spacer"></span>
+    <span class="status-item">CodeMap 只读代码地图服务 · {{WORKSPACE}}</span>
+  </footer>
+
+  <!-- ===================== Footer ===================== -->
+  <footer class="footer">
+    <span class="footer-copy">http://localhost:{{PORT}} · GET /api/query · GET /api/symbol · GET /api/status ·
+      GET /api/workspace</span>
+  </footer>
+
+  <script>
+    (function () {
+      var $ = function (id) { return document.getElementById(id); };
+      var qEl = $('q'), goEl = $('go'), topEl = $('top'), thrEl = $('thr');
+      var box = $('results'), msg = $('msg');
+      var stateChip = $('stateChip'), stateText = $('stateText'), symCount = $('symCount'),
+        progress = $('progress'), statChip = $('statChip');
+      var timer = null, ready = false;
+
+      function esc(s) {
+        return (s == null ? '' : String(s))
+          .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      }
+      function setState(kind, text) {
+        stateText.textContent = text;
+        if (kind === 'ready') { stateChip.classList.add('ready'); }
+        else { stateChip.classList.remove('ready'); }
+      }
+      function skeletons(n) {
+        var h = '';
+        for (var i = 0; i < n; i++) { h += '<div class="skeleton"></div>'; }
+        box.innerHTML = h;
+      }
+      function errBox(text) {
+        box.innerHTML = '<div class="err">' + esc(text) + '</div>';
+      }
+      function emptyBox() {
+        box.innerHTML = '<div class="empty">没有命中结果 · 试试更短的关键词或降低阈值</div>';
+      }
+
+      function render(data) {
+        var hits = data.hits || [];
+        if (!hits.length) { emptyBox(); return; }
+        var html = '';
+        for (var i = 0; i < hits.length; i++) {
+          var h = hits[i] || {}, s = h.symbol || {};
+          var code = s.Code || '';
+          if (code.length > 6000) { code = code.substring(0, 6000); }
+          html += '<article class="hit" style="animation-delay:' + (i * 26) + 'ms">'
+            + '<div class="head">'
+            +   '<div style="min-width:0">'
+            +     '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">'
+            +       '<span class="kind">' + esc(s.Kind || 'symbol') + '</span>'
+            +       '<span class="fname">' + esc(s.FullName || s.Name) + '</span>'
+            +     '</div>'
+            +     '<div class="meta">' + esc(s.RelativeFile || s.File || '') + ' : '
+            +       esc(String(s.StartLine || 0)) + '-' + esc(String(s.EndLine || 0))
+            +       (s.Project ? ' &nbsp;·&nbsp; ' + esc(s.Project) : '') + '</div>'
+            +   '</div>'
+            +   '<div class="side">'
+            +     '<span class="score">score ' + (h.score == null ? 0 : h.score).toFixed(4) + '</span>'
+            +     '<a class="jump" target="_blank" href="/api/symbol?fullname=' + encodeURIComponent(s.FullName || s.Name || '') + '">原始定义</a>'
+            +   '</div>'
+            + '</div>'
+            + '<pre class="code">' + esc(code) + '</pre>'
+            + '</article>';
         }
-      })
-      .catch(function(e){
-        setState('build','状态不可用');
-        msg.textContent = '无法连接服务：' + e;
-        setTimeout(pollStatus, 3000);
+        box.innerHTML = html;
+      }
+
+      function pollStatus() {
+        fetch('/api/status', { cache: 'no-store' })
+          .then(function (r) { return r.json(); })
+          .then(function (st) {
+            symCount.textContent = st.symbols || 0;
+            statChip.textContent = '符号 ' + (st.symbols || 0);
+            var pct = Math.round((st.progress || 0) * 100);
+            progress.textContent = pct + '%';
+            if (st.ready) {
+              ready = true;
+              setState('ready', '索引就绪 · ' + (st.symbols || 0) + ' 个符号');
+              msg.textContent = st.message || '索引就绪';
+            } else {
+              ready = false;
+              setState('build', st.phase === 'failed' ? '索引失败' : '构建中 ' + (st.processedFiles || 0) + '/' + (st.totalFiles || 0));
+              msg.innerHTML = '<span class="spin"></span> 正在构建索引 … ' + (st.processedFiles || 0) + '/' + (st.totalFiles || 0)
+                + ' &nbsp;·&nbsp; ' + esc(st.message || '') + ' &nbsp;·&nbsp; 2s 后重试';
+              setTimeout(pollStatus, 2000);
+            }
+          })
+          .catch(function (e) {
+            setState('build', '状态不可用');
+            msg.textContent = '无法连接服务：' + e;
+            setTimeout(pollStatus, 3000);
+          });
+      }
+
+      function run() {
+        var q = (qEl.value || '').trim();
+        if (!q) { box.innerHTML = ''; msg.textContent = '就绪 · 输入关键词开始检索'; return; }
+        if (!ready) { msg.innerHTML = '<span class="spin"></span> 索引仍在构建，请稍候…'; return; }
+        msg.innerHTML = '<span class="spin"></span> 检索中 …';
+        skeletons(4);
+        var url = '/api/query?q=' + encodeURIComponent(q)
+          + '&top=' + encodeURIComponent(topEl.value || '20')
+          + '&threshold=' + encodeURIComponent(thrEl.value || '0.15');
+        fetch(url, { cache: 'no-store' })
+          .then(function (r) {
+            if (r.status === 503) { throw new Error('索引仍在构建中，请稍后重试'); }
+            if (!r.ok) { throw new Error('HTTP ' + r.status); }
+            return r.json();
+          })
+          .then(function (data) {
+            render(data);
+            msg.innerHTML = '命中 <b>' + ((data.hits || []).length) + '</b> 条 · 耗时 '
+              + (data.elapsedMs || 0) + ' ms · 阈值 ' + (data.threshold || '');
+          })
+          .catch(function (e) { errBox(e.message || String(e)); });
+      }
+
+      qEl.addEventListener('input', function () {
+        clearTimeout(timer);
+        timer = setTimeout(run, 300);
       });
-  }
+      qEl.addEventListener('keydown', function (ev) { if (ev.key === 'Enter') { clearTimeout(timer); run(); } });
+      goEl.addEventListener('click', function () { clearTimeout(timer); run(); });
 
-  function run(){
-    var q = (qEl.value||'').trim();
-    if(!q){ box.innerHTML=''; msg.textContent='就绪 · 输入关键词开始检索'; return; }
-    if(!ready){ msg.innerHTML='<span class="spin"></span> 索引仍在构建，请稍候…'; return; }
-    msg.innerHTML = '<span class="spin"></span> 检索中 …';
-    skeletons(4);
-    var url = '/api/query?q=' + encodeURIComponent(q)
-            + '&top=' + encodeURIComponent(topEl.value||'20')
-            + '&threshold=' + encodeURIComponent(thrEl.value||'0.15');
-    fetch(url, {cache:'no-store'})
-      .then(function(r){
-        if(r.status === 503){ throw new Error('索引仍在构建中，请稍后重试'); }
-        if(!r.ok){ throw new Error('HTTP ' + r.status); }
-        return r.json();
-      })
-      .then(function(data){
-        render(data);
-        msg.innerHTML = '命中 <b class="text-slate-200">' + ((data.hits||[]).length) + '</b> 条 · 耗时 '
-          + (data.elapsedMs||0) + ' ms · 阈值 ' + (data.threshold||'');
-      })
-      .catch(function(e){ errBox(e.message || String(e)); });
-  }
-
-  qEl.addEventListener('input', function(){
-    clearTimeout(timer);
-    timer = setTimeout(run, 300);
-  });
-  qEl.addEventListener('keydown', function(ev){ if(ev.key === 'Enter'){ clearTimeout(timer); run(); } });
-  goEl.addEventListener('click', function(){ clearTimeout(timer); run(); });
-
-  pollStatus();
-  qEl.focus();
-})();
-</script>
+      pollStatus();
+      qEl.focus();
+    })();
+  </script>
 </body>
+
 </html>

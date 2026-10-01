@@ -28,9 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="HttpService\index.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <EmbeddedResource Include="HttpService\index.html">
+      <LogicalName>CodeMap.index.html</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
