@@ -22,9 +22,6 @@
     <Project Path="../../GCModeller/src/runtime/sciBASIC#/vs_solutions/dev/VisualStudio/VisualStudio.NET5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
-    <Project Path="../../LLMs/src/Ollama/Ollama.vbproj">
-      <Platform Solution="*|x64" Project="x64" />
-    </Project>
   </Folder>
   <Folder Name="/framework/directx/">
     <Project Path="../../Microsoft.VisualBasic.Drawing/src/DXApi/DXApi.vbproj">
@@ -83,6 +80,14 @@
     </Project>
     <Project Path="../../galaxy/src/RibbonEventBinding/RibbonEventBinding.shproj" Id="72a4c1ee-5cbf-4f72-9b71-c997d7e33c18" />
     <Project Path="../../galaxy/src/WebViewHelper/WebViewHelper.shproj" Id="ceb7782e-585a-48f5-95b9-4c01cead6b0c" />
+  </Folder>
+  <Folder Name="/harness/">
+    <Project Path="../../LLMs/src/Harness/Harness.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../../LLMs/src/Ollama/Ollama.vbproj">
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
   </Folder>
   <Folder Name="/modules/">
     <Project Path="../../LLMs/src/WebView2UI/WebView2UI.vbproj">
