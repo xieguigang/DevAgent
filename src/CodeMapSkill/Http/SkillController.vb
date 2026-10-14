@@ -70,21 +70,6 @@ Module RequestArgs
         Return Nothing
     End Function
 
-    ''' <summary>collect the arguments of one tool out of an http request.</summary>
-    Public Function Args(req As HttpRequest, ParamArray names As String()) As JsonObject
-        Dim collected As New JsonObject()
-
-        For Each name As String In names
-            Dim value As String = Param(req, name)
-
-            If value IsNot Nothing Then
-                collected(name) = value
-            End If
-        Next
-
-        Return collected
-    End Function
-
 End Module
 
 ''' <summary>
@@ -117,7 +102,7 @@ Public Class SkillController
     ''' <summary>the build progress of one workspace index.</summary>
     <HttpGet("/api/status")>
     Public Sub Status(req As HttpRequest, res As HttpResponse)
-        Call Run(req, res, "index_status", RequestArgs.Args(req, "ws"))
+        Call Run(req, res, "index_status", BuildArgs(req, "ws"))
     End Sub
 
     ''' <summary>every workspace that is currently open.</summary>
