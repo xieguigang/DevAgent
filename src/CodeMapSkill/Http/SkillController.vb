@@ -163,13 +163,13 @@ Public Class SkillController
     ''' <summary>fuzzy keyword search over the indexed symbols.</summary>
     <HttpGet("/api/query")>
     Public Sub Query(req As HttpRequest, res As HttpResponse)
-        Call Run(req, res, "search_symbols", BuildArgs(req, "query", "q", "ws", "top", "threshold"))
+        Call Run(req, res, "search_symbols", BuildArgs(req, "query", "q:query", "keyword:query", "ws", "top", "threshold"))
     End Sub
 
     ''' <summary>the same query, accepting a form or json encoded body.</summary>
     <HttpPost("/api/query")>
     Public Sub QueryPost(req As HttpPOSTRequest, res As HttpResponse)
-        Call Run(req, res, "search_symbols", BuildArgs(req, "query", "q", "ws", "top", "threshold"))
+        Call Run(req, res, "search_symbols", BuildArgs(req, "query", "q:query", "keyword:query", "ws", "top", "threshold"))
     End Sub
 
     ''' <summary>resolve one symbol by its namespace qualified full name.</summary>
@@ -247,34 +247,38 @@ Public Class SkillController
     End Function
 
     ''' <summary>
-    ''' collect the arguments whose names are identical in the rest api and in
-    ''' the tool schema, plus the <c>ws</c> alias of <c>workspaceId</c>.
+    ''' collect the tool arguments out of a request.
     ''' </summary>
+    ''' <remarks>
+    ''' A name may be written as <c>queryName:argName</c> when the query string
+    ''' parameter is an alias of the tool argument, e.g. <c>q:query</c> for
+    ''' <c>/api/query?q=</c>; <c>ws</c> is always mapped onto <c>workspaceId</c>.
+    ''' </remarks>
     Private Shared Function BuildArgs(req As HttpRequest, ParamArray names As String()) As JsonObject
         Dim args As New JsonObject()
 
-        For Each name As String In names
-            Dim value As String = RequestArgs.Param(req, name)
+        For Each spec As String In names
+            Dim queryName As String = spec
+            Dim argName As String = spec
+            Dim sep As Integer = spec.IndexOf(":"c)
+
+            If sep > 0 Then
+                queryName = spec.Substring(0, sep)
+                argName = spec.Substring(sep + 1)
+            End If
+
+            Dim value As String = RequestArgs.Param(req, queryName)
 
             If value Is Nothing Then
                 Continue For
             End If
 
-            If String.Equals(name, "ws", StringComparison.OrdinalIgnoreCase) Then
-                args("workspaceId") = value
-            Else
-                args(name) = value
+            If String.Equals(argName, "ws", StringComparison.OrdinalIgnoreCase) Then
+                argName = "workspaceId"
             End If
+
+            args(argName) = value
         Next
-
-        ' /api/query?keyword=... is accepted as well as ?q=...
-        If Not args.ContainsKey("query") Then
-            Dim alt As String = RequestArgs.Param(req, "keyword")
-
-            If alt IsNot Nothing Then
-                args("query") = alt
-            End If
-        End If
 
         Return args
     End Function

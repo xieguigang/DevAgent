@@ -1,7 +1,9 @@
 Imports System.Globalization
+Imports System.Text.Json.Nodes
 Imports System.Threading
 Imports Flute.Http.Configurations
 Imports Flute.Http.Core
+Imports Flute.Http.Core.HttpStream
 Imports Flute.Http.Core.Message
 
 ' ============================================================================
@@ -83,7 +85,12 @@ Module Program
         Dim server As HttpSocket
 
         Try
-            server = New HttpSocket(router, port, configs:=settings)
+            ' a malformed json-rpc body must reach the mcp handler so that it can
+            ' answer with -32700; the built in parser would instead fail while
+            ' the request is being constructed and turn it into an http 500
+            server = New HttpSocket(router, port,
+                                    configs:=settings,
+                                    jsonParser:=New PostReader.JSONParser(AddressOf SafeJson))
         Catch ex As Exception
             Console.Error.WriteLine($"[CodeMapSkill] cannot listen on port {port}: {ex.Message}")
             Return 4
@@ -141,6 +148,34 @@ Module Program
         Next
 
         Return paths
+    End Function
+
+    ''' <summary>
+    ''' a forgiving json body parser: the mcp endpoint needs the raw text of a
+    ''' malformed body to answer with a json-rpc parse error, so a broken payload
+    ''' must not throw while the request object is being built.
+    ''' </summary>
+    Private Function SafeJson(jsonText As String) As Dictionary(Of String, Object)
+        Dim map As New Dictionary(Of String, Object)()
+
+        If String.IsNullOrWhiteSpace(jsonText) Then
+            Return map
+        End If
+
+        Try
+            Dim root As JsonObject = TryCast(JsonNode.Parse(jsonText), JsonObject)
+
+            If root IsNot Nothing Then
+                For Each kv As KeyValuePair(Of String, JsonNode) In root
+                    map(kv.Key) = If(kv.Value Is Nothing, Nothing, kv.Value.ToJsonString())
+                Next
+            End If
+        Catch
+            ' the raw body is still available through the temp file, so the mcp
+            ' handler reports the parse error itself
+        End Try
+
+        Return map
     End Function
 
     Private Sub ParseArgs(args As String(),

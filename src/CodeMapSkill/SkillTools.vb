@@ -386,7 +386,7 @@ Public Class SkillTools
             .fullName = fullName,
             .kind = container.Type.ToString(),
             .project = If(hit.File Is Nothing, "", hit.File.Project),
-            .file = If(loc Is Nothing, If(hit.File Is Nothing, "", hit.File.AbsolutePath), loc.FilePath),
+            .file = JsonText.NormPath(If(loc Is Nothing, If(hit.File Is Nothing, "", hit.File.AbsolutePath), loc.FilePath)),
             .relativeFile = If(hit.File Is Nothing, "", hit.File.RelativePath),
             .startLine = If(loc Is Nothing, 0, LineOf(loc, False)),
             .endLine = If(loc Is Nothing, 0, LineOf(loc, True)),
@@ -435,7 +435,7 @@ Public Class SkillTools
             End If
 
             Call views.Add(New FileView With {
-                .project = f.Project,
+                .project = If(f.Project, ""),
                 .relativePath = f.RelativePath,
                 .absolutePath = f.AbsolutePath
             })
@@ -494,8 +494,8 @@ Public Class SkillTools
 
             Dim sym As CodeSymbol = found(0)
 
-            target = sym.File
-            project = sym.Project
+            target = JsonText.NormPath(sym.File)
+            project = If(sym.Project, "")
             relative = sym.RelativeFile
 
             If startLine <= 0 Then
@@ -663,7 +663,7 @@ Public Class SkillTools
             Dim rel As String = If(f.RelativePath, "").Replace("/", "\")
 
             If String.Equals(rel, needle, StringComparison.OrdinalIgnoreCase) OrElse
-                String.Equals(If(f.AbsolutePath, ""), needle, StringComparison.OrdinalIgnoreCase) OrElse
+                String.Equals(JsonText.NormPath(f.AbsolutePath), needle, StringComparison.OrdinalIgnoreCase) OrElse
                 (Not rooted AndAlso rel.EndsWith("\" & needle, StringComparison.OrdinalIgnoreCase)) Then
 
                 Return New ResolvedFile With {
@@ -959,8 +959,10 @@ Public Class SymbolResolver
             Return Nothing
         End If
 
+        Dim wanted As String = JsonText.NormPath(loc.FilePath)
+
         For Each f As SourceFile In ws.Files
-            If String.Equals(f.AbsolutePath, loc.FilePath, StringComparison.OrdinalIgnoreCase) Then
+            If String.Equals(JsonText.NormPath(f.AbsolutePath), wanted, StringComparison.OrdinalIgnoreCase) Then
                 Return f
             End If
         Next

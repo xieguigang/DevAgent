@@ -46,6 +46,19 @@ Module JsonText
         res.WriteContent(bytes, mime)
     End Sub
 
+    ''' <summary>
+    ''' fold a path onto backslashes: the parser stores source locations with a
+    ''' mixed separator style (<c>G:/repo/src\File.vb</c>) while the workspace file
+    ''' list uses native paths, so the two only compare equal after folding.
+    ''' </summary>
+    Public Function NormPath(text As String) As String
+        If String.IsNullOrEmpty(text) Then
+            Return ""
+        End If
+
+        Return text.Replace("/"c, "\"c)
+    End Function
+
 End Module
 
 ''' <summary>
@@ -106,7 +119,7 @@ Public Class SymbolView
             .kind = sym.Kind,
             .modifiers = sym.Modifiers,
             .project = sym.Project,
-            .file = sym.File,
+            .file = NormPath(sym.File),
             .relativeFile = sym.RelativeFile,
             .startLine = sym.StartLine,
             .endLine = sym.EndLine,

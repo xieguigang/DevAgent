@@ -52,7 +52,14 @@ Public Module McpJsonRpc
             Return MakeError(Nothing, ParseError, "the request body is not valid json.")
         End If
 
+        ' a json node may only belong to one parent: the response carries its
+        ' own copy of the id, otherwise attaching it throws
         Dim id As JsonNode = If(request("id"), Nothing)
+
+        If id IsNot Nothing Then
+            id = id.DeepClone()
+        End If
+
         Dim method As String = Nothing
 
         If request("method") IsNot Nothing Then

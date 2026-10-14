@@ -152,6 +152,7 @@ request. Stateless: no `Mcp-Session-Id` is issued or required.
 |---|---|
 | connection refused | the service is not running; start `CodeMapSkill --workspace <repo>` |
 | `503` / `-32002` | the index is still building; poll `index_status` |
-| `404` on a symbol | the full name is wrong; use `search_symbols` to find the exact name |
+| a lookup returns `count: 0` | nothing matched; refine the keyword or use `search_symbols` to find the exact name (an empty result is not an error) |
+| `404` | the workspace handle is unknown; call `list_workspaces` |
 | `0` files in the workspace | the path is not a vb.net repository, or every project failed to parse (see `workspace.errors`) |
 | a hit points at stale code | re-open the workspace; the index is a snapshot taken when it was opened |

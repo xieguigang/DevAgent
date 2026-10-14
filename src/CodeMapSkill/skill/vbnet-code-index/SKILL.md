@@ -98,8 +98,10 @@ and their JSON schemas, then `tools/call` with `{"name": "...", "arguments": {..
 - `list_workspaces` → `workspaces[]` with the handle, the path and the index state,
   plus `defaultId`.
 
-Over REST a failure is an HTTP error code whose body repeats the message
-(`400` bad arguments, `404` unknown workspace or symbol, `503` index still building).
+A lookup that finds nothing is **not** an error: `find_symbol` and `search_symbols`
+answer with `count: 0` and an empty array. Over REST a real failure is an HTTP error
+code whose body repeats the message (`400` bad arguments or a path that escapes the
+workspace root, `404` unknown workspace handle, `503` index still building).
 Over MCP a failure is a JSON-RPC `error` object; the code `-32002` means the index is
 still building, so retry after polling `index_status`.
 
