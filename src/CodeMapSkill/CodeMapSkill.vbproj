@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <RootNamespace>CodeMapSkill</RootNamespace>
+    <AssemblyName>CodeMapSkill</AssemblyName>
+    <StartupObject>CodeMapSkill.Program</StartupObject>
+    <UseWindowsForms>true</UseWindowsForms>
+    <MyType>Empty</MyType>
+    <Platforms>AnyCPU;x64</Platforms>
+    <NoWarn>$(NoWarn);WFO1000</NoWarn>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Import Include="System.Text" />
+    <Import Include="System.Threading" />
+    <Import Include="System.Collections.Concurrent" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CodeMap\CodeMap.vbproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="skill\**\*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- the skill definition is embedded as well, so the service can serve it
+         even when it was started from a bare binary without the skill folder -->
+    <EmbeddedResource Include="skill\vbnet-code-index\**\*.*" />
+  </ItemGroup>
+
+</Project>

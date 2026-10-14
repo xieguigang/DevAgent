@@ -1,0 +1,17 @@
+name: vbnet-code-index
+version: 1.0.0
+description: Index and navigate VB.NET source code through the local read-only CodeMapSkill HTTP service (REST and MCP).
+service:
+  executable: CodeMapSkill
+  default_base: http://localhost:8080
+  mcp_endpoint: POST /mcp
+references:
+  on_demand:
+    - path: references/api.md
+      condition: read before calling an endpoint whose arguments or response fields are unclear
+scripts:
+  on_demand:
+    - path: scripts/codemap.ps1
+      condition: use to call the REST endpoints of the service from PowerShell on Windows
+    - path: scripts/mcp_call.ps1
+      condition: use to call the MCP json-rpc endpoint of the service from PowerShell on Windows
