@@ -109,9 +109,6 @@
     <Project Path="../../GCModeller/src/R-sharp/R#/Rsharp-netcore5.vbproj">
       <Platform Solution="*|x64" Project="x64" />
     </Project>
-    <Project Path="../../GCModeller/src/R-sharp/studio/R-terminal/R-cmd.NET5.vbproj">
-      <Platform Solution="*|x64" Project="x64" />
-    </Project>
   </Folder>
   <Project Path="CodeMap/CodeMap.vbproj" Id="664a38da-4dba-4cda-bafb-5c96babdc637">
     <Platform Solution="*|x64" Project="x64" />
